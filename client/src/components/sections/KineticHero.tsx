@@ -68,37 +68,21 @@ export function KineticHero() {
               opacity: useTransform(smoothProgress, [0, 0.2], [1, 0]),
               scale: useTransform(smoothProgress, [0, 0.2], [1, 1.2]),
            }}
-           className="absolute z-20 pointer-events-none w-full h-full flex flex-col items-center justify-center"
+           className="absolute z-20 pointer-events-none text-center flex flex-col items-center justify-center w-full h-full"
         >
-           <div className="relative w-full max-w-[90vw] flex flex-col items-center justify-center">
-             {/* Top Text - CATCH IT */}
-             <h1 className="relative z-10 text-[10vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl self-start md:ml-[10%] -rotate-2">
-                CATCH IT
-             </h1>
+           {/* Background "ZATCH" Graffiti Image */}
+           <img 
+              src={zatchGraffiti} 
+              alt="ZATCH Graffiti" 
+              className="absolute w-[80vw] max-w-[1000px] -rotate-[15deg] select-none z-0 opacity-60 drop-shadow-[0_0_30px_rgba(199,240,79,0.4)]"
+           />
 
-             {/* Middle Text - MATCH IT (Split by ZATCH) */}
-             <div className="relative z-10 w-full h-[25vh] flex items-center justify-center my-4">
-                <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-[0_4px_20px_rgba(255,255,255,0.3)] absolute left-0 md:left-[5%] rotate-6 z-0">
-                   MAT
-                </h1>
-                
-                {/* Center "ZATCH" Graffiti Image (Slashing) */}
-                <img 
-                   src={zatchGraffiti} 
-                   alt="ZATCH Graffiti" 
-                   className="relative w-[60vw] max-w-[700px] -rotate-[12deg] select-none z-20 opacity-80 drop-shadow-[0_0_40px_rgba(199,240,79,0.5)] mx-4 scale-100 mix-blend-normal"
-                />
-
-                <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-[0_4px_20px_rgba(255,255,255,0.3)] absolute right-0 md:right-[5%] -rotate-6 z-0">
-                   CH IT
-                </h1>
-             </div>
-
-             {/* Bottom Text - SNATCH IT */}
-             <h1 className="relative z-10 text-[10vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl self-end md:mr-[10%] rotate-2">
-                SNATCH IT
-             </h1>
-           </div>
+           {/* Main Slogan */}
+           <h1 className="relative z-10 text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl">
+              CATCH IT<br/>
+              MATCH IT<br/>
+              SNATCH IT
+           </h1>
         </motion.div>
         
         {/* Scroll CTA */}
