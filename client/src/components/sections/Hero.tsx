@@ -3,6 +3,7 @@ import { ArrowRight, ShieldCheck, Play } from "lucide-react";
 import heroBg from "@/assets/hero-bg.png"; 
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
+import { LiveMarquee } from "@/components/ui/live-marquee";
 
 export function Hero() {
   const targetRef = useRef<HTMLDivElement>(null);
@@ -63,6 +64,10 @@ export function Hero() {
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-0 left-1/3 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[150px] pointer-events-none z-10"
         />
+      </div>
+
+      <div className="absolute bottom-0 left-0 right-0 z-20">
+         <LiveMarquee />
       </div>
 
       <div className="container relative z-30 px-6 mx-auto">
