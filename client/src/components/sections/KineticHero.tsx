@@ -65,12 +65,18 @@ export function KineticHero() {
               opacity: useTransform(scrollYProgress, [0, 0.2], [1, 0]),
               scale: useTransform(scrollYProgress, [0, 0.2], [1, 1.2]),
            }}
-           className="absolute z-20 pointer-events-none text-center mix-blend-difference"
+           className="absolute z-20 pointer-events-none text-center flex flex-col items-center justify-center w-full h-full"
         >
-           <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white">
+           {/* Background "ZATCH" Text */}
+           <h2 className="absolute text-[30vw] font-bold font-display text-transparent bg-clip-text bg-gradient-to-br from-primary/20 via-primary/5 to-transparent -rotate-[15deg] select-none z-0">
+              ZATCH
+           </h2>
+
+           {/* Main Slogan */}
+           <h1 className="relative z-10 text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white mix-blend-difference">
               CATCH IT<br/>
               MATCH IT<br/>
-              <span className="text-primary">ZATCH</span> IT
+              SNATCH IT
            </h1>
         </motion.div>
         
