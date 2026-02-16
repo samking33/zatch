@@ -18,44 +18,52 @@ export function TunnelHero() {
 
   const smoothProgress = useSpring(scrollYProgress, { mass: 0.1, stiffness: 100, damping: 20 });
   
-  // Phase 1: "THE FUTURE..."
-  const text1Scale = useTransform(smoothProgress, [0, 0.25], [1, 15]);
-  const text1Opacity = useTransform(smoothProgress, [0, 0.2, 0.25], [1, 1, 0]);
-  // Removed heavy blur filter for performance
-  // const text1Blur = useTransform(smoothProgress, [0.15, 0.25], [0, 20]); 
+  // Phase 1: "THE FUTURE..." (0 - 0.2)
+  const text1Scale = useTransform(smoothProgress, [0, 0.2], [1, 25]);
+  const text1Opacity = useTransform(smoothProgress, [0, 0.15, 0.2], [1, 1, 0]);
 
-  // Phase 2: Ring of Phones/Products & "...IS LIVE"
-  // Extended range for more fly-by time
-  const ringScale = useTransform(smoothProgress, [0.15, 0.65], [0.2, 8]); 
-  const ringOpacity = useTransform(smoothProgress, [0.15, 0.3, 0.6], [0, 1, 0]);
+  // Phase 2: Scattered Objects (0.15 - 0.7)
+  // Products fly past from 0.15 to 0.7
+  const scatterScale = useTransform(smoothProgress, [0.15, 0.7], [0.1, 8]); 
+  const scatterOpacity = useTransform(smoothProgress, [0.15, 0.3, 0.65, 0.7], [0, 1, 1, 0]);
   
-  const text2Scale = useTransform(smoothProgress, [0.25, 0.6], [0.5, 12]);
-  const text2Opacity = useTransform(smoothProgress, [0.25, 0.5, 0.6], [0, 1, 0]);
+  const text2Scale = useTransform(smoothProgress, [0.2, 0.6], [0.5, 12]);
+  const text2Opacity = useTransform(smoothProgress, [0.2, 0.45, 0.6], [0, 1, 0]);
 
-  // Phase 3: Zatch App Interface
-  const appScale = useTransform(smoothProgress, [0.6, 1], [0.2, 1]);
-  const appOpacity = useTransform(smoothProgress, [0.6, 0.7, 1], [0, 1, 1]);
-  const bgOpacity = useTransform(smoothProgress, [0.8, 1], [0, 1]);
+  // Phase 3: Zatch App Interface (0.75 - 1.0)
+  // Appears AFTER products are gone
+  const appScale = useTransform(smoothProgress, [0.75, 1], [0.5, 1]);
+  const appOpacity = useTransform(smoothProgress, [0.75, 0.85], [0, 1]);
+  const bgOpacity = useTransform(smoothProgress, [0.9, 1], [0, 1]);
 
-  // Warp Speed Effect - Optimized
-  const warpOpacity = useTransform(smoothProgress, [0, 0.8], [0.3, 0]);
-  const warpScale = useTransform(smoothProgress, [0, 0.8], [1, 3]);
+  // Warp Speed Effect
+  const warpOpacity = useTransform(smoothProgress, [0, 0.8], [0.4, 0]);
+  const warpScale = useTransform(smoothProgress, [0, 0.8], [1, 4]);
 
-  // Generate more products for the spiral
+  // Generate scattered products
   const products = useMemo(() => {
     const baseProducts = [sneaker, headphones, watch, controller];
-    // Create 12 items
-    return [...baseProducts, ...baseProducts, ...baseProducts].map((img, i) => ({
-      img,
-      // Spiral distribution
-      angle: i * (360 / 12), 
-      radius: 350 + (i * 20), // Varying radius for depth perception
-      zOffset: i * 50, // Slight z-offset (simulated by scale delay in standard CSS/Framer transform)
-    }));
+    // Create 20 items for a denser field
+    return Array.from({ length: 20 }).map((_, i) => {
+      const img = baseProducts[i % baseProducts.length];
+      // Random scattering logic
+      const angle = Math.random() * 360;
+      const radius = 200 + Math.random() * 400; // Random distance from center
+      const zDelay = Math.random() * 0.5; // Random depth offset
+      
+      return {
+        img,
+        x: Math.cos(angle * (Math.PI / 180)) * radius,
+        y: Math.sin(angle * (Math.PI / 180)) * radius,
+        rotate: Math.random() * 360,
+        scaleOffset: 0.5 + Math.random() * 1, // Varying sizes
+      };
+    });
   }, []);
 
   return (
-    <section ref={containerRef} className="h-[400vh] relative bg-black">
+    // Increased height to 600vh to slow down the scroll speed
+    <section ref={containerRef} className="h-[600vh] relative bg-black">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center perspective-[100px] will-change-transform">
         
         {/* Optimized Background */}
@@ -64,9 +72,7 @@ export function TunnelHero() {
           className="absolute inset-0 z-0 pointer-events-none will-change-transform"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000_100%)] z-10" />
-          {/* Static star field is faster than animated one */}
           <div className="w-full h-full bg-[url('https://assets.codepen.io/1462889/star-field.png')] bg-repeat opacity-20" />
-          {/* Hardware accelerated spin */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vh] bg-[conic-gradient(from_0deg,transparent_0deg,rgba(199,240,79,0.05)_180deg,transparent_360deg)] animate-[spin_4s_linear_infinite]" />
         </motion.div>
 
@@ -80,9 +86,9 @@ export function TunnelHero() {
           </h1>
         </motion.div>
 
-        {/* Phase 2: Spiral of Objects */}
+        {/* Phase 2: Scattered Objects */}
         <motion.div 
-          style={{ scale: ringScale, opacity: ringOpacity }}
+          style={{ scale: scatterScale, opacity: scatterOpacity }}
           className="absolute z-20 w-full h-full flex items-center justify-center pointer-events-none will-change-transform"
         >
            {products.map((item, i) => (
@@ -90,9 +96,10 @@ export function TunnelHero() {
                key={i}
                className="absolute w-[15vw] h-[15vw] flex items-center justify-center"
                style={{
-                 rotate: item.angle,
-                 x: Math.cos(item.angle * (Math.PI / 180)) * item.radius,
-                 y: Math.sin(item.angle * (Math.PI / 180)) * item.radius,
+                 x: item.x,
+                 y: item.y,
+                 rotate: item.rotate,
+                 scale: item.scaleOffset
                }}
              >
                <img 
@@ -111,7 +118,7 @@ export function TunnelHero() {
            </motion.h2>
         </motion.div>
 
-        {/* Phase 3: The App Interface */}
+        {/* Phase 3: The App Interface - Appears independently at end */}
         <motion.div 
           style={{ scale: appScale, opacity: appOpacity }}
           className="relative z-30 w-full max-w-sm aspect-[9/19] bg-black rounded-[3rem] border-[8px] border-zinc-800 shadow-2xl overflow-hidden ring-1 ring-white/20 will-change-transform"
