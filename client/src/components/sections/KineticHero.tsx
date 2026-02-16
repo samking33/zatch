@@ -72,11 +72,11 @@ export function KineticHero() {
            <img 
               src={zatchGraffiti} 
               alt="ZATCH Graffiti" 
-              className="absolute w-[80vw] max-w-[1000px] -rotate-[15deg] select-none z-0 opacity-80 mix-blend-overlay drop-shadow-[0_0_30px_rgba(199,240,79,0.6)]"
+              className="absolute w-[80vw] max-w-[1000px] -rotate-[15deg] select-none z-0 opacity-60 drop-shadow-[0_0_30px_rgba(199,240,79,0.4)]"
            />
 
            {/* Main Slogan */}
-           <h1 className="relative z-10 text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white mix-blend-difference">
+           <h1 className="relative z-10 text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl">
               CATCH IT<br/>
               MATCH IT<br/>
               SNATCH IT
