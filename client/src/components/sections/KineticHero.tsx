@@ -70,7 +70,14 @@ export function KineticHero() {
            <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white">
               CATCH IT<br/>
               MATCH IT<br/>
-              <span className="text-primary">ZATCH</span> IT
+              <span className="relative inline-block text-primary italic pr-4">
+                <span className="relative z-10">ZATCH</span>
+                {/* Speed Lines Effect */}
+                <span className="absolute top-1/2 -left-20 w-full h-[2px] bg-primary/50 -translate-y-1/2 blur-[1px]" />
+                <span className="absolute top-[30%] -left-32 w-3/4 h-[1px] bg-primary/30 blur-[0.5px]" />
+                <span className="absolute top-[70%] -left-24 w-4/5 h-[1.5px] bg-primary/40 blur-[0.5px]" />
+                <span className="absolute inset-0 translate-x-1 translate-y-0 opacity-50 mix-blend-screen blur-[1px] skew-x-12 scale-x-110 bg-gradient-to-r from-transparent via-primary/20 to-transparent -z-10"></span>
+              </span> IT
            </h1>
         </motion.div>
         
