@@ -67,10 +67,15 @@ export function KineticHero() {
            }}
            className="absolute z-20 pointer-events-none text-center mix-blend-difference"
         >
-           <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white">
+           <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white relative z-10">
               CATCH IT<br/>
               MATCH IT<br/>
-              <span className="text-primary">ZATCH</span> IT
+              <span className="relative inline-block">
+                <span className="text-primary relative z-10">ZATCH</span>
+                {/* Speed Lines / Zoom Effect */}
+                <span className="absolute inset-0 text-primary opacity-30 blur-sm scale-150 animate-pulse z-0">ZATCH</span>
+                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[conic-gradient(from_0deg,transparent_0deg,rgba(199,240,79,0.5)_20deg,transparent_40deg,rgba(199,240,79,0.5)_60deg,transparent_80deg)] animate-[spin_0.5s_linear_infinite] opacity-20 mix-blend-screen pointer-events-none rounded-full blur-xl"></span>
+              </span> IT
            </h1>
         </motion.div>
         
