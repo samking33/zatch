@@ -68,7 +68,7 @@ export function KineticHero() {
            className="absolute z-20 pointer-events-none text-center flex flex-col items-center justify-center w-full h-full"
         >
            {/* Background "ZATCH" Text */}
-           <h2 className="absolute text-[30vw] font-bold font-display text-transparent bg-clip-text bg-gradient-to-br from-primary/20 via-primary/5 to-transparent -rotate-[15deg] select-none z-0">
+           <h2 className="absolute text-[35vw] font-bold text-transparent bg-clip-text bg-gradient-to-b from-primary via-primary/50 to-transparent -rotate-[15deg] select-none z-0 tracking-widest opacity-80 mix-blend-overlay" style={{ fontFamily: '"Permanent Marker", cursive', filter: 'drop-shadow(0 0 20px rgba(199, 240, 79, 0.5))' }}>
               ZATCH
            </h2>
 
