@@ -7,7 +7,6 @@ import streamFashion from "@/assets/kinetic/stream-fashion.png";
 import streamTech from "@/assets/kinetic/stream-tech.png";
 import streamSneaker from "@/assets/kinetic/stream-sneaker.png";
 import streamBeauty from "@/assets/kinetic/stream-beauty.png";
-import zatchGraffiti from "@/assets/kinetic/zatch-graffiti.png";
 
 export function KineticHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -15,8 +14,6 @@ export function KineticHero() {
     target: containerRef,
     offset: ["start start", "end end"],
   });
-
-  const smoothProgress = useSpring(scrollYProgress, { mass: 0.1, stiffness: 100, damping: 20 });
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -44,7 +41,7 @@ export function KineticHero() {
   return (
     <section 
       ref={containerRef} 
-      className="h-[500vh] relative bg-black cursor-crosshair"
+      className="h-[300vh] relative bg-black cursor-crosshair"
       onMouseMove={handleMouseMove}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-black">
@@ -55,7 +52,7 @@ export function KineticHero() {
             <GridItem 
               key={item.id} 
               item={item} 
-              scrollYProgress={smoothProgress} 
+              scrollYProgress={scrollYProgress} 
               mouseX={mouseX}
               mouseY={mouseY}
             />
@@ -65,29 +62,21 @@ export function KineticHero() {
         {/* The Text Overlay */}
         <motion.div 
            style={{ 
-              opacity: useTransform(smoothProgress, [0, 0.2], [1, 0]),
-              scale: useTransform(smoothProgress, [0, 0.2], [1, 1.2]),
+              opacity: useTransform(scrollYProgress, [0, 0.2], [1, 0]),
+              scale: useTransform(scrollYProgress, [0, 0.2], [1, 1.2]),
            }}
-           className="absolute z-20 pointer-events-none text-center flex flex-col items-center justify-center w-full h-full"
+           className="absolute z-20 pointer-events-none text-center mix-blend-difference"
         >
-           {/* Background "ZATCH" Graffiti Image */}
-           <img 
-              src={zatchGraffiti} 
-              alt="ZATCH Graffiti" 
-              className="absolute w-[80vw] max-w-[1000px] -rotate-[15deg] select-none z-0 opacity-60 drop-shadow-[0_0_30px_rgba(199,240,79,0.4)]"
-           />
-
-           {/* Main Slogan */}
-           <h1 className="relative z-10 text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl">
+           <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white">
               CATCH IT<br/>
               MATCH IT<br/>
-              SNATCH IT
+              <span className="text-primary">ZATCH</span> IT
            </h1>
         </motion.div>
         
         {/* Scroll CTA */}
         <motion.div 
-           style={{ opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]) }}
+           style={{ opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0]) }}
            className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 text-sm uppercase tracking-widest animate-pulse pointer-events-none z-30"
         >
            Scroll to Explore
