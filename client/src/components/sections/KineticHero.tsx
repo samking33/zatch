@@ -70,7 +70,7 @@ export function KineticHero() {
            <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white">
               CATCH IT<br/>
               MATCH IT<br/>
-              SNATCH IT
+              <span className="text-primary">ZATCH</span> IT
            </h1>
         </motion.div>
         
