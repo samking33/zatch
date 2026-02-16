@@ -15,6 +15,8 @@ export function KineticHero() {
     offset: ["start start", "end end"],
   });
 
+  const smoothProgress = useSpring(scrollYProgress, { mass: 0.1, stiffness: 100, damping: 20 });
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -62,8 +64,9 @@ export function KineticHero() {
         {/* The Text Overlay */}
         <motion.div 
            style={{ 
-              opacity: useTransform(scrollYProgress, [0, 0.2], [1, 0]),
-              scale: useTransform(scrollYProgress, [0, 0.2], [1, 1.2]),
+              opacity: useTransform(smoothProgress, [0.1, 0.2], [1, 0]),
+              scale: useTransform(smoothProgress, [0, 0.2], [1, 1.2]),
+              filter: useTransform(smoothProgress, [0, 0.1], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]),
            }}
            className="absolute z-20 pointer-events-none text-center mix-blend-difference"
         >
@@ -83,7 +86,7 @@ export function KineticHero() {
         
         {/* Scroll CTA */}
         <motion.div 
-           style={{ opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0]) }}
+           style={{ opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]) }}
            className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 text-sm uppercase tracking-widest animate-pulse pointer-events-none z-30"
         >
            Scroll to Explore
@@ -98,12 +101,14 @@ function GridItem({ item, scrollYProgress, mouseX, mouseY }: any) {
   const ref = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   
-  // Floating / Shattering Animation
-  const y = useTransform(scrollYProgress, [0, 1], [0, item.randomY + "%"]);
-  const x = useTransform(scrollYProgress, [0, 1], [0, item.randomX + "%"]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, item.randomRotate]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  const smoothProgress = useSpring(scrollYProgress, { mass: 0.1, stiffness: 100, damping: 20 });
+
+  // Floating / Shattering Animation - Adjusted for smoother feel
+  const y = useTransform(smoothProgress, [0, 1], [0, item.randomY + "%"]);
+  const x = useTransform(smoothProgress, [0, 1], [0, item.randomX + "%"]);
+  const rotate = useTransform(smoothProgress, [0, 1], [0, item.randomRotate]);
+  const scale = useTransform(smoothProgress, [0, 0.5], [1, 0]);
+  const opacity = useTransform(smoothProgress, [0, 0.3], [1, 0]);
 
   // Flashlight Effect Logic
   useEffect(() => {
