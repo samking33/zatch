@@ -68,21 +68,37 @@ export function KineticHero() {
               opacity: useTransform(smoothProgress, [0, 0.2], [1, 0]),
               scale: useTransform(smoothProgress, [0, 0.2], [1, 1.2]),
            }}
-           className="absolute z-20 pointer-events-none text-center flex flex-col items-center justify-center w-full h-full"
+           className="absolute z-20 pointer-events-none w-full h-full flex flex-col items-center justify-center"
         >
-           {/* Main Slogan */}
-           <h1 className="relative z-10 text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl">
-              CATCH IT<br/>
-              MATCH IT<br/>
-              SNATCH IT
-           </h1>
+           <div className="relative w-full max-w-[90vw] flex flex-col items-center justify-center">
+             {/* Top Text - CATCH IT */}
+             <h1 className="relative z-10 text-[10vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl self-start md:ml-[10%] -rotate-2">
+                CATCH IT
+             </h1>
 
-           {/* Foreground "ZATCH" Graffiti Image (Slashing) */}
-           <img 
-              src={zatchGraffiti} 
-              alt="ZATCH Graffiti" 
-              className="absolute w-[90vw] max-w-[1100px] -rotate-[12deg] select-none z-20 opacity-80 mix-blend-overlay pointer-events-none drop-shadow-[0_0_30px_rgba(199,240,79,0.5)]"
-           />
+             {/* Middle Text - MATCH IT (Split by ZATCH) */}
+             <div className="relative z-10 w-full h-[20vh] flex items-center justify-center my-4">
+                <h1 className="text-[10vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl absolute left-[5%] md:left-[15%] rotate-3">
+                   MAT
+                </h1>
+                
+                {/* Center "ZATCH" Graffiti Image (Slashing) */}
+                <img 
+                   src={zatchGraffiti} 
+                   alt="ZATCH Graffiti" 
+                   className="relative w-[50vw] max-w-[600px] -rotate-[12deg] select-none z-20 opacity-100 drop-shadow-[0_0_40px_rgba(199,240,79,0.6)] mx-4 scale-125"
+                />
+
+                <h1 className="text-[10vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl absolute right-[5%] md:right-[15%] -rotate-3">
+                   CH IT
+                </h1>
+             </div>
+
+             {/* Bottom Text - SNATCH IT */}
+             <h1 className="relative z-10 text-[10vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl self-end md:mr-[10%] rotate-2">
+                SNATCH IT
+             </h1>
+           </div>
         </motion.div>
         
         {/* Scroll CTA */}
