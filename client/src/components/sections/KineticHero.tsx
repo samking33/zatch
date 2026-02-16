@@ -77,8 +77,8 @@ export function KineticHero() {
              </h1>
 
              {/* Middle Text - MATCH IT (Split by ZATCH) */}
-             <div className="relative z-10 w-full h-[20vh] flex items-center justify-center my-4">
-                <h1 className="text-[10vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl absolute left-[5%] md:left-[15%] rotate-3">
+             <div className="relative z-30 w-full h-[25vh] flex items-center justify-center my-4">
+                <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] absolute left-[2%] md:left-[10%] rotate-6 z-30">
                    MAT
                 </h1>
                 
@@ -86,10 +86,10 @@ export function KineticHero() {
                 <img 
                    src={zatchGraffiti} 
                    alt="ZATCH Graffiti" 
-                   className="relative w-[50vw] max-w-[600px] -rotate-[12deg] select-none z-20 opacity-100 drop-shadow-[0_0_40px_rgba(199,240,79,0.6)] mx-4 scale-125"
+                   className="relative w-[60vw] max-w-[700px] -rotate-[12deg] select-none z-10 opacity-80 drop-shadow-[0_0_40px_rgba(199,240,79,0.4)] mx-4 scale-110 mix-blend-screen"
                 />
 
-                <h1 className="text-[10vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl absolute right-[5%] md:right-[15%] -rotate-3">
+                <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] absolute right-[2%] md:right-[10%] -rotate-6 z-30">
                    CH IT
                 </h1>
              </div>
