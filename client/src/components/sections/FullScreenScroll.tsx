@@ -1,60 +1,81 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export function FullScreenScroll() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start start", "end end"]
+  });
 
   return (
-    <section ref={ref} className="py-32 relative overflow-hidden">
-      {/* Abstract Background Flow */}
-      <div className="absolute top-1/2 left-0 w-full h-[500px] bg-primary/5 blur-[120px] -translate-y-1/2 rounded-full pointer-events-none" />
-
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-4xl mx-auto text-center mb-24">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-6xl font-bold font-display tracking-tight mb-8"
-          >
-            Shopping Was Meant To Be <span className="text-primary">Social.</span>
-          </motion.h2>
+    <section ref={container} className="relative h-[200vh] bg-black">
+       <div className="sticky top-0 h-screen overflow-hidden">
+          <BackgroundParallax progress={scrollYProgress} />
           
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="space-y-2 text-xl md:text-2xl text-muted-foreground font-light"
-          >
-            <p>In real markets, you talk.</p>
-            <p>You ask questions.</p>
-            <p>You negotiate.</p>
-            <p className="text-white font-medium">You build trust.</p>
-            <p className="pt-4 text-base opacity-60">But online shopping removed all of that.</p>
-          </motion.div>
-        </div>
+          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+             <div className="container mx-auto px-6 text-center">
+                <motion.div style={{ opacity: useTransform(scrollYProgress, [0, 0.2], [1, 0]) }}>
+                   <h2 className="text-6xl md:text-8xl font-bold font-display tracking-tight text-white mb-6">
+                      Shopping was meant to be <span className="text-stroke-primary text-transparent">Social.</span>
+                   </h2>
+                </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            { title: "No Middlemen", desc: "Direct connection.", delay: 0 },
-            { title: "No Algorithms", desc: "Pure discovery.", delay: 0.2 },
-            { title: "No Pay-to-Win", desc: "Real engagement.", delay: 0.4 },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.5 + item.delay, duration: 0.5 }}
-              className="p-8 rounded-3xl bg-white/5 border border-white/5 backdrop-blur-sm hover:border-primary/20 transition-all group"
-            >
-              <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">{item.title}</h3>
-              <p className="text-muted-foreground">{item.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+                <motion.div 
+                   style={{ 
+                      opacity: useTransform(scrollYProgress, [0.2, 0.4, 0.6], [0, 1, 0]),
+                      scale: useTransform(scrollYProgress, [0.2, 0.4], [0.8, 1])
+                   }}
+                   className="absolute top-1/2 left-0 right-0 -translate-y-1/2"
+                >
+                   <p className="text-4xl md:text-6xl font-light text-white leading-tight">
+                      In real markets, you talk.<br/>
+                      <span className="text-white/40">You negotiate.</span>
+                   </p>
+                </motion.div>
+
+                <motion.div 
+                   style={{ 
+                      opacity: useTransform(scrollYProgress, [0.6, 0.8], [0, 1]),
+                      y: useTransform(scrollYProgress, [0.6, 0.8], [50, 0])
+                   }}
+                   className="absolute top-1/2 left-0 right-0 -translate-y-1/2"
+                >
+                   <h3 className="text-5xl md:text-7xl font-bold font-display text-primary mb-8">
+                      Zatch brings it back.
+                   </h3>
+                   <div className="flex justify-center gap-4">
+                      {["No Middlemen", "No Algorithms", "No Pay-to-Win"].map((item, i) => (
+                         <div key={i} className="px-6 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-white/80">
+                            {item}
+                         </div>
+                      ))}
+                   </div>
+                </motion.div>
+             </div>
+          </div>
+       </div>
     </section>
   );
+}
+
+function BackgroundParallax({ progress }: { progress: any }) {
+   return (
+      <div className="absolute inset-0 w-full h-full">
+         <motion.div 
+            style={{ 
+               scale: useTransform(progress, [0, 1], [1, 1.5]),
+               rotate: useTransform(progress, [0, 1], [0, 15])
+            }}
+            className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-primary/5 rounded-full blur-[100px]" 
+         />
+         <motion.div 
+            style={{ 
+               scale: useTransform(progress, [0, 1], [1, 1.2]),
+               x: useTransform(progress, [0, 1], [0, -200])
+            }}
+            className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-[120px]" 
+         />
+      </div>
+   )
 }
