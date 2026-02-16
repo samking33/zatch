@@ -6,11 +6,15 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
+import AboutPage from "@/pages/about";
+import DownloadPage from "@/pages/download";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/download" component={DownloadPage} />
       <Route component={NotFound} />
     </Switch>
   );
