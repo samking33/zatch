@@ -72,7 +72,7 @@ export function KineticHero() {
            <img 
               src={zatchGraffiti} 
               alt="ZATCH Graffiti" 
-              className="absolute w-[60vw] max-w-[800px] -rotate-[15deg] select-none z-0 opacity-80 mix-blend-overlay drop-shadow-[0_0_30px_rgba(199,240,79,0.6)]"
+              className="absolute w-[80vw] max-w-[1000px] -rotate-[15deg] select-none z-0 opacity-80 mix-blend-overlay drop-shadow-[0_0_30px_rgba(199,240,79,0.6)]"
            />
 
            {/* Main Slogan */}
