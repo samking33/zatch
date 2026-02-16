@@ -7,6 +7,7 @@ import streamFashion from "@/assets/kinetic/stream-fashion.png";
 import streamTech from "@/assets/kinetic/stream-tech.png";
 import streamSneaker from "@/assets/kinetic/stream-sneaker.png";
 import streamBeauty from "@/assets/kinetic/stream-beauty.png";
+import zatchGraffiti from "@/assets/kinetic/zatch-graffiti.png";
 
 export function KineticHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -67,10 +68,12 @@ export function KineticHero() {
            }}
            className="absolute z-20 pointer-events-none text-center flex flex-col items-center justify-center w-full h-full"
         >
-           {/* Background "ZATCH" Text */}
-           <h2 className="absolute text-[35vw] font-bold text-transparent bg-clip-text bg-gradient-to-b from-primary via-primary/50 to-transparent -rotate-[15deg] select-none z-0 tracking-widest opacity-80 mix-blend-overlay" style={{ fontFamily: '"Permanent Marker", cursive', filter: 'drop-shadow(0 0 20px rgba(199, 240, 79, 0.5))' }}>
-              ZATCH
-           </h2>
+           {/* Background "ZATCH" Graffiti Image */}
+           <img 
+              src={zatchGraffiti} 
+              alt="ZATCH Graffiti" 
+              className="absolute w-[60vw] max-w-[800px] -rotate-[15deg] select-none z-0 opacity-80 mix-blend-overlay drop-shadow-[0_0_30px_rgba(199,240,79,0.6)]"
+           />
 
            {/* Main Slogan */}
            <h1 className="relative z-10 text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white mix-blend-difference">
