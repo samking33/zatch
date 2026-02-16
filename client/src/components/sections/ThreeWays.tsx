@@ -48,7 +48,7 @@ export function ThreeWays() {
        {/* Ambient Light */}
        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[500px] bg-primary/10 blur-[150px] pointer-events-none" />
 
-       <div className="container mx-auto px-6 mb-24 sticky top-32 z-10">
+       <div className="container mx-auto px-6 mb-24 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
