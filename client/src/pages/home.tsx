@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { TunnelHero } from "@/components/sections/TunnelHero";
+import { KineticHero } from "@/components/sections/KineticHero";
 import { FullScreenScroll } from "@/components/sections/FullScreenScroll";
 import { ThreeWays } from "@/components/sections/ThreeWays";
 import { ForBuyers } from "@/components/sections/ForBuyers";
@@ -14,7 +14,7 @@ export default function Home() {
       <Navbar />
       
       <main>
-        <TunnelHero />
+        <KineticHero />
         <FullScreenScroll />
         <ThreeWays />
         <ForBuyers />
