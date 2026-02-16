@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Hero } from "@/components/sections/Hero";
+import { ClaimUsernameHero } from "@/components/sections/ClaimUsernameHero";
 import { FullScreenScroll } from "@/components/sections/FullScreenScroll";
 import { ThreeWays } from "@/components/sections/ThreeWays";
 import { ForBuyers } from "@/components/sections/ForBuyers";
@@ -14,7 +14,7 @@ export default function Home() {
       <Navbar />
       
       <main>
-        <Hero />
+        <ClaimUsernameHero />
         <FullScreenScroll />
         <ThreeWays />
         <ForBuyers />
