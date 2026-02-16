@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, Home, Info, HelpCircle, Store, LogIn, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { Dock, DockIcon, DockItem, DockLabel } from "@/components/ui/dock";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,54 +19,71 @@ export function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "How It Works", href: "/#features" },
-    { name: "Sellers", href: "/#sellers" },
+    { name: "Home", href: "/", icon: Home },
+    { name: "About", href: "/about", icon: Info },
+    { name: "How It Works", href: "/#features", icon: HelpCircle },
+    { name: "Sellers", href: "/#sellers", icon: Store },
   ];
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-black/80 backdrop-blur-md border-b border-white/5 py-4" : "bg-transparent py-6"
+        isScrolled ? "bg-transparent py-2" : "bg-transparent py-6"
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         <Link href="/">
-          <a className="text-2xl font-bold font-display tracking-tighter flex items-center gap-2 relative z-50 group">
+          <a className="text-2xl font-bold font-display tracking-tighter flex items-center gap-2 relative z-50 group mix-blend-difference">
             <span className="group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-primary transition-all duration-300">ZATCH</span>
             <span className="text-primary text-xs align-top">TM</span>
           </a>
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-             <Link key={link.name} href={link.href}>
-                <a className={`text-sm font-medium transition-colors hover:text-primary ${location === link.href ? 'text-white' : 'text-muted-foreground'}`}>
-                   {link.name}
-                </a>
-             </Link>
-          ))}
-          
-          <Button variant="outline" className="border-white/10 hover:bg-white/5 hover:text-primary rounded-full px-6 transition-transform hover:scale-105 active:scale-95">
-            Login
-          </Button>
-          
-          <Link href="/download">
-             <Button className="bg-primary text-black hover:bg-primary/90 rounded-full font-bold px-6 shadow-[0_0_20px_rgba(199,240,79,0.3)] hover:shadow-[0_0_30px_rgba(199,240,79,0.5)] transition-all hover:scale-105 active:scale-95 group">
-                Download App <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-             </Button>
-          </Link>
+        {/* Desktop Dock Nav */}
+        <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 bottom-4 md:bottom-auto md:top-2">
+           <Dock className="bg-black/50 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-2xl gap-2">
+              {navLinks.map((link) => (
+                 <DockItem key={link.name} className="aspect-square rounded-full bg-white/5 hover:bg-white/10 border border-white/5 transition-colors">
+                    <DockLabel className="bg-black/80 text-white border-white/10">{link.name}</DockLabel>
+                    <DockIcon>
+                       <Link href={link.href}>
+                          <link.icon className={`w-full h-full p-2 ${location === link.href ? 'text-primary' : 'text-white/60'}`} />
+                       </Link>
+                    </DockIcon>
+                 </DockItem>
+              ))}
+              <div className="w-px h-8 bg-white/10 self-center mx-1" />
+              <DockItem className="aspect-square rounded-full bg-white/5 hover:bg-white/10 border border-white/5 transition-colors">
+                 <DockLabel className="bg-black/80 text-white border-white/10">Login</DockLabel>
+                 <DockIcon>
+                    <LogIn className="w-full h-full p-2 text-white/60" />
+                 </DockIcon>
+              </DockItem>
+              <DockItem className="aspect-square rounded-full bg-primary hover:bg-primary/90 border border-primary/50 transition-colors shadow-[0_0_15px_rgba(199,240,79,0.3)]">
+                 <DockLabel className="bg-black/80 text-white border-white/10">Download</DockLabel>
+                 <DockIcon>
+                    <Link href="/download">
+                       <Download className="w-full h-full p-2 text-black font-bold" />
+                    </Link>
+                 </DockIcon>
+              </DockItem>
+           </Dock>
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          className="md:hidden text-white relative z-50 p-2 rounded-full hover:bg-white/10 transition-colors"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X /> : <Menu />}
-        </button>
+        {/* Mobile Actions */}
+        <div className="md:hidden flex items-center gap-4">
+            <Link href="/download">
+               <Button size="sm" className="bg-primary text-black font-bold rounded-full">
+                  Get App
+               </Button>
+            </Link>
+            <button
+               className="text-white relative z-50 p-2 rounded-full hover:bg-white/10 transition-colors"
+               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+               {mobileMenuOpen ? <X /> : <Menu />}
+            </button>
+        </div>
       </div>
 
       {/* Mobile Menu Overlay */}
@@ -88,9 +106,10 @@ export function Navbar() {
                  >
                     <Link href={link.href}>
                        <a 
-                          className="text-4xl font-bold font-display text-white hover:text-primary transition-colors block py-2" 
+                          className="text-4xl font-bold font-display text-white hover:text-primary transition-colors block py-2 flex items-center gap-4" 
                           onClick={() => setMobileMenuOpen(false)}
                        >
+                          <link.icon className="w-8 h-8 opacity-50" />
                           {link.name}
                        </a>
                     </Link>
