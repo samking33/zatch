@@ -16,6 +16,8 @@ export function KineticHero() {
     offset: ["start start", "end end"],
   });
 
+  const smoothProgress = useSpring(scrollYProgress, { mass: 0.1, stiffness: 100, damping: 20 });
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -42,7 +44,7 @@ export function KineticHero() {
   return (
     <section 
       ref={containerRef} 
-      className="h-[300vh] relative bg-black cursor-crosshair"
+      className="h-[500vh] relative bg-black cursor-crosshair"
       onMouseMove={handleMouseMove}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-black">
@@ -53,7 +55,7 @@ export function KineticHero() {
             <GridItem 
               key={item.id} 
               item={item} 
-              scrollYProgress={scrollYProgress} 
+              scrollYProgress={smoothProgress} 
               mouseX={mouseX}
               mouseY={mouseY}
             />
@@ -63,8 +65,8 @@ export function KineticHero() {
         {/* The Text Overlay */}
         <motion.div 
            style={{ 
-              opacity: useTransform(scrollYProgress, [0, 0.2], [1, 0]),
-              scale: useTransform(scrollYProgress, [0, 0.2], [1, 1.2]),
+              opacity: useTransform(smoothProgress, [0, 0.2], [1, 0]),
+              scale: useTransform(smoothProgress, [0, 0.2], [1, 1.2]),
            }}
            className="absolute z-20 pointer-events-none text-center flex flex-col items-center justify-center w-full h-full"
         >
@@ -85,7 +87,7 @@ export function KineticHero() {
         
         {/* Scroll CTA */}
         <motion.div 
-           style={{ opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0]) }}
+           style={{ opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]) }}
            className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 text-sm uppercase tracking-widest animate-pulse pointer-events-none z-30"
         >
            Scroll to Explore
