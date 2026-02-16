@@ -70,19 +70,19 @@ export function KineticHero() {
            }}
            className="absolute z-20 pointer-events-none text-center flex flex-col items-center justify-center w-full h-full"
         >
-           {/* Background "ZATCH" Graffiti Image */}
-           <img 
-              src={zatchGraffiti} 
-              alt="ZATCH Graffiti" 
-              className="absolute w-[80vw] max-w-[1000px] -rotate-[15deg] select-none z-0 opacity-60 drop-shadow-[0_0_30px_rgba(199,240,79,0.4)]"
-           />
-
            {/* Main Slogan */}
            <h1 className="relative z-10 text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white drop-shadow-2xl">
               CATCH IT<br/>
               MATCH IT<br/>
               SNATCH IT
            </h1>
+
+           {/* Foreground "ZATCH" Graffiti Image (Slashing) */}
+           <img 
+              src={zatchGraffiti} 
+              alt="ZATCH Graffiti" 
+              className="absolute w-[90vw] max-w-[1100px] -rotate-[12deg] select-none z-20 opacity-80 mix-blend-overlay pointer-events-none drop-shadow-[0_0_30px_rgba(199,240,79,0.5)]"
+           />
         </motion.div>
         
         {/* Scroll CTA */}
