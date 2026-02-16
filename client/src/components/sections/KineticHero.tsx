@@ -70,26 +70,7 @@ export function KineticHero() {
            <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white">
               CATCH IT<br/>
               MATCH IT<br/>
-              <motion.span 
-                className="text-primary inline-block origin-center"
-                animate={{ 
-                   scale: [1, 1.15, 1],
-                   filter: ["blur(0px)", "blur(4px)", "blur(0px)"],
-                   textShadow: [
-                      "0 0 0px rgba(199,240,79,0)",
-                      "0 0 20px rgba(199,240,79,0.8)", 
-                      "0 0 0px rgba(199,240,79,0)"
-                   ]
-                }}
-                transition={{ 
-                   duration: 0.15,
-                   repeat: Infinity,
-                   repeatType: "reverse",
-                   ease: "easeInOut"
-                }}
-              >
-                 ZATCH
-              </motion.span> IT
+              <span className="text-primary">ZATCH</span> IT
            </h1>
         </motion.div>
         
