@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 export function FullScreenScroll() {
   const container = useRef(null);
@@ -8,14 +8,16 @@ export function FullScreenScroll() {
     offset: ["start start", "end end"]
   });
 
+  const smoothProgress = useSpring(scrollYProgress, { mass: 0.1, stiffness: 100, damping: 20 });
+
   return (
     <section ref={container} className="relative h-[200vh] bg-black">
        <div className="sticky top-0 h-screen overflow-hidden">
-          <BackgroundParallax progress={scrollYProgress} />
+          <BackgroundParallax progress={smoothProgress} />
           
           <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
              <div className="container mx-auto px-6 text-center">
-                <motion.div style={{ opacity: useTransform(scrollYProgress, [0, 0.2], [1, 0]) }}>
+                <motion.div style={{ opacity: useTransform(smoothProgress, [0, 0.2], [1, 0]) }}>
                    <h2 className="text-6xl md:text-8xl font-bold font-display tracking-tight text-white mb-6">
                       Shopping was meant to be <span className="text-stroke-primary text-transparent">Social.</span>
                    </h2>
@@ -23,8 +25,8 @@ export function FullScreenScroll() {
 
                 <motion.div 
                    style={{ 
-                      opacity: useTransform(scrollYProgress, [0.2, 0.4, 0.6], [0, 1, 0]),
-                      scale: useTransform(scrollYProgress, [0.2, 0.4], [0.8, 1])
+                      opacity: useTransform(smoothProgress, [0.2, 0.4, 0.6], [0, 1, 0]),
+                      scale: useTransform(smoothProgress, [0.2, 0.4], [0.8, 1])
                    }}
                    className="absolute top-1/2 left-0 right-0 -translate-y-1/2"
                 >
@@ -36,8 +38,8 @@ export function FullScreenScroll() {
 
                 <motion.div 
                    style={{ 
-                      opacity: useTransform(scrollYProgress, [0.6, 0.8], [0, 1]),
-                      y: useTransform(scrollYProgress, [0.6, 0.8], [50, 0])
+                      opacity: useTransform(smoothProgress, [0.6, 0.8], [0, 1]),
+                      y: useTransform(smoothProgress, [0.6, 0.8], [50, 0])
                    }}
                    className="absolute top-1/2 left-0 right-0 -translate-y-1/2"
                 >
