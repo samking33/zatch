@@ -43,7 +43,7 @@ export function KineticHero() {
   return (
     <section 
       ref={containerRef} 
-      className="h-[200vh] relative bg-black cursor-crosshair"
+      className="h-[150vh] relative bg-black cursor-crosshair"
       onMouseMove={handleMouseMove}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-black">
@@ -64,9 +64,9 @@ export function KineticHero() {
         {/* The Text Overlay */}
         <motion.div 
            style={{ 
-              opacity: useTransform(smoothProgress, [0.1, 0.2], [1, 0]),
-              scale: useTransform(smoothProgress, [0, 0.2], [1, 1.2]),
-              filter: useTransform(smoothProgress, [0, 0.1], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]),
+              opacity: useTransform(smoothProgress, [0, 0.3], [1, 0]),
+              scale: useTransform(smoothProgress, [0, 0.3], [1, 1.2]),
+              filter: useTransform(smoothProgress, [0, 0.15], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]),
            }}
            className="absolute z-20 pointer-events-none text-center mix-blend-difference"
         >
@@ -86,7 +86,7 @@ export function KineticHero() {
         
         {/* Scroll CTA */}
         <motion.div 
-           style={{ opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]) }}
+           style={{ opacity: useTransform(smoothProgress, [0, 0.15], [1, 0]) }}
            className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 text-sm uppercase tracking-widest animate-pulse pointer-events-none z-30"
         >
            Scroll to Explore
