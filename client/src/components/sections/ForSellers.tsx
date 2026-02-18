@@ -152,7 +152,7 @@ export function ForSellers() {
                    "Chasing payments manually",
                    "Ghosted by buyers constantly"
                  ].map((item, i) => (
-                   <li key={i} className="flex items-center gap-4 text-yellow-50/90 transition-colors font-medium">
+                   <li key={i} className="flex items-center gap-4 text-yellow-300 transition-colors font-medium drop-shadow-[0_0_5px_rgba(253,224,71,0.5)]">
                      <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(239,68,68,0.5)] border border-red-500/30">
                        <X className="w-3 h-3 text-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,1)]" />
                      </div>
