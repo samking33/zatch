@@ -139,11 +139,11 @@ export function ForSellers() {
             <div className="absolute inset-0 border-2 border-red-500/20 rounded-[2.5rem] animate-pulse z-20" />
 
             <div className="relative z-30">
-               <div className="w-12 h-12 rounded-2xl bg-red-500/20 flex items-center justify-center mb-6 text-red-500 border border-red-500/40 shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-pulse">
-                  <X className="w-6 h-6 drop-shadow-[0_0_8px_rgba(239,68,68,1)]" />
+               <div className="w-12 h-12 rounded-2xl bg-red-500/20 flex items-center justify-center mb-6 text-yellow-400 border border-red-500/40 shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-pulse">
+                  <X className="w-6 h-6 drop-shadow-[0_0_8px_rgba(250,204,21,1)]" />
                </div>
-               <h4 className="text-3xl font-bold text-white mb-2 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]">The Old Way</h4>
-               <p className="text-red-400 font-medium mb-8 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]">Chaos & Manual Work</p>
+               <h4 className="text-3xl font-bold text-yellow-300 mb-2 drop-shadow-[0_0_10px_rgba(253,224,71,0.6)]">The Old Way</h4>
+               <p className="text-yellow-100/80 font-medium mb-8 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]">Chaos & Manual Work</p>
                
                <ul className="space-y-6">
                  {[
@@ -152,11 +152,11 @@ export function ForSellers() {
                    "Chasing payments manually",
                    "Ghosted by buyers constantly"
                  ].map((item, i) => (
-                   <li key={i} className="flex items-center gap-4 text-white/80 transition-colors">
+                   <li key={i} className="flex items-center gap-4 text-yellow-50/90 transition-colors font-medium">
                      <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(239,68,68,0.5)] border border-red-500/30">
-                       <X className="w-3 h-3 text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,1)]" />
+                       <X className="w-3 h-3 text-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,1)]" />
                      </div>
-                     <span className="text-lg drop-shadow-md">{item}</span>
+                     <span className="text-lg drop-shadow-sm">{item}</span>
                    </li>
                  ))}
                </ul>
@@ -211,7 +211,7 @@ export function ForSellers() {
                <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center mb-6 text-black border border-primary shadow-[0_0_25px_rgba(199,240,79,0.6)]">
                   <Check className="w-6 h-6 font-bold text-primary drop-shadow-[0_0_5px_rgba(199,240,79,1)]" />
                </div>
-               <h4 className="text-3xl font-bold text-white mb-2 drop-shadow-[0_0_15px_rgba(199,240,79,0.6)]">The Zatch Way</h4>
+               <h4 className="text-3xl font-bold text-white mb-2 drop-shadow-[0_0_15px_rgba(199,240,79,0.8)]">The Zatch Way</h4>
                <p className="text-primary font-medium mb-8 drop-shadow-[0_0_10px_rgba(199,240,79,0.8)]">Automated & Instant</p>
                
                <ul className="space-y-6">
@@ -225,7 +225,7 @@ export function ForSellers() {
                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(199,240,79,0.8)] border border-primary/50">
                        <Check className="w-3 h-3 text-primary font-bold drop-shadow-[0_0_5px_rgba(199,240,79,1)]" />
                      </div>
-                     <span className="text-lg font-medium drop-shadow-md">{item}</span>
+                     <span className="text-lg font-medium drop-shadow-md text-white shadow-black drop-shadow-sm">{item}</span>
                    </li>
                  ))}
                </ul>
