@@ -7,6 +7,7 @@ import { SpotlightCard } from "@/components/ui/spotlight-card";
 // Import generated textures
 import shatteredGlass from "@/assets/textures/shattered-glass.png";
 import circuitPattern from "@/assets/textures/circuit-pattern.png";
+import energyCable from "@/assets/textures/energy-cable.png";
 
 export function ForSellers() {
   const ref = useRef(null);
@@ -38,10 +39,10 @@ export function ForSellers() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold text-primary tracking-widest uppercase mb-4">For Sellers</h2>
+            <h2 className="text-sm font-bold text-white/50 tracking-widest uppercase mb-4">FOR SELLERS</h2>
             <h3 className="text-5xl md:text-7xl font-bold font-display tracking-tight mb-6">
               Your DMs Are Not <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary animate-shine bg-[length:200%_auto]">a Sales System.</span>
+              <span className="text-[#C7F04F] drop-shadow-[0_0_15px_rgba(199,240,79,0.5)]">a Sales System.</span>
             </h3>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Stop managing conversations. Start closing deals.
@@ -49,93 +50,122 @@ export function ForSellers() {
           </motion.div>
         </div>
 
-        {/* Comparison Section - Redesigned */}
-        <div className="grid md:grid-cols-2 gap-8 mb-24 max-w-5xl mx-auto relative">
+        {/* Comparison Section - Matches Image EXACTLY */}
+        <div className="grid md:grid-cols-2 gap-0 mb-24 max-w-5xl mx-auto relative items-center">
           
-          {/* Energy Beam Connector (Desktop) */}
-          <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-32 h-24 pointer-events-none">
-             <div className="absolute inset-0 bg-primary/20 blur-[20px] animate-pulse" />
-             <svg className="w-full h-full overflow-visible" viewBox="0 0 100 100">
-                <path d="M0,50 Q25,40 50,50 T100,50" fill="none" stroke="#C7F04F" strokeWidth="2" className="animate-pulse shadow-[0_0_10px_#C7F04F]">
-                   <animate attributeName="d" values="M0,50 Q25,45 50,50 T100,50; M0,50 Q25,55 50,50 T100,50; M0,50 Q25,45 50,50 T100,50" dur="0.2s" repeatCount="indefinite" />
-                </path>
-                <circle cx="50" cy="50" r="4" fill="#fff" className="animate-ping" />
-             </svg>
+          {/* Energy Beam Connector (Desktop) - Positioned between cards */}
+          <div className="hidden md:block absolute left-1/2 -translate-x-1/2 z-20 w-32 h-24 pointer-events-none flex items-center justify-center">
+             <div className="relative w-full h-full">
+                {/* Glowing tube/cable effect */}
+                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-8 bg-black/50 backdrop-blur-sm border-y border-white/10" />
+                
+                {/* Inner Energy Beam */}
+                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-2 bg-[#C7F04F] shadow-[0_0_20px_#C7F04F] animate-pulse">
+                   <div className="absolute inset-0 bg-white/50 blur-[2px]" />
+                </div>
+                
+                {/* Lightning Arcs */}
+                <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 100 100">
+                   <path d="M0,50 Q25,35 50,50 T100,50" fill="none" stroke="#C7F04F" strokeWidth="2" className="animate-pulse opacity-80 filter drop-shadow-[0_0_5px_#C7F04F]">
+                      <animate attributeName="d" values="M0,50 Q25,45 50,50 T100,50; M0,50 Q25,55 50,50 T100,50; M0,50 Q25,45 50,50 T100,50" dur="0.1s" repeatCount="indefinite" />
+                   </path>
+                </svg>
+             </div>
           </div>
 
-          {/* The Pain (Reality) */}
+          {/* The Pain (Reality) - Left Card */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="group relative p-10 rounded-[2.5rem] bg-red-950/20 border border-red-900/40 overflow-hidden hover:bg-red-950/30 transition-all duration-500"
+            className="group relative h-[500px] p-10 rounded-[2.5rem] bg-[#1a0505] border border-red-900/30 overflow-hidden md:mr-4"
           >
-            {/* Shattered Glass Texture */}
-            <div className="absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none">
-               <img src={shatteredGlass} alt="" className="w-full h-full object-cover grayscale contrast-150" />
+            {/* Dark Red Background Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-b from-red-950/20 to-black pointer-events-none" />
+            
+            {/* Shattered Glass Texture - Centered & Realistic */}
+            <div className="absolute top-10 right-10 w-64 h-64 opacity-60 mix-blend-overlay pointer-events-none">
+               <img src={shatteredGlass} alt="" className="w-full h-full object-contain brightness-150 contrast-125" />
             </div>
             
-            {/* Glitch Effect on Hover */}
-            <div className="absolute inset-0 bg-red-500/5 mix-blend-color-dodge opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-100 pointer-events-none" />
+            {/* Glitch Effect - Chromatic Aberration */}
+            <div className="absolute top-20 left-0 w-full h-1 bg-cyan-500/50 mix-blend-color-dodge opacity-0 group-hover:opacity-100 animate-[glitch_2s_infinite_steps(2)] pointer-events-none" />
+            <div className="absolute top-40 right-0 w-full h-1 bg-red-500/50 mix-blend-color-dodge opacity-0 group-hover:opacity-100 animate-[glitch_3s_infinite_steps(2)] pointer-events-none" />
 
-            <div className="relative z-10">
-               <div className="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center mb-6 text-red-500 border border-red-500/20 shadow-[0_0_20px_rgba(239,68,68,0.2)]">
-                  <X className="w-6 h-6" />
+            <div className="relative z-10 flex flex-col h-full">
+               <div className="w-10 h-10 rounded-full bg-[#2a1010] flex items-center justify-center mb-6 border border-red-500/20">
+                  <X className="w-4 h-4 text-red-500" />
                </div>
-               <h4 className="text-3xl font-bold text-white mb-2 group-hover:translate-x-1 transition-transform duration-100" style={{ textShadow: '2px 0 rgba(255,0,0,0.5), -2px 0 rgba(0,255,255,0.3)' }}>The Old Way</h4>
-               <p className="text-red-400 font-medium mb-8">Chaos & Manual Work</p>
                
-               <ul className="space-y-6">
+               <h4 className="text-3xl font-bold text-white mb-2">The Old Way</h4>
+               <p className="text-red-400 font-medium mb-12">Chaos & Manual Work</p>
+               
+               <ul className="space-y-6 mt-auto">
                  {[
                    "Closing one sale takes 15+ mins",
                    "Endless DM back & forth",
                    "Chasing payments manually",
                    "Ghosted by buyers constantly"
                  ].map((item, i) => (
-                   <li key={i} className="flex items-center gap-4 text-white/60 group-hover:text-white/80 transition-colors">
-                     <div className="w-6 h-6 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
-                       <X className="w-3 h-3 text-red-500" />
+                   <li key={i} className="flex items-center gap-4 text-white/50">
+                     <div className="w-5 h-5 rounded-full bg-[#2a1010] flex items-center justify-center shrink-0 border border-red-900/30">
+                       <X className="w-2.5 h-2.5 text-red-500" />
                      </div>
-                     <span className="text-lg">{item}</span>
+                     <span className="text-lg font-light">{item}</span>
                    </li>
                  ))}
                </ul>
             </div>
           </motion.div>
 
-          {/* The Gain (Zatch) */}
+          {/* The Gain (Zatch) - Right Card */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="group relative p-10 rounded-[2.5rem] bg-black border border-primary/50 overflow-hidden shadow-[0_0_40px_-10px_rgba(199,240,79,0.2)] hover:shadow-[0_0_60px_-10px_rgba(199,240,79,0.4)] transition-all duration-500"
+            className="group relative h-[500px] p-10 rounded-[2.5rem] bg-[#0a1105] border-[2px] border-[#C7F04F] overflow-hidden shadow-[0_0_50px_-10px_rgba(199,240,79,0.3)] md:ml-4"
           >
-            {/* Circuit Pattern */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none">
-               <img src={circuitPattern} alt="" className="w-full h-full object-cover opacity-50 mix-blend-screen" />
+            {/* Green Glow Inner */}
+            <div className="absolute inset-0 shadow-[inset_0_0_50px_rgba(199,240,79,0.1)] rounded-[2.5rem] pointer-events-none" />
+
+            {/* Circuit Pattern - Faint Background */}
+            <div className="absolute top-0 right-0 w-full h-full opacity-30 pointer-events-none">
+               <img src={circuitPattern} alt="" className="w-full h-full object-cover mix-blend-screen opacity-40" />
             </div>
 
-            {/* Comet Streak Animation */}
-            <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_80deg,rgba(199,240,79,0.3)_180deg,transparent_180deg)] animate-[spin_4s_linear_infinite] opacity-50" />
+            {/* Comet Streak - The "Swoosh" Effect */}
+            <div className="absolute top-[30%] left-[-10%] w-[120%] h-[100px] pointer-events-none">
+               <svg className="w-full h-full" viewBox="0 0 400 100" preserveAspectRatio="none">
+                  <path d="M0,80 Q200,80 400,20" fill="none" stroke="url(#cometGradient)" strokeWidth="3" className="filter drop-shadow-[0_0_5px_#C7F04F]" />
+                  <defs>
+                     <linearGradient id="cometGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="transparent" />
+                        <stop offset="50%" stopColor="#C7F04F" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="#fff" />
+                     </linearGradient>
+                  </defs>
+               </svg>
+               {/* Glowing Head of Comet */}
+               <div className="absolute top-[20%] right-[0%] w-20 h-20 bg-[#C7F04F] rounded-full blur-[30px] opacity-40 animate-pulse" />
+            </div>
             
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
-
-            <div className="relative z-10">
-               <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center mb-6 text-black border border-primary shadow-[0_0_20px_rgba(199,240,79,0.6)]">
-                  <Check className="w-6 h-6 font-bold" />
+            <div className="relative z-10 flex flex-col h-full">
+               <div className="w-10 h-10 rounded-full bg-[#C7F04F] flex items-center justify-center mb-6 border border-[#C7F04F] shadow-[0_0_15px_#C7F04F]">
+                  <Check className="w-5 h-5 text-black font-bold" />
                </div>
-               <h4 className="text-3xl font-bold text-white mb-2 drop-shadow-[0_0_10px_rgba(199,240,79,0.5)]">The Zatch Way</h4>
-               <p className="text-primary font-medium mb-8 drop-shadow-[0_0_5px_rgba(199,240,79,0.8)]">Automated & Instant</p>
                
-               <ul className="space-y-6">
+               <h4 className="text-3xl font-bold text-white mb-2">The Zatch Way</h4>
+               <p className="text-[#C7F04F] font-medium mb-12">Automated & Instant</p>
+               
+               <ul className="space-y-6 mt-auto">
                  {[
                    "One live stream = Hundreds of potential sales",
                    "Negotiate instantly with auto-counter offers",
                    "Payments collected inside the app",
                    "Zero manual tracking needed"
                  ].map((item, i) => (
-                   <li key={i} className="flex items-center gap-4 text-white group-hover:translate-x-2 transition-transform duration-300">
-                     <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(199,240,79,0.8)]">
+                   <li key={i} className="flex items-center gap-4 text-white">
+                     <div className="w-5 h-5 rounded-full bg-[#C7F04F] flex items-center justify-center shrink-0 shadow-[0_0_10px_#C7F04F]">
                        <Check className="w-3 h-3 text-black font-bold" />
                      </div>
                      <span className="text-lg font-medium">{item}</span>
