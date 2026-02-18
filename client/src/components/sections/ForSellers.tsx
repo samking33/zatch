@@ -63,30 +63,58 @@ export function ForSellers() {
         <div className="grid md:grid-cols-2 gap-8 mb-24 max-w-5xl mx-auto relative">
           
           {/* Energy Beam Connector (Desktop) */}
-          <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[120px] h-[100px] pointer-events-none mix-blend-screen">
-             {/* Core Beam */}
-             <svg className="w-full h-full overflow-visible drop-shadow-[0_0_15px_rgba(199,240,79,1)]" viewBox="0 0 100 100" preserveAspectRatio="none">
-                {/* Main crackling path */}
-                <path d="M0,50 L20,45 L40,55 L60,45 L80,55 L100,50" fill="none" stroke="#C7F04F" strokeWidth="3" strokeLinecap="round">
-                   <animate attributeName="d" 
-                      values="M0,50 L20,45 L40,55 L60,45 L80,55 L100,50;
-                              M0,50 L20,55 L40,45 L60,55 L80,45 L100,50;
-                              M0,50 L20,48 L40,52 L60,48 L80,52 L100,50" 
-                      dur="0.1s" repeatCount="indefinite" />
-                </path>
-                {/* Secondary erratic bolts */}
-                <path d="M10,50 L30,40 L50,60 L70,40 L90,50" fill="none" stroke="#fff" strokeWidth="1" opacity="0.8">
-                   <animate attributeName="d" 
-                      values="M10,50 L30,40 L50,60 L70,40 L90,50;
-                              M10,50 L30,60 L50,40 L70,60 L90,50" 
-                      dur="0.15s" repeatCount="indefinite" />
-                   <animate attributeName="opacity" values="0;1;0" dur="0.1s" repeatCount="indefinite" />
-                </path>
-             </svg>
+          <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[180px] h-[80px] items-center justify-between pointer-events-none">
              
-             {/* Particle Explosion at center */}
-             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-full blur-[15px] animate-pulse" />
-             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-ping" />
+             {/* Left Socket (Red) */}
+             <div className="relative w-6 h-16 bg-gradient-to-r from-red-900/80 to-red-600/20 border-l border-t border-b border-red-500/50 rounded-l-lg shadow-[0_0_20px_rgba(239,68,68,0.4)] flex items-center">
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-10 bg-red-500/40 blur-[2px]" />
+             </div>
+
+             {/* The Glass Tube */}
+             <div className="relative flex-1 h-10 bg-white/5 border-t border-b border-white/10 backdrop-blur-[2px] overflow-hidden flex items-center justify-center mx-[-2px] z-10">
+                
+                {/* Inner Glow/Reflection */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-white/5 pointer-events-none" />
+                
+                {/* Electric Arcs */}
+                <svg className="absolute inset-0 w-full h-full overflow-visible mix-blend-screen" viewBox="0 0 100 40" preserveAspectRatio="none">
+                   <defs>
+                      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                         <feGaussianBlur stdDeviation="2" result="blur" />
+                         <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                      </filter>
+                   </defs>
+                   
+                   {/* Main Bolt */}
+                   <path d="M0,20 Q25,10 50,20 T100,20" fill="none" stroke="#C7F04F" strokeWidth="2" filter="url(#glow)">
+                      <animate attributeName="d" 
+                         values="M0,20 Q25,10 50,20 T100,20;
+                                 M0,20 Q25,30 50,10 T100,20;
+                                 M0,20 Q25,5 50,35 T100,20;
+                                 M0,20 Q25,10 50,20 T100,20" 
+                         dur="0.2s" repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0.8;1;0.8" dur="0.1s" repeatCount="indefinite" />
+                   </path>
+
+                   {/* Secondary Bolt (Faster) */}
+                   <path d="M0,20 Q25,30 50,20 T100,20" fill="none" stroke="#fff" strokeWidth="1" opacity="0.6">
+                      <animate attributeName="d" 
+                         values="M0,20 Q25,30 50,20 T100,20;
+                                 M0,20 Q25,15 50,25 T100,20;
+                                 M0,20 Q25,35 50,15 T100,20" 
+                         dur="0.1s" repeatCount="indefinite" />
+                   </path>
+                </svg>
+
+                {/* Connection Point Flares */}
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-red-500 rounded-full blur-[15px] opacity-60 mix-blend-screen animate-pulse" />
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-full blur-[15px] opacity-60 mix-blend-screen animate-pulse" />
+             </div>
+
+             {/* Right Socket (Green) */}
+             <div className="relative w-6 h-16 bg-gradient-to-l from-primary/20 to-primary/5 border-r border-t border-b border-primary/50 rounded-r-lg shadow-[0_0_20px_rgba(199,240,79,0.3)] flex items-center justify-end">
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-10 bg-primary/40 blur-[2px]" />
+             </div>
           </div>
 
           {/* The Pain (Reality) */}
