@@ -60,25 +60,30 @@ export function ForSellers() {
         </div>
 
         {/* Comparison Section - Redesigned */}
-        <div className="grid md:grid-cols-2 gap-8 mb-24 max-w-5xl mx-auto relative">
+        <div className="grid md:grid-cols-2 gap-16 md:gap-24 mb-24 max-w-6xl mx-auto relative items-center">
           
           {/* Energy Beam Connector (Desktop) */}
-          <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[180px] h-[80px] items-center justify-between pointer-events-none">
+          <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-[calc(100%+2rem)] max-w-[200px] h-[60px] items-center justify-between pointer-events-none">
              
              {/* Left Socket (Red) */}
-             <div className="relative w-6 h-16 bg-gradient-to-r from-red-900/80 to-red-600/20 border-l border-t border-b border-red-500/50 rounded-l-lg shadow-[0_0_20px_rgba(239,68,68,0.4)] flex items-center">
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-10 bg-red-500/40 blur-[2px]" />
+             <div className="relative w-8 h-12 bg-gradient-to-r from-red-900 to-red-950 border border-red-500/30 rounded-l-md shadow-[0_0_15px_rgba(239,68,68,0.3)] flex items-center justify-center translate-x-1">
+                <div className="w-1 h-8 bg-red-500/50 blur-[2px]" />
              </div>
 
              {/* The Glass Tube */}
-             <div className="relative flex-1 h-10 bg-white/5 border-t border-b border-white/10 backdrop-blur-[2px] overflow-hidden flex items-center justify-center mx-[-2px] z-10">
+             <div className="relative flex-1 h-12 bg-black/40 border-t border-b border-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center mx-[-4px] z-10 shadow-inner">
                 
                 {/* Inner Glow/Reflection */}
-                <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-white/5 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-white/5 pointer-events-none" />
                 
-                {/* Electric Arcs */}
+                {/* Electric Arcs with Gradient */}
                 <svg className="absolute inset-0 w-full h-full overflow-visible mix-blend-screen" viewBox="0 0 100 40" preserveAspectRatio="none">
                    <defs>
+                      <linearGradient id="beam-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                         <stop offset="0%" stopColor="#ef4444" /> {/* Red */}
+                         <stop offset="50%" stopColor="#ffff00" /> {/* Yellow Transition */}
+                         <stop offset="100%" stopColor="#C7F04F" /> {/* Green */}
+                      </linearGradient>
                       <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
                          <feGaussianBlur stdDeviation="2" result="blur" />
                          <feComposite in="SourceGraphic" in2="blur" operator="over" />
@@ -86,18 +91,18 @@ export function ForSellers() {
                    </defs>
                    
                    {/* Main Bolt */}
-                   <path d="M0,20 Q25,10 50,20 T100,20" fill="none" stroke="#C7F04F" strokeWidth="2" filter="url(#glow)">
+                   <path d="M0,20 Q25,10 50,20 T100,20" fill="none" stroke="url(#beam-gradient)" strokeWidth="3" filter="url(#glow)">
                       <animate attributeName="d" 
                          values="M0,20 Q25,10 50,20 T100,20;
                                  M0,20 Q25,30 50,10 T100,20;
                                  M0,20 Q25,5 50,35 T100,20;
                                  M0,20 Q25,10 50,20 T100,20" 
                          dur="0.2s" repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0.8;1;0.8" dur="0.1s" repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0.6;1;0.6" dur="0.1s" repeatCount="indefinite" />
                    </path>
 
-                   {/* Secondary Bolt (Faster) */}
-                   <path d="M0,20 Q25,30 50,20 T100,20" fill="none" stroke="#fff" strokeWidth="1" opacity="0.6">
+                   {/* Secondary Bolt (White core) */}
+                   <path d="M0,20 Q25,30 50,20 T100,20" fill="none" stroke="#fff" strokeWidth="1" opacity="0.8">
                       <animate attributeName="d" 
                          values="M0,20 Q25,30 50,20 T100,20;
                                  M0,20 Q25,15 50,25 T100,20;
@@ -107,13 +112,13 @@ export function ForSellers() {
                 </svg>
 
                 {/* Connection Point Flares */}
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-red-500 rounded-full blur-[15px] opacity-60 mix-blend-screen animate-pulse" />
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-full blur-[15px] opacity-60 mix-blend-screen animate-pulse" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 bg-red-500 rounded-full blur-[10px] opacity-80 mix-blend-screen animate-pulse" />
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-6 h-6 bg-primary rounded-full blur-[10px] opacity-80 mix-blend-screen animate-pulse" />
              </div>
 
              {/* Right Socket (Green) */}
-             <div className="relative w-6 h-16 bg-gradient-to-l from-primary/20 to-primary/5 border-r border-t border-b border-primary/50 rounded-r-lg shadow-[0_0_20px_rgba(199,240,79,0.3)] flex items-center justify-end">
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-10 bg-primary/40 blur-[2px]" />
+             <div className="relative w-8 h-12 bg-gradient-to-l from-green-900 to-green-950 border border-primary/30 rounded-r-md shadow-[0_0_15px_rgba(199,240,79,0.2)] flex items-center justify-center -translate-x-1">
+                <div className="w-1 h-8 bg-primary/40 blur-[2px]" />
              </div>
           </div>
 
