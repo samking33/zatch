@@ -60,18 +60,18 @@ export function ForSellers() {
         </div>
 
         {/* Comparison Section - Redesigned */}
-        <div className="grid md:grid-cols-2 gap-16 md:gap-24 mb-24 max-w-6xl mx-auto relative items-center">
+        <div className="grid md:grid-cols-2 gap-16 md:gap-24 mb-24 max-w-6xl mx-auto relative items-center z-10">
           
-          {/* Energy Beam Connector (Desktop) */}
-          <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-[calc(100%+2rem)] max-w-[200px] h-[60px] items-center justify-between pointer-events-none">
+          {/* Energy Beam Connector (Desktop) - Updated to span full width and integrate */}
+          <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[calc(100%+4rem)] h-[60px] items-center justify-center pointer-events-none">
              
-             {/* Left Socket (Red) */}
-             <div className="relative w-8 h-12 bg-gradient-to-r from-red-900 to-red-950 border border-red-500/30 rounded-l-md shadow-[0_0_15px_rgba(239,68,68,0.3)] flex items-center justify-center translate-x-1">
-                <div className="w-1 h-8 bg-red-500/50 blur-[2px]" />
+             {/* Left Socket Interface (Red) - Positioned on the Left Card Edge */}
+             <div className="absolute left-[calc(50%-theme(gap.16)/2-2rem)] md:left-[calc(50%-theme(gap.24)/2-2rem)] translate-x-1/2 h-16 w-8 bg-gradient-to-r from-red-950 to-red-900 border-l border-t border-b border-red-500/50 rounded-l-lg shadow-[0_0_20px_rgba(239,68,68,0.4)] flex items-center z-30">
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-10 bg-red-500/40 blur-[2px]" />
              </div>
 
-             {/* The Glass Tube */}
-             <div className="relative flex-1 h-12 bg-black/40 border-t border-b border-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center mx-[-4px] z-10 shadow-inner">
+             {/* The Glass Tube - Spanning the gap */}
+             <div className="relative w-[calc(theme(gap.16)+1rem)] md:w-[calc(theme(gap.24)+1rem)] h-12 bg-black/40 border-t border-b border-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center z-20 shadow-inner">
                 
                 {/* Inner Glow/Reflection */}
                 <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-white/5 pointer-events-none" />
@@ -116,9 +116,9 @@ export function ForSellers() {
                 <div className="absolute right-0 top-1/2 -translate-y-1/2 w-6 h-6 bg-primary rounded-full blur-[10px] opacity-80 mix-blend-screen animate-pulse" />
              </div>
 
-             {/* Right Socket (Green) */}
-             <div className="relative w-8 h-12 bg-gradient-to-l from-green-900 to-green-950 border border-primary/30 rounded-r-md shadow-[0_0_15px_rgba(199,240,79,0.2)] flex items-center justify-center -translate-x-1">
-                <div className="w-1 h-8 bg-primary/40 blur-[2px]" />
+             {/* Right Socket Interface (Green) - Positioned on the Right Card Edge */}
+             <div className="absolute right-[calc(50%-theme(gap.16)/2-2rem)] md:right-[calc(50%-theme(gap.24)/2-2rem)] -translate-x-1/2 h-16 w-8 bg-gradient-to-l from-green-950 to-green-900 border-r border-t border-b border-primary/30 rounded-r-lg shadow-[0_0_20px_rgba(199,240,79,0.2)] flex items-center justify-end z-30">
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-10 bg-primary/40 blur-[2px]" />
              </div>
           </div>
 
