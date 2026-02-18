@@ -63,14 +63,30 @@ export function ForSellers() {
         <div className="grid md:grid-cols-2 gap-8 mb-24 max-w-5xl mx-auto relative">
           
           {/* Energy Beam Connector (Desktop) */}
-          <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-32 h-24 pointer-events-none">
-             <div className="absolute inset-0 bg-primary/20 blur-[20px] animate-pulse" />
-             <svg className="w-full h-full overflow-visible" viewBox="0 0 100 100">
-                <path d="M0,50 Q25,40 50,50 T100,50" fill="none" stroke="#C7F04F" strokeWidth="2" className="animate-pulse shadow-[0_0_10px_#C7F04F]">
-                   <animate attributeName="d" values="M0,50 Q25,45 50,50 T100,50; M0,50 Q25,55 50,50 T100,50; M0,50 Q25,45 50,50 T100,50" dur="0.2s" repeatCount="indefinite" />
+          <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[120px] h-[100px] pointer-events-none mix-blend-screen">
+             {/* Core Beam */}
+             <svg className="w-full h-full overflow-visible drop-shadow-[0_0_15px_rgba(199,240,79,1)]" viewBox="0 0 100 100" preserveAspectRatio="none">
+                {/* Main crackling path */}
+                <path d="M0,50 L20,45 L40,55 L60,45 L80,55 L100,50" fill="none" stroke="#C7F04F" strokeWidth="3" strokeLinecap="round">
+                   <animate attributeName="d" 
+                      values="M0,50 L20,45 L40,55 L60,45 L80,55 L100,50;
+                              M0,50 L20,55 L40,45 L60,55 L80,45 L100,50;
+                              M0,50 L20,48 L40,52 L60,48 L80,52 L100,50" 
+                      dur="0.1s" repeatCount="indefinite" />
                 </path>
-                <circle cx="50" cy="50" r="4" fill="#fff" className="animate-ping" />
+                {/* Secondary erratic bolts */}
+                <path d="M10,50 L30,40 L50,60 L70,40 L90,50" fill="none" stroke="#fff" strokeWidth="1" opacity="0.8">
+                   <animate attributeName="d" 
+                      values="M10,50 L30,40 L50,60 L70,40 L90,50;
+                              M10,50 L30,60 L50,40 L70,60 L90,50" 
+                      dur="0.15s" repeatCount="indefinite" />
+                   <animate attributeName="opacity" values="0;1;0" dur="0.1s" repeatCount="indefinite" />
+                </path>
              </svg>
+             
+             {/* Particle Explosion at center */}
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-full blur-[15px] animate-pulse" />
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-ping" />
           </div>
 
           {/* The Pain (Reality) */}
