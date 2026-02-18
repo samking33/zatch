@@ -17,17 +17,27 @@ export function ForSellers() {
       {/* Background Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
       
-      {/* Floating Particles */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Floating Particles & Vertical Streaks */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+         {[...Array(5)].map((_, i) => (
+           <motion.div
+             key={`particle-${i}`}
+             initial={{ y: "100%", opacity: 0 }}
+             animate={{ y: "-100%", opacity: [0, 0.5, 0] }}
+             transition={{ duration: 15 + i * 2, repeat: Infinity, ease: "linear", delay: i * 3 }}
+             className="absolute w-[1px] bg-gradient-to-t from-transparent via-primary/30 to-transparent"
+             style={{ height: `${200 + i * 50}px`, left: `${10 + i * 20}%` }}
+           />
+         ))}
          <motion.div 
             animate={{ y: [0, -100, 0], opacity: [0, 0.5, 0] }}
             transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-            className="absolute top-[20%] left-[10%] w-2 h-2 bg-primary rounded-full blur-[2px]"
+            className="absolute top-[20%] left-[10%] w-2 h-2 bg-primary rounded-full blur-[2px] shadow-[0_0_10px_#C7F04F]"
          />
          <motion.div 
             animate={{ y: [0, -150, 0], opacity: [0, 0.3, 0] }}
             transition={{ duration: 15, repeat: Infinity, ease: "linear", delay: 2 }}
-            className="absolute top-[60%] right-[15%] w-1 h-1 bg-white rounded-full blur-[1px]"
+            className="absolute top-[60%] right-[15%] w-1 h-1 bg-white rounded-full blur-[1px] shadow-[0_0_10px_white]"
          />
       </div>
 
@@ -38,12 +48,12 @@ export function ForSellers() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold text-primary tracking-widest uppercase mb-4">For Sellers</h2>
-            <h3 className="text-5xl md:text-7xl font-bold font-display tracking-tight mb-6">
-              Your DMs Are Not <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary animate-shine bg-[length:200%_auto]">a Sales System.</span>
+            <h2 className="text-sm font-bold text-primary tracking-widest uppercase mb-4 drop-shadow-[0_0_10px_rgba(199,240,79,0.5)]">For Sellers</h2>
+            <h3 className="text-5xl md:text-7xl font-bold font-display tracking-tight mb-6 relative z-10">
+              <span className="block text-white drop-shadow-[0_0_25px_rgba(199,240,79,0.6)] [text-shadow:0_0_10px_rgba(255,255,255,0.8)]">Your DMs Are Not</span>
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary animate-shine bg-[length:200%_auto] drop-shadow-[0_0_35px_rgba(199,240,79,0.8)]">a Sales System.</span>
             </h3>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto drop-shadow-[0_0_15px_rgba(0,0,0,0.8)]">
               Stop managing conversations. Start closing deals.
             </p>
           </motion.div>
@@ -68,22 +78,23 @@ export function ForSellers() {
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="group relative p-10 rounded-[2.5rem] bg-red-950/20 border border-red-900/40 overflow-hidden hover:bg-red-950/30 transition-all duration-500"
+            className="group relative p-10 rounded-[2.5rem] bg-red-950/40 border border-red-900/60 overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(239,68,68,0.3)]"
           >
             {/* Shattered Glass Texture */}
-            <div className="absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none">
-               <img src={shatteredGlass} alt="" className="w-full h-full object-cover grayscale contrast-150" />
+            <div className="absolute inset-0 opacity-60 mix-blend-hard-light pointer-events-none z-0">
+               <img src={shatteredGlass} alt="" className="w-full h-full object-cover scale-110" />
             </div>
             
-            {/* Glitch Effect on Hover */}
-            <div className="absolute inset-0 bg-red-500/5 mix-blend-color-dodge opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-100 pointer-events-none" />
+            {/* Chromatic Aberration / Glitch Effect */}
+            <div className="absolute inset-0 animate-glitch opacity-30 mix-blend-screen pointer-events-none bg-[url('/noise.png')] z-10" />
+            <div className="absolute inset-0 border-2 border-red-500/20 rounded-[2.5rem] animate-pulse z-20" />
 
-            <div className="relative z-10">
-               <div className="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center mb-6 text-red-500 border border-red-500/20 shadow-[0_0_20px_rgba(239,68,68,0.2)]">
-                  <X className="w-6 h-6" />
+            <div className="relative z-30">
+               <div className="w-12 h-12 rounded-2xl bg-red-500/20 flex items-center justify-center mb-6 text-red-500 border border-red-500/40 shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-pulse">
+                  <X className="w-6 h-6 drop-shadow-[0_0_8px_rgba(239,68,68,1)]" />
                </div>
-               <h4 className="text-3xl font-bold text-white mb-2 group-hover:translate-x-1 transition-transform duration-100" style={{ textShadow: '2px 0 rgba(255,0,0,0.5), -2px 0 rgba(0,255,255,0.3)' }}>The Old Way</h4>
-               <p className="text-red-400 font-medium mb-8">Chaos & Manual Work</p>
+               <h4 className="text-3xl font-bold text-white mb-2 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]">The Old Way</h4>
+               <p className="text-red-400 font-medium mb-8 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]">Chaos & Manual Work</p>
                
                <ul className="space-y-6">
                  {[
@@ -92,11 +103,11 @@ export function ForSellers() {
                    "Chasing payments manually",
                    "Ghosted by buyers constantly"
                  ].map((item, i) => (
-                   <li key={i} className="flex items-center gap-4 text-white/60 group-hover:text-white/80 transition-colors">
-                     <div className="w-6 h-6 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
-                       <X className="w-3 h-3 text-red-500" />
+                   <li key={i} className="flex items-center gap-4 text-white/80 transition-colors">
+                     <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(239,68,68,0.5)] border border-red-500/30">
+                       <X className="w-3 h-3 text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,1)]" />
                      </div>
-                     <span className="text-lg">{item}</span>
+                     <span className="text-lg drop-shadow-md">{item}</span>
                    </li>
                  ))}
                </ul>
@@ -108,24 +119,51 @@ export function ForSellers() {
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="group relative p-10 rounded-[2.5rem] bg-black border border-primary/50 overflow-hidden shadow-[0_0_40px_-10px_rgba(199,240,79,0.2)] hover:shadow-[0_0_60px_-10px_rgba(199,240,79,0.4)] transition-all duration-500"
+            className="group relative p-10 rounded-[2.5rem] bg-black/80 border border-primary overflow-hidden shadow-[0_0_50px_-10px_rgba(199,240,79,0.3)] hover:shadow-[0_0_80px_-10px_rgba(199,240,79,0.5)] transition-all duration-500"
           >
             {/* Circuit Pattern */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none">
-               <img src={circuitPattern} alt="" className="w-full h-full object-cover opacity-50 mix-blend-screen" />
+            <div className="absolute inset-0 opacity-40 pointer-events-none z-0">
+               <img src={circuitPattern} alt="" className="w-full h-full object-cover mix-blend-color-dodge" />
             </div>
 
-            {/* Comet Streak Animation */}
-            <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_80deg,rgba(199,240,79,0.3)_180deg,transparent_180deg)] animate-[spin_4s_linear_infinite] opacity-50" />
-            
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
+            {/* Digital Comet Streak Animation */}
+            {/* Arcing path from right to left */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible">
+              <path 
+                id="comet-path"
+                d="M 600,100 Q 300,50 50,150" 
+                fill="none" 
+                stroke="transparent"
+              />
+              <circle r="4" fill="#fff" className="blur-[1px]">
+                <animateMotion dur="3s" repeatCount="indefinite" rotate="auto">
+                   <mpath href="#comet-path" />
+                </animateMotion>
+              </circle>
+              {/* Comet Head */}
+               <circle r="3" fill="#C7F04F" className="shadow-[0_0_20px_#C7F04F]">
+                <animateMotion dur="3s" repeatCount="indefinite" rotate="auto">
+                   <mpath href="#comet-path" />
+                </animateMotion>
+              </circle>
+              {/* Comet Trail */}
+              <path d="M 600,100 Q 300,50 50,150" stroke="url(#gradient)" strokeWidth="2" fill="none" className="opacity-60">
+                 <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                       <stop offset="0%" stopColor="transparent" />
+                       <stop offset="50%" stopColor="#C7F04F" />
+                       <stop offset="100%" stopColor="transparent" />
+                    </linearGradient>
+                 </defs>
+              </path>
+            </svg>
 
-            <div className="relative z-10">
-               <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center mb-6 text-black border border-primary shadow-[0_0_20px_rgba(199,240,79,0.6)]">
-                  <Check className="w-6 h-6 font-bold" />
+            <div className="relative z-20">
+               <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center mb-6 text-black border border-primary shadow-[0_0_25px_rgba(199,240,79,0.6)]">
+                  <Check className="w-6 h-6 font-bold text-primary drop-shadow-[0_0_5px_rgba(199,240,79,1)]" />
                </div>
-               <h4 className="text-3xl font-bold text-white mb-2 drop-shadow-[0_0_10px_rgba(199,240,79,0.5)]">The Zatch Way</h4>
-               <p className="text-primary font-medium mb-8 drop-shadow-[0_0_5px_rgba(199,240,79,0.8)]">Automated & Instant</p>
+               <h4 className="text-3xl font-bold text-white mb-2 drop-shadow-[0_0_15px_rgba(199,240,79,0.6)]">The Zatch Way</h4>
+               <p className="text-primary font-medium mb-8 drop-shadow-[0_0_10px_rgba(199,240,79,0.8)]">Automated & Instant</p>
                
                <ul className="space-y-6">
                  {[
@@ -135,10 +173,10 @@ export function ForSellers() {
                    "Zero manual tracking needed"
                  ].map((item, i) => (
                    <li key={i} className="flex items-center gap-4 text-white group-hover:translate-x-2 transition-transform duration-300">
-                     <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(199,240,79,0.8)]">
-                       <Check className="w-3 h-3 text-black font-bold" />
+                     <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(199,240,79,0.8)] border border-primary/50">
+                       <Check className="w-3 h-3 text-primary font-bold drop-shadow-[0_0_5px_rgba(199,240,79,1)]" />
                      </div>
-                     <span className="text-lg font-medium">{item}</span>
+                     <span className="text-lg font-medium drop-shadow-md">{item}</span>
                    </li>
                  ))}
                </ul>
