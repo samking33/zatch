@@ -129,9 +129,9 @@ export function ForSellers() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="group relative p-10 rounded-[2.5rem] bg-red-950/40 border border-red-900/60 overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(239,68,68,0.3)]"
           >
-            {/* Shattered Glass Texture */}
-            <div className="absolute inset-0 opacity-60 mix-blend-hard-light pointer-events-none z-0">
-               <img src={shatteredGlass} alt="" className="w-full h-full object-cover scale-110" />
+            {/* Shattered Glass Texture - Positioned top-right to keep text readable */}
+            <div className="absolute top-0 right-0 w-[60%] h-[60%] opacity-70 mix-blend-hard-light pointer-events-none z-0 mask-image:radial-gradient(circle_at_top_right,black_60%,transparent_100%)">
+               <img src={shatteredGlass} alt="" className="w-full h-full object-cover object-top-right" />
             </div>
             
             {/* Chromatic Aberration / Glitch Effect */}
