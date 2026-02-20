@@ -1,6 +1,6 @@
 import { CheckCircle2 } from "lucide-react";
 
-export function ForBuyers() {
+export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
   return (
     <section id="buyers" className="py-24 bg-black relative overflow-hidden">
       <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none" />

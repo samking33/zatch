@@ -17,7 +17,7 @@ type Bubble = {
 
 const ANXIETY_TEXTS = ["Price??", "Available?", "Last price??", "Pls reply fast"];
 
-export function ForSellers() {
+export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -144,9 +144,18 @@ export function ForSellers() {
         {/* Comparison Section */}
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 mb-24 max-w-6xl mx-auto relative items-stretch z-10">
           
-          {/* Minimalist Connector Line (Desktop) */}
-          <div className="hidden lg:block absolute top-1/2 left-[calc(50%-2rem)] -translate-y-1/2 z-0 w-16 h-[1px]">
-             <div className="w-full h-full bg-gradient-to-r from-red-500/40 via-yellow-500/40 to-[#39FF14]/40" />
+          {/* Connector (Desktop) - Animated Pulse Line */}
+          <div className="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-32 h-[2px] items-center justify-center">
+             <div className="w-full h-full bg-gradient-to-r from-red-500/0 via-red-500/50 to-[#39FF14]/0 relative overflow-hidden">
+                <motion.div 
+                  className="absolute top-0 left-0 w-1/3 h-full bg-gradient-to-r from-transparent via-[#fde047] to-transparent"
+                  animate={{ x: ["-100%", "300%"] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                />
+             </div>
+             {/* Connection Nodes */}
+             <div className="absolute left-0 w-2 h-2 rounded-full bg-red-500 shadow-[0_0_10px_red]" />
+             <div className="absolute right-0 w-2 h-2 rounded-full bg-[#39FF14] shadow-[0_0_10px_#39FF14]" />
           </div>
 
           {/* LEFT CARD: The Old Way */}
@@ -156,44 +165,48 @@ export function ForSellers() {
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex-1 relative p-10 md:p-14 rounded-[2rem] bg-[#0A0505] border border-white/[0.03] overflow-hidden transition-all duration-700 group/left"
+            className="flex-1 relative p-8 md:p-12 rounded-[2rem] bg-gradient-to-br from-[#1a0505]/80 to-[#0a0202]/90 backdrop-blur-xl border border-red-900/30 overflow-hidden group/left shadow-[0_0_40px_rgba(239,68,68,0.05)] hover:shadow-[0_0_60px_rgba(239,68,68,0.1)] hover:border-red-500/30 transition-all duration-500"
           >
-            {/* Extremely subtle red corner glow */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/[0.02] blur-[100px] pointer-events-none rounded-full" />
+            {/* Soft Ambient Glows */}
+            <div className="absolute -top-32 -right-32 w-64 h-64 bg-red-600/10 blur-[80px] rounded-full pointer-events-none transition-opacity duration-500 group-hover/left:opacity-100 opacity-60" />
+            <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-red-900/20 blur-[80px] rounded-full pointer-events-none transition-opacity duration-500 group-hover/left:opacity-100 opacity-60" />
             
-            {/* Elegant Shattered Glass Texture */}
-            <div className="absolute inset-[-10%] opacity-[0.15] mix-blend-screen pointer-events-none z-0 transition-opacity duration-700 group-hover/left:opacity-[0.25]">
-               <img src={shatteredGlass} alt="" className="w-full h-full object-cover grayscale brightness-200" />
+            {/* Elegant Shattered Glass Texture - Much larger, deeply blended */}
+            <div className="absolute inset-[-20%] opacity-[0.25] mix-blend-color-dodge pointer-events-none z-0 transition-opacity duration-700 group-hover/left:opacity-[0.4] group-hover/left:scale-105 transform origin-center">
+               <img src={shatteredGlass} alt="" className="w-full h-full object-cover" />
             </div>
 
-            {/* Anxiety Bubbles - Kept but made more elegant */}
+            {/* Anxiety Bubbles - Refined styling */}
             <AnimatePresence>
               {bubbles.map((bubble) => (
                 <motion.div
                   key={bubble.id}
-                  initial={{ opacity: 0, scale: 0.8, y: 0 }}
-                  animate={{ opacity: 1, scale: 1, y: -40 }}
-                  exit={{ opacity: 0, scale: 0.9, y: -60 }}
-                  transition={{ duration: 1.5, ease: "easeOut" }}
-                  className="absolute pointer-events-none px-3 py-1.5 rounded-md bg-[#110505] border border-red-900/30 text-red-400/80 text-[11px] uppercase tracking-wider font-mono shadow-xl z-50 whitespace-nowrap"
+                  initial={{ opacity: 0, scale: 0.5, y: 0, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, scale: 1, y: -50, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, scale: 0.8, y: -80, filter: "blur(4px)" }}
+                  transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
+                  className="absolute pointer-events-none px-4 py-2 rounded-xl bg-red-950/80 backdrop-blur-md border border-red-500/40 text-red-300 text-xs font-bold tracking-widest uppercase shadow-[0_10px_30px_rgba(239,68,68,0.4)] z-50 whitespace-nowrap flex items-center gap-2"
                   style={{ left: bubble.x, top: bubble.y }}
                 >
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
                   {bubble.text}
                 </motion.div>
               ))}
             </AnimatePresence>
 
-            <div className="relative z-30">
-               {/* Minimalist Icon */}
-               <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center mb-8 border border-red-500/20 shadow-[inset_0_0_15px_rgba(239,68,68,0.05)] transition-transform duration-500 group-hover/left:scale-105">
-                  <X className="w-4 h-4 text-red-500" strokeWidth={2.5} />
+            <div className="relative z-30 flex flex-col h-full">
+               {/* Header Section */}
+               <div className="mb-10">
+                 <div className="w-14 h-14 rounded-2xl bg-red-500/10 flex items-center justify-center mb-6 border border-red-500/20 shadow-[inset_0_0_20px_rgba(239,68,68,0.1),0_0_15px_rgba(239,68,68,0.1)] group-hover/left:shadow-[inset_0_0_20px_rgba(239,68,68,0.2),0_0_20px_rgba(239,68,68,0.2)] transition-all duration-500">
+                    <X className="w-6 h-6 text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]" strokeWidth={2} />
+                 </div>
+                 
+                 <h4 className="text-[2.5rem] leading-none font-bold text-transparent bg-clip-text bg-gradient-to-br from-red-400 to-red-600 mb-3 tracking-tight">The Old Way</h4>
+                 <p className="text-red-500/60 font-medium text-sm uppercase tracking-[0.2em]">Chaos & Manual Work</p>
                </div>
                
-               {/* Elegant Typography */}
-               <h4 className="text-[2rem] font-medium text-[#f87171] mb-2 tracking-tight drop-shadow-[0_0_15px_rgba(248,113,113,0.3)]">The Old Way</h4>
-               <p className="text-red-900/80 font-medium mb-12 text-sm tracking-wide">Chaos & Manual Work</p>
-               
-               <ul className="space-y-6">
+               {/* List Section */}
+               <ul className="space-y-6 mt-auto">
                  {[
                    "Closing one sale takes 15+ mins",
                    { text: "Endless DM back & forth", glitch: true },
@@ -206,15 +219,16 @@ export function ForSellers() {
                    return (
                      <motion.li 
                         key={i} 
-                        initial={{ opacity: 0, x: -10 }}
+                        initial={{ opacity: 0, x: -15 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: i * 0.1 + 0.3 }}
-                        className="flex items-center gap-4 text-[#888] font-normal group transition-colors duration-300"
+                        className="flex items-center gap-4 text-white/50 group-hover/left:text-white/70 transition-colors duration-300"
                      >
-                       <div className="w-6 h-6 rounded-full bg-red-500/5 flex items-center justify-center shrink-0 border border-red-500/10 transition-colors duration-300 group-hover:border-red-500/30">
-                         <X className="w-3 h-3 text-red-500/50 group-hover:text-red-500" strokeWidth={2} />
+                       <div className="w-8 h-8 rounded-full bg-red-950/50 flex items-center justify-center shrink-0 border border-red-900/50 relative overflow-hidden">
+                         <div className="absolute inset-0 bg-red-500/20 opacity-0 group-hover/left:opacity-100 transition-opacity" />
+                         <X className="w-3.5 h-3.5 text-red-500/70" strokeWidth={2.5} />
                        </div>
-                       <span className={`text-[15px] transition-all ${isGlitch ? 'hover:animate-text-glitch cursor-crosshair text-red-400/80' : ''}`}>
+                       <span className={`text-[16px] font-medium leading-tight ${isGlitch ? 'hover:animate-text-glitch cursor-crosshair text-red-400/80 hover:text-red-400' : ''}`}>
                          {text}
                        </span>
                      </motion.li>
@@ -231,119 +245,131 @@ export function ForSellers() {
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="flex-1 relative p-10 md:p-14 rounded-[2rem] bg-[#050A05] border border-white/[0.03] overflow-hidden transition-all duration-700 group/right"
+            className="flex-1 relative p-8 md:p-12 rounded-[2rem] bg-gradient-to-bl from-[#051a0a]/80 to-[#020a05]/90 backdrop-blur-xl border border-[#39FF14]/20 overflow-hidden group/right shadow-[0_0_40px_rgba(57,255,20,0.05)] hover:shadow-[0_0_60px_rgba(57,255,20,0.1)] hover:border-[#39FF14]/40 transition-all duration-500"
           >
             {/* Elegant Flashlight Gradient */}
             <motion.div 
-              className="absolute inset-0 pointer-events-none z-0 mix-blend-screen opacity-0 group-hover/right:opacity-100 transition-opacity duration-1000"
+              className="absolute inset-0 pointer-events-none z-0 mix-blend-screen opacity-0 group-hover/right:opacity-100 transition-opacity duration-700"
               style={{ background }}
             />
 
-            {/* Subtle green corner glow */}
-            <div className="absolute top-0 left-0 w-96 h-96 bg-[#39FF14]/[0.02] blur-[100px] pointer-events-none rounded-full" />
+            {/* Soft Ambient Glows */}
+            <div className="absolute -top-32 -left-32 w-64 h-64 bg-[#39FF14]/10 blur-[80px] rounded-full pointer-events-none transition-opacity duration-500 group-hover/right:opacity-100 opacity-60" />
+            <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-[#39FF14]/10 blur-[80px] rounded-full pointer-events-none transition-opacity duration-500 group-hover/right:opacity-100 opacity-60" />
 
             {/* Elegant Circuit Pattern */}
-            <div className="absolute inset-[-10%] opacity-[0.08] mix-blend-screen pointer-events-none z-0 transition-opacity duration-700 group-hover/right:opacity-[0.15]">
-               <img src={circuitPattern} alt="" className="w-full h-full object-cover grayscale brightness-200" />
+            <div className="absolute inset-[-10%] opacity-[0.15] mix-blend-screen pointer-events-none z-0 transition-all duration-1000 group-hover/right:opacity-[0.25] group-hover/right:scale-105 transform origin-center">
+               <img src={circuitPattern} alt="" className="w-full h-full object-cover mix-blend-lighten" />
             </div>
 
-            <div className="relative z-30">
-               {/* Minimalist Icon */}
-               <div className="w-10 h-10 rounded-xl bg-[#39FF14]/10 flex items-center justify-center mb-8 border border-[#39FF14]/20 shadow-[inset_0_0_15px_rgba(57,255,20,0.05)] transition-transform duration-500 group-hover/right:scale-105">
-                  <Check className="w-4 h-4 text-[#39FF14]" strokeWidth={2.5} />
+            <div className="relative z-30 flex flex-col h-full">
+               {/* Header Section */}
+               <div className="mb-10">
+                 <div className="w-14 h-14 rounded-2xl bg-[#39FF14]/10 flex items-center justify-center mb-6 border border-[#39FF14]/20 shadow-[inset_0_0_20px_rgba(57,255,20,0.1),0_0_15px_rgba(57,255,20,0.1)] group-hover/right:shadow-[inset_0_0_20px_rgba(57,255,20,0.2),0_0_20px_rgba(57,255,20,0.2)] transition-all duration-500 relative">
+                    <div className="absolute inset-0 rounded-2xl border border-[#39FF14]/50 scale-110 opacity-0 group-hover/right:opacity-100 group-hover/right:scale-100 transition-all duration-500" />
+                    <Check className="w-6 h-6 text-[#39FF14] drop-shadow-[0_0_8px_rgba(57,255,20,0.8)]" strokeWidth={2.5} />
+                 </div>
+                 
+                 <h4 className="text-[2.5rem] leading-none font-bold text-white mb-3 tracking-tight">The Zatch Way</h4>
+                 <p className="text-[#39FF14]/80 font-medium text-sm uppercase tracking-[0.2em]">Automated & Instant</p>
                </div>
                
-               {/* Elegant Typography */}
-               <h4 className="text-[2rem] font-medium text-white mb-2 tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">The Zatch Way</h4>
-               <p className="text-[#39FF14]/80 font-medium mb-12 text-sm tracking-wide">Automated & Instant</p>
-               
-               <ul className="space-y-6">
+               {/* List Section */}
+               <ul className="space-y-6 mt-auto">
                  {/* Item 1 with Widget */}
                  <motion.li 
-                    initial={{ opacity: 0, x: 10 }}
+                    initial={{ opacity: 0, x: 15 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
-                    className="flex items-center gap-4 text-[#aaa] hover:text-[#eee] cursor-pointer relative z-50 transition-colors duration-300 group/item"
+                    className="flex items-center gap-4 text-white/50 hover:text-white/90 cursor-pointer relative z-50 transition-colors duration-300 group/item"
                     onMouseEnter={() => setIsHoveringLive(true)}
                     onMouseLeave={() => setIsHoveringLive(false)}
                  >
-                   <div className="w-6 h-6 rounded-full bg-[#39FF14]/5 flex items-center justify-center shrink-0 border border-[#39FF14]/10 group-hover/item:border-[#39FF14]/30 transition-colors duration-300">
-                     <Check className="w-3 h-3 text-[#39FF14]/50 group-hover/item:text-[#39FF14]" strokeWidth={2} />
+                   <div className="w-8 h-8 rounded-full bg-[#0a1a0a] flex items-center justify-center shrink-0 border border-[#39FF14]/30 group-hover/item:border-[#39FF14]/80 group-hover/item:bg-[#39FF14]/10 transition-all duration-300 relative overflow-hidden">
+                     <div className="absolute inset-0 bg-[#39FF14]/20 opacity-0 group-hover/item:opacity-100 transition-opacity" />
+                     <Check className="w-3.5 h-3.5 text-[#39FF14]/70 group-hover/item:text-[#39FF14]" strokeWidth={2.5} />
                    </div>
-                   <span className="text-[15px]">One live stream = Hundreds of potential sales</span>
+                   <span className="text-[16px] font-medium leading-tight">One live stream = Hundreds of potential sales</span>
                    
-                   {/* Minimalist Hover Widget */}
+                   {/* Premium Hover Widget */}
                    <AnimatePresence>
                      {isHoveringLive && (
                        <motion.div
-                         initial={{ opacity: 0, x: -5, filter: "blur(2px)" }}
-                         animate={{ opacity: 1, x: 10, filter: "blur(0px)" }}
-                         exit={{ opacity: 0, x: -5, filter: "blur(2px)" }}
-                         className="absolute left-1/2 lg:left-full top-full lg:top-1/2 mt-3 lg:mt-0 lg:-translate-y-1/2 lg:ml-2 px-4 py-2 rounded-xl bg-[#0a0a0a]/90 backdrop-blur-md border border-white/5 shadow-2xl flex items-center gap-3 whitespace-nowrap z-50 pointer-events-none"
+                         initial={{ opacity: 0, x: -10, filter: "blur(8px)", scale: 0.9 }}
+                         animate={{ opacity: 1, x: 10, filter: "blur(0px)", scale: 1 }}
+                         exit={{ opacity: 0, x: -5, filter: "blur(4px)", scale: 0.95 }}
+                         transition={{ duration: 0.3, type: "spring", bounce: 0.4 }}
+                         className="absolute left-1/2 lg:left-full top-full lg:top-1/2 mt-3 lg:mt-0 lg:-translate-y-1/2 lg:ml-4 px-5 py-3 rounded-2xl bg-black/80 backdrop-blur-xl border border-[#39FF14]/40 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8),0_0_30px_rgba(57,255,20,0.15)] flex items-center gap-4 whitespace-nowrap z-50 pointer-events-none"
                        >
-                         <span className="relative flex h-2 w-2">
-                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#39FF14] opacity-50"></span>
-                           <span className="relative inline-flex rounded-full h-2 w-2 bg-[#39FF14]"></span>
-                         </span>
-                         <span className="font-mono text-[#eee] text-lg">{viewerCount}</span>
-                         <span className="text-[#888] text-[10px] uppercase tracking-wider">Live</span>
+                         <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-[#39FF14]/20 border border-[#39FF14]/50">
+                           <span className="animate-ping absolute w-full h-full rounded-full bg-[#39FF14] opacity-40"></span>
+                           <span className="w-2 h-2 rounded-full bg-[#39FF14] shadow-[0_0_8px_#39FF14]"></span>
+                         </div>
+                         <div className="flex flex-col">
+                           <span className="font-display text-white text-2xl font-bold leading-none tracking-tight">{viewerCount}</span>
+                           <span className="text-[#39FF14]/80 text-[10px] uppercase tracking-[0.2em] font-bold">Live Viewers</span>
+                         </div>
                        </motion.div>
                      )}
                    </AnimatePresence>
                  </motion.li>
 
                  <motion.li 
-                    initial={{ opacity: 0, x: 10 }}
+                    initial={{ opacity: 0, x: 15 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.5 }}
-                    className="flex items-center gap-4 text-[#aaa] hover:text-[#eee] transition-colors duration-300 group/item"
+                    className="flex items-center gap-4 text-white/50 group-hover/right:text-white/70 transition-colors duration-300 group/item"
                  >
-                   <div className="w-6 h-6 rounded-full bg-[#39FF14]/5 flex items-center justify-center shrink-0 border border-[#39FF14]/10 group-hover/item:border-[#39FF14]/30 transition-colors duration-300">
-                     <Check className="w-3 h-3 text-[#39FF14]/50 group-hover/item:text-[#39FF14]" strokeWidth={2} />
+                   <div className="w-8 h-8 rounded-full bg-[#0a1a0a] flex items-center justify-center shrink-0 border border-[#39FF14]/30 relative overflow-hidden">
+                     <Check className="w-3.5 h-3.5 text-[#39FF14]/70" strokeWidth={2.5} />
                    </div>
-                   <span className="text-[15px]">Negotiate instantly with auto-counter offers</span>
+                   <span className="text-[16px] font-medium leading-tight">Negotiate instantly with auto-counter offers</span>
                  </motion.li>
 
                  {/* Item 3 with Tooltip */}
                  <motion.li 
-                   initial={{ opacity: 0, x: 10 }}
+                   initial={{ opacity: 0, x: 15 }}
                    whileInView={{ opacity: 1, x: 0 }}
                    transition={{ duration: 0.5, delay: 0.6 }}
-                   className="flex items-center gap-4 text-[#aaa] hover:text-[#eee] cursor-pointer relative z-40 transition-colors duration-300 group/item"
+                   className="flex items-center gap-4 text-white/50 hover:text-white/90 cursor-pointer relative z-40 transition-colors duration-300 group/item"
                    onMouseEnter={() => setIsHoveringPayment(true)}
                    onMouseLeave={() => setIsHoveringPayment(false)}
                  >
                    <div className="relative">
-                     <div className="w-6 h-6 rounded-full bg-[#39FF14]/5 flex items-center justify-center shrink-0 border border-[#39FF14]/10 group-hover/item:border-[#39FF14]/30 transition-colors duration-300">
-                       <Check className="w-3 h-3 text-[#39FF14]/50 group-hover/item:text-[#39FF14]" strokeWidth={2} />
+                     <div className="w-8 h-8 rounded-full bg-[#0a1a0a] flex items-center justify-center shrink-0 border border-[#39FF14]/30 group-hover/item:border-[#39FF14]/80 group-hover/item:bg-[#39FF14]/10 transition-all duration-300 relative overflow-hidden">
+                       <div className="absolute inset-0 bg-[#39FF14]/20 opacity-0 group-hover/item:opacity-100 transition-opacity" />
+                       <Check className="w-3.5 h-3.5 text-[#39FF14]/70 group-hover/item:text-[#39FF14]" strokeWidth={2.5} />
                      </div>
-                     {/* Minimalist Tooltip */}
+                     {/* Premium Tooltip */}
                      <AnimatePresence>
                        {isHoveringPayment && (
                          <motion.div
-                           initial={{ opacity: 0, y: 5, scale: 0.95 }}
-                           animate={{ opacity: 1, y: 30, scale: 1 }}
-                           exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                           className="absolute left-1/2 -translate-x-1/2 top-0 px-3 py-1.5 rounded-lg bg-[#39FF14]/10 backdrop-blur-md border border-[#39FF14]/30 text-[#39FF14] text-[11px] font-mono tracking-wider shadow-lg z-50 whitespace-nowrap pointer-events-none"
+                           initial={{ opacity: 0, y: 10, scale: 0.9, filter: "blur(4px)" }}
+                           animate={{ opacity: 1, y: 35, scale: 1, filter: "blur(0px)" }}
+                           exit={{ opacity: 0, y: 15, scale: 0.9, filter: "blur(4px)" }}
+                           transition={{ type: "spring", bounce: 0.5, duration: 0.4 }}
+                           className="absolute left-1/2 -translate-x-1/2 top-0 px-4 py-2 rounded-xl bg-[#39FF14] border border-[#39FF14] text-black text-xs font-bold tracking-widest uppercase shadow-[0_15px_30px_rgba(57,255,20,0.3)] z-50 whitespace-nowrap pointer-events-none flex items-center gap-2"
                          >
+                           <Zap className="w-3 h-3" fill="currentColor" />
                            + ₹4,500
+                           <div className="absolute -top-[5px] left-1/2 -translate-x-1/2 w-2 h-2 bg-[#39FF14] rotate-45 border-t border-l border-[#39FF14]" />
                          </motion.div>
                        )}
                      </AnimatePresence>
                    </div>
-                   <span className="text-[15px]">Payments collected inside the app</span>
+                   <span className="text-[16px] font-medium leading-tight">Payments collected inside the app</span>
                  </motion.li>
 
                  <motion.li 
-                    initial={{ opacity: 0, x: 10 }}
+                    initial={{ opacity: 0, x: 15 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.7 }}
-                    className="flex items-center gap-4 text-[#aaa] hover:text-[#eee] transition-colors duration-300 group/item"
+                    className="flex items-center gap-4 text-white/50 group-hover/right:text-white/70 transition-colors duration-300 group/item"
                  >
-                   <div className="w-6 h-6 rounded-full bg-[#39FF14]/5 flex items-center justify-center shrink-0 border border-[#39FF14]/10 group-hover/item:border-[#39FF14]/30 transition-colors duration-300">
-                     <Check className="w-3 h-3 text-[#39FF14]/50 group-hover/item:text-[#39FF14]" strokeWidth={2} />
+                   <div className="w-8 h-8 rounded-full bg-[#0a1a0a] flex items-center justify-center shrink-0 border border-[#39FF14]/30 relative overflow-hidden">
+                     <Check className="w-3.5 h-3.5 text-[#39FF14]/70" strokeWidth={2.5} />
                    </div>
-                   <span className="text-[15px]">Zero manual tracking needed</span>
+                   <span className="text-[16px] font-medium leading-tight">Zero manual tracking needed</span>
                  </motion.li>
                </ul>
             </div>
@@ -382,7 +408,7 @@ export function ForSellers() {
           {/* Floating Elements around CTA */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#39FF14]/10 blur-[100px] rounded-full pointer-events-none" />
           
-          <Button size="lg" className="relative bg-white text-black hover:bg-[#39FF14] hover:text-black font-bold px-10 h-16 rounded-full text-lg shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_50px_rgba(57,255,20,0.6)] transition-all duration-300 hover:scale-105 active:scale-95 group">
+          <Button size="lg" onClick={onJoinWaitlist} className="relative bg-white text-black hover:bg-[#39FF14] hover:text-black font-bold px-10 h-16 rounded-full text-lg shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_50px_rgba(57,255,20,0.6)] transition-all duration-300 hover:scale-105 active:scale-95 group" data-testid="button-seller-waitlist">
             Start Selling Today <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Button>
           <p className="mt-6 text-sm text-white/40">No website needed • Setup in 2 minutes</p>
