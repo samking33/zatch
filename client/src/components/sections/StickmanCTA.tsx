@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence, useInView, useMotionValue, useSpring, useTransform, animate } from "framer-motion";
 import { Download, Sparkles } from "lucide-react";
 
 type WalkPhase = "hidden" | "entering" | "walking" | "approaching" | "clicking" | "celebrating" | "idle";
@@ -22,18 +22,17 @@ const POST_CLICK_MESSAGES = [
   "Your turn now! 👆",
 ];
 
-function WalkingStickman({ phase, walkProgress }: { phase: WalkPhase; walkProgress: number }) {
+function WalkingStickman({ phase, legCycle }: { phase: WalkPhase; legCycle: number }) {
   const isWalking = phase === "entering" || phase === "walking" || phase === "approaching";
   const isClicking = phase === "clicking";
   const isCelebrating = phase === "celebrating";
   const isIdle = phase === "idle";
-  const legCycle = isWalking ? walkProgress * 8 : 0;
 
-  const leftLegSwing = isWalking ? Math.sin(legCycle) * 25 : 0;
-  const rightLegSwing = isWalking ? Math.sin(legCycle + Math.PI) * 25 : 0;
-  const leftArmSwing = isWalking ? Math.sin(legCycle + Math.PI) * 15 : 0;
-  const rightArmSwing = isWalking ? Math.sin(legCycle) * 15 : 0;
-  const bodyBob = isWalking ? Math.abs(Math.sin(legCycle)) * 4 : 0;
+  const leftLegSwing = isWalking ? Math.sin(legCycle) * 22 : 0;
+  const rightLegSwing = isWalking ? Math.sin(legCycle + Math.PI) * 22 : 0;
+  const leftArmSwing = isWalking ? Math.sin(legCycle + Math.PI) * 18 : 0;
+  const rightArmSwing = isWalking ? Math.sin(legCycle) * 18 : 0;
+  const bodyBob = isWalking ? Math.abs(Math.sin(legCycle * 2)) * 3 : 0;
 
   return (
     <svg viewBox="0 0 120 200" className="w-full h-full" style={{ overflow: "visible" }}>
@@ -45,7 +44,7 @@ function WalkingStickman({ phase, walkProgress }: { phase: WalkPhase; walkProgre
           animate={isCelebrating ? { cy: [35, 28, 35] } : {}}
           transition={{ duration: 0.4, repeat: isCelebrating ? 5 : 0 }}
         />
-        {/* Eyes - look right when walking, down when clicking */}
+        {/* Eyes */}
         <circle cx={isClicking ? 53 : 55} cy={isClicking ? 33 : 31} r="2.5" fill="white" />
         <circle cx={isClicking ? 67 : 69} cy={isClicking ? 33 : 31} r="2.5" fill="white" />
         {/* Mouth */}
@@ -107,7 +106,6 @@ function WalkingStickman({ phase, walkProgress }: { phase: WalkPhase; walkProgre
           <line x1="60" y1="80" x2={80 + rightArmSwing} y2="110" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
         )}
 
-        {/* Pointing finger glow (idle) */}
         {isIdle && (
           <motion.circle
             cx="108" cy="55" r="3" fill="#39FF14"
@@ -133,120 +131,117 @@ export function StickmanCTA() {
   const isInView = useInView(sectionRef, { once: true, margin: "-200px" });
 
   const [phase, setPhase] = useState<WalkPhase>("hidden");
-  const [stickmanX, setStickmanX] = useState(-15);
-  const [walkProgress, setWalkProgress] = useState(0);
   const [speechVisible, setSpeechVisible] = useState(false);
   const [currentSpeech, setCurrentSpeech] = useState("");
   const [confetti, setConfetti] = useState<{ id: number; x: number; y: number; color: string }[]>([]);
   const [buttonPulse, setButtonPulse] = useState(false);
-  const [idleMessageIndex, setIdleMessageIndex] = useState(0);
   const [userClickCount, setUserClickCount] = useState(0);
+  const [legCycle, setLegCycle] = useState(0);
 
-  const animFrameRef = useRef<number>(0);
-  const targetX = useRef(0);
+  const stickmanX = useMotionValue(-10);
+  const smoothX = useSpring(stickmanX, { stiffness: 40, damping: 18, mass: 0.8 });
+  const xPercent = useTransform(smoothX, v => `${v}%`);
+
+  const rafRef = useRef<number>(0);
+  const phaseRef = useRef<WalkPhase>("hidden");
+  phaseRef.current = phase;
+
+  useEffect(() => {
+    let running = true;
+    let prev = performance.now();
+    const tick = (now: number) => {
+      if (!running) return;
+      const dt = (now - prev) / 1000;
+      prev = now;
+      const p = phaseRef.current;
+      if (p === "entering" || p === "walking" || p === "approaching") {
+        setLegCycle(c => c + dt * 10);
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => { running = false; cancelAnimationFrame(rafRef.current); };
+  }, []);
 
   useEffect(() => {
     if (!isInView || phase !== "hidden") return;
-
-    const timeout = setTimeout(() => {
+    const t = setTimeout(() => {
       setPhase("entering");
       setCurrentSpeech(SPEECH_BUBBLES.entering);
       setSpeechVisible(true);
+      stickmanX.set(25);
     }, 600);
-    return () => clearTimeout(timeout);
+    return () => clearTimeout(t);
   }, [isInView, phase]);
 
   useEffect(() => {
     if (phase === "entering") {
-      targetX.current = 30;
-      const timer = setTimeout(() => {
+      const t = setTimeout(() => {
         setPhase("walking");
         setCurrentSpeech(SPEECH_BUBBLES.walking);
-      }, 1500);
-      return () => clearTimeout(timer);
+        stickmanX.set(50);
+      }, 1800);
+      return () => clearTimeout(t);
     }
     if (phase === "walking") {
-      targetX.current = 58;
-      const timer = setTimeout(() => {
+      const t = setTimeout(() => {
         setPhase("approaching");
         setCurrentSpeech(SPEECH_BUBBLES.approaching);
-      }, 2000);
-      return () => clearTimeout(timer);
+        stickmanX.set(65);
+      }, 2200);
+      return () => clearTimeout(t);
     }
     if (phase === "approaching") {
-      targetX.current = 68;
-      const timer = setTimeout(() => {
+      const t = setTimeout(() => {
         setPhase("clicking");
         setCurrentSpeech(SPEECH_BUBBLES.clicking);
         setButtonPulse(true);
-      }, 1500);
-      return () => clearTimeout(timer);
+      }, 1800);
+      return () => clearTimeout(t);
     }
     if (phase === "clicking") {
-      const timer = setTimeout(() => {
+      const t = setTimeout(() => {
         setPhase("celebrating");
         setCurrentSpeech(SPEECH_BUBBLES.celebrating);
         setButtonPulse(false);
-
-        setConfetti(Array.from({ length: 25 }, (_, i) => ({
-          id: Date.now() + i,
-          x: (Math.random() - 0.5) * 400,
-          y: -(Math.random() * 250 + 50),
-          color: ['#39FF14', '#ff0080', '#00d4ff', '#ffdd00', '#ff6600', '#c084fc'][Math.floor(Math.random() * 6)],
-        })));
-        setTimeout(() => setConfetti([]), 2500);
+        spawnConfetti(25);
       }, 1000);
-      return () => clearTimeout(timer);
+      return () => clearTimeout(t);
     }
     if (phase === "celebrating") {
-      const timer = setTimeout(() => {
+      const t = setTimeout(() => {
         setPhase("idle");
         setCurrentSpeech(SPEECH_BUBBLES.idle);
       }, 2500);
-      return () => clearTimeout(timer);
+      return () => clearTimeout(t);
     }
   }, [phase]);
 
-  // Smooth walk animation
-  useEffect(() => {
-    let running = true;
-    const animate = () => {
-      if (!running) return;
-      setStickmanX(prev => {
-        const diff = targetX.current - prev;
-        if (Math.abs(diff) < 0.1) return targetX.current;
-        return prev + diff * 0.03;
-      });
-      setWalkProgress(prev => prev + 0.016);
-      animFrameRef.current = requestAnimationFrame(animate);
-    };
-    animFrameRef.current = requestAnimationFrame(animate);
-    return () => { running = false; cancelAnimationFrame(animFrameRef.current); };
-  }, []);
-
-  // Idle speech cycling
   useEffect(() => {
     if (phase !== "idle") return;
     const interval = setInterval(() => {
-      setIdleMessageIndex(prev => {
-        const next = (prev + 1) % POST_CLICK_MESSAGES.length;
-        setCurrentSpeech(POST_CLICK_MESSAGES[next]);
-        return next;
+      setCurrentSpeech(prev => {
+        const idx = POST_CLICK_MESSAGES.indexOf(prev);
+        return POST_CLICK_MESSAGES[(idx + 1) % POST_CLICK_MESSAGES.length];
       });
     }, 3000);
     return () => clearInterval(interval);
   }, [phase]);
 
+  const spawnConfetti = useCallback((count: number) => {
+    const items = Array.from({ length: count }, (_, i) => ({
+      id: Date.now() + i,
+      x: (Math.random() - 0.5) * 400,
+      y: -(Math.random() * 250 + 50),
+      color: ['#39FF14', '#ff0080', '#00d4ff', '#ffdd00', '#ff6600', '#c084fc'][Math.floor(Math.random() * 6)],
+    }));
+    setConfetti(items);
+    setTimeout(() => setConfetti([]), 2500);
+  }, []);
+
   const handleUserClick = () => {
     setUserClickCount(prev => prev + 1);
-    setConfetti(Array.from({ length: 20 }, (_, i) => ({
-      id: Date.now() + i,
-      x: (Math.random() - 0.5) * 300,
-      y: -(Math.random() * 200 + 50),
-      color: ['#39FF14', '#ff0080', '#00d4ff', '#ffdd00', '#ff6600', '#c084fc'][Math.floor(Math.random() * 6)],
-    })));
-    setTimeout(() => setConfetti([]), 2000);
-
+    spawnConfetti(20);
     const reactions = [
       "That's the spirit! 🎉",
       "You're a natural! 😎",
@@ -258,29 +253,31 @@ export function StickmanCTA() {
     setCurrentSpeech(reactions[userClickCount % reactions.length]);
   };
 
+  const footprintCount = phase === "hidden" ? 0 : phase === "entering" ? 3 : phase === "walking" ? 7 : 10;
+
   return (
     <section ref={sectionRef} className="py-20 md:py-28 bg-[#030303] relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
       </div>
 
-      {/* Dotted path the stickman walks on */}
+      {/* Dotted path */}
       <div className="absolute bottom-[28%] left-0 right-0 pointer-events-none hidden md:block">
         <svg width="100%" height="4" className="opacity-[0.06]">
           <line x1="0" y1="2" x2="100%" y2="2" stroke="white" strokeWidth="1" strokeDasharray="6 8" />
         </svg>
       </div>
 
-      {/* Footprints trail */}
+      {/* Footprints */}
       <div className="absolute bottom-[26%] left-0 pointer-events-none hidden md:block">
-        {phase !== "hidden" && Array.from({ length: Math.min(Math.floor(stickmanX / 5), 12) }, (_, i) => (
+        {Array.from({ length: footprintCount }, (_, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.06, 0.03] }}
-            transition={{ delay: i * 0.15, duration: 1 }}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 0.04, scale: 1 }}
+            transition={{ duration: 0.4, delay: i * 0.2 }}
             className="absolute"
-            style={{ left: `${i * 5 + 2}%`, bottom: i % 2 === 0 ? '2px' : '8px' }}
+            style={{ left: `${i * 6 + 4}%`, bottom: i % 2 === 0 ? '2px' : '8px' }}
           >
             <div className="w-3 h-1.5 rounded-full bg-white" style={{ transform: `rotate(${i % 2 === 0 ? -10 : 10}deg)` }} />
           </motion.div>
@@ -288,10 +285,9 @@ export function StickmanCTA() {
       </div>
 
       <div className="container mx-auto px-6 relative z-10 max-w-6xl">
-        {/* Layout: Text top-left, button center-right, stickman walks between */}
         <div className="relative min-h-[350px] md:min-h-[400px]">
 
-          {/* Text Block */}
+          {/* Text */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -307,19 +303,19 @@ export function StickmanCTA() {
             </p>
           </motion.div>
 
-          {/* Walking Stickman */}
+          {/* Walking Stickman (desktop) */}
           <motion.div
             className="absolute hidden md:block z-20"
             style={{
-              left: `${stickmanX}%`,
+              left: xPercent,
               bottom: '10%',
               width: 80,
               height: 130,
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: phase === "hidden" ? 0 : 1 }}
+            transition={{ duration: 0.3 }}
           >
-            {/* Speech Bubble */}
             <AnimatePresence mode="wait">
               {speechVisible && currentSpeech && (
                 <motion.div
@@ -338,13 +334,11 @@ export function StickmanCTA() {
               )}
             </AnimatePresence>
 
-            {/* Shadow */}
             <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-12 h-2 bg-white/[0.04] rounded-full blur-[2px]" />
-
-            <WalkingStickman phase={phase} walkProgress={walkProgress} />
+            <WalkingStickman phase={phase} legCycle={legCycle} />
           </motion.div>
 
-          {/* Mobile stickman (simplified) */}
+          {/* Mobile stickman */}
           <motion.div
             className="md:hidden relative w-32 h-44 mx-auto my-8"
             initial={{ opacity: 0 }}
@@ -365,10 +359,10 @@ export function StickmanCTA() {
                 </motion.div>
               )}
             </AnimatePresence>
-            <WalkingStickman phase={phase === "hidden" ? "idle" : phase} walkProgress={walkProgress} />
+            <WalkingStickman phase={phase === "hidden" ? "idle" : phase} legCycle={legCycle} />
           </motion.div>
 
-          {/* Download Button */}
+          {/* Button */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -376,7 +370,6 @@ export function StickmanCTA() {
             className="relative z-10 md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-end"
           >
             <div className="relative">
-              {/* Confetti */}
               <AnimatePresence>
                 {confetti.map((c) => (
                   <motion.div
@@ -392,14 +385,12 @@ export function StickmanCTA() {
                 ))}
               </AnimatePresence>
 
-              {/* Pulse rings */}
               <motion.div
                 className="absolute -inset-6 rounded-2xl border border-[#39FF14]/10"
                 animate={{ scale: [1, 1.08, 1], opacity: [0.2, 0, 0.2] }}
                 transition={{ duration: 2.5, repeat: Infinity }}
               />
 
-              {/* Button glow on stickman click */}
               {buttonPulse && (
                 <motion.div
                   className="absolute -inset-3 rounded-2xl bg-[#39FF14]/20 blur-xl"
