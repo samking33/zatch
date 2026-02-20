@@ -6,6 +6,7 @@ import { FullScreenScroll } from "@/components/sections/FullScreenScroll";
 import { ThreeWays } from "@/components/sections/ThreeWays";
 import { ForBuyers } from "@/components/sections/ForBuyers";
 import { ForSellers } from "@/components/sections/ForSellers";
+import { StickmanCTA } from "@/components/sections/StickmanCTA";
 import { FAQ } from "@/components/sections/FAQ";
 import { Trust } from "@/components/sections/Trust";
 import { WaitlistModal } from "@/components/WaitlistModal";
@@ -29,6 +30,7 @@ export default function Home() {
         <ThreeWays />
         <ForBuyers onJoinWaitlist={() => openWaitlist("buyer")} />
         <ForSellers onJoinWaitlist={() => openWaitlist("seller")} />
+        <StickmanCTA />
         <FAQ />
         <Trust />
       </main>
