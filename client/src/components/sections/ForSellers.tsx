@@ -177,16 +177,19 @@ export function ForSellers() {
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex-1 relative p-10 md:p-12 rounded-[2.5rem] bg-[#1a0505]/80 border border-red-900 overflow-hidden shadow-[0_0_30px_rgba(239,68,68,0.1)] transition-colors duration-500"
+            className="flex-1 relative p-10 md:p-12 rounded-[2.5rem] bg-[#1a0505]/40 backdrop-blur-md border border-red-900/50 overflow-hidden hover:shadow-[0_0_50px_rgba(239,68,68,0.15)] transition-all duration-700 group/left"
           >
             {/* Dark red glowing accents */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-900/20 blur-[100px] pointer-events-none rounded-full" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-900/20 blur-[100px] pointer-events-none rounded-full" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-red-900/10 blur-[100px] pointer-events-none rounded-full transition-opacity duration-500 group-hover/left:opacity-100 opacity-50" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-900/10 blur-[100px] pointer-events-none rounded-full transition-opacity duration-500 group-hover/left:opacity-100 opacity-50" />
 
             {/* Shattered Glass Texture */}
-            <div className="absolute top-[-20%] right-[-20%] w-[120%] h-[120%] opacity-40 mix-blend-plus-lighter pointer-events-none z-0">
+            <div className="absolute top-[-20%] right-[-20%] w-[120%] h-[120%] opacity-20 mix-blend-plus-lighter pointer-events-none z-0 transition-opacity duration-500 group-hover/left:opacity-40">
                <img src={shatteredGlass} alt="" className="w-full h-full object-contain rotate-12 scale-125" />
             </div>
+
+            {/* Subtle inner noise */}
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-20 pointer-events-none mix-blend-overlay z-0" />
 
             {/* Anxiety Bubbles */}
             <AnimatePresence>
@@ -223,14 +226,20 @@ export function ForSellers() {
                    const text = typeof item === 'object' ? item.text : item;
                    
                    return (
-                     <li key={i} className="flex items-center gap-5 text-red-200/80 font-medium group">
-                       <div className="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center shrink-0 border border-red-500/30">
-                         <X className="w-4 h-4 text-red-500" />
+                     <motion.li 
+                        key={i} 
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: i * 0.1 + 0.5 }}
+                        className="flex items-center gap-5 text-red-200/60 hover:text-red-200 font-medium group transition-colors duration-300"
+                     >
+                       <div className="w-8 h-8 rounded-full bg-red-500/5 flex items-center justify-center shrink-0 border border-red-500/20 group-hover:bg-red-500/20 group-hover:border-red-500/50 transition-all duration-300 group-hover:scale-110">
+                         <X className="w-4 h-4 text-red-500/70 group-hover:text-red-400 transition-colors" />
                        </div>
-                       <span className={`text-xl transition-all ${isGlitch ? 'hover:animate-text-glitch hover:text-red-100 cursor-crosshair' : ''}`}>
+                       <span className={`text-lg tracking-wide transition-all ${isGlitch ? 'hover:animate-text-glitch cursor-crosshair' : ''}`}>
                          {text}
                        </span>
-                     </li>
+                     </motion.li>
                    );
                  })}
                </ul>
@@ -244,21 +253,24 @@ export function ForSellers() {
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex-1 relative p-10 md:p-12 rounded-[2.5rem] bg-[#051a05]/80 border border-[#39FF14] overflow-hidden shadow-[0_0_40px_rgba(57,255,20,0.15)] group"
+            className="flex-1 relative p-10 md:p-12 rounded-[2.5rem] bg-[#051a05]/40 backdrop-blur-md border border-[#39FF14]/30 overflow-hidden hover:shadow-[0_0_60px_rgba(57,255,20,0.1)] transition-all duration-700 group/right"
           >
             {/* Interactive Flashlight Gradient */}
             <motion.div 
-              className="absolute inset-0 pointer-events-none z-0 mix-blend-screen"
+              className="absolute inset-0 pointer-events-none z-0 mix-blend-screen opacity-50 group-hover/right:opacity-100 transition-opacity duration-500"
               style={{ background }}
             />
 
             {/* High contrast neon green border effect on hover */}
-            <div className="absolute inset-0 border-2 border-[#39FF14]/0 group-hover:border-[#39FF14]/50 rounded-[2.5rem] transition-colors duration-700 pointer-events-none z-10" />
+            <div className="absolute inset-0 border border-[#39FF14]/0 group-hover/right:border-[#39FF14]/40 rounded-[2.5rem] transition-colors duration-700 pointer-events-none z-10" />
 
             {/* Circuit Pattern */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none z-0">
-               <img src={circuitPattern} alt="" className="w-full h-full object-cover mix-blend-color-dodge" />
+            <div className="absolute inset-0 opacity-10 pointer-events-none z-0 transition-opacity duration-500 group-hover/right:opacity-30">
+               <img src={circuitPattern} alt="" className="w-full h-full object-cover mix-blend-screen" />
             </div>
+            
+            {/* Subtle inner noise */}
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-20 pointer-events-none mix-blend-overlay z-0" />
 
             <div className="relative z-30">
                <div className="w-12 h-12 rounded-2xl bg-[#39FF14]/10 flex items-center justify-center mb-8 text-[#39FF14] border border-[#39FF14]/30 shadow-[0_0_20px_rgba(57,255,20,0.4)]">
@@ -269,15 +281,18 @@ export function ForSellers() {
                
                <ul className="space-y-8">
                  {/* Item 1 with Widget */}
-                 <li 
-                    className="flex items-center gap-5 text-white cursor-pointer relative z-50"
+                 <motion.li 
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                    className="flex items-center gap-5 text-white/70 hover:text-white cursor-pointer relative z-50 transition-colors duration-300 group/item"
                     onMouseEnter={() => setIsHoveringLive(true)}
                     onMouseLeave={() => setIsHoveringLive(false)}
                  >
-                   <div className="w-8 h-8 rounded-full bg-[#39FF14]/20 flex items-center justify-center shrink-0 border border-[#39FF14]/50 shadow-[0_0_10px_rgba(57,255,20,0.3)]">
-                     <Check className="w-4 h-4 text-[#39FF14] font-bold" />
+                   <div className="w-8 h-8 rounded-full bg-[#39FF14]/5 flex items-center justify-center shrink-0 border border-[#39FF14]/20 group-hover/item:bg-[#39FF14]/20 group-hover/item:border-[#39FF14]/50 group-hover/item:shadow-[0_0_15px_rgba(57,255,20,0.4)] transition-all duration-300 group-hover/item:scale-110">
+                     <Check className="w-4 h-4 text-[#39FF14]/70 group-hover/item:text-[#39FF14] font-bold transition-colors" />
                    </div>
-                   <span className="text-xl font-medium">One live stream = Hundreds of potential sales</span>
+                   <span className="text-lg tracking-wide">One live stream = Hundreds of potential sales</span>
                    
                    {/* Hover Widget */}
                    <AnimatePresence>
@@ -286,61 +301,75 @@ export function ForSellers() {
                          initial={{ opacity: 0, x: -10, filter: "blur(4px)" }}
                          animate={{ opacity: 1, x: 10, filter: "blur(0px)" }}
                          exit={{ opacity: 0, x: -10, filter: "blur(4px)" }}
-                         className="absolute left-1/2 lg:left-full top-full lg:top-1/2 mt-4 lg:mt-0 lg:-translate-y-1/2 lg:ml-2 px-5 py-3 rounded-2xl bg-black/80 backdrop-blur-xl border border-[#39FF14]/50 shadow-[0_0_25px_rgba(57,255,20,0.3)] flex items-center gap-4 whitespace-nowrap z-50 pointer-events-none"
+                         className="absolute left-1/2 lg:left-full top-full lg:top-1/2 mt-4 lg:mt-0 lg:-translate-y-1/2 lg:ml-2 px-5 py-3 rounded-2xl bg-black/90 backdrop-blur-xl border border-[#39FF14]/30 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(57,255,20,0.2)] flex items-center gap-4 whitespace-nowrap z-50 pointer-events-none"
                        >
                          <span className="relative flex h-3 w-3">
-                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                           <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500 shadow-[0_0_10px_red]"></span>
+                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#39FF14] opacity-75"></span>
+                           <span className="relative inline-flex rounded-full h-3 w-3 bg-[#39FF14] shadow-[0_0_10px_#39FF14]"></span>
                          </span>
-                         <span className="font-mono text-[#39FF14] font-bold text-2xl drop-shadow-[0_0_5px_rgba(57,255,20,0.8)]">{viewerCount}</span>
-                         <span className="text-white/80 font-medium">watching</span>
+                         <span className="font-mono text-[#39FF14] font-bold text-2xl drop-shadow-[0_0_8px_rgba(57,255,20,0.8)]">{viewerCount}</span>
+                         <span className="text-white/60 font-medium text-sm uppercase tracking-widest">Live</span>
                        </motion.div>
                      )}
                    </AnimatePresence>
-                 </li>
+                 </motion.li>
 
-                 <li className="flex items-center gap-5 text-white">
-                   <div className="w-8 h-8 rounded-full bg-[#39FF14]/20 flex items-center justify-center shrink-0 border border-[#39FF14]/50 shadow-[0_0_10px_rgba(57,255,20,0.3)]">
-                     <Check className="w-4 h-4 text-[#39FF14] font-bold" />
+                 <motion.li 
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.6 }}
+                    className="flex items-center gap-5 text-white/70 hover:text-white transition-colors duration-300 group/item"
+                 >
+                   <div className="w-8 h-8 rounded-full bg-[#39FF14]/5 flex items-center justify-center shrink-0 border border-[#39FF14]/20 group-hover/item:bg-[#39FF14]/20 group-hover/item:border-[#39FF14]/50 group-hover/item:shadow-[0_0_15px_rgba(57,255,20,0.4)] transition-all duration-300 group-hover/item:scale-110">
+                     <Check className="w-4 h-4 text-[#39FF14]/70 group-hover/item:text-[#39FF14] font-bold transition-colors" />
                    </div>
-                   <span className="text-xl font-medium">Negotiate instantly with auto-counter offers</span>
-                 </li>
+                   <span className="text-lg tracking-wide">Negotiate instantly with auto-counter offers</span>
+                 </motion.li>
 
                  {/* Item 3 with Tooltip */}
-                 <li 
-                   className="flex items-center gap-5 text-white cursor-pointer relative z-40"
+                 <motion.li 
+                   initial={{ opacity: 0, x: 20 }}
+                   whileInView={{ opacity: 1, x: 0 }}
+                   transition={{ duration: 0.5, delay: 0.7 }}
+                   className="flex items-center gap-5 text-white/70 hover:text-white cursor-pointer relative z-40 transition-colors duration-300 group/item"
                    onMouseEnter={() => setIsHoveringPayment(true)}
                    onMouseLeave={() => setIsHoveringPayment(false)}
                  >
                    <motion.div 
                      animate={isHoveringPayment ? { scale: [1, 1.4, 1] } : { scale: 1 }}
                      transition={{ duration: 0.4, type: "spring", bounce: 0.6 }}
-                     className="w-8 h-8 rounded-full bg-[#39FF14]/20 flex items-center justify-center shrink-0 border border-[#39FF14]/50 shadow-[0_0_10px_rgba(57,255,20,0.3)] relative"
+                     className="w-8 h-8 rounded-full bg-[#39FF14]/5 flex items-center justify-center shrink-0 border border-[#39FF14]/20 group-hover/item:bg-[#39FF14]/20 group-hover/item:border-[#39FF14]/50 group-hover/item:shadow-[0_0_15px_rgba(57,255,20,0.4)] transition-all duration-300 relative group-hover/item:scale-110"
                    >
-                     <Check className="w-4 h-4 text-[#39FF14] font-bold" />
+                     <Check className="w-4 h-4 text-[#39FF14]/70 group-hover/item:text-[#39FF14] font-bold transition-colors" />
                      {/* Tooltip */}
                      <AnimatePresence>
                        {isHoveringPayment && (
                          <motion.div
-                           initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                           animate={{ opacity: 1, y: 35, scale: 1 }}
-                           exit={{ opacity: 0, y: 15, scale: 0.9 }}
-                           className="absolute left-1/2 -translate-x-1/2 top-0 px-4 py-2 rounded-xl bg-[#39FF14] text-black font-bold shadow-[0_0_30px_rgba(57,255,20,0.6)] z-50 whitespace-nowrap pointer-events-none"
+                           initial={{ opacity: 0, y: 10, scale: 0.9, filter: "blur(4px)" }}
+                           animate={{ opacity: 1, y: 40, scale: 1, filter: "blur(0px)" }}
+                           exit={{ opacity: 0, y: 15, scale: 0.9, filter: "blur(4px)" }}
+                           className="absolute left-1/2 -translate-x-1/2 top-0 px-5 py-2.5 rounded-xl bg-[#39FF14] text-black font-bold shadow-[0_15px_30px_rgba(57,255,20,0.4)] z-50 whitespace-nowrap pointer-events-none border border-white/20"
                          >
                            + ₹4,500 Deal Closed
+                           <div className="absolute -top-2 left-1/2 -translate-x-1/2 border-solid border-b-[#39FF14] border-b-8 border-x-transparent border-x-8 border-t-0" />
                          </motion.div>
                        )}
                      </AnimatePresence>
                    </motion.div>
-                   <span className="text-xl font-medium">Payments collected inside the app</span>
-                 </li>
+                   <span className="text-lg tracking-wide">Payments collected inside the app</span>
+                 </motion.li>
 
-                 <li className="flex items-center gap-5 text-white">
-                   <div className="w-8 h-8 rounded-full bg-[#39FF14]/20 flex items-center justify-center shrink-0 border border-[#39FF14]/50 shadow-[0_0_10px_rgba(57,255,20,0.3)]">
-                     <Check className="w-4 h-4 text-[#39FF14] font-bold" />
+                 <motion.li 
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                    className="flex items-center gap-5 text-white/70 hover:text-white transition-colors duration-300 group/item"
+                 >
+                   <div className="w-8 h-8 rounded-full bg-[#39FF14]/5 flex items-center justify-center shrink-0 border border-[#39FF14]/20 group-hover/item:bg-[#39FF14]/20 group-hover/item:border-[#39FF14]/50 group-hover/item:shadow-[0_0_15px_rgba(57,255,20,0.4)] transition-all duration-300 group-hover/item:scale-110">
+                     <Check className="w-4 h-4 text-[#39FF14]/70 group-hover/item:text-[#39FF14] font-bold transition-colors" />
                    </div>
-                   <span className="text-xl font-medium">Zero manual tracking needed</span>
-                 </li>
+                   <span className="text-lg tracking-wide">Zero manual tracking needed</span>
+                 </motion.li>
                </ul>
             </div>
           </motion.div>
