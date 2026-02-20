@@ -214,10 +214,109 @@ export function StickmanCTA() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex-1 text-center md:text-left"
           >
-            <h3 className="text-3xl md:text-5xl font-bold font-display tracking-tight text-white mb-4 leading-tight">
-              Ready to
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] to-[#39FF14]/60"> Zatch</span>?
-            </h3>
+            <div className="relative inline-block">
+              {/* Peeping stickmen on top of text */}
+              {/* Stickman 1 - peeking from behind "Ready" */}
+              <motion.svg
+                viewBox="0 0 60 80"
+                className="absolute -top-10 left-[15%] w-8 md:w-10 h-auto z-10 pointer-events-none"
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.6, type: "spring", bounce: 0.5 }}
+              >
+                <motion.g animate={{ y: [0, -3, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>
+                  <circle cx="30" cy="18" r="10" fill="none" stroke="white" strokeWidth="2.5" />
+                  <circle cx="26" cy="16" r="2" fill="white" />
+                  <circle cx="34" cy="16" r="2" fill="white" />
+                  <path d="M 24 22 Q 30 28 36 22" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                  <line x1="30" y1="28" x2="30" y2="52" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                  <line x1="30" y1="35" x2="18" y2="48" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                  <motion.line x1="30" y1="35" x2="42" y2="28" stroke="white" strokeWidth="2.5" strokeLinecap="round"
+                    animate={{ x2: [42, 44, 42], y2: [28, 25, 28] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                </motion.g>
+              </motion.svg>
+
+              {/* Stickman 2 - hanging off the "t" in "to" */}
+              <motion.svg
+                viewBox="0 0 50 90"
+                className="absolute -top-8 left-[52%] md:left-[48%] w-6 md:w-8 h-auto z-10 pointer-events-none"
+                initial={{ y: 30, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.9, type: "spring", bounce: 0.5 }}
+              >
+                <motion.g animate={{ rotate: [0, 5, -5, 0] }} transition={{ duration: 3, repeat: Infinity }} style={{ transformOrigin: "25px 10px" }}>
+                  <line x1="25" y1="0" x2="25" y2="10" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <circle cx="25" cy="22" r="9" fill="none" stroke="white" strokeWidth="2" />
+                  <circle cx="22" cy="20" r="1.5" fill="white" />
+                  <circle cx="28" cy="20" r="1.5" fill="white" />
+                  <path d="M 21 26 Q 25 30 29 26" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                  <line x1="25" y1="31" x2="25" y2="55" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="25" y1="40" x2="15" y2="50" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="25" y1="40" x2="35" y2="50" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <motion.line x1="25" y1="55" x2="18" y2="72" stroke="white" strokeWidth="2" strokeLinecap="round"
+                    animate={{ x2: [18, 15, 18] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <motion.line x1="25" y1="55" x2="32" y2="72" stroke="white" strokeWidth="2" strokeLinecap="round"
+                    animate={{ x2: [32, 35, 32] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                  />
+                </motion.g>
+              </motion.svg>
+
+              {/* Stickman 3 - peeking from the right side of "Zatch?" with binoculars */}
+              <motion.svg
+                viewBox="0 0 70 70"
+                className="absolute -top-9 right-[5%] md:right-[10%] w-8 md:w-10 h-auto z-10 pointer-events-none"
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: 1.2, type: "spring", bounce: 0.5 }}
+              >
+                <motion.g animate={{ y: [0, -4, 0] }} transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}>
+                  <circle cx="35" cy="18" r="10" fill="none" stroke="white" strokeWidth="2.5" />
+                  {/* Binoculars */}
+                  <rect x="22" y="12" width="8" height="6" rx="3" fill="none" stroke="#39FF14" strokeWidth="1.5" />
+                  <rect x="34" y="12" width="8" height="6" rx="3" fill="none" stroke="#39FF14" strokeWidth="1.5" />
+                  <line x1="30" y1="15" x2="34" y2="15" stroke="#39FF14" strokeWidth="1.5" />
+                  <path d="M 28 24 Q 35 28 42 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                  <line x1="35" y1="28" x2="35" y2="52" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                  <line x1="35" y1="38" x2="48" y2="45" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                  <line x1="35" y1="38" x2="22" y2="45" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                </motion.g>
+              </motion.svg>
+
+              {/* Stickman 4 - tiny one sitting on the "Z" */}
+              <motion.svg
+                viewBox="0 0 40 55"
+                className="absolute -top-6 left-[62%] md:left-[57%] w-5 md:w-7 h-auto z-10 pointer-events-none"
+                initial={{ y: 15, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: 1.0, type: "spring", bounce: 0.5 }}
+              >
+                <motion.g animate={{ rotate: [0, 3, -3, 0] }} transition={{ duration: 4, repeat: Infinity }} style={{ transformOrigin: "20px 30px" }}>
+                  <circle cx="20" cy="10" r="7" fill="none" stroke="white" strokeWidth="2" />
+                  <circle cx="17" cy="9" r="1.5" fill="white" />
+                  <circle cx="23" cy="9" r="1.5" fill="white" />
+                  <path d="M 16 14 Q 20 17 24 14" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                  <line x1="20" y1="17" x2="20" y2="35" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <motion.line x1="20" y1="24" x2="10" y2="20" stroke="white" strokeWidth="2" strokeLinecap="round"
+                    animate={{ y2: [20, 17, 20] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                  <line x1="20" y1="24" x2="30" y2="30" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  {/* Sitting legs */}
+                  <path d="M 20 35 L 12 42 L 8 40" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M 20 35 L 28 42 L 32 40" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                </motion.g>
+              </motion.svg>
+
+              <h3 className="text-3xl md:text-5xl font-bold font-display tracking-tight text-white mb-4 leading-tight">
+                Ready to
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] to-[#39FF14]/60"> Zatch</span>?
+              </h3>
+            </div>
             <p className="text-base text-white/30 mb-8 max-w-md">
               Join thousands of sellers and buyers already transforming the way India shops.
             </p>
