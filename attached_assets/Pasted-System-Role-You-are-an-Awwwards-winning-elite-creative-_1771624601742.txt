@@ -1,0 +1,55 @@
+System Role: You are an Awwwards-winning, elite creative frontend developer. You specialize in replacing static, boring UIs with highly interactive, physics-driven, psychological web experiences. You write clean, performant code using React, Tailwind CSS, and Framer Motion.
+
+The Task: I have a current static UI section titled "Your DMs Are Not a Sales System." It currently consists of two basic, static cards side-by-side: a red "The Old Way" card with a static shattered glass background, and a green "The Zatch Way" card with a static circuit pattern.
+
+I want to completely redesign and rebuild this component to be a dynamic, interactive micro-narrative. We are moving from static images to DOM-based interaction. The goal is to make the user feel "Anxiety" on the left card and "Relief/Flow State" on the right card using their mouse cursor.
+
+Tech Stack to Use: React, Tailwind CSS, Framer Motion (<motion.div>, <AnimatePresence>, useMotionValue, useSpring), and lucide-react for icons.
+
+Here are the strict technical and visual requirements:
+
+1. Global Section Architecture:
+
+Background: Deep immersive black (bg-[#050505]) with a very faint, dark gray animated engineering grid using CSS gradients.
+
+Headings: Top tag "FOR SELLERS" (small, neon green). Main heading "Your DMs Are Not a Sales System." (White text, but apply a glowing neon green text-shadow). Subtext: "Stop managing conversations. Start closing deals." (Gray, subtle).
+
+Layout: Two large glassmorphism cards (flex-col on mobile, grid grid-cols-2 on desktop). Remove the static line connecting them; the transition will be felt through interaction.
+
+2. The Left Card: "The Old Way" (The Anxiety Trap)
+
+Visuals: Dark red glassmorphism (bg-red-950/20), dark red border. Text: "The Old Way (Chaos & Manual Work)" with 4 bullet points (Closing takes 15+ mins, Endless DM back & forth, Chasing payments manually, Ghosted by buyers). Use red X icons.
+
+Interaction Logic (Crucial):
+
+Track the user's mouse position and velocity inside this card using onMouseMove and a useRef to store previous coordinates.
+
+If the mouse moves quickly (velocity exceeds a threshold), trigger a function that spawns "Anxiety Bubbles".
+
+Anxiety Bubbles: Small, absolute-positioned <motion.div> elements that appear near the cursor. They should look like little red notification pills containing random text: "Price??", "Available?", "Last price??", "Pls reply fast".
+
+Animate them using <AnimatePresence>: scale up from 0, float randomly by 10-20px, and fade out (opacity 0) within 1.2 seconds. Cap the array at 10-15 max items to prevent lag.
+
+Glitch Effect: When hovering over the text "Endless DM back & forth", apply a CSS chromatic aberration effect (shifting red and cyan text-shadows) to make it feel broken.
+
+3. The Right Card: "The Zatch Way" (The Flow State)
+
+Visuals: Dark green glassmorphism (bg-green-950/20), vibrant neon green border (border-[#39FF14]/50). Text: "The Zatch Way (Automated & Instant)" with 4 bullet points (One live stream = Hundreds of potential sales, Negotiate instantly..., Payments collected..., Zero manual tracking). Use green Check icons.
+
+Interaction Logic (Crucial):
+
+The chaos from the left card stops immediately here.
+
+Cursor Flashlight: Use framer-motion to map the mouse x and y coordinates to a subtle radial-gradient background that follows the cursor inside the card, illuminating it like a flashlight over a server board.
+
+Hover Interaction 1: Hovering over "One live stream..." triggers a sleek, absolute-positioned frosted glass widget to slide in from the right. Inside, a number rapidly counts up from 124 to 890 (use a useEffect interval or Framer Motion spring) to represent live viewers.
+
+Hover Interaction 2: Hovering over "Payments collected..." triggers the green checkmark to do a satisfying, bouncy scale-up, and a tiny green pill drops down saying "+ ₹4,500 Deal Closed".
+
+4. Implementation Rules:
+
+Output the entire component in a single, self-contained file so I can drop it directly into my Next.js/React project.
+
+Include all necessary imports and hooks.
+
+Make it responsive: On mobile screens (md and below), disable the complex mouse-tracking "Anxiety Bubbles" and just rely on standard hover/tap animations to maintain performance.
