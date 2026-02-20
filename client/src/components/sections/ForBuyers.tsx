@@ -405,7 +405,7 @@ export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
         setPhoneKey(k => k + 1);
         return next;
       });
-    }, 8000);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
@@ -494,7 +494,7 @@ export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
                         className="h-full bg-[#39FF14]/30"
                         initial={{ width: "0%" }}
                         animate={{ width: "100%" }}
-                        transition={{ duration: 8, ease: "linear" }}
+                        transition={{ duration: 2, ease: "linear" }}
                         key={phoneKey}
                       />
                     </div>
