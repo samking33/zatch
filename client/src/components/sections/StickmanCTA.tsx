@@ -1,310 +1,440 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Download, ArrowDown, Sparkles } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { Download, Sparkles } from "lucide-react";
 
-const SPEECH_BUBBLES = [
-  "Hey you! Yes, YOU! 👀",
-  "Press the button already!",
-  "I've been waiting here all day...",
-  "C'mon, it's free! 🎉",
-  "Don't leave me hanging!",
-  "My arm is getting tired 😩",
-  "Just ONE click. Please?",
-  "I promise it's worth it!",
-  "Fine, I'll just stand here...",
-  "*taps foot impatiently*",
+type WalkPhase = "hidden" | "entering" | "walking" | "approaching" | "clicking" | "celebrating" | "idle";
+
+const SPEECH_BUBBLES: Record<string, string> = {
+  entering: "Let me show you something...",
+  walking: "Almost there...",
+  approaching: "Ooh, what's this button? 👀",
+  clicking: "*CLICK* 🖱️",
+  celebrating: "YESSS! Download it! 🎉",
+  idle: "Go on, you try it too!",
+};
+
+const POST_CLICK_MESSAGES = [
+  "See? That wasn't so hard! 😄",
+  "Now YOU press it!",
+  "My job here is done 💪",
+  "Best button ever, right?",
+  "I could click this all day...",
+  "Your turn now! 👆",
 ];
 
-function StickmanSVG({ isPointing, isJumping, isTapping }: { isPointing: boolean; isJumping: boolean; isTapping: boolean }) {
+function WalkingStickman({ phase, walkProgress }: { phase: WalkPhase; walkProgress: number }) {
+  const isWalking = phase === "entering" || phase === "walking" || phase === "approaching";
+  const isClicking = phase === "clicking";
+  const isCelebrating = phase === "celebrating";
+  const isIdle = phase === "idle";
+  const legCycle = isWalking ? walkProgress * 8 : 0;
+
+  const leftLegSwing = isWalking ? Math.sin(legCycle) * 25 : 0;
+  const rightLegSwing = isWalking ? Math.sin(legCycle + Math.PI) * 25 : 0;
+  const leftArmSwing = isWalking ? Math.sin(legCycle + Math.PI) * 15 : 0;
+  const rightArmSwing = isWalking ? Math.sin(legCycle) * 15 : 0;
+  const bodyBob = isWalking ? Math.abs(Math.sin(legCycle)) * 4 : 0;
+
   return (
-    <motion.svg
-      viewBox="0 0 200 300"
-      className="w-full h-full"
-      animate={isJumping ? { y: [0, -20, 0] } : isTapping ? { rotate: [0, -2, 2, -2, 0] } : {}}
-      transition={isJumping ? { duration: 0.5, ease: "easeOut" } : { duration: 0.3 }}
-    >
-      {/* Head */}
-      <motion.circle
-        cx="100"
-        cy="50"
-        r="25"
-        fill="none"
-        stroke="white"
-        strokeWidth="3"
-        animate={isTapping ? { cy: [50, 47, 50] } : {}}
-        transition={{ duration: 0.3, repeat: isTapping ? 3 : 0 }}
-      />
-      {/* Eyes */}
-      <motion.circle cx="90" cy="45" r="3" fill="white"
-        animate={{ cx: isPointing ? 93 : 90 }}
-        transition={{ duration: 0.3 }}
-      />
-      <motion.circle cx="110" cy="45" r="3" fill="white"
-        animate={{ cx: isPointing ? 113 : 110 }}
-        transition={{ duration: 0.3 }}
-      />
-      {/* Mouth */}
-      <motion.path
-        d={isPointing ? "M 88 58 Q 100 68 112 58" : "M 90 58 Q 100 65 110 58"}
-        fill="none"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-
-      {/* Body */}
-      <motion.line x1="100" y1="75" x2="100" y2="170" stroke="white" strokeWidth="3" strokeLinecap="round" />
-
-      {/* Left arm - pointing right toward button */}
-      <motion.path
-        d={isPointing ? "M 100 110 L 160 90 L 175 85" : "M 100 110 L 60 140"}
-        fill="none"
-        stroke="white"
-        strokeWidth="3"
-        strokeLinecap="round"
-        animate={isPointing ? { d: ["M 100 110 L 160 90 L 175 85", "M 100 110 L 160 85 L 178 78", "M 100 110 L 160 90 L 175 85"] } : {}}
-        transition={{ duration: 0.8, repeat: isPointing ? Infinity : 0 }}
-      />
-      {/* Pointing hand / finger */}
-      {isPointing && (
+    <svg viewBox="0 0 120 200" className="w-full h-full" style={{ overflow: "visible" }}>
+      <g transform={`translate(0, ${-bodyBob})`}>
+        {/* Head */}
         <motion.circle
-          cx="178"
-          cy="78"
-          r="4"
-          fill="#39FF14"
-          animate={{ cx: [178, 181, 178], cy: [78, 75, 78], scale: [1, 1.2, 1] }}
-          transition={{ duration: 0.8, repeat: Infinity }}
+          cx="60" cy="35" r="18"
+          fill="none" stroke="white" strokeWidth="2.5"
+          animate={isCelebrating ? { cy: [35, 28, 35] } : {}}
+          transition={{ duration: 0.4, repeat: isCelebrating ? 5 : 0 }}
         />
-      )}
+        {/* Eyes - look right when walking, down when clicking */}
+        <circle cx={isClicking ? 53 : 55} cy={isClicking ? 33 : 31} r="2.5" fill="white" />
+        <circle cx={isClicking ? 67 : 69} cy={isClicking ? 33 : 31} r="2.5" fill="white" />
+        {/* Mouth */}
+        {isCelebrating || isIdle ? (
+          <path d="M 50 42 Q 60 52 70 42" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        ) : isClicking ? (
+          <circle cx="60" cy="44" r="4" fill="none" stroke="white" strokeWidth="2" />
+        ) : (
+          <path d="M 52 42 Q 60 48 68 42" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        )}
 
-      {/* Right arm */}
-      <motion.path
-        d={isPointing ? "M 100 110 L 70 145" : "M 100 110 L 140 140"}
-        fill="none"
-        stroke="white"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
+        {/* Body */}
+        <line x1="60" y1="53" x2="60" y2="120" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
 
-      {/* Left leg */}
-      <motion.line x1="100" y1="170" x2="70" y2="240" stroke="white" strokeWidth="3" strokeLinecap="round"
-        animate={isTapping ? { x2: [70, 65, 70] } : {}}
-        transition={{ duration: 0.4, repeat: isTapping ? 3 : 0 }}
-      />
-      {/* Left foot */}
-      <motion.line x1="70" y1="240" x2="55" y2="240" stroke="white" strokeWidth="3" strokeLinecap="round" />
+        {/* Left arm */}
+        {isClicking ? (
+          <path d="M 60 80 L 85 60 L 95 55" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+        ) : isCelebrating ? (
+          <motion.path
+            d="M 60 80 L 30 55 L 20 40"
+            fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round"
+            animate={{ d: ["M 60 80 L 30 55 L 20 40", "M 60 80 L 28 50 L 15 35", "M 60 80 L 30 55 L 20 40"] }}
+            transition={{ duration: 0.3, repeat: 8 }}
+          />
+        ) : (
+          <line x1="60" y1="80" x2={40 + leftArmSwing} y2="110" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+        )}
 
-      {/* Right leg */}
-      <motion.line x1="100" y1="170" x2="130" y2="240" stroke="white" strokeWidth="3" strokeLinecap="round" />
-      {/* Right foot */}
-      <motion.line x1="130" y1="240" x2="145" y2="240" stroke="white" strokeWidth="3" strokeLinecap="round" />
-    </motion.svg>
+        {/* Right arm */}
+        {isClicking ? (
+          <>
+            <motion.path
+              d="M 60 80 L 90 65 L 100 58"
+              fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round"
+              animate={{ d: ["M 60 80 L 90 65 L 100 58", "M 60 80 L 90 68 L 102 62", "M 60 80 L 90 65 L 100 58"] }}
+              transition={{ duration: 0.3, repeat: 2 }}
+            />
+            <motion.circle
+              cx="100" cy="58" r="3" fill="#39FF14"
+              animate={{ cx: [100, 102, 100], cy: [58, 62, 58] }}
+              transition={{ duration: 0.3, repeat: 2 }}
+            />
+          </>
+        ) : isCelebrating ? (
+          <motion.path
+            d="M 60 80 L 90 55 L 100 40"
+            fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round"
+            animate={{ d: ["M 60 80 L 90 55 L 100 40", "M 60 80 L 92 50 L 105 35", "M 60 80 L 90 55 L 100 40"] }}
+            transition={{ duration: 0.3, repeat: 8 }}
+          />
+        ) : isIdle ? (
+          <motion.path
+            d="M 60 80 L 90 65 L 105 60"
+            fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round"
+            animate={{ d: ["M 60 80 L 90 65 L 105 60", "M 60 80 L 90 62 L 108 55", "M 60 80 L 90 65 L 105 60"] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          />
+        ) : (
+          <line x1="60" y1="80" x2={80 + rightArmSwing} y2="110" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+        )}
+
+        {/* Pointing finger glow (idle) */}
+        {isIdle && (
+          <motion.circle
+            cx="108" cy="55" r="3" fill="#39FF14"
+            animate={{ cx: [108, 111, 108], cy: [55, 52, 55], opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          />
+        )}
+
+        {/* Left leg */}
+        <line x1="60" y1="120" x2={45 + leftLegSwing} y2="165" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+        <line x1={45 + leftLegSwing} y1="165" x2={35 + leftLegSwing} y2="165" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+
+        {/* Right leg */}
+        <line x1="60" y1="120" x2={75 + rightLegSwing} y2="165" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+        <line x1={75 + rightLegSwing} y1="165" x2={85 + rightLegSwing} y2="165" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+      </g>
+    </svg>
   );
 }
 
 export function StickmanCTA() {
-  const [speechIndex, setSpeechIndex] = useState(0);
-  const [isPointing, setIsPointing] = useState(true);
-  const [isJumping, setIsJumping] = useState(false);
-  const [isTapping, setIsTapping] = useState(false);
-  const [buttonHovered, setButtonHovered] = useState(false);
-  const [clicked, setClicked] = useState(false);
-  const [clickCount, setClickCount] = useState(0);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-200px" });
+
+  const [phase, setPhase] = useState<WalkPhase>("hidden");
+  const [stickmanX, setStickmanX] = useState(-15);
+  const [walkProgress, setWalkProgress] = useState(0);
+  const [speechVisible, setSpeechVisible] = useState(false);
+  const [currentSpeech, setCurrentSpeech] = useState("");
   const [confetti, setConfetti] = useState<{ id: number; x: number; y: number; color: string }[]>([]);
+  const [buttonPulse, setButtonPulse] = useState(false);
+  const [idleMessageIndex, setIdleMessageIndex] = useState(0);
+  const [userClickCount, setUserClickCount] = useState(0);
+
+  const animFrameRef = useRef<number>(0);
+  const targetX = useRef(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setSpeechIndex(prev => (prev + 1) % SPEECH_BUBBLES.length);
+    if (!isInView || phase !== "hidden") return;
 
-      const action = Math.random();
-      if (action < 0.3) {
-        setIsJumping(true);
-        setTimeout(() => setIsJumping(false), 600);
-      } else if (action < 0.6) {
-        setIsTapping(true);
-        setTimeout(() => setIsTapping(false), 1500);
-      }
-    }, 3000);
+    const timeout = setTimeout(() => {
+      setPhase("entering");
+      setCurrentSpeech(SPEECH_BUBBLES.entering);
+      setSpeechVisible(true);
+    }, 600);
+    return () => clearTimeout(timeout);
+  }, [isInView, phase]);
 
-    return () => clearInterval(interval);
+  useEffect(() => {
+    if (phase === "entering") {
+      targetX.current = 30;
+      const timer = setTimeout(() => {
+        setPhase("walking");
+        setCurrentSpeech(SPEECH_BUBBLES.walking);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+    if (phase === "walking") {
+      targetX.current = 58;
+      const timer = setTimeout(() => {
+        setPhase("approaching");
+        setCurrentSpeech(SPEECH_BUBBLES.approaching);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+    if (phase === "approaching") {
+      targetX.current = 68;
+      const timer = setTimeout(() => {
+        setPhase("clicking");
+        setCurrentSpeech(SPEECH_BUBBLES.clicking);
+        setButtonPulse(true);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+    if (phase === "clicking") {
+      const timer = setTimeout(() => {
+        setPhase("celebrating");
+        setCurrentSpeech(SPEECH_BUBBLES.celebrating);
+        setButtonPulse(false);
+
+        setConfetti(Array.from({ length: 25 }, (_, i) => ({
+          id: Date.now() + i,
+          x: (Math.random() - 0.5) * 400,
+          y: -(Math.random() * 250 + 50),
+          color: ['#39FF14', '#ff0080', '#00d4ff', '#ffdd00', '#ff6600', '#c084fc'][Math.floor(Math.random() * 6)],
+        })));
+        setTimeout(() => setConfetti([]), 2500);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+    if (phase === "celebrating") {
+      const timer = setTimeout(() => {
+        setPhase("idle");
+        setCurrentSpeech(SPEECH_BUBBLES.idle);
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [phase]);
+
+  // Smooth walk animation
+  useEffect(() => {
+    let running = true;
+    const animate = () => {
+      if (!running) return;
+      setStickmanX(prev => {
+        const diff = targetX.current - prev;
+        if (Math.abs(diff) < 0.1) return targetX.current;
+        return prev + diff * 0.03;
+      });
+      setWalkProgress(prev => prev + 0.016);
+      animFrameRef.current = requestAnimationFrame(animate);
+    };
+    animFrameRef.current = requestAnimationFrame(animate);
+    return () => { running = false; cancelAnimationFrame(animFrameRef.current); };
   }, []);
 
+  // Idle speech cycling
   useEffect(() => {
-    setIsPointing(!buttonHovered);
-    if (buttonHovered) {
-      setIsJumping(true);
-      setTimeout(() => setIsJumping(false), 600);
-    }
-  }, [buttonHovered]);
+    if (phase !== "idle") return;
+    const interval = setInterval(() => {
+      setIdleMessageIndex(prev => {
+        const next = (prev + 1) % POST_CLICK_MESSAGES.length;
+        setCurrentSpeech(POST_CLICK_MESSAGES[next]);
+        return next;
+      });
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [phase]);
 
-  const handleClick = () => {
-    setClicked(true);
-    setClickCount(prev => prev + 1);
-
-    const newConfetti = Array.from({ length: 20 }, (_, i) => ({
+  const handleUserClick = () => {
+    setUserClickCount(prev => prev + 1);
+    setConfetti(Array.from({ length: 20 }, (_, i) => ({
       id: Date.now() + i,
       x: (Math.random() - 0.5) * 300,
       y: -(Math.random() * 200 + 50),
       color: ['#39FF14', '#ff0080', '#00d4ff', '#ffdd00', '#ff6600', '#c084fc'][Math.floor(Math.random() * 6)],
-    }));
-    setConfetti(newConfetti);
-
-    setIsJumping(true);
-    setTimeout(() => setIsJumping(false), 600);
+    })));
     setTimeout(() => setConfetti([]), 2000);
+
+    const reactions = [
+      "That's the spirit! 🎉",
+      "You're a natural! 😎",
+      "Hat-trick! 🔥",
+      "We're best friends now!",
+      "Unstoppable! 💪",
+      "I love this human! ❤️",
+    ];
+    setCurrentSpeech(reactions[userClickCount % reactions.length]);
   };
 
-  const clickMessages = [
-    "",
-    "YESSS! That's what I'm talking about! 🎉",
-    "Again?! You're my favorite person!",
-    "Hat-trick! You're on fire! 🔥",
-    "Stop, you're making me blush 😊",
-    "Okay now you're just showing off...",
-    "I could do this all day! 💪",
-  ];
-
   return (
-    <section className="py-24 md:py-32 bg-[#030303] relative overflow-hidden">
+    <section ref={sectionRef} className="py-20 md:py-28 bg-[#030303] relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10 max-w-5xl">
-        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
-          {/* Stickman */}
+      {/* Dotted path the stickman walks on */}
+      <div className="absolute bottom-[28%] left-0 right-0 pointer-events-none hidden md:block">
+        <svg width="100%" height="4" className="opacity-[0.06]">
+          <line x1="0" y1="2" x2="100%" y2="2" stroke="white" strokeWidth="1" strokeDasharray="6 8" />
+        </svg>
+      </div>
+
+      {/* Footprints trail */}
+      <div className="absolute bottom-[26%] left-0 pointer-events-none hidden md:block">
+        {phase !== "hidden" && Array.from({ length: Math.min(Math.floor(stickmanX / 5), 12) }, (_, i) => (
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-48 md:w-64 h-64 md:h-80 shrink-0"
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 0.06, 0.03] }}
+            transition={{ delay: i * 0.15, duration: 1 }}
+            className="absolute"
+            style={{ left: `${i * 5 + 2}%`, bottom: i % 2 === 0 ? '2px' : '8px' }}
           >
-            {/* Speech bubble */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={clicked && clickCount <= 6 ? `click-${clickCount}` : speechIndex}
-                initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8, y: -10 }}
-                transition={{ type: "spring", bounce: 0.5, duration: 0.5 }}
-                className="absolute -top-4 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:-right-8 md:top-0 z-10"
-              >
-                <div className="relative px-4 py-2.5 rounded-2xl bg-white/[0.06] backdrop-blur-md border border-white/[0.1] max-w-[200px] shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
-                  <p className="text-[12px] text-white/80 font-medium whitespace-nowrap">
-                    {clicked && clickCount <= 6 ? clickMessages[clickCount] : SPEECH_BUBBLES[speechIndex]}
-                  </p>
-                  <div className="absolute -bottom-1.5 left-8 w-3 h-3 bg-white/[0.06] border-b border-r border-white/[0.1] rotate-45 backdrop-blur-md" />
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Shadow under stickman */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-24 h-3 bg-white/[0.03] rounded-full blur-sm" />
-
-            {/* The stickman */}
-            <div className="relative w-full h-full pt-12">
-              <StickmanSVG isPointing={isPointing} isJumping={isJumping} isTapping={isTapping} />
-            </div>
+            <div className="w-3 h-1.5 rounded-full bg-white" style={{ transform: `rotate(${i % 2 === 0 ? -10 : 10}deg)` }} />
           </motion.div>
+        ))}
+      </div>
 
-          {/* CTA Area */}
+      <div className="container mx-auto px-6 relative z-10 max-w-6xl">
+        {/* Layout: Text top-left, button center-right, stickman walks between */}
+        <div className="relative min-h-[350px] md:min-h-[400px]">
+
+          {/* Text Block */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex-1 text-center md:text-left"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="relative z-10 max-w-md"
           >
-            <h3 className="text-3xl md:text-5xl font-bold font-display tracking-tight text-white mb-4 leading-tight">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display tracking-tight text-white mb-4 leading-tight">
               Ready to
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] to-[#39FF14]/60"> Zatch</span>?
             </h3>
-            <p className="text-base text-white/30 mb-8 max-w-md">
-              Join thousands of sellers and buyers already transforming the way India shops.
+            <p className="text-base text-white/30 max-w-sm">
+              Join thousands already transforming the way India shops.
             </p>
+          </motion.div>
 
-            {/* The Button */}
-            <div className="relative inline-block">
+          {/* Walking Stickman */}
+          <motion.div
+            className="absolute hidden md:block z-20"
+            style={{
+              left: `${stickmanX}%`,
+              bottom: '10%',
+              width: 80,
+              height: 130,
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: phase === "hidden" ? 0 : 1 }}
+          >
+            {/* Speech Bubble */}
+            <AnimatePresence mode="wait">
+              {speechVisible && currentSpeech && (
+                <motion.div
+                  key={currentSpeech}
+                  initial={{ opacity: 0, scale: 0.7, y: 5 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.7, y: -5 }}
+                  transition={{ type: "spring", bounce: 0.4, duration: 0.4 }}
+                  className="absolute -top-12 left-1/2 -translate-x-1/2 z-30 whitespace-nowrap"
+                >
+                  <div className="px-3 py-1.5 rounded-xl bg-white/[0.08] backdrop-blur-md border border-white/[0.12] shadow-[0_8px_25px_rgba(0,0,0,0.4)]">
+                    <p className="text-[11px] text-white/80 font-medium">{currentSpeech}</p>
+                  </div>
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white/[0.08] border-b border-r border-white/[0.12] rotate-45" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Shadow */}
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-12 h-2 bg-white/[0.04] rounded-full blur-[2px]" />
+
+            <WalkingStickman phase={phase} walkProgress={walkProgress} />
+          </motion.div>
+
+          {/* Mobile stickman (simplified) */}
+          <motion.div
+            className="md:hidden relative w-32 h-44 mx-auto my-8"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+          >
+            <AnimatePresence mode="wait">
+              {speechVisible && currentSpeech && (
+                <motion.div
+                  key={currentSpeech}
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.7 }}
+                  className="absolute -top-10 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap"
+                >
+                  <div className="px-3 py-1.5 rounded-xl bg-white/[0.08] backdrop-blur-md border border-white/[0.12]">
+                    <p className="text-[11px] text-white/80 font-medium">{currentSpeech}</p>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <WalkingStickman phase={phase === "hidden" ? "idle" : phase} walkProgress={walkProgress} />
+          </motion.div>
+
+          {/* Download Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative z-10 md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-end"
+          >
+            <div className="relative">
               {/* Confetti */}
               <AnimatePresence>
                 {confetti.map((c) => (
                   <motion.div
                     key={c.id}
-                    initial={{ opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 }}
-                    animate={{
-                      opacity: 0,
-                      x: c.x,
-                      y: c.y,
-                      scale: 0,
-                      rotate: Math.random() * 720 - 360,
-                    }}
+                    initial={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                    animate={{ opacity: 0, x: c.x, y: c.y, scale: 0, rotate: Math.random() * 720 - 360 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1.5, ease: "easeOut" }}
                     className="absolute top-1/2 left-1/2 pointer-events-none z-50"
                   >
-                    <div
-                      className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: c.color }}
-                    />
+                    <div className="w-2 h-2 rounded-sm" style={{ backgroundColor: c.color }} />
                   </motion.div>
                 ))}
               </AnimatePresence>
 
-              {/* Animated rings around button */}
+              {/* Pulse rings */}
               <motion.div
-                className="absolute -inset-4 rounded-full border border-[#39FF14]/10"
-                animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0, 0.3] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-              <motion.div
-                className="absolute -inset-8 rounded-full border border-[#39FF14]/5"
-                animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0, 0.2] }}
-                transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                className="absolute -inset-6 rounded-2xl border border-[#39FF14]/10"
+                animate={{ scale: [1, 1.08, 1], opacity: [0.2, 0, 0.2] }}
+                transition={{ duration: 2.5, repeat: Infinity }}
               />
 
-              {/* Arrow pointing at button */}
-              <motion.div
-                className="absolute -top-10 left-1/2 -translate-x-1/2 hidden md:block"
-                animate={{ y: [0, 6, 0] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                <ArrowDown className="w-5 h-5 text-[#39FF14]/40" />
-              </motion.div>
+              {/* Button glow on stickman click */}
+              {buttonPulse && (
+                <motion.div
+                  className="absolute -inset-3 rounded-2xl bg-[#39FF14]/20 blur-xl"
+                  animate={{ opacity: [0, 0.6, 0] }}
+                  transition={{ duration: 0.5, repeat: 2 }}
+                />
+              )}
 
               <motion.button
-                onClick={handleClick}
-                onMouseEnter={() => setButtonHovered(true)}
-                onMouseLeave={() => setButtonHovered(false)}
+                onClick={handleUserClick}
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative px-10 py-5 rounded-2xl bg-[#39FF14] text-black font-bold text-lg flex items-center gap-3 shadow-[0_0_40px_rgba(57,255,20,0.25)] hover:shadow-[0_0_80px_rgba(57,255,20,0.4)] transition-shadow duration-500 group"
+                whileTap={{ scale: 0.93 }}
+                animate={buttonPulse ? { scale: [1, 0.95, 1.05, 1] } : {}}
+                transition={buttonPulse ? { duration: 0.4 } : {}}
+                className="relative px-10 md:px-12 py-5 md:py-6 rounded-2xl bg-[#39FF14] text-black font-bold text-lg md:text-xl flex items-center gap-3 shadow-[0_0_50px_rgba(57,255,20,0.2)] hover:shadow-[0_0_80px_rgba(57,255,20,0.4)] transition-shadow duration-500 group"
                 data-testid="button-download-app"
               >
-                <motion.div
-                  animate={buttonHovered ? { rotate: [0, -10, 10, 0] } : {}}
-                  transition={{ duration: 0.4 }}
-                >
-                  <Download className="w-5 h-5" />
-                </motion.div>
+                <Download className="w-5 h-5 md:w-6 md:h-6" />
                 Download the App
                 <Sparkles className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
               </motion.button>
 
-              {clickCount > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 text-center"
+              {userClickCount > 0 && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-[11px] text-white/15 text-center mt-3"
                 >
-                  <span className="text-[11px] text-white/20">
-                    Clicked {clickCount} time{clickCount > 1 ? 's' : ''} — our stickman approves
-                  </span>
-                </motion.div>
+                  Pressed {userClickCount} time{userClickCount > 1 ? 's' : ''} — stickman is proud of you
+                </motion.p>
               )}
             </div>
 
-            {/* Trust line */}
-            <div className="mt-8 flex items-center gap-4 justify-center md:justify-start text-[11px] text-white/15">
-              <span className="flex items-center gap-1"><Download className="w-3 h-3" /> Free download</span>
+            <div className="mt-6 flex items-center gap-3 text-[11px] text-white/15">
+              <span>Free download</span>
               <span className="w-1 h-1 rounded-full bg-white/10" />
               <span>No ads</span>
               <span className="w-1 h-1 rounded-full bg-white/10" />
