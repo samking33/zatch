@@ -17,7 +17,8 @@ Preferred communication style: Simple, everyday language.
 - **Routing**: Wouter (lightweight client-side router)
 - **Styling**: Tailwind CSS v4 with CSS variables for theming, using a dark/black theme with brand green (#cafe38) accent colors
 - **UI Components**: shadcn/ui (new-york style) with Radix UI primitives — components live in `client/src/components/ui/`
-- **Animations**: Framer Motion used extensively for scroll-driven animations, mouse tracking, physics-based interactions, and micro-interactions
+- **Animations**: Framer Motion used extensively for scroll-driven animations, and micro-interactions
+- **3D/WebGL**: Three.js used for the "DealEngine" For Sellers section — scroll-driven chaos-to-order card transformation with programmatic canvas textures
 - **Fonts**: Space Grotesk (headings/display) and Inter (body text) loaded from Google Fonts
 - **State Management**: TanStack React Query for server state, local React state for UI
 - **Build Tool**: Vite with path aliases (`@/` → `client/src/`, `@shared/` → `shared/`)
