@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Linkedin, Twitter, ArrowRight, Sparkles, Video, MessageSquareText, ShoppingBag, Globe } from "lucide-react";
+import rakshitImg from "@/assets/rakshit.png";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -17,6 +18,7 @@ export default function AboutPage() {
       role: "Founder & CEO",
       bio: "Rakshit leads the vision and strategy behind Zatch\u2122. With experience across product, business analysis, and enterprise systems, he focuses on building scalable platforms that solve real behavioral problems in digital commerce. He believes the next evolution of shopping in India will be content-led, community-driven, and negotiation-enabled.",
       initials: "RG",
+      photo: rakshitImg,
     },
     {
       name: "Rigved Kaleru",
@@ -167,9 +169,15 @@ export default function AboutPage() {
                   className="group"
                 >
                   <div className="relative rounded-3xl overflow-hidden bg-white/[0.03] border border-white/[0.06] p-8 hover:bg-white/[0.05] hover:border-white/[0.1] transition-all duration-500">
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#39FF14]/20 to-[#39FF14]/5 border border-[#39FF14]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-                      <span className="text-2xl font-bold text-[#39FF14] font-display">{member.initials}</span>
-                    </div>
+                    {member.photo ? (
+                      <div className="w-20 h-20 rounded-2xl overflow-hidden border border-[#39FF14]/20 mb-6 group-hover:scale-110 transition-transform duration-500">
+                        <img src={member.photo} alt={member.name} className="w-full h-full object-cover object-top" />
+                      </div>
+                    ) : (
+                      <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#39FF14]/20 to-[#39FF14]/5 border border-[#39FF14]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                        <span className="text-2xl font-bold text-[#39FF14] font-display">{member.initials}</span>
+                      </div>
+                    )}
 
                     <h3 className="text-2xl font-bold text-white mb-1">{member.name}</h3>
                     <p className="text-[#39FF14] font-medium text-sm mb-5">{member.role}</p>
