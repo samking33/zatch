@@ -1,403 +1,437 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { ArrowRight, Terminal, ExternalLink } from "lucide-react";
+import { Play, ExternalLink } from "lucide-react";
 
 const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
 
-const TERMINAL_SEQUENCE: { type: "cmd" | "output" | "success" | "data" | "ascii" | "prompt"; text: string; delay: number }[] = [
-  { type: "cmd", text: "> zatch.init --protocol=live-bargain", delay: 0 },
-  { type: "output", text: "  Connecting to Zatch™ network...", delay: 800 },
-  { type: "success", text: "  ✓ Connected. 12,847 sellers online.", delay: 1600 },
-  { type: "cmd", text: "> scan --market=india --mode=realtime", delay: 2800 },
-  { type: "data", text: "  ┌─────────────────────────────────────────┐", delay: 3500 },
-  { type: "data", text: "  │  LIVE DEALS          ████████░░  82%    │", delay: 3700 },
-  { type: "data", text: "  │  AVG SAVINGS         ₹340 per order     │", delay: 3900 },
-  { type: "data", text: "  │  ACTIVE BARGAINS     2,491 right now    │", delay: 4100 },
-  { type: "data", text: "  │  BUYER SATISFACTION  ★★★★★  98.2%       │", delay: 4300 },
-  { type: "data", text: "  └─────────────────────────────────────────┘", delay: 4500 },
-  { type: "cmd", text: "> analyze --savings-potential --user=you", delay: 5500 },
-  { type: "output", text: "  Calculating your potential savings...", delay: 6200 },
-  { type: "success", text: "  ✓ You could save ₹4,200/month with live bargaining.", delay: 7000 },
-  { type: "cmd", text: "> zatch.download --platform=android", delay: 8200 },
-  { type: "ascii", text: "", delay: 9000 },
-  { type: "success", text: "  ✓ Ready. The future of shopping awaits.", delay: 9800 },
-  { type: "prompt", text: "  [ENTER] to download →", delay: 10500 },
-];
-
-const ZATCH_ASCII = `
-   ███████╗ █████╗ ████████╗ ██████╗██╗  ██╗
-   ╚══███╔╝██╔══██╗╚══██╔══╝██╔════╝██║  ██║
-     ███╔╝ ███████║   ██║   ██║     ███████║
-    ███╔╝  ██╔══██║   ██║   ██║     ██╔══██║
-   ███████╗██║  ██║   ██║   ╚██████╗██║  ██║
-   ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝`;
-
-function TypedText({ text, onComplete, speed = 25 }: { text: string; onComplete?: () => void; speed?: number }) {
-  const [displayed, setDisplayed] = useState("");
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setDisplayed(text.slice(0, i));
-      if (i >= text.length) {
-        clearInterval(interval);
-        setDone(true);
-        onComplete?.();
-      }
-    }, speed);
-    return () => clearInterval(interval);
-  }, [text]);
-
-  return (
-    <span>
-      {displayed}
-      {!done && <span className="animate-pulse text-[#39FF14]">█</span>}
-    </span>
-  );
-}
-
-function MatrixRain() {
-  const chars = "01アイウエオカキクケコサシスセソZATCH₹★";
-  const columns = 30;
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.04]">
-      {Array.from({ length: columns }).map((_, i) => {
-        const left = `${(i / columns) * 100}%`;
-        const animDuration = 8 + Math.random() * 12;
-        const delay = Math.random() * 5;
-        const charCount = 10 + Math.floor(Math.random() * 15);
-
-        return (
-          <motion.div
-            key={i}
-            className="absolute text-[10px] text-[#39FF14] font-mono leading-[1.2] whitespace-pre"
-            style={{ left, top: "-20%" }}
-            animate={{ y: ["0%", "120vh"] }}
-            transition={{ duration: animDuration, delay, repeat: Infinity, ease: "linear" }}
-          >
-            {Array.from({ length: charCount }).map((_, j) => (
-              <div key={j}>{chars[Math.floor(Math.random() * chars.length)]}</div>
-            ))}
-          </motion.div>
-        );
-      })}
-    </div>
-  );
-}
-
-function ScanLine() {
+function GlowParticle({ delay, size, x, y }: { delay: number; size: number; x: string; y: string }) {
   return (
     <motion.div
-      className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#39FF14]/20 to-transparent pointer-events-none z-20"
-      animate={{ top: ["0%", "100%"] }}
-      transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-    />
-  );
-}
-
-function DataStream({ side }: { side: "left" | "right" }) {
-  const items = side === "left"
-    ? ["₹899 → ₹650", "LIVE: Silk Sarees", "Deal closed ✓", "Buyer saved ₹349", "New seller joined", "Rating: ★★★★★", "₹2,400 → ₹1,800", "Auto-negotiate ON"]
-    : ["Payment: ₹1,200", "Viewers: 1,847", "Offer: ₹750", "Counter: ₹890", "SOLD × 3", "Shipping: Free", "₹4,500 → ₹3,200", "Trust score: 98%"];
-
-  return (
-    <div className={`absolute top-0 bottom-0 ${side === "left" ? "left-0" : "right-0"} w-36 md:w-44 overflow-hidden pointer-events-none hidden lg:block`}>
-      <motion.div
-        className="flex flex-col gap-8"
-        animate={{ y: [0, -400] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-      >
-        {[...items, ...items, ...items].map((item, i) => (
-          <div
-            key={i}
-            className={`text-[10px] font-mono ${side === "left" ? "text-right pr-8" : "text-left pl-8"} ${
-              item.includes("✓") || item.includes("SOLD") ? "text-[#39FF14]/20" : "text-white/[0.06]"
-            }`}
-          >
-            {item}
-          </div>
-        ))}
-      </motion.div>
-      <div className={`absolute inset-0 bg-gradient-to-${side === "left" ? "r" : "l"} from-[#030303] via-[#030303]/80 to-transparent`} />
-    </div>
+      className="absolute rounded-full pointer-events-none"
+      style={{ left: x, top: y, width: size, height: size }}
+      animate={{
+        opacity: [0, 0.6, 0],
+        scale: [0.5, 1.2, 0.5],
+        y: [0, -30, 0],
+      }}
+      transition={{ duration: 4, delay, repeat: Infinity, ease: "easeInOut" }}
+    >
+      <div className="w-full h-full rounded-full bg-[#39FF14]" style={{ filter: `blur(${size/3}px)` }} />
+    </motion.div>
   );
 }
 
 export function StickmanCTA() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [visibleLines, setVisibleLines] = useState<number[]>([]);
-  const [sequenceComplete, setSequenceComplete] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const terminalRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [isHovered, setIsHovered] = useState(false);
+  const [revealed, setRevealed] = useState(false);
 
-  useEffect(() => {
-    if (!isInView) return;
+  const handleHoverStart = () => {
+    setIsHovered(true);
+    setTimeout(() => setRevealed(true), 600);
+  };
 
-    TERMINAL_SEQUENCE.forEach((line, index) => {
-      setTimeout(() => {
-        setVisibleLines(prev => [...prev, index]);
-        if (index === TERMINAL_SEQUENCE.length - 1) {
-          setSequenceComplete(true);
-        }
-        if (terminalRef.current) {
-          terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
-        }
-      }, line.delay);
-    });
-  }, [isInView]);
-
-  useEffect(() => {
-    if (terminalRef.current) {
-      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
-    }
-  }, [visibleLines]);
-
-  const getLineColor = (type: string) => {
-    switch (type) {
-      case "cmd": return "text-[#39FF14]";
-      case "output": return "text-white/40";
-      case "success": return "text-[#39FF14]/80";
-      case "data": return "text-cyan-400/50";
-      case "ascii": return "text-[#39FF14]";
-      case "prompt": return "text-[#39FF14] font-bold";
-      default: return "text-white/30";
-    }
+  const handleHoverEnd = () => {
+    setIsHovered(false);
+    setRevealed(false);
   };
 
   return (
-    <section id="download" ref={ref} className="py-24 md:py-36 bg-[#030303] relative overflow-hidden">
-      <MatrixRain />
-      <ScanLine />
-      <DataStream side="left" />
-      <DataStream side="right" />
+    <section id="download" ref={ref} className="py-32 md:py-44 bg-[#020202] relative overflow-hidden">
+      {/* Atmospheric void background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[#39FF14]/[0.015] blur-[150px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#39FF14]/[0.02] blur-[80px]" />
 
-      {/* Corner decorations */}
-      <div className="absolute top-8 left-8 hidden md:block pointer-events-none">
-        <div className="w-16 h-16 border-l-2 border-t-2 border-[#39FF14]/10 rounded-tl-lg" />
-      </div>
-      <div className="absolute top-8 right-8 hidden md:block pointer-events-none">
-        <div className="w-16 h-16 border-r-2 border-t-2 border-[#39FF14]/10 rounded-tr-lg" />
-      </div>
-      <div className="absolute bottom-8 left-8 hidden md:block pointer-events-none">
-        <div className="w-16 h-16 border-l-2 border-b-2 border-[#39FF14]/10 rounded-bl-lg" />
-      </div>
-      <div className="absolute bottom-8 right-8 hidden md:block pointer-events-none">
-        <div className="w-16 h-16 border-r-2 border-b-2 border-[#39FF14]/10 rounded-br-lg" />
+        {/* Grid floor effect */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[40%] opacity-[0.03]"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(57,255,20,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(57,255,20,0.4) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+            transform: 'perspective(500px) rotateX(60deg)',
+            transformOrigin: 'bottom center',
+          }}
+        />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10 max-w-4xl">
-        {/* Section label */}
+      {/* Floating particles */}
+      <GlowParticle delay={0} size={4} x="30%" y="20%" />
+      <GlowParticle delay={1.5} size={3} x="70%" y="30%" />
+      <GlowParticle delay={0.8} size={5} x="20%" y="60%" />
+      <GlowParticle delay={2.2} size={3} x="75%" y="70%" />
+      <GlowParticle delay={1} size={4} x="50%" y="15%" />
+      <GlowParticle delay={3} size={3} x="40%" y="75%" />
+
+      <div className="container mx-auto px-6 relative z-10 max-w-5xl">
+        {/* Title */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10"
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-20 md:mb-28"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#39FF14]/10 bg-[#39FF14]/[0.03] mb-6">
-            <Terminal className="w-3.5 h-3.5 text-[#39FF14]/60" />
-            <span className="text-[11px] font-mono text-[#39FF14]/60 tracking-widest uppercase">System Terminal</span>
-          </div>
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display tracking-tight text-white leading-tight" data-testid="text-download-heading">
-            Initializing the Future<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] via-[#39FF14] to-[#00d4ff]">of Shopping</span>
+          <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-display tracking-tight text-white leading-[0.95]" data-testid="text-download-heading">
+            Enter the
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] via-[#39FF14] to-[#00d4ff]">
+              Zatch&trade; Ecosystem
+            </span>
           </h3>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="text-sm md:text-base text-white/20 mt-6 font-mono tracking-wide"
+          >
+            [ HOVER TO UNLOCK ]
+          </motion.p>
         </motion.div>
 
-        {/* Terminal Window */}
+        {/* The Cube Zone */}
         <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.95 }}
-          animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="relative"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center"
         >
-          {/* Glow behind terminal */}
-          <div className="absolute -inset-4 bg-[#39FF14]/[0.02] blur-3xl rounded-3xl pointer-events-none" />
+          {/* Cube container */}
+          <div
+            className="relative w-[280px] h-[280px] md:w-[340px] md:h-[340px] cursor-pointer"
+            onMouseEnter={handleHoverStart}
+            onMouseLeave={handleHoverEnd}
+            onTouchStart={handleHoverStart}
+            style={{ perspective: "1000px" }}
+          >
+            {/* Cube pulse ring */}
+            <motion.div
+              className="absolute inset-[-20px] rounded-full border border-[#39FF14]/10"
+              animate={isHovered ? { scale: 1.3, opacity: 0 } : { scale: [1, 1.1, 1], opacity: [0.3, 0.1, 0.3] }}
+              transition={isHovered ? { duration: 0.6 } : { duration: 3, repeat: Infinity }}
+            />
+            <motion.div
+              className="absolute inset-[-40px] rounded-full border border-[#39FF14]/5"
+              animate={isHovered ? { scale: 1.5, opacity: 0 } : { scale: [1, 1.08, 1], opacity: [0.15, 0.05, 0.15] }}
+              transition={isHovered ? { duration: 0.8 } : { duration: 4, repeat: Infinity, delay: 1 }}
+            />
 
-          <div className="relative rounded-2xl border border-white/[0.08] overflow-hidden bg-[#0a0a0a] shadow-[0_0_100px_rgba(0,0,0,0.6),0_0_40px_rgba(57,255,20,0.03)]">
-            {/* Window chrome */}
-            <div className="flex items-center justify-between px-4 py-3 bg-[#111]/80 border-b border-white/[0.06]">
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#ff5f57] hover:bg-[#ff5f57]/80 transition-colors" />
-                <div className="w-3 h-3 rounded-full bg-[#febc2e] hover:bg-[#febc2e]/80 transition-colors" />
-                <div className="w-3 h-3 rounded-full bg-[#28c840] hover:bg-[#28c840]/80 transition-colors" />
-              </div>
-              <div className="flex items-center gap-2">
-                <Terminal className="w-3 h-3 text-white/20" />
-                <span className="text-[11px] font-mono text-white/25">zatch@terminal ~ %</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <motion.div
-                  className="w-2 h-2 rounded-full bg-[#39FF14]"
-                  animate={{ opacity: [1, 0.3, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-                <span className="text-[9px] font-mono text-[#39FF14]/40">LIVE</span>
-              </div>
-            </div>
-
-            {/* Terminal body */}
-            <div
-              ref={terminalRef}
-              className="p-5 md:p-6 font-mono text-[11px] md:text-[13px] leading-relaxed h-[360px] md:h-[420px] overflow-y-auto scrollbar-none"
-              style={{ scrollBehavior: "smooth" }}
-            >
-              <AnimatePresence mode="sync">
-                {visibleLines.map((lineIdx) => {
-                  const line = TERMINAL_SEQUENCE[lineIdx];
-                  return (
-                    <motion.div
-                      key={lineIdx}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className={`${getLineColor(line.type)} mb-1 whitespace-pre-wrap`}
-                    >
-                      {line.type === "ascii" ? (
-                        <pre className="text-[6px] md:text-[8px] leading-[1.1] text-[#39FF14]/70 my-2">{ZATCH_ASCII}</pre>
-                      ) : line.type === "cmd" ? (
-                        <TypedText text={line.text} speed={20} />
-                      ) : line.type === "prompt" ? (
-                        <motion.span
-                          animate={{ opacity: [1, 0.3, 1] }}
-                          transition={{ duration: 1, repeat: Infinity }}
-                        >
-                          {line.text}
-                        </motion.span>
-                      ) : (
-                        <span>{line.text}</span>
-                      )}
-                    </motion.div>
-                  );
-                })}
-              </AnimatePresence>
-
-              {/* Blinking cursor at bottom */}
-              {!sequenceComplete && visibleLines.length > 0 && (
-                <motion.span
-                  className="text-[#39FF14] inline-block"
-                  animate={{ opacity: [1, 0, 1] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
+            {/* THE 3D CUBE */}
+            <div className="w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
+              {/* Left half */}
+              <motion.div
+                className="absolute inset-0"
+                style={{ transformStyle: "preserve-3d" }}
+                animate={
+                  isHovered
+                    ? { rotateY: 0, x: "-55%" }
+                    : { rotateY: [0, 360], x: "0%" }
+                }
+                transition={
+                  isHovered
+                    ? { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+                    : { rotateY: { duration: 12, repeat: Infinity, ease: "linear" }, x: { duration: 0.8 } }
+                }
+              >
+                {/* Front face - left half */}
+                <div
+                  className="absolute w-full h-full"
+                  style={{
+                    transform: "translateZ(140px) md:translateZ(170px)",
+                    clipPath: "inset(0 50% 0 0)",
+                  }}
                 >
-                  █
-                </motion.span>
-              )}
-            </div>
-
-            {/* Download action bar */}
-            <AnimatePresence>
-              {sequenceComplete && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
-                  className="border-t border-white/[0.06] bg-[#39FF14]/[0.02] p-4 md:p-5"
-                >
-                  <div className="flex flex-col sm:flex-row items-center gap-4">
-                    <a
-                      href={PLAYSTORE_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group relative flex-1 sm:flex-none"
-                      data-testid="button-download-app"
-                      onMouseEnter={() => setHovering(true)}
-                      onMouseLeave={() => setHovering(false)}
-                    >
-                      <div className="absolute -inset-[1px] rounded-xl overflow-hidden">
-                        <motion.div
-                          className="w-full h-full"
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                          style={{ background: hovering
-                            ? 'conic-gradient(from 0deg, #39FF14, #00d4ff, #ff0080, #ffdd00, #39FF14)'
-                            : 'conic-gradient(from 0deg, #39FF14, transparent 40%, #39FF14 50%, transparent 90%)'
-                          }}
-                        />
-                      </div>
-                      <div className="relative bg-[#39FF14] text-black px-8 py-3.5 rounded-xl font-bold text-sm flex items-center gap-3 justify-center group-hover:shadow-[0_0_40px_rgba(57,255,20,0.3)] transition-all duration-300 group-hover:scale-[1.02] active:scale-95 w-full sm:w-auto">
-                        <motion.span
-                          className="font-mono"
-                          animate={hovering ? { letterSpacing: ["0em", "0.05em", "0em"] } : {}}
-                          transition={{ duration: 0.6 }}
-                        >
-                          $ execute download
-                        </motion.span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </a>
-
-                    <div className="flex items-center gap-4 text-[10px] font-mono text-white/20">
-                      <span className="flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#39FF14]/40" />
-                        v2.4.1
-                      </span>
-                      <span>|</span>
-                      <span>12MB</span>
-                      <span>|</span>
-                      <span>Android 8+</span>
-                      <a
-                        href={PLAYSTORE_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hidden sm:flex items-center gap-1 text-[#39FF14]/40 hover:text-[#39FF14]/80 transition-colors ml-2"
-                      >
-                        <ExternalLink className="w-3 h-3" />
-                        Play Store
-                      </a>
-                    </div>
+                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/20 bg-gradient-to-br from-[#39FF14]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_60px_rgba(57,255,20,0.05)]">
+                    <div className="absolute inset-0 rounded-2xl bg-[#39FF14]/[0.03]" />
+                    {/* Circuit pattern */}
+                    <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 200 200">
+                      <path d="M20 100 L80 100 L80 40 L140 40" stroke="#39FF14" strokeWidth="1" fill="none" />
+                      <path d="M20 140 L60 140 L60 160 L120 160" stroke="#39FF14" strokeWidth="1" fill="none" />
+                      <circle cx="140" cy="40" r="3" fill="#39FF14" />
+                      <circle cx="120" cy="160" r="3" fill="#39FF14" />
+                    </svg>
                   </div>
+                </div>
+
+                {/* Back face - left half */}
+                <div
+                  className="absolute w-full h-full"
+                  style={{
+                    transform: "translateZ(-140px) rotateY(180deg)",
+                    clipPath: "inset(0 0 0 50%)",
+                  }}
+                >
+                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-bl from-[#39FF14]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm" />
+                </div>
+
+                {/* Left face */}
+                <div
+                  className="absolute w-full h-full"
+                  style={{ transform: "rotateY(-90deg) translateZ(140px)" }}
+                >
+                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-r from-[#39FF14]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_40px_rgba(57,255,20,0.03)]" />
+                </div>
+
+                {/* Top face - left half */}
+                <div
+                  className="absolute w-full h-full"
+                  style={{
+                    transform: "rotateX(90deg) translateZ(140px)",
+                    clipPath: "inset(0 50% 0 0)",
+                  }}
+                >
+                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-b from-[#39FF14]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm" />
+                </div>
+
+                {/* Bottom face - left half */}
+                <div
+                  className="absolute w-full h-full"
+                  style={{
+                    transform: "rotateX(-90deg) translateZ(140px)",
+                    clipPath: "inset(0 50% 0 0)",
+                  }}
+                >
+                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/10 bg-[#050a05]/80" />
+                </div>
+              </motion.div>
+
+              {/* Right half */}
+              <motion.div
+                className="absolute inset-0"
+                style={{ transformStyle: "preserve-3d" }}
+                animate={
+                  isHovered
+                    ? { rotateY: 0, x: "55%" }
+                    : { rotateY: [0, 360], x: "0%" }
+                }
+                transition={
+                  isHovered
+                    ? { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+                    : { rotateY: { duration: 12, repeat: Infinity, ease: "linear" }, x: { duration: 0.8 } }
+                }
+              >
+                {/* Front face - right half */}
+                <div
+                  className="absolute w-full h-full"
+                  style={{
+                    transform: "translateZ(140px)",
+                    clipPath: "inset(0 0 0 50%)",
+                  }}
+                >
+                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/20 bg-gradient-to-bl from-[#39FF14]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_60px_rgba(57,255,20,0.05)]">
+                    <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 200 200">
+                      <path d="M180 60 L120 60 L120 120 L60 120" stroke="#39FF14" strokeWidth="1" fill="none" />
+                      <path d="M180 100 L140 100 L140 50 L100 50" stroke="#39FF14" strokeWidth="1" fill="none" />
+                      <circle cx="60" cy="120" r="3" fill="#39FF14" />
+                      <circle cx="100" cy="50" r="3" fill="#39FF14" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Back face - right half */}
+                <div
+                  className="absolute w-full h-full"
+                  style={{
+                    transform: "translateZ(-140px) rotateY(180deg)",
+                    clipPath: "inset(0 50% 0 0)",
+                  }}
+                >
+                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-br from-[#39FF14]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm" />
+                </div>
+
+                {/* Right face */}
+                <div
+                  className="absolute w-full h-full"
+                  style={{ transform: "rotateY(90deg) translateZ(140px)" }}
+                >
+                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-l from-[#39FF14]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_40px_rgba(57,255,20,0.03)]" />
+                </div>
+
+                {/* Top face - right half */}
+                <div
+                  className="absolute w-full h-full"
+                  style={{
+                    transform: "rotateX(90deg) translateZ(140px)",
+                    clipPath: "inset(0 0 0 50%)",
+                  }}
+                >
+                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-b from-[#39FF14]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm" />
+                </div>
+
+                {/* Bottom face - right half */}
+                <div
+                  className="absolute w-full h-full"
+                  style={{
+                    transform: "rotateX(-90deg) translateZ(140px)",
+                    clipPath: "inset(0 0 0 50%)",
+                  }}
+                >
+                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/10 bg-[#050a05]/80" />
+                </div>
+              </motion.div>
+
+              {/* Inner core glow - visible when split */}
+              <AnimatePresence>
+                {isHovered && (
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center"
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                  >
+                    <div className="relative">
+                      <motion.div
+                        className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#39FF14]/20 blur-xl"
+                        animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0.8, 0.4] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                      <motion.div
+                        className="absolute inset-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#39FF14]/10 blur-3xl"
+                        animate={{ scale: [1.2, 1.8, 1.2] }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Access Keys - revealed from inside */}
+            <AnimatePresence>
+              {revealed && (
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center gap-4 md:gap-6 z-50"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                >
+                  {/* Apple App Store Key */}
+                  <motion.a
+                    href={PLAYSTORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, scale: 0.3, x: 20, rotateY: -90 }}
+                    animate={{ opacity: 1, scale: 1, x: 0, rotateY: 0 }}
+                    exit={{ opacity: 0, scale: 0.3, x: 20, rotateY: -90 }}
+                    transition={{ duration: 0.7, delay: 0.1, type: "spring", bounce: 0.3 }}
+                    className="group relative"
+                    data-testid="button-download-appstore"
+                  >
+                    <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-white/20 via-white/5 to-white/10 blur-[0.5px]" />
+                    <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)] group-hover:bg-white/[0.08] group-hover:border-white/[0.2] group-hover:shadow-[0_8px_50px_rgba(57,255,20,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 group-hover:scale-105">
+                      {/* Key icon cut */}
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center group-hover:bg-[#39FF14]/10 group-hover:border-[#39FF14]/20 transition-all duration-500">
+                        <span className="text-2xl md:text-3xl"></span>
+                      </div>
+                      <div className="text-center px-2">
+                        <p className="text-[8px] text-white/30 uppercase tracking-widest">Download on</p>
+                        <p className="text-[11px] md:text-xs text-white/80 font-semibold mt-0.5">App Store</p>
+                      </div>
+                      {/* Corner accent */}
+                      <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#39FF14]/30 group-hover:bg-[#39FF14]/60 transition-colors" />
+                    </div>
+                  </motion.a>
+
+                  {/* Google Play Key */}
+                  <motion.a
+                    href={PLAYSTORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, scale: 0.3, x: -20, rotateY: 90 }}
+                    animate={{ opacity: 1, scale: 1, x: 0, rotateY: 0 }}
+                    exit={{ opacity: 0, scale: 0.3, x: -20, rotateY: 90 }}
+                    transition={{ duration: 0.7, delay: 0.2, type: "spring", bounce: 0.3 }}
+                    className="group relative"
+                    data-testid="button-download-app"
+                  >
+                    <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-[#39FF14]/20 via-[#39FF14]/5 to-[#39FF14]/10 blur-[0.5px]" />
+                    <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-[#39FF14]/[0.04] backdrop-blur-xl border border-[#39FF14]/[0.15] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(57,255,20,0.06)] group-hover:bg-[#39FF14]/[0.08] group-hover:border-[#39FF14]/[0.3] group-hover:shadow-[0_8px_50px_rgba(57,255,20,0.15),inset_0_1px_0_rgba(57,255,20,0.1)] transition-all duration-500 group-hover:scale-105">
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[#39FF14]/[0.06] border border-[#39FF14]/[0.1] flex items-center justify-center group-hover:bg-[#39FF14]/15 group-hover:border-[#39FF14]/25 transition-all duration-500">
+                        <Play className="w-5 h-5 md:w-6 md:h-6 text-[#39FF14]/60 group-hover:text-[#39FF14] transition-colors" fill="currentColor" />
+                      </div>
+                      <div className="text-center px-2">
+                        <p className="text-[8px] text-[#39FF14]/30 uppercase tracking-widest">Get it on</p>
+                        <p className="text-[11px] md:text-xs text-white/80 font-semibold mt-0.5">Google Play</p>
+                      </div>
+                      <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#39FF14]/40 group-hover:bg-[#39FF14]/80 transition-colors" />
+                    </div>
+                  </motion.a>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
+
+          {/* Glass Pedestal */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="relative mt-8"
+          >
+            {/* Pedestal surface */}
+            <div className="w-[320px] md:w-[400px] h-[3px] rounded-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+            {/* Pedestal glow */}
+            <motion.div
+              className="w-[200px] md:w-[260px] h-[2px] rounded-full mx-auto mt-[1px] bg-gradient-to-r from-transparent via-[#39FF14]/20 to-transparent"
+              animate={isHovered ? { opacity: [0.6, 1, 0.6], width: ["260px", "300px", "260px"] } : { opacity: [0.2, 0.4, 0.2] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            {/* Pedestal reflection */}
+            <div className="w-[180px] md:w-[220px] h-20 mx-auto bg-gradient-to-b from-[#39FF14]/[0.02] to-transparent blur-md rounded-full" />
+          </motion.div>
+
+          {/* Hint text */}
+          <AnimatePresence mode="wait">
+            {!isHovered ? (
+              <motion.p
+                key="hint"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="mt-6 text-[11px] font-mono text-white/15 tracking-[0.3em] uppercase"
+              >
+                <motion.span
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  hover the cube
+                </motion.span>
+              </motion.p>
+            ) : (
+              <motion.p
+                key="unlocked"
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="mt-6 text-[11px] font-mono text-[#39FF14]/40 tracking-[0.3em] uppercase"
+              >
+                access granted
+              </motion.p>
+            )}
+          </AnimatePresence>
         </motion.div>
 
-        {/* Bottom social proof */}
+        {/* Bottom section */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 1 }}
-          className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="mt-16 md:mt-20 text-center"
         >
-          <div className="flex items-center gap-3">
-            <div className="flex -space-x-2">
-              {[
-                "from-[#39FF14]/30 to-[#00d4ff]/30",
-                "from-pink-500/30 to-purple-500/30",
-                "from-amber-500/30 to-orange-500/30",
-                "from-cyan-500/30 to-blue-500/30",
-              ].map((gradient, i) => (
-                <div key={i} className={`w-7 h-7 rounded-full bg-gradient-to-br ${gradient} border-2 border-[#030303] flex items-center justify-center`}>
-                  <span className="text-[8px] text-white/60 font-bold">{["R", "P", "S", "A"][i]}</span>
-                </div>
-              ))}
-            </div>
-            <div className="text-left">
-              <p className="text-[11px] text-white/40 font-semibold">12,000+ downloads</p>
-              <p className="text-[9px] text-white/20">and counting...</p>
-            </div>
-          </div>
+          <p className="text-white/20 text-sm max-w-md mx-auto leading-relaxed mb-8">
+            Join India's first live bargain marketplace. Watch sellers go live, negotiate in real-time, and never overpay again.
+          </p>
 
-          <div className="hidden sm:block w-px h-6 bg-white/[0.06]" />
-
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-0.5">
-              {[1,2,3,4,5].map(i => (
-                <motion.span
-                  key={i}
-                  className="text-[12px]"
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 1.2 + i * 0.1, type: "spring", bounce: 0.6 }}
-                >
-                  ⭐
-                </motion.span>
-              ))}
-            </div>
-            <span className="text-[11px] text-white/30">4.8 on Play Store</span>
+          <div className="flex flex-wrap items-center justify-center gap-6 text-[11px] text-white/15">
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#39FF14]/30" />
+              Free to download
+            </span>
+            <span className="w-px h-3 bg-white/[0.06]" />
+            <span>12,000+ downloads</span>
+            <span className="w-px h-3 bg-white/[0.06]" />
+            <span>4.8 ★ on Play Store</span>
           </div>
         </motion.div>
       </div>
