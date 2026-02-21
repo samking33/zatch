@@ -124,25 +124,29 @@ export function Navbar() {
           </div>
 
           <div className="hidden md:block">
-            <button
-              onClick={() => navigate({ name: "Download", target: "download", type: "scroll" })}
+            <a
+              href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 bg-[#39FF14] text-black text-[13px] font-bold rounded-xl hover:bg-[#39FF14]/90 transition-all duration-200 shadow-[0_0_20px_rgba(57,255,20,0.2)] hover:shadow-[0_0_30px_rgba(57,255,20,0.35)]"
               data-testid="nav-download"
             >
               <Download className="w-3.5 h-3.5" />
               Get App
-            </button>
+            </a>
           </div>
 
           {/* Mobile Actions */}
           <div className="md:hidden flex items-center gap-3">
-            <button
-              onClick={() => navigate({ name: "Download", target: "download", type: "scroll" })}
+            <a
+              href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-4 py-2 bg-[#39FF14] text-black text-xs font-bold rounded-lg shadow-[0_0_12px_rgba(57,255,20,0.2)]"
               data-testid="nav-download-mobile"
             >
               Get App
-            </button>
+            </a>
             <button
               className="text-white relative z-50 p-2 rounded-lg hover:bg-white/10 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -188,13 +192,15 @@ export function Navbar() {
               transition={{ delay: 0.3 }}
               className="mt-10"
             >
-              <button
-                onClick={() => navigate({ name: "Download", target: "download", type: "scroll" })}
+              <a
+                href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 bg-[#39FF14] text-black font-bold py-4 text-lg rounded-xl shadow-[0_0_20px_rgba(57,255,20,0.2)]"
               >
                 <Download className="w-5 h-5" />
                 Download App
-              </button>
+              </a>
             </motion.div>
           </motion.div>
         )}

@@ -37,7 +37,7 @@ export function Trust() {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="bg-primary text-black hover:bg-primary/90 font-bold px-10 h-14 rounded-full text-lg w-full sm:w-auto">
+              <Button size="lg" className="bg-primary text-black hover:bg-primary/90 font-bold px-10 h-14 rounded-full text-lg w-full sm:w-auto" onClick={() => window.open("https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share", "_blank")}>
                 Download Zatch
               </Button>
               <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10 font-bold px-10 h-14 rounded-full text-lg w-full sm:w-auto">

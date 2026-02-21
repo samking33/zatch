@@ -62,7 +62,7 @@ export default function DownloadPage() {
                transition={{ duration: 0.6, delay: 0.4 }}
                className="space-y-6"
              >
-                <a href="#" className="block group">
+                <a href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" className="block group">
                    <div className="bg-[#1A1A1A] hover:bg-[#252525] border border-white/10 rounded-2xl p-6 flex items-center gap-6 transition-all duration-300 group-hover:scale-105 group-hover:border-primary/50">
                       <div className="w-16 h-16 bg-black rounded-xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 transition-colors">
                          <span className="text-3xl"></span>
@@ -77,7 +77,7 @@ export default function DownloadPage() {
                    </div>
                 </a>
 
-                <a href="#" className="block group">
+                <a href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" className="block group">
                    <div className="bg-[#1A1A1A] hover:bg-[#252525] border border-white/10 rounded-2xl p-6 flex items-center gap-6 transition-all duration-300 group-hover:scale-105 group-hover:border-primary/50">
                       <div className="w-16 h-16 bg-black rounded-xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 transition-colors">
                          <Play className="w-8 h-8 fill-white text-white" />

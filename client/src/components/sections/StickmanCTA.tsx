@@ -232,10 +232,12 @@ export function StickmanCTA() {
           spawnConfetti();
           setIsJumping(true);
           setTimeout(() => setIsJumping(false), 600);
+          window.open("https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share", "_blank");
         }
       }, stepTime);
     } else {
       spawnConfetti();
+      window.open("https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share", "_blank");
     }
   };
 

@@ -41,13 +41,15 @@ export function Footer() {
             <p className="text-muted-foreground text-xs mb-6">
               Download the app and experience interactive commerce.
             </p>
-            <button
-              onClick={() => navigateToSection("download")}
-              className="bg-[#39FF14] hover:bg-[#39FF14]/90 text-black px-6 py-3 rounded-lg font-bold text-sm transition-all w-full text-center mb-6"
+            <a
+              href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-[#39FF14] hover:bg-[#39FF14]/90 text-black px-6 py-3 rounded-lg font-bold text-sm transition-all w-full text-center mb-6"
               data-testid="button-footer-download"
             >
               Download Zatch&trade;
-            </button>
+            </a>
             <div className="flex gap-4">
               <a href="#" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#39FF14]/20 hover:text-[#39FF14] transition-colors cursor-pointer" data-testid="link-twitter">
                 <Twitter size={16} />
