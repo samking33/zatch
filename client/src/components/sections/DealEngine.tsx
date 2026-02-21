@@ -287,490 +287,376 @@ function createUnreadNotificationsTexture(): HTMLCanvasElement {
   return c;
 }
 
-function createDealNegotiationTexture(): HTMLCanvasElement {
+function createFacebookMarketplaceTexture(): HTMLCanvasElement {
   const c = document.createElement("canvas");
   c.width = 256;
   c.height = 384;
   const ctx = c.getContext("2d")!;
 
-  ctx.fillStyle = "#0a0f0a";
+  ctx.fillStyle = "#18191a";
   roundRect(ctx, 0, 0, 256, 384, 16);
   ctx.fill();
 
-  ctx.strokeStyle = "#cafe3825";
-  ctx.lineWidth = 1;
-  roundRect(ctx, 0, 0, 256, 384, 16);
-  ctx.stroke();
-
-  ctx.fillStyle = "#cafe3890";
-  ctx.font = "bold 10px Inter, system-ui, sans-serif";
-  ctx.fillText("AUTO-NEGOTIATION", 16, 30);
-
-  ctx.fillStyle = "#ffffff15";
-  roundRect(ctx, 170, 16, 70, 22, 11);
+  ctx.fillStyle = "#242526";
+  ctx.fillRect(0, 0, 256, 44);
+  roundRect(ctx, 0, 0, 256, 44, 16);
   ctx.fill();
-  ctx.fillStyle = "#cafe38";
-  ctx.font = "bold 9px Inter, system-ui, sans-serif";
-  ctx.fillText("Active", 190, 31);
-
-  ctx.fillStyle = "#cafe3810";
-  roundRect(ctx, 16, 50, 224, 60, 10);
+  ctx.fillStyle = "#242526";
+  ctx.fillRect(0, 16, 256, 28);
   ctx.fill();
-  ctx.strokeStyle = "#cafe3830";
-  roundRect(ctx, 16, 50, 224, 60, 10);
-  ctx.stroke();
 
-  ctx.fillStyle = "#cafe38";
-  ctx.font = "bold 20px Space Grotesk, system-ui, sans-serif";
-  ctx.fillText("Silk Saree", 28, 78);
-  ctx.fillStyle = "#ffffff60";
-  ctx.font = "10px Inter, system-ui, sans-serif";
-  ctx.fillText("Listed at ₹1,200", 28, 98);
-
-  const steps = [
-    { label: "Buyer offered", amount: "₹750", color: "#ffffff80", icon: "B" },
-    { label: "Zatch™ countered", amount: "₹899", color: "#cafe38", icon: "Z" },
-    { label: "Buyer raised to", amount: "₹820", color: "#ffffff80", icon: "B" },
-    { label: "Zatch™ final", amount: "₹870", color: "#cafe38", icon: "Z" },
-  ];
-
-  let y = 130;
-  for (const step of steps) {
-    ctx.fillStyle = "#ffffff08";
-    roundRect(ctx, 16, y, 224, 36, 8);
-    ctx.fill();
-
-    drawAvatar(ctx, 24, y + 6, 24, step.icon === "Z" ? "#cafe38" : "#4a90d9", step.icon);
-
-    ctx.fillStyle = step.color;
-    ctx.font = "10px Inter, system-ui, sans-serif";
-    ctx.fillText(step.label, 56, y + 22);
-
-    ctx.fillStyle = step.color;
-    ctx.font = "bold 12px Inter, system-ui, sans-serif";
-    ctx.textAlign = "right";
-    ctx.fillText(step.amount, 230, y + 24);
-    ctx.textAlign = "left";
-
-    y += 42;
-  }
-
-  ctx.fillStyle = "#cafe3815";
-  roundRect(ctx, 16, y + 8, 224, 44, 10);
-  ctx.fill();
-  ctx.strokeStyle = "#cafe3840";
-  roundRect(ctx, 16, y + 8, 224, 44, 10);
-  ctx.stroke();
-
-  ctx.fillStyle = "#cafe38";
+  drawAvatar(ctx, 12, 8, 28, "#1877f2", "AK");
+  ctx.fillStyle = "#e4e6eb";
   ctx.font = "bold 11px Inter, system-ui, sans-serif";
-  ctx.fillText("✓  Deal Closed", 28, y + 30);
-  ctx.font = "bold 16px Inter, system-ui, sans-serif";
-  ctx.textAlign = "right";
-  ctx.fillText("₹850", 230, y + 38);
-  ctx.textAlign = "left";
-
-  return c;
-}
-
-function createPaymentTexture(): HTMLCanvasElement {
-  const c = document.createElement("canvas");
-  c.width = 256;
-  c.height = 384;
-  const ctx = c.getContext("2d")!;
-
-  ctx.fillStyle = "#0a0f0a";
-  roundRect(ctx, 0, 0, 256, 384, 16);
-  ctx.fill();
-  ctx.strokeStyle = "#cafe3825";
-  ctx.lineWidth = 1;
-  roundRect(ctx, 0, 0, 256, 384, 16);
-  ctx.stroke();
-
-  ctx.fillStyle = "#cafe3890";
-  ctx.font = "bold 10px Inter, system-ui, sans-serif";
-  ctx.fillText("PAYMENTS", 16, 30);
-
-  ctx.fillStyle = "#cafe3820";
-  roundRect(ctx, 140, 14, 100, 22, 11);
-  ctx.fill();
-  ctx.fillStyle = "#cafe38";
-  ctx.font = "bold 8px Inter, system-ui, sans-serif";
-  ctx.fillText("🔒 Secure", 160, 29);
-
-  ctx.fillStyle = "#cafe3808";
-  roundRect(ctx, 16, 48, 224, 70, 12);
-  ctx.fill();
-
-  ctx.fillStyle = "#ffffff40";
-  ctx.font = "10px Inter, system-ui, sans-serif";
-  ctx.fillText("Today's Revenue", 28, 70);
-  ctx.fillStyle = "#cafe38";
-  ctx.font = "bold 28px Space Grotesk, system-ui, sans-serif";
-  ctx.fillText("₹24,500", 28, 104);
-
-  const payments = [
-    { name: "Priya M.", amount: "₹2,400", time: "2m ago", color: "#5b8a72" },
-    { name: "Rahul K.", amount: "₹4,500", time: "5m ago", color: "#4a90d9" },
-    { name: "Sneha D.", amount: "₹1,200", time: "8m ago", color: "#d94a8c" },
-    { name: "Vikram P.", amount: "₹3,800", time: "12m ago", color: "#d9a04a" },
-    { name: "Meera S.", amount: "₹6,100", time: "15m ago", color: "#4ad99a" },
-    { name: "Arjun R.", amount: "₹6,500", time: "20m ago", color: "#9a4ad9" },
-  ];
-
-  let y = 134;
-  for (const p of payments) {
-    ctx.fillStyle = "#ffffff06";
-    roundRect(ctx, 16, y, 224, 36, 8);
-    ctx.fill();
-
-    drawAvatar(ctx, 22, y + 5, 26, p.color, p.name.substring(0, 2).toUpperCase());
-
-    ctx.fillStyle = "#ffffff70";
-    ctx.font = "10px Inter, system-ui, sans-serif";
-    ctx.fillText(p.name, 54, y + 22);
-
-    ctx.fillStyle = "#cafe38";
-    ctx.font = "bold 11px Inter, system-ui, sans-serif";
-    ctx.textAlign = "right";
-    ctx.fillText(p.amount, 200, y + 18);
-    ctx.fillStyle = "#ffffff30";
-    ctx.font = "8px Inter, system-ui, sans-serif";
-    ctx.fillText(p.time, 200, y + 30);
-    ctx.textAlign = "left";
-
-    y += 40;
-  }
-
-  return c;
-}
-
-function createLiveStreamTexture(): HTMLCanvasElement {
-  const c = document.createElement("canvas");
-  c.width = 256;
-  c.height = 384;
-  const ctx = c.getContext("2d")!;
-
-  const grad = ctx.createLinearGradient(0, 0, 256, 384);
-  grad.addColorStop(0, "#0a1a0f");
-  grad.addColorStop(1, "#050d08");
-  ctx.fillStyle = grad;
-  roundRect(ctx, 0, 0, 256, 384, 16);
-  ctx.fill();
-  ctx.strokeStyle = "#cafe3825";
-  ctx.lineWidth = 1;
-  roundRect(ctx, 0, 0, 256, 384, 16);
-  ctx.stroke();
-
-  ctx.fillStyle = "#1a2a1f";
-  roundRect(ctx, 10, 10, 236, 180, 12);
-  ctx.fill();
-
-  for (let i = 0; i < 20; i++) {
-    ctx.fillStyle = `rgba(202,254,56,${Math.random() * 0.05})`;
-    ctx.fillRect(
-      10 + Math.random() * 220,
-      10 + Math.random() * 170,
-      Math.random() * 30 + 5,
-      Math.random() * 30 + 5
-    );
-  }
-
-  ctx.fillStyle = "#ff0000cc";
-  roundRect(ctx, 18, 18, 42, 18, 9);
-  ctx.fill();
-  ctx.fillStyle = "#fff";
-  ctx.beginPath();
-  ctx.arc(28, 27, 3, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.font = "bold 9px Inter, system-ui, sans-serif";
-  ctx.fillText("LIVE", 34, 31);
-
-  ctx.fillStyle = "#00000090";
-  roundRect(ctx, 190, 18, 50, 18, 9);
-  ctx.fill();
-  ctx.fillStyle = "#cafe38";
-  ctx.font = "bold 9px Inter, system-ui, sans-serif";
-  ctx.fillText("👁 342", 197, 31);
-
-  const chats = [
-    { name: "M", text: "Beautiful collection! 😍", color: "#4ad99a" },
-    { name: "R", text: "Can I Zatch the red one? 🔴", color: "#4a90d9" },
-    { name: "S", text: "Price for green saree?", color: "#d94a8c" },
-  ];
-  let cy = 155;
-  for (const chat of chats) {
-    ctx.fillStyle = "#00000060";
-    roundRect(ctx, 16, cy, 180, 22, 11);
-    ctx.fill();
-    drawAvatar(ctx, 20, cy + 3, 16, chat.color, chat.name);
-    ctx.fillStyle = "#ffffffcc";
-    ctx.font = "8px Inter, system-ui, sans-serif";
-    ctx.fillText(chat.text, 40, cy + 16);
-    cy += 24;
-  }
-
-  ctx.fillStyle = "#e9edef";
-  ctx.font = "bold 12px Inter, system-ui, sans-serif";
-  ctx.fillText("Silk Sarees Collection", 16, 220);
-  ctx.fillStyle = "#cafe38";
-  ctx.font = "bold 11px Inter, system-ui, sans-serif";
-  ctx.fillText("Starting ₹899", 16, 238);
-  ctx.fillStyle = "#ffffff40";
+  ctx.fillText("Amit Kumar", 48, 24);
+  ctx.fillStyle = "#b0b3b8";
   ctx.font = "9px Inter, system-ui, sans-serif";
-  ctx.fillText("Live now · 12 items listed", 16, 254);
+  ctx.fillText("Marketplace · Active now", 48, 38);
 
-  ctx.fillStyle = "#ffffff08";
-  roundRect(ctx, 10, 268, 236, 1, 0);
-  ctx.fill();
-
-  const items = [
-    { name: "Banarasi Red", price: "₹1,200", status: "3 watching" },
-    { name: "Cotton Blue", price: "₹899", status: "5 bids" },
-    { name: "Silk Green", price: "₹1,500", status: "Sold!" },
-    { name: "Chiffon Pink", price: "₹750", status: "2 watching" },
+  const msgs = [
+    { in: true, text: "Is this still available?" },
+    { in: false, text: "Yes it is! ₹2,500" },
+    { in: true, text: "Will you take ₹1,500?" },
+    { in: false, text: "Too low. ₹2,200 minimum" },
+    { in: true, text: "₹1,800 last offer" },
+    { in: false, text: "₹2,000 final, no less" },
+    { in: true, text: "Ok deal. How to pay?" },
+    { in: false, text: "GPay or UPI. Send screenshot" },
+    { in: true, text: "Will pay tomorrow morning" },
+    { in: false, text: "Ok waiting..." },
   ];
 
-  let iy = 278;
-  for (const item of items) {
-    ctx.fillStyle = "#ffffff06";
-    roundRect(ctx, 14, iy, 228, 24, 6);
-    ctx.fill();
-    ctx.fillStyle = "#ffffffa0";
+  let y = 58;
+  for (const msg of msgs) {
+    const maxW = 165;
+    const pad = 8;
     ctx.font = "10px Inter, system-ui, sans-serif";
-    ctx.fillText(item.name, 22, iy + 16);
-    ctx.fillStyle = "#cafe38";
-    ctx.font = "bold 10px Inter, system-ui, sans-serif";
-    ctx.textAlign = "right";
-    ctx.fillText(item.price, 180, iy + 16);
-    ctx.fillStyle = item.status === "Sold!" ? "#cafe38" : "#ffffff40";
-    ctx.font = "8px Inter, system-ui, sans-serif";
-    ctx.fillText(item.status, 236, iy + 16);
-    ctx.textAlign = "left";
-    iy += 28;
-  }
-
-  return c;
-}
-
-function createSellerDashboardTexture(): HTMLCanvasElement {
-  const c = document.createElement("canvas");
-  c.width = 256;
-  c.height = 384;
-  const ctx = c.getContext("2d")!;
-
-  ctx.fillStyle = "#0a0f0a";
-  roundRect(ctx, 0, 0, 256, 384, 16);
-  ctx.fill();
-  ctx.strokeStyle = "#cafe3825";
-  ctx.lineWidth = 1;
-  roundRect(ctx, 0, 0, 256, 384, 16);
-  ctx.stroke();
-
-  ctx.fillStyle = "#cafe3890";
-  ctx.font = "bold 10px Inter, system-ui, sans-serif";
-  ctx.fillText("SELLER DASHBOARD", 16, 28);
-  ctx.fillStyle = "#ffffff30";
-  ctx.font = "9px Inter, system-ui, sans-serif";
-  ctx.fillText("Feb 2026", 180, 28);
-
-  const stats = [
-    { label: "Total Sales", value: "₹1,24,500", change: "+23%" },
-    { label: "Orders", value: "87", change: "+15%" },
-    { label: "Live Viewers", value: "1.2K", change: "+45%" },
-    { label: "Conversion", value: "34%", change: "+8%" },
-  ];
-
-  let sx = 16;
-  let sy = 44;
-  for (let i = 0; i < stats.length; i++) {
-    const w = 108;
-    const x = sx + (i % 2) * 114;
-    const y = sy + Math.floor(i / 2) * 70;
-
-    ctx.fillStyle = "#ffffff08";
-    roundRect(ctx, x, y, w, 60, 8);
-    ctx.fill();
-
-    ctx.fillStyle = "#ffffff40";
-    ctx.font = "9px Inter, system-ui, sans-serif";
-    ctx.fillText(stats[i].label, x + 10, y + 18);
-
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 16px Space Grotesk, system-ui, sans-serif";
-    ctx.fillText(stats[i].value, x + 10, y + 40);
-
-    ctx.fillStyle = "#cafe38";
-    ctx.font = "bold 9px Inter, system-ui, sans-serif";
-    ctx.fillText(stats[i].change, x + 10, y + 54);
-  }
-
-  ctx.fillStyle = "#ffffff08";
-  roundRect(ctx, 16, 192, 224, 80, 8);
-  ctx.fill();
-  ctx.fillStyle = "#ffffff40";
-  ctx.font = "9px Inter, system-ui, sans-serif";
-  ctx.fillText("Revenue Trend", 26, 210);
-
-  const points = [20, 35, 28, 45, 40, 55, 50, 60, 52, 65, 58];
-  ctx.strokeStyle = "#cafe38";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  for (let i = 0; i < points.length; i++) {
-    const px = 26 + i * 19;
-    const py = 260 - points[i];
-    if (i === 0) ctx.moveTo(px, py);
-    else ctx.lineTo(px, py);
-  }
-  ctx.stroke();
-
-  ctx.fillStyle = "#ffffff10";
-  ctx.font = "bold 10px Inter, system-ui, sans-serif";
-  ctx.fillText("TOP PRODUCTS", 16, 296);
-
-  const products = [
-    { name: "Silk Saree Red", sold: "23 sold", rev: "₹27,600" },
-    { name: "Cotton Kurti Set", sold: "18 sold", rev: "₹16,200" },
-    { name: "Palazzo Pants", sold: "15 sold", rev: "₹11,250" },
-  ];
-
-  let py = 306;
-  for (const p of products) {
-    ctx.fillStyle = "#ffffff06";
-    roundRect(ctx, 16, py, 224, 24, 6);
-    ctx.fill();
-    ctx.fillStyle = "#ffffffa0";
-    ctx.font = "10px Inter, system-ui, sans-serif";
-    ctx.fillText(p.name, 24, py + 16);
-    ctx.fillStyle = "#ffffff40";
-    ctx.font = "8px Inter, system-ui, sans-serif";
-    ctx.fillText(p.sold, 140, py + 16);
-    ctx.fillStyle = "#cafe38";
-    ctx.font = "bold 10px Inter, system-ui, sans-serif";
-    ctx.textAlign = "right";
-    ctx.fillText(p.rev, 234, py + 16);
-    ctx.textAlign = "left";
-    py += 28;
-  }
-
-  return c;
-}
-
-function createOrderTrackingTexture(): HTMLCanvasElement {
-  const c = document.createElement("canvas");
-  c.width = 256;
-  c.height = 384;
-  const ctx = c.getContext("2d")!;
-
-  ctx.fillStyle = "#0a0f0a";
-  roundRect(ctx, 0, 0, 256, 384, 16);
-  ctx.fill();
-  ctx.strokeStyle = "#cafe3825";
-  ctx.lineWidth = 1;
-  roundRect(ctx, 0, 0, 256, 384, 16);
-  ctx.stroke();
-
-  ctx.fillStyle = "#cafe3890";
-  ctx.font = "bold 10px Inter, system-ui, sans-serif";
-  ctx.fillText("ORDER TRACKING", 16, 28);
-
-  ctx.fillStyle = "#ffffff15";
-  roundRect(ctx, 160, 14, 80, 22, 11);
-  ctx.fill();
-  ctx.fillStyle = "#cafe38";
-  ctx.font = "bold 8px Inter, system-ui, sans-serif";
-  ctx.fillText("4 Active", 180, 29);
-
-  const orders = [
-    {
-      id: "#ZT-2847",
-      buyer: "Priya M.",
-      item: "Silk Saree - Maroon",
-      amount: "₹1,200",
-      status: "Shipped",
-      statusColor: "#4a90d9",
-    },
-    {
-      id: "#ZT-2846",
-      buyer: "Rahul K.",
-      item: "Cotton Kurta Set",
-      amount: "₹899",
-      status: "Packed",
-      statusColor: "#d9a04a",
-    },
-    {
-      id: "#ZT-2845",
-      buyer: "Sneha D.",
-      item: "Palazzo Pants Blue",
-      amount: "₹650",
-      status: "Delivered",
-      statusColor: "#cafe38",
-    },
-    {
-      id: "#ZT-2844",
-      buyer: "Meera S.",
-      item: "Jhumka Earrings Gold",
-      amount: "₹450",
-      status: "Processing",
-      statusColor: "#d94a8c",
-    },
-  ];
-
-  let y = 48;
-  for (const order of orders) {
-    ctx.fillStyle = "#ffffff06";
-    roundRect(ctx, 12, y, 232, 76, 10);
-    ctx.fill();
-
-    ctx.fillStyle = "#ffffff30";
-    ctx.font = "8px Inter, system-ui, sans-serif";
-    ctx.fillText(order.id, 20, y + 16);
-
-    ctx.fillStyle = order.statusColor;
-    roundRect(ctx, 180, y + 6, 56, 16, 8);
-    ctx.fill();
-    ctx.fillStyle = "#000";
-    ctx.font = "bold 7px Inter, system-ui, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(order.status, 208, y + 17);
-    ctx.textAlign = "left";
-
-    ctx.fillStyle = "#ffffffc0";
-    ctx.font = "bold 10px Inter, system-ui, sans-serif";
-    ctx.fillText(order.item, 20, y + 34);
-
-    ctx.fillStyle = "#ffffff60";
-    ctx.font = "9px Inter, system-ui, sans-serif";
-    ctx.fillText("Buyer: " + order.buyer, 20, y + 50);
-
-    ctx.fillStyle = "#cafe38";
-    ctx.font = "bold 12px Inter, system-ui, sans-serif";
-    ctx.textAlign = "right";
-    ctx.fillText(order.amount, 232, y + 50);
-    ctx.textAlign = "left";
-
-    if (order.status === "Shipped" || order.status === "Delivered") {
-      const steps = ["Confirmed", "Packed", "Shipped", "Delivered"];
-      const activeIdx = order.status === "Shipped" ? 2 : 3;
-      const stepW = 48;
-      for (let i = 0; i < steps.length; i++) {
-        const cx = 28 + i * stepW;
-        ctx.fillStyle = i <= activeIdx ? "#cafe38" : "#ffffff20";
-        ctx.beginPath();
-        ctx.arc(cx, y + 66, 3, 0, Math.PI * 2);
-        ctx.fill();
-        if (i < steps.length - 1) {
-          ctx.strokeStyle = i < activeIdx ? "#cafe38" : "#ffffff20";
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(cx + 4, y + 66);
-          ctx.lineTo(cx + stepW - 4, y + 66);
-          ctx.stroke();
-        }
-      }
+    const words = msg.text.split(" ");
+    let lines: string[] = [];
+    let line = words[0];
+    for (let i = 1; i < words.length; i++) {
+      const test = line + " " + words[i];
+      if (ctx.measureText(test).width > maxW - pad * 2) { lines.push(line); line = words[i]; } else { line = test; }
     }
+    lines.push(line);
+    const lineH = 14;
+    const bH = lines.length * lineH + pad * 2;
+    const bW = Math.min(maxW, Math.max(...lines.map(l => ctx.measureText(l).width)) + pad * 2 + 6);
+    const bx = msg.in ? 12 : 256 - bW - 12;
+    ctx.fillStyle = msg.in ? "#3a3b3c" : "#0084ff";
+    roundRect(ctx, bx, y, bW, bH, 14);
+    ctx.fill();
+    ctx.fillStyle = "#e4e6eb";
+    ctx.font = "10px Inter, system-ui, sans-serif";
+    for (let i = 0; i < lines.length; i++) {
+      ctx.fillText(lines[i], bx + pad, y + pad + 10 + i * lineH);
+    }
+    y += bH + 3;
+    if (y > 370) break;
+  }
 
-    y += 82;
+  return c;
+}
+
+function createPaymentConfusionTexture(): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = 256;
+  c.height = 384;
+  const ctx = c.getContext("2d")!;
+
+  ctx.fillStyle = "#0b141a";
+  roundRect(ctx, 0, 0, 256, 384, 16);
+  ctx.fill();
+
+  ctx.fillStyle = "#1f2c33";
+  ctx.fillRect(0, 0, 256, 44);
+  roundRect(ctx, 0, 0, 256, 44, 16);
+  ctx.fill();
+  ctx.fillStyle = "#1f2c33";
+  ctx.fillRect(0, 16, 256, 28);
+  ctx.fill();
+
+  drawAvatar(ctx, 40, 8, 28, "#d9a04a", "VK");
+  ctx.fillStyle = "#e9edef";
+  ctx.font = "bold 11px Inter, system-ui, sans-serif";
+  ctx.fillText("Vijay K", 76, 24);
+  ctx.fillStyle = "#8696a0";
+  ctx.font = "9px Inter, system-ui, sans-serif";
+  ctx.fillText("online", 76, 38);
+
+  ctx.fillStyle = "#0b141a";
+  ctx.fillRect(0, 44, 256, 340);
+
+  const msgs = [
+    { in: false, text: "Payment is ₹1,400. UPI only", time: "11:20 AM" },
+    { in: true, text: "Sent ₹1,400 to your GPay", time: "11:45 AM" },
+    { in: false, text: "I didn't receive anything 🤔", time: "11:46 AM" },
+    { in: true, text: "Check again? Sent at 11:45", time: "11:47 AM" },
+    { in: true, text: "[screenshot_payment.jpg]", time: "11:47 AM" },
+    { in: false, text: "That's a different UPI ID...", time: "11:50 AM" },
+    { in: true, text: "OMG wrong number!! 😰", time: "11:51 AM" },
+    { in: true, text: "How do I get refund???", time: "11:52 AM" },
+    { in: false, text: "That's not my problem 😅", time: "12:01 PM" },
+  ];
+
+  let y = 58;
+  for (const msg of msgs) {
+    const bgColor = msg.in ? "#202c33" : "#005c4b";
+    const maxW = 170;
+    const pad = 8;
+    ctx.font = "10px Inter, system-ui, sans-serif";
+    const words = msg.text.split(" ");
+    let lines: string[] = [];
+    let currentLine = words[0];
+    for (let i = 1; i < words.length; i++) {
+      const test = currentLine + " " + words[i];
+      if (ctx.measureText(test).width > maxW - pad * 2) { lines.push(currentLine); currentLine = words[i]; } else { currentLine = test; }
+    }
+    lines.push(currentLine);
+    const lineH = 14;
+    const bubbleH = lines.length * lineH + pad * 2 + 8;
+    const bubbleW = Math.min(maxW, Math.max(...lines.map(l => ctx.measureText(l).width)) + pad * 2 + 10);
+    const bx = msg.in ? 12 : 256 - bubbleW - 12;
+    ctx.fillStyle = bgColor;
+    roundRect(ctx, bx, y, bubbleW, bubbleH, 8);
+    ctx.fill();
+    ctx.fillStyle = "#e9edef";
+    ctx.font = "10px Inter, system-ui, sans-serif";
+    for (let i = 0; i < lines.length; i++) {
+      ctx.fillText(lines[i], bx + pad, y + pad + 10 + i * lineH);
+    }
+    ctx.fillStyle = "#ffffff60";
+    ctx.font = "7px Inter, system-ui, sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText(msg.time, bx + bubbleW - pad, y + bubbleH - 4);
+    ctx.textAlign = "left";
+    y += bubbleH + 4;
+    if (y > 370) break;
+  }
+
+  return c;
+}
+
+function createGhostingChatTexture(): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = 256;
+  c.height = 384;
+  const ctx = c.getContext("2d")!;
+
+  ctx.fillStyle = "#0b141a";
+  roundRect(ctx, 0, 0, 256, 384, 16);
+  ctx.fill();
+
+  ctx.fillStyle = "#1f2c33";
+  ctx.fillRect(0, 0, 256, 44);
+  roundRect(ctx, 0, 0, 256, 44, 16);
+  ctx.fill();
+  ctx.fillStyle = "#1f2c33";
+  ctx.fillRect(0, 16, 256, 28);
+  ctx.fill();
+
+  drawAvatar(ctx, 40, 8, 28, "#4ad99a", "MS");
+  ctx.fillStyle = "#e9edef";
+  ctx.font = "bold 11px Inter, system-ui, sans-serif";
+  ctx.fillText("Meera Sethi", 76, 24);
+  ctx.fillStyle = "#8696a0";
+  ctx.font = "9px Inter, system-ui, sans-serif";
+  ctx.fillText("last seen 3 days ago", 76, 38);
+
+  ctx.fillStyle = "#0b141a";
+  ctx.fillRect(0, 44, 256, 340);
+
+  const msgs = [
+    { in: true, text: "I want to buy this! Final price?", time: "Mon" },
+    { in: false, text: "₹950 ma'am, best price", time: "Mon" },
+    { in: true, text: "Done! I'll pay now. UPI?", time: "Mon" },
+    { in: false, text: "Yes, sending UPI details", time: "Mon" },
+    { in: false, text: "Hello? Sent UPI ID", time: "Tue" },
+    { in: false, text: "Ma'am payment pending?", time: "Tue" },
+    { in: false, text: "Are you still interested?", time: "Wed" },
+    { in: false, text: "Please reply 🙏", time: "Wed" },
+    { in: false, text: "Hello???", time: "Thu" },
+  ];
+
+  let y = 58;
+  for (const msg of msgs) {
+    const bgColor = msg.in ? "#202c33" : "#005c4b";
+    const maxW = 170;
+    const pad = 8;
+    ctx.font = "10px Inter, system-ui, sans-serif";
+    const words = msg.text.split(" ");
+    let lines: string[] = [];
+    let currentLine = words[0];
+    for (let i = 1; i < words.length; i++) {
+      const test = currentLine + " " + words[i];
+      if (ctx.measureText(test).width > maxW - pad * 2) { lines.push(currentLine); currentLine = words[i]; } else { currentLine = test; }
+    }
+    lines.push(currentLine);
+    const lineH = 14;
+    const bubbleH = lines.length * lineH + pad * 2 + 8;
+    const bubbleW = Math.min(maxW, Math.max(...lines.map(l => ctx.measureText(l).width)) + pad * 2 + 10);
+    const bx = msg.in ? 12 : 256 - bubbleW - 12;
+    ctx.fillStyle = bgColor;
+    roundRect(ctx, bx, y, bubbleW, bubbleH, 8);
+    ctx.fill();
+    ctx.fillStyle = "#e9edef";
+    ctx.font = "10px Inter, system-ui, sans-serif";
+    for (let i = 0; i < lines.length; i++) {
+      ctx.fillText(lines[i], bx + pad, y + pad + 10 + i * lineH);
+    }
+    ctx.fillStyle = "#ffffff60";
+    ctx.font = "7px Inter, system-ui, sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText(msg.time, bx + bubbleW - pad, y + bubbleH - 4);
+    if (!msg.in) {
+      ctx.fillText("✓✓", bx + bubbleW - pad - ctx.measureText(msg.time).width - 6, y + bubbleH - 4);
+    }
+    ctx.textAlign = "left";
+    y += bubbleH + 4;
+    if (y > 370) break;
+  }
+
+  return c;
+}
+
+function createMultiBuyerChaosTexture(): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = 256;
+  c.height = 384;
+  const ctx = c.getContext("2d")!;
+
+  ctx.fillStyle = "#000000";
+  roundRect(ctx, 0, 0, 256, 384, 16);
+  ctx.fill();
+
+  ctx.fillStyle = "#121212";
+  ctx.fillRect(0, 0, 256, 44);
+  roundRect(ctx, 0, 0, 256, 44, 16);
+  ctx.fill();
+  ctx.fillStyle = "#121212";
+  ctx.fillRect(0, 16, 256, 28);
+  ctx.fill();
+
+  drawAvatar(ctx, 12, 8, 28, "#e91e63", "RB");
+  ctx.fillStyle = "#fafafa";
+  ctx.font = "bold 11px Inter, system-ui, sans-serif";
+  ctx.fillText("riya_boutique", 48, 24);
+  ctx.fillStyle = "#8e8e8e";
+  ctx.font = "9px Inter, system-ui, sans-serif";
+  ctx.fillText("23 requests", 48, 38);
+
+  const requests = [
+    { name: "AJ", text: "Price?", color: "#4a90d9" },
+    { name: "NK", text: "Available in blue?", color: "#d94a8c" },
+    { name: "PT", text: "COD?", color: "#d9a04a" },
+    { name: "RG", text: "Shipping to Delhi?", color: "#4ad99a" },
+    { name: "SK", text: "Last price kya hai?", color: "#9a4ad9" },
+    { name: "MK", text: "₹400 le lo? 🙏", color: "#d94a4a" },
+    { name: "VP", text: "Size chart send karo", color: "#4ad9d9" },
+    { name: "DK", text: "Discount milega?", color: "#d99a4a" },
+    { name: "AS", text: "Return policy?", color: "#90d94a" },
+    { name: "JP", text: "Hello?? Reply karo", color: "#4a4ad9" },
+    { name: "RM", text: "Bulk order price?", color: "#d94a90" },
+  ];
+
+  let y = 54;
+  for (const req of requests) {
+    ctx.fillStyle = "#1a1a1a";
+    roundRect(ctx, 8, y, 240, 28, 8);
+    ctx.fill();
+
+    drawAvatar(ctx, 14, y + 4, 20, req.color, req.name);
+
+    ctx.fillStyle = "#fafafa";
+    ctx.font = "10px Inter, system-ui, sans-serif";
+    ctx.fillText(req.text, 40, y + 19);
+
+    ctx.fillStyle = "#ff4444";
+    ctx.beginPath();
+    ctx.arc(236, y + 14, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    y += 30;
+    if (y > 370) break;
+  }
+
+  return c;
+}
+
+function createShippingConfusionTexture(): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = 256;
+  c.height = 384;
+  const ctx = c.getContext("2d")!;
+
+  ctx.fillStyle = "#0b141a";
+  roundRect(ctx, 0, 0, 256, 384, 16);
+  ctx.fill();
+
+  ctx.fillStyle = "#1f2c33";
+  ctx.fillRect(0, 0, 256, 44);
+  roundRect(ctx, 0, 0, 256, 44, 16);
+  ctx.fill();
+  ctx.fillStyle = "#1f2c33";
+  ctx.fillRect(0, 16, 256, 28);
+  ctx.fill();
+
+  drawAvatar(ctx, 40, 8, 28, "#d94a4a", "AR");
+  ctx.fillStyle = "#e9edef";
+  ctx.font = "bold 11px Inter, system-ui, sans-serif";
+  ctx.fillText("Arjun Reddy", 76, 24);
+  ctx.fillStyle = "#8696a0";
+  ctx.font = "9px Inter, system-ui, sans-serif";
+  ctx.fillText("online", 76, 38);
+
+  ctx.fillStyle = "#0b141a";
+  ctx.fillRect(0, 44, 256, 340);
+
+  const msgs = [
+    { in: true, text: "Where is my order? It's been 5 days!!", time: "9:30 AM" },
+    { in: false, text: "Let me check with courier", time: "10:15 AM" },
+    { in: true, text: "You said 2-3 days delivery! 😡", time: "10:16 AM" },
+    { in: false, text: "Sorry sir, courier is delayed", time: "10:30 AM" },
+    { in: true, text: "Give me tracking number", time: "10:31 AM" },
+    { in: false, text: "I don't have tracking... sent via local courier", time: "10:45 AM" },
+    { in: true, text: "WHAT?! No tracking?!", time: "10:46 AM" },
+    { in: true, text: "I want refund NOW", time: "10:46 AM" },
+    { in: false, text: "Please wait 2 more days 🙏", time: "11:00 AM" },
+  ];
+
+  let y = 58;
+  for (const msg of msgs) {
+    const bgColor = msg.in ? "#202c33" : "#005c4b";
+    const maxW = 170;
+    const pad = 8;
+    ctx.font = "10px Inter, system-ui, sans-serif";
+    const words = msg.text.split(" ");
+    let lines: string[] = [];
+    let currentLine = words[0];
+    for (let i = 1; i < words.length; i++) {
+      const test = currentLine + " " + words[i];
+      if (ctx.measureText(test).width > maxW - pad * 2) { lines.push(currentLine); currentLine = words[i]; } else { currentLine = test; }
+    }
+    lines.push(currentLine);
+    const lineH = 14;
+    const bubbleH = lines.length * lineH + pad * 2 + 8;
+    const bubbleW = Math.min(maxW, Math.max(...lines.map(l => ctx.measureText(l).width)) + pad * 2 + 10);
+    const bx = msg.in ? 12 : 256 - bubbleW - 12;
+    ctx.fillStyle = bgColor;
+    roundRect(ctx, bx, y, bubbleW, bubbleH, 8);
+    ctx.fill();
+    ctx.fillStyle = "#e9edef";
+    ctx.font = "10px Inter, system-ui, sans-serif";
+    for (let i = 0; i < lines.length; i++) {
+      ctx.fillText(lines[i], bx + pad, y + pad + 10 + i * lineH);
+    }
+    ctx.fillStyle = "#ffffff60";
+    ctx.font = "7px Inter, system-ui, sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText(msg.time, bx + bubbleW - pad, y + bubbleH - 4);
+    ctx.textAlign = "left";
+    y += bubbleH + 4;
+    if (y > 370) break;
   }
 
   return c;
@@ -809,8 +695,8 @@ function createCardData(
     const mat = new THREE.MeshBasicMaterial({
       map: texture,
       transparent: true,
-      opacity: 0.7 + Math.random() * 0.3,
-      color: new THREE.Color(0.8, 0.4, 0.4),
+      opacity: 0.55 + Math.random() * 0.25,
+      color: new THREE.Color(0.75, 0.35, 0.35),
       side: THREE.DoubleSide,
     });
     const mesh = new THREE.Mesh(geo, mat);
@@ -820,14 +706,14 @@ function createCardData(
 
     cards.push({
       chaosPos: new THREE.Vector3(
-        (Math.random() - 0.5) * 12,
-        (Math.random() - 0.5) * 8,
-        (Math.random() - 0.5) * 4
+        (Math.random() - 0.5) * 14,
+        (Math.random() - 0.5) * 10,
+        (Math.random() - 0.5) * 5
       ),
       chaosRot: new THREE.Euler(
-        (Math.random() - 0.5) * 0.3,
-        (Math.random() - 0.5) * 0.3,
-        (Math.random() - 0.5) * 0.3
+        (Math.random() - 0.5) * 0.5,
+        (Math.random() - 0.5) * 0.5,
+        (Math.random() - 0.5) * 0.5
       ),
       gridPos: new THREE.Vector3(
         col * spacingX - offsetX,
@@ -837,9 +723,9 @@ function createCardData(
       driftSpeed: 0.3 + Math.random() * 0.7,
       driftPhase: Math.random() * Math.PI * 2,
       driftAmplitude: new THREE.Vector3(
+        0.4 + Math.random() * 0.6,
         0.3 + Math.random() * 0.5,
-        0.2 + Math.random() * 0.4,
-        0.1 + Math.random() * 0.2
+        0.15 + Math.random() * 0.25
       ),
       mesh,
     });
@@ -1008,11 +894,11 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       createWhatsAppTexture,
       createInstagramDMTexture,
       createUnreadNotificationsTexture,
-      createDealNegotiationTexture,
-      createPaymentTexture,
-      createLiveStreamTexture,
-      createSellerDashboardTexture,
-      createOrderTrackingTexture,
+      createFacebookMarketplaceTexture,
+      createPaymentConfusionTexture,
+      createGhostingChatTexture,
+      createMultiBuyerChaosTexture,
+      createShippingConfusionTexture,
     ];
 
     const cards = createCardData(textureCreators, 36, 6);
@@ -1160,74 +1046,93 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
           data-testid="webgl-canvas-container"
         />
 
-        <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center z-10">
-          <div className="relative w-full max-w-2xl px-8 text-center">
-            <motion.div
-              animate={{
-                opacity: overlayState === "chaos" ? 1 : 0,
-                y: overlayState === "chaos" ? 0 : -20,
-              }}
-              transition={{ duration: 0.5 }}
-              className="absolute inset-0 flex flex-col items-center justify-center"
-              data-testid="text-old-way-label"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-px bg-red-500" />
-                <span className="text-[11px] font-bold text-red-400 tracking-[0.4em] uppercase">For Sellers</span>
-                <div className="w-8 h-px bg-red-500" />
-              </div>
-              <h3 className="text-5xl md:text-7xl font-bold font-display tracking-tight leading-[0.95] text-red-400/90 mb-3">
-                The Old Way
-              </h3>
-              <p className="text-lg text-red-400/50">Manual selling via DMs</p>
-            </motion.div>
+        <div className="absolute inset-0 pointer-events-none z-10">
+          <motion.div
+            animate={{ opacity: overlayState === "chaos" ? 1 : 0 }}
+            transition={{ duration: 0.6 }}
+            className="absolute inset-0"
+            style={{
+              background: "radial-gradient(ellipse 60% 50% at center, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.4) 50%, transparent 80%)",
+            }}
+          />
+          <motion.div
+            animate={{ opacity: overlayState === "order" ? 1 : 0 }}
+            transition={{ duration: 0.6 }}
+            className="absolute inset-0"
+            style={{
+              background: "radial-gradient(ellipse 60% 50% at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 50%, transparent 80%)",
+            }}
+          />
+
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <div className="relative w-full max-w-2xl px-8 text-center">
+              <motion.div
+                animate={{
+                  opacity: overlayState === "chaos" ? 1 : 0,
+                  y: overlayState === "chaos" ? 0 : -20,
+                }}
+                transition={{ duration: 0.5 }}
+                className="absolute inset-0 flex flex-col items-center justify-center"
+                data-testid="text-old-way-label"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-px bg-red-500" />
+                  <span className="text-[11px] font-bold text-red-400 tracking-[0.4em] uppercase">For Sellers</span>
+                  <div className="w-8 h-px bg-red-500" />
+                </div>
+                <h3 className="text-5xl md:text-7xl font-bold font-display tracking-tight leading-[0.95] text-red-400 mb-3 drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)]">
+                  The Old Way
+                </h3>
+                <p className="text-lg text-red-400/70 drop-shadow-[0_1px_8px_rgba(0,0,0,0.9)]">Manual selling via DMs</p>
+              </motion.div>
+
+              <motion.div
+                animate={{
+                  opacity: overlayState === "order" ? 1 : 0,
+                  y: overlayState === "order" ? 0 : 20,
+                }}
+                transition={{ duration: 0.5 }}
+                className="absolute inset-0 flex flex-col items-center justify-center"
+                data-testid="text-zatch-way-label"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-px bg-[#cafe38]" />
+                  <span className="text-[11px] font-bold text-[#cafe38] tracking-[0.4em] uppercase">For Sellers</span>
+                  <div className="w-8 h-px bg-[#cafe38]" />
+                </div>
+                <h3 className="text-5xl md:text-7xl font-bold font-display tracking-tight leading-[0.95] text-[#cafe38] mb-3 drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)]">
+                  The Zatch Way
+                </h3>
+                <p className="text-lg text-[#cafe38]/70 drop-shadow-[0_1px_8px_rgba(0,0,0,0.9)]">Automated. Live. Closed.</p>
+              </motion.div>
+            </div>
 
             <motion.div
               animate={{
-                opacity: overlayState === "order" ? 1 : 0,
-                y: overlayState === "order" ? 0 : 20,
+                opacity: showCTA ? 1 : 0,
+                y: showCTA ? 0 : 30,
               }}
-              transition={{ duration: 0.5 }}
-              className="absolute inset-0 flex flex-col items-center justify-center"
-              data-testid="text-zatch-way-label"
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="absolute bottom-20 flex flex-col sm:flex-row items-center gap-4 pointer-events-auto"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-px bg-[#cafe38]" />
-                <span className="text-[11px] font-bold text-[#cafe38] tracking-[0.4em] uppercase">For Sellers</span>
-                <div className="w-8 h-px bg-[#cafe38]" />
-              </div>
-              <h3 className="text-5xl md:text-7xl font-bold font-display tracking-tight leading-[0.95] text-[#cafe38] mb-3">
-                The Zatch Way
-              </h3>
-              <p className="text-lg text-[#cafe38]/60">Automated. Live. Closed.</p>
+              <button
+                onClick={onJoinWaitlist}
+                className="px-8 py-3 rounded-xl bg-[#cafe38] text-black font-bold text-sm hover:bg-[#d8ff5c] transition-colors"
+                data-testid="button-start-selling"
+              >
+                Start Selling
+              </button>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-3 rounded-xl bg-[#cafe38]/10 border border-[#cafe38]/30 text-[#cafe38] font-bold text-sm hover:bg-[#cafe38]/20 transition-colors"
+                data-testid="link-download-zatch"
+              >
+                Download Zatch
+              </a>
             </motion.div>
           </div>
-
-          <motion.div
-            animate={{
-              opacity: showCTA ? 1 : 0,
-              y: showCTA ? 0 : 30,
-            }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="absolute bottom-20 flex flex-col sm:flex-row items-center gap-4 pointer-events-auto"
-          >
-            <button
-              onClick={onJoinWaitlist}
-              className="px-8 py-3 rounded-xl bg-[#cafe38] text-black font-bold text-sm hover:bg-[#d8ff5c] transition-colors"
-              data-testid="button-start-selling"
-            >
-              Start Selling
-            </button>
-            <a
-              href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-3 rounded-xl bg-[#cafe38]/10 border border-[#cafe38]/30 text-[#cafe38] font-bold text-sm hover:bg-[#cafe38]/20 transition-colors"
-              data-testid="link-download-zatch"
-            >
-              Download Zatch
-            </a>
-          </motion.div>
         </div>
       </div>
     </section>
