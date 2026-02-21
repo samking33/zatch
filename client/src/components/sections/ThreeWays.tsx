@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 import { Video, ShoppingBag, MessageSquareText, ArrowRight, Sparkles } from "lucide-react";
 import { BargainSimulator } from "@/components/interactive/BargainSimulator";
@@ -44,7 +44,7 @@ export function ThreeWays() {
   });
 
   return (
-    <section ref={containerRef} id="features" className="bg-black relative pt-32 pb-64">
+    <section ref={containerRef} id="features" className="bg-black relative pt-20 pb-32">
        {/* Ambient Light */}
        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[500px] bg-primary/10 blur-[150px] pointer-events-none" />
 
@@ -87,43 +87,15 @@ function Card({ card, index, range, targetScale, progress }: any) {
 
   const imageScale = useTransform(scrollYProgress, [0, 1], [2, 1]);
   const scale = useTransform(progress, range, [1, targetScale]);
-  
-  // 3D Tilt Effect
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-0.5, 0.5], [10, -10]);
-  const rotateY = useTransform(x, [-0.5, 0.5], [-10, 10]);
-
-  function onMouseMove(event: React.MouseEvent<HTMLDivElement>) {
-    if (!container.current) return;
-    const rect = container.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
-  }
-
-  function onMouseLeave() {
-    x.set(0);
-    y.set(0);
-  }
 
   return (
-    <div ref={container} className="h-screen flex items-center justify-center sticky top-0 perspective-1000">
+    <div ref={container} className="h-screen flex items-center justify-center sticky top-0">
       <motion.div 
         style={{ 
            scale, 
            top: `calc(-5vh + ${index * 25}px)`,
-           rotateX,
-           rotateY
         }}
-        onMouseMove={onMouseMove}
-        onMouseLeave={onMouseLeave}
-        className="relative flex flex-col md:flex-row h-[600px] w-full rounded-[3rem] border border-white/10 bg-[#0A0A0A] overflow-hidden origin-top shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] group"
+        className="relative flex flex-col md:flex-row h-[600px] w-full rounded-[3rem] border border-white/10 bg-[#0A0A0A] overflow-hidden origin-top shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] group hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.6)] hover:border-white/15 transition-all duration-500"
       >
         {/* Shine Effect */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20 bg-gradient-to-tr from-white/5 to-transparent mix-blend-overlay" />

@@ -16,7 +16,7 @@ function GlowParticle({ delay, size, x, y }: { delay: number; size: number; x: s
       }}
       transition={{ duration: 4, delay, repeat: Infinity, ease: "easeInOut" }}
     >
-      <div className="w-full h-full rounded-full bg-[#39FF14]" style={{ filter: `blur(${size/3}px)` }} />
+      <div className="w-full h-full rounded-full bg-[#cafe38]" style={{ filter: `blur(${size/3}px)` }} />
     </motion.div>
   );
 }
@@ -38,17 +38,17 @@ export function StickmanCTA() {
   };
 
   return (
-    <section id="download" ref={ref} className="py-32 md:py-44 bg-[#020202] relative overflow-hidden">
+    <section id="download" ref={ref} className="py-20 md:py-28 bg-[#020202] relative overflow-hidden">
       {/* Atmospheric void background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[#39FF14]/[0.015] blur-[150px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#39FF14]/[0.02] blur-[80px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[#cafe38]/[0.015] blur-[150px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#cafe38]/[0.02] blur-[80px]" />
 
         {/* Grid floor effect */}
         <div
           className="absolute bottom-0 left-0 right-0 h-[40%] opacity-[0.03]"
           style={{
-            backgroundImage: 'linear-gradient(rgba(57,255,20,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(57,255,20,0.4) 1px, transparent 1px)',
+            backgroundImage: 'linear-gradient(rgba(202,254,56,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(202,254,56,0.4) 1px, transparent 1px)',
             backgroundSize: '60px 60px',
             transform: 'perspective(500px) rotateX(60deg)',
             transformOrigin: 'bottom center',
@@ -75,7 +75,7 @@ export function StickmanCTA() {
           <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-display tracking-tight text-white leading-[0.95]" data-testid="text-download-heading">
             Enter the
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] via-[#39FF14] to-[#00d4ff]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#cafe38] via-[#cafe38] to-[#00d4ff]">
               Zatch&trade; Ecosystem
             </span>
           </h3>
@@ -106,12 +106,12 @@ export function StickmanCTA() {
           >
             {/* Cube pulse ring */}
             <motion.div
-              className="absolute inset-[-20px] rounded-full border border-[#39FF14]/10"
+              className="absolute inset-[-20px] rounded-full border border-[#cafe38]/10"
               animate={isHovered ? { scale: 1.3, opacity: 0 } : { scale: [1, 1.1, 1], opacity: [0.3, 0.1, 0.3] }}
               transition={isHovered ? { duration: 0.6 } : { duration: 3, repeat: Infinity }}
             />
             <motion.div
-              className="absolute inset-[-40px] rounded-full border border-[#39FF14]/5"
+              className="absolute inset-[-40px] rounded-full border border-[#cafe38]/5"
               animate={isHovered ? { scale: 1.5, opacity: 0 } : { scale: [1, 1.08, 1], opacity: [0.15, 0.05, 0.15] }}
               transition={isHovered ? { duration: 0.8 } : { duration: 4, repeat: Infinity, delay: 1 }}
             />
@@ -141,14 +141,14 @@ export function StickmanCTA() {
                     clipPath: "inset(0 50% 0 0)",
                   }}
                 >
-                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/20 bg-gradient-to-br from-[#39FF14]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_60px_rgba(57,255,20,0.05)]">
-                    <div className="absolute inset-0 rounded-2xl bg-[#39FF14]/[0.03]" />
+                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/20 bg-gradient-to-br from-[#cafe38]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_60px_rgba(202,254,56,0.05)]">
+                    <div className="absolute inset-0 rounded-2xl bg-[#cafe38]/[0.03]" />
                     {/* Circuit pattern */}
                     <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 200 200">
-                      <path d="M20 100 L80 100 L80 40 L140 40" stroke="#39FF14" strokeWidth="1" fill="none" />
-                      <path d="M20 140 L60 140 L60 160 L120 160" stroke="#39FF14" strokeWidth="1" fill="none" />
-                      <circle cx="140" cy="40" r="3" fill="#39FF14" />
-                      <circle cx="120" cy="160" r="3" fill="#39FF14" />
+                      <path d="M20 100 L80 100 L80 40 L140 40" stroke="#cafe38" strokeWidth="1" fill="none" />
+                      <path d="M20 140 L60 140 L60 160 L120 160" stroke="#cafe38" strokeWidth="1" fill="none" />
+                      <circle cx="140" cy="40" r="3" fill="#cafe38" />
+                      <circle cx="120" cy="160" r="3" fill="#cafe38" />
                     </svg>
                   </div>
                 </div>
@@ -161,7 +161,7 @@ export function StickmanCTA() {
                     clipPath: "inset(0 0 0 50%)",
                   }}
                 >
-                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-bl from-[#39FF14]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm" />
+                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-bl from-[#cafe38]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm" />
                 </div>
 
                 {/* Left face */}
@@ -169,7 +169,7 @@ export function StickmanCTA() {
                   className="absolute w-full h-full"
                   style={{ transform: "rotateY(-90deg) translateZ(140px)" }}
                 >
-                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-r from-[#39FF14]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_40px_rgba(57,255,20,0.03)]" />
+                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-r from-[#cafe38]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_40px_rgba(202,254,56,0.03)]" />
                 </div>
 
                 {/* Top face - left half */}
@@ -180,7 +180,7 @@ export function StickmanCTA() {
                     clipPath: "inset(0 50% 0 0)",
                   }}
                 >
-                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-b from-[#39FF14]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm" />
+                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-b from-[#cafe38]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm" />
                 </div>
 
                 {/* Bottom face - left half */}
@@ -191,7 +191,7 @@ export function StickmanCTA() {
                     clipPath: "inset(0 50% 0 0)",
                   }}
                 >
-                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/10 bg-[#050a05]/80" />
+                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/10 bg-[#050a05]/80" />
                 </div>
               </motion.div>
 
@@ -218,12 +218,12 @@ export function StickmanCTA() {
                     clipPath: "inset(0 0 0 50%)",
                   }}
                 >
-                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/20 bg-gradient-to-bl from-[#39FF14]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_60px_rgba(57,255,20,0.05)]">
+                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/20 bg-gradient-to-bl from-[#cafe38]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_60px_rgba(202,254,56,0.05)]">
                     <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 200 200">
-                      <path d="M180 60 L120 60 L120 120 L60 120" stroke="#39FF14" strokeWidth="1" fill="none" />
-                      <path d="M180 100 L140 100 L140 50 L100 50" stroke="#39FF14" strokeWidth="1" fill="none" />
-                      <circle cx="60" cy="120" r="3" fill="#39FF14" />
-                      <circle cx="100" cy="50" r="3" fill="#39FF14" />
+                      <path d="M180 60 L120 60 L120 120 L60 120" stroke="#cafe38" strokeWidth="1" fill="none" />
+                      <path d="M180 100 L140 100 L140 50 L100 50" stroke="#cafe38" strokeWidth="1" fill="none" />
+                      <circle cx="60" cy="120" r="3" fill="#cafe38" />
+                      <circle cx="100" cy="50" r="3" fill="#cafe38" />
                     </svg>
                   </div>
                 </div>
@@ -236,7 +236,7 @@ export function StickmanCTA() {
                     clipPath: "inset(0 50% 0 0)",
                   }}
                 >
-                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-br from-[#39FF14]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm" />
+                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-br from-[#cafe38]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm" />
                 </div>
 
                 {/* Right face */}
@@ -244,7 +244,7 @@ export function StickmanCTA() {
                   className="absolute w-full h-full"
                   style={{ transform: "rotateY(90deg) translateZ(140px)" }}
                 >
-                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-l from-[#39FF14]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_40px_rgba(57,255,20,0.03)]" />
+                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-l from-[#cafe38]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_40px_rgba(202,254,56,0.03)]" />
                 </div>
 
                 {/* Top face - right half */}
@@ -255,7 +255,7 @@ export function StickmanCTA() {
                     clipPath: "inset(0 0 0 50%)",
                   }}
                 >
-                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/15 bg-gradient-to-b from-[#39FF14]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm" />
+                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-b from-[#cafe38]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm" />
                 </div>
 
                 {/* Bottom face - right half */}
@@ -266,7 +266,7 @@ export function StickmanCTA() {
                     clipPath: "inset(0 0 0 50%)",
                   }}
                 >
-                  <div className="w-full h-full rounded-2xl border border-[#39FF14]/10 bg-[#050a05]/80" />
+                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/10 bg-[#050a05]/80" />
                 </div>
               </motion.div>
 
@@ -282,12 +282,12 @@ export function StickmanCTA() {
                   >
                     <div className="relative">
                       <motion.div
-                        className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#39FF14]/20 blur-xl"
+                        className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#cafe38]/20 blur-xl"
                         animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0.8, 0.4] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       />
                       <motion.div
-                        className="absolute inset-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#39FF14]/10 blur-3xl"
+                        className="absolute inset-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#cafe38]/10 blur-3xl"
                         animate={{ scale: [1.2, 1.8, 1.2] }}
                         transition={{ duration: 3, repeat: Infinity }}
                       />
@@ -319,9 +319,9 @@ export function StickmanCTA() {
                     data-testid="button-download-appstore"
                   >
                     <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-white/20 via-white/5 to-white/10 blur-[0.5px]" />
-                    <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)] group-hover:bg-white/[0.08] group-hover:border-white/[0.2] group-hover:shadow-[0_8px_50px_rgba(57,255,20,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 group-hover:scale-105">
+                    <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)] group-hover:bg-white/[0.08] group-hover:border-white/[0.2] group-hover:shadow-[0_8px_50px_rgba(202,254,56,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 group-hover:scale-105">
                       {/* Key icon cut */}
-                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center group-hover:bg-[#39FF14]/10 group-hover:border-[#39FF14]/20 transition-all duration-500">
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center group-hover:bg-[#cafe38]/10 group-hover:border-[#cafe38]/20 transition-all duration-500">
                         <svg className="w-6 h-6 md:w-7 md:h-7 text-white/70 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.97 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
                         </svg>
@@ -331,7 +331,7 @@ export function StickmanCTA() {
                         <p className="text-[11px] md:text-xs text-white/80 font-semibold mt-0.5">App Store</p>
                       </div>
                       {/* Corner accent */}
-                      <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#39FF14]/30 group-hover:bg-[#39FF14]/60 transition-colors" />
+                      <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#cafe38]/30 group-hover:bg-[#cafe38]/60 transition-colors" />
                     </div>
                   </motion.a>
 
@@ -347,9 +347,9 @@ export function StickmanCTA() {
                     className="group relative"
                     data-testid="button-download-app"
                   >
-                    <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-[#39FF14]/20 via-[#39FF14]/5 to-[#39FF14]/10 blur-[0.5px]" />
-                    <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-[#39FF14]/[0.04] backdrop-blur-xl border border-[#39FF14]/[0.15] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(57,255,20,0.06)] group-hover:bg-[#39FF14]/[0.08] group-hover:border-[#39FF14]/[0.3] group-hover:shadow-[0_8px_50px_rgba(57,255,20,0.15),inset_0_1px_0_rgba(57,255,20,0.1)] transition-all duration-500 group-hover:scale-105">
-                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[#39FF14]/[0.06] border border-[#39FF14]/[0.1] flex items-center justify-center group-hover:bg-[#39FF14]/15 group-hover:border-[#39FF14]/25 transition-all duration-500">
+                    <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-[#cafe38]/20 via-[#cafe38]/5 to-[#cafe38]/10 blur-[0.5px]" />
+                    <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-[#cafe38]/[0.04] backdrop-blur-xl border border-[#cafe38]/[0.15] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(202,254,56,0.06)] group-hover:bg-[#cafe38]/[0.08] group-hover:border-[#cafe38]/[0.3] group-hover:shadow-[0_8px_50px_rgba(202,254,56,0.15),inset_0_1px_0_rgba(202,254,56,0.1)] transition-all duration-500 group-hover:scale-105">
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[#cafe38]/[0.06] border border-[#cafe38]/[0.1] flex items-center justify-center group-hover:bg-[#cafe38]/15 group-hover:border-[#cafe38]/25 transition-all duration-500">
                         <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24">
                           <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92z" fill="#4285F4"/>
                           <path d="M17.556 8.248l-3.764 3.753 3.764 3.753 4.243-2.399c.477-.27.77-.772.77-1.316s-.294-1.046-.77-1.316l-4.243-2.475z" fill="#FBBC04"/>
@@ -358,10 +358,10 @@ export function StickmanCTA() {
                         </svg>
                       </div>
                       <div className="text-center px-2">
-                        <p className="text-[8px] text-[#39FF14]/30 uppercase tracking-widest">Get it on</p>
+                        <p className="text-[8px] text-[#cafe38]/30 uppercase tracking-widest">Get it on</p>
                         <p className="text-[11px] md:text-xs text-white/80 font-semibold mt-0.5">Google Play</p>
                       </div>
-                      <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#39FF14]/40 group-hover:bg-[#39FF14]/80 transition-colors" />
+                      <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#cafe38]/40 group-hover:bg-[#cafe38]/80 transition-colors" />
                     </div>
                   </motion.a>
                 </motion.div>
@@ -380,12 +380,12 @@ export function StickmanCTA() {
             <div className="w-[320px] md:w-[400px] h-[3px] rounded-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
             {/* Pedestal glow */}
             <motion.div
-              className="w-[200px] md:w-[260px] h-[2px] rounded-full mx-auto mt-[1px] bg-gradient-to-r from-transparent via-[#39FF14]/20 to-transparent"
+              className="w-[200px] md:w-[260px] h-[2px] rounded-full mx-auto mt-[1px] bg-gradient-to-r from-transparent via-[#cafe38]/20 to-transparent"
               animate={isHovered ? { opacity: [0.6, 1, 0.6], width: ["260px", "300px", "260px"] } : { opacity: [0.2, 0.4, 0.2] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
             {/* Pedestal reflection */}
-            <div className="w-[180px] md:w-[220px] h-20 mx-auto bg-gradient-to-b from-[#39FF14]/[0.02] to-transparent blur-md rounded-full" />
+            <div className="w-[180px] md:w-[220px] h-20 mx-auto bg-gradient-to-b from-[#cafe38]/[0.02] to-transparent blur-md rounded-full" />
           </motion.div>
 
           {/* Hint text */}
@@ -411,7 +411,7 @@ export function StickmanCTA() {
                 initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="mt-6 text-[11px] font-mono text-[#39FF14]/40 tracking-[0.3em] uppercase"
+                className="mt-6 text-[11px] font-mono text-[#cafe38]/40 tracking-[0.3em] uppercase"
               >
                 access granted
               </motion.p>
@@ -432,7 +432,7 @@ export function StickmanCTA() {
 
           <div className="flex flex-wrap items-center justify-center gap-6 text-[11px] text-white/15">
             <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#39FF14]/30" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#cafe38]/30" />
               Free to download
             </span>
             <span className="w-px h-3 bg-white/[0.06]" />

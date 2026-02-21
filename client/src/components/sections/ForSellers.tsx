@@ -198,11 +198,11 @@ function UnreadChats() {
 function ZatchLiveStream() {
   const [viewers, setViewers] = useState(342);
   useEffect(() => {
-    const i = setInterval(() => setViewers(v => v + Math.floor(Math.random() * 3) - 1), 2000);
+    const i = setInterval(() => setViewers(v => v + Math.floor(Math.random() * 3) - 1), 8000);
     return () => clearInterval(i);
   }, []);
   return (
-    <div className="bg-gradient-to-br from-[#0a1a0f] to-[#050d08] rounded-2xl border border-[#39FF14]/15 overflow-hidden">
+    <div className="bg-gradient-to-br from-[#0a1a0f] to-[#050d08] rounded-2xl border border-[#cafe38]/15 overflow-hidden">
       <div className="aspect-[16/10] relative overflow-hidden">
         <img src={liveStreamImg} alt="Live saree selling" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -215,7 +215,7 @@ function ZatchLiveStream() {
 
         {/* Viewer count */}
         <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-sm border border-white/10">
-          <Users className="w-3 h-3 text-[#39FF14]" />
+          <Users className="w-3 h-3 text-[#cafe38]" />
           <span className="text-[10px] text-white font-bold">{viewers}</span>
         </div>
 
@@ -241,9 +241,9 @@ function ZatchLiveStream() {
 
 function ZatchNegotiationCard() {
   return (
-    <div className="bg-[#0a0f0a] rounded-2xl border border-[#39FF14]/10 p-3">
+    <div className="bg-[#0a0f0a] rounded-2xl border border-[#cafe38]/10 p-3">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-[10px] text-[#39FF14]/60 font-bold uppercase tracking-wider">Auto-Negotiation</span>
+        <span className="text-[10px] text-[#cafe38]/60 font-bold uppercase tracking-wider">Auto-Negotiation</span>
         <span className="text-[9px] text-white/20 bg-white/5 px-2 py-0.5 rounded-full">Active</span>
       </div>
       <div className="space-y-2">
@@ -256,22 +256,22 @@ function ZatchNegotiationCard() {
         </div>
         <div className="flex items-center justify-between py-1.5 border-b border-white/[0.04]">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full bg-[#39FF14]/20 flex items-center justify-center"><Zap className="w-2.5 h-2.5 text-[#39FF14]" /></div>
-            <span className="text-[10px] text-[#39FF14]/60">Zatch&trade; countered</span>
+            <div className="w-5 h-5 rounded-full bg-[#cafe38]/20 flex items-center justify-center"><Zap className="w-2.5 h-2.5 text-[#cafe38]" /></div>
+            <span className="text-[10px] text-[#cafe38]/60">Zatch&trade; countered</span>
           </div>
-          <span className="text-[11px] text-[#39FF14] font-bold">₹899</span>
+          <span className="text-[11px] text-[#cafe38] font-bold">₹899</span>
         </div>
         <motion.div
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.5 }}
-          className="flex items-center justify-between py-1.5 bg-[#39FF14]/5 rounded-lg px-2 border border-[#39FF14]/10"
+          className="flex items-center justify-between py-1.5 bg-[#cafe38]/5 rounded-lg px-2 border border-[#cafe38]/10"
         >
           <div className="flex items-center gap-2">
-            <Check className="w-3 h-3 text-[#39FF14]" />
-            <span className="text-[10px] text-[#39FF14]/80 font-semibold">Deal Closed</span>
+            <Check className="w-3 h-3 text-[#cafe38]" />
+            <span className="text-[10px] text-[#cafe38]/80 font-semibold">Deal Closed</span>
           </div>
-          <span className="text-[11px] text-[#39FF14] font-bold">₹850</span>
+          <span className="text-[11px] text-[#cafe38] font-bold">₹850</span>
         </motion.div>
       </div>
     </div>
@@ -280,10 +280,10 @@ function ZatchNegotiationCard() {
 
 function ZatchPaymentCard() {
   return (
-    <div className="bg-[#0a0f0a] rounded-2xl border border-[#39FF14]/10 p-3">
+    <div className="bg-[#0a0f0a] rounded-2xl border border-[#cafe38]/10 p-3">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[10px] text-[#39FF14]/60 font-bold uppercase tracking-wider">Payments</span>
-        <div className="flex items-center gap-1 text-[9px] text-[#39FF14]/80 bg-[#39FF14]/10 px-2 py-0.5 rounded-full border border-[#39FF14]/20">
+        <span className="text-[10px] text-[#cafe38]/60 font-bold uppercase tracking-wider">Payments</span>
+        <div className="flex items-center gap-1 text-[9px] text-[#cafe38]/80 bg-[#cafe38]/10 px-2 py-0.5 rounded-full border border-[#cafe38]/20">
           <ShieldCheck className="w-2.5 h-2.5" /> Secure
         </div>
       </div>
@@ -304,7 +304,7 @@ function ZatchPaymentCard() {
             <span className="text-[10px] text-white/50">{p.name}</span>
           </div>
           <div className="text-right">
-            <span className="text-[11px] text-[#39FF14] font-bold">{p.amount}</span>
+            <span className="text-[11px] text-[#cafe38] font-bold">{p.amount}</span>
             <span className="text-[8px] text-white/20 ml-1.5">{p.time}</span>
           </div>
         </motion.div>
@@ -348,7 +348,7 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
   }, [isDragging, handleSliderMove]);
 
   return (
-    <section id="sellers" ref={ref} className="py-32 md:py-40 bg-[#030303] relative overflow-hidden">
+    <section id="sellers" ref={ref} className="py-20 md:py-28 bg-[#030303] relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
@@ -368,13 +368,13 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-px bg-[#39FF14]" />
-              <span className="text-[11px] font-bold text-[#39FF14] tracking-[0.4em] uppercase" data-testid="text-sellers-tag">For Sellers</span>
+              <div className="w-8 h-px bg-[#cafe38]" />
+              <span className="text-[11px] font-bold text-[#cafe38] tracking-[0.4em] uppercase" data-testid="text-sellers-tag">For Sellers</span>
             </div>
             <h3 className="text-4xl sm:text-5xl md:text-[4.5rem] font-bold font-display tracking-tight leading-[0.95]" data-testid="text-sellers-heading">
               <span className="text-white">Your DMs</span><br />
               <span className="text-white">Are Not a</span><br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] via-[#39FF14] to-[#39FF14]/50">Sales System.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#cafe38] via-[#cafe38] to-[#cafe38]/50">Sales System.</span>
             </h3>
           </motion.div>
 
@@ -452,16 +452,16 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
             >
               <div className="p-4 md:p-6 h-full flex flex-col">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-lg bg-[#39FF14]/10 border border-[#39FF14]/20 flex items-center justify-center">
-                    <Zap className="w-3.5 h-3.5 text-[#39FF14]" />
+                  <div className="w-8 h-8 rounded-lg bg-[#cafe38]/10 border border-[#cafe38]/20 flex items-center justify-center">
+                    <Zap className="w-3.5 h-3.5 text-[#cafe38]" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-[#39FF14]/90">The Zatch&trade; Way</h4>
-                    <p className="text-[9px] text-[#39FF14]/30 uppercase tracking-widest">Automated Live Selling</p>
+                    <h4 className="text-sm font-bold text-[#cafe38]/90">The Zatch&trade; Way</h4>
+                    <p className="text-[9px] text-[#cafe38]/30 uppercase tracking-widest">Automated Live Selling</p>
                   </div>
                   <div className="ml-auto flex items-center gap-2">
-                    <div className="px-2 py-0.5 rounded-full bg-[#39FF14]/10 border border-[#39FF14]/20">
-                      <span className="text-[9px] text-[#39FF14]/80 font-bold">All automated</span>
+                    <div className="px-2 py-0.5 rounded-full bg-[#cafe38]/10 border border-[#cafe38]/20">
+                      <span className="text-[9px] text-[#cafe38]/80 font-bold">All automated</span>
                     </div>
                   </div>
                 </div>
@@ -474,25 +474,25 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                   <div className="space-y-3 hidden md:block">
                     <ZatchNegotiationCard />
 
-                    <div className="bg-[#0a0f0a] rounded-2xl border border-[#39FF14]/10 p-3">
-                      <span className="text-[10px] text-[#39FF14]/60 font-bold uppercase tracking-wider">Today's Summary</span>
+                    <div className="bg-[#0a0f0a] rounded-2xl border border-[#cafe38]/10 p-3">
+                      <span className="text-[10px] text-[#cafe38]/60 font-bold uppercase tracking-wider">Today's Summary</span>
                       <div className="grid grid-cols-3 gap-3 mt-3">
                         {[
                           { label: "Sales", value: "₹24.5K", icon: TrendingUp },
                           { label: "Orders", value: "18", icon: IndianRupee },
                           { label: "Time Saved", value: "4.2h", icon: Clock },
                         ].map((s, i) => (
-                          <div key={i} className="text-center py-2 rounded-xl bg-[#39FF14]/5 border border-[#39FF14]/10">
-                            <s.icon className="w-3 h-3 text-[#39FF14]/50 mx-auto mb-1" />
-                            <p className="text-[13px] text-[#39FF14] font-bold">{s.value}</p>
+                          <div key={i} className="text-center py-2 rounded-xl bg-[#cafe38]/5 border border-[#cafe38]/10">
+                            <s.icon className="w-3 h-3 text-[#cafe38]/50 mx-auto mb-1" />
+                            <p className="text-[13px] text-[#cafe38] font-bold">{s.value}</p>
                             <p className="text-[8px] text-white/20 uppercase tracking-wider">{s.label}</p>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="bg-[#0a0f0a] rounded-2xl border border-[#39FF14]/10 p-3">
-                      <span className="text-[10px] text-[#39FF14]/60 font-bold uppercase tracking-wider">Activity Feed</span>
+                    <div className="bg-[#0a0f0a] rounded-2xl border border-[#cafe38]/10 p-3">
+                      <span className="text-[10px] text-[#cafe38]/60 font-bold uppercase tracking-wider">Activity Feed</span>
                       <div className="mt-2 space-y-2">
                         {[
                           "Auto-negotiation closed at ₹850",
@@ -500,7 +500,7 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                           "New viewer milestone: 500+",
                         ].map((a, i) => (
                           <div key={i} className="flex items-center gap-2 py-1">
-                            <div className="w-1 h-1 rounded-full bg-[#39FF14]/50" />
+                            <div className="w-1 h-1 rounded-full bg-[#cafe38]/50" />
                             <span className="text-[10px] text-white/35">{a}</span>
                           </div>
                         ))}
@@ -518,7 +518,7 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
             >
               <div className="w-px h-full bg-white/30 relative">
                 <motion.div
-                  className="absolute top-0 w-px h-full bg-gradient-to-b from-red-500/50 via-white/60 to-[#39FF14]/50"
+                  className="absolute top-0 w-px h-full bg-gradient-to-b from-red-500/50 via-white/60 to-[#cafe38]/50"
                   animate={{ opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
@@ -530,7 +530,7 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                   <span className="text-[10px] text-red-400/60 font-bold uppercase tracking-widest bg-[#0a0505]/80 backdrop-blur-sm px-2 py-1 rounded-md border border-red-500/10">Old Way</span>
                 </div>
                 <div className="absolute top-1/2 -translate-y-1/2 left-6 whitespace-nowrap">
-                  <span className="text-[10px] text-[#39FF14]/60 font-bold uppercase tracking-widest bg-[#050a05]/80 backdrop-blur-sm px-2 py-1 rounded-md border border-[#39FF14]/10">Zatch</span>
+                  <span className="text-[10px] text-[#cafe38]/60 font-bold uppercase tracking-widest bg-[#050a05]/80 backdrop-blur-sm px-2 py-1 rounded-md border border-[#cafe38]/10">Zatch</span>
                 </div>
               </div>
             </div>
@@ -562,10 +562,10 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
           className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto"
         >
           {[
-            { value: "3x", label: "More Sales", color: "text-[#39FF14]" },
-            { value: "2 min", label: "Avg. Close Time", color: "text-[#39FF14]" },
-            { value: "0", label: "Manual Follow-ups", color: "text-[#39FF14]" },
-            { value: "100%", label: "Payment Tracked", color: "text-[#39FF14]" },
+            { value: "3x", label: "More Sales", color: "text-[#cafe38]" },
+            { value: "2 min", label: "Avg. Close Time", color: "text-[#cafe38]" },
+            { value: "0", label: "Manual Follow-ups", color: "text-[#cafe38]" },
+            { value: "100%", label: "Payment Tracked", color: "text-[#cafe38]" },
           ].map((s, i) => (
             <div key={i} className="text-center py-5 rounded-2xl bg-white/[0.02] border border-white/[0.04]">
               <span className={`text-2xl md:text-3xl font-bold font-display ${s.color}`}>{s.value}</span>
@@ -598,8 +598,8 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                 >
                   <SpotlightCard className="group">
                     <div className="p-6 h-full flex flex-col items-start">
-                      <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-4 group-hover:bg-[#39FF14]/10 group-hover:border-[#39FF14]/30 transition-all duration-500">
-                        <Icon className="w-4 h-4 text-white/30 group-hover:text-[#39FF14] transition-colors duration-500" />
+                      <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-4 group-hover:bg-[#cafe38]/10 group-hover:border-[#cafe38]/30 transition-all duration-500">
+                        <Icon className="w-4 h-4 text-white/30 group-hover:text-[#cafe38] transition-colors duration-500" />
                       </div>
                       <h4 className="text-sm font-bold text-white/90 mb-1.5">{item.title}</h4>
                       <p className="text-white/30 text-[13px] leading-relaxed">{item.desc}</p>
@@ -618,12 +618,12 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
           transition={{ duration: 0.6, delay: 0.7 }}
           className="mt-16 md:mt-20 relative"
         >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-[#39FF14]/5 blur-[120px] rounded-full pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-[#cafe38]/5 blur-[120px] rounded-full pointer-events-none" />
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
             <Button
               size="lg"
               onClick={onJoinWaitlist}
-              className="relative bg-[#39FF14] text-black hover:bg-[#39FF14]/90 font-bold px-10 h-14 rounded-full text-base shadow-[0_0_40px_rgba(57,255,20,0.2)] hover:shadow-[0_0_60px_rgba(57,255,20,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group"
+              className="relative bg-[#cafe38] text-black hover:bg-[#cafe38]/90 font-bold px-10 h-14 rounded-full text-base shadow-[0_0_40px_rgba(202,254,56,0.2)] hover:shadow-[0_0_60px_rgba(202,254,56,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group"
               data-testid="button-seller-waitlist"
             >
               Start Selling Today <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />

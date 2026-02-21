@@ -52,19 +52,19 @@ export default function ShippingPage() {
             </p>
             <ul className="space-y-3 text-white/50">
               <li className="flex items-start gap-3">
-                <span className="text-[#39FF14] mt-1">&#x2022;</span>
+                <span className="text-[#cafe38] mt-1">&#x2022;</span>
                 Seamless order fulfillment
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-[#39FF14] mt-1">&#x2022;</span>
+                <span className="text-[#cafe38] mt-1">&#x2022;</span>
                 Competitive shipping rates
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-[#39FF14] mt-1">&#x2022;</span>
+                <span className="text-[#cafe38] mt-1">&#x2022;</span>
                 Real-time tracking
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-[#39FF14] mt-1">&#x2022;</span>
+                <span className="text-[#cafe38] mt-1">&#x2022;</span>
                 Standardized delivery timelines
               </li>
             </ul>

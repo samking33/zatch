@@ -30,8 +30,8 @@ const FEATURES = [
     tag: "03",
     title: "Set Your Price",
     desc: "Send an offer on anything. The seller's AI responds instantly. Lock the deal at a price that works for you.",
-    accent: "from-[#39FF14]/20 to-emerald-500/20",
-    borderAccent: "border-[#39FF14]/30",
+    accent: "from-[#cafe38]/20 to-emerald-500/20",
+    borderAccent: "border-[#cafe38]/30",
   },
 ];
 
@@ -268,8 +268,8 @@ function BargainScreen() {
       <div className="px-4">
         {/* Product */}
         <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.03] border border-white/[0.05] mb-6">
-          <div className="w-14 h-14 rounded-xl bg-[#39FF14]/10 border border-[#39FF14]/20 flex items-center justify-center">
-            <Tag className="w-5 h-5 text-[#39FF14]/60" />
+          <div className="w-14 h-14 rounded-xl bg-[#cafe38]/10 border border-[#cafe38]/20 flex items-center justify-center">
+            <Tag className="w-5 h-5 text-[#cafe38]/60" />
           </div>
           <div className="flex-1">
             <p className="text-[12px] text-white font-semibold">Banarasi Silk Saree</p>
@@ -284,13 +284,13 @@ function BargainScreen() {
             key={price}
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="text-4xl font-bold text-[#39FF14] font-display"
+            className="text-4xl font-bold text-[#cafe38] font-display"
           >
             ₹{price.toLocaleString()}
           </motion.p>
           <div className="w-full h-1.5 bg-white/[0.05] rounded-full mt-4 overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-[#39FF14]/60 to-[#39FF14] rounded-full"
+              className="h-full bg-gradient-to-r from-[#cafe38]/60 to-[#cafe38] rounded-full"
               animate={{ width: `${(price / 2499) * 100}%` }}
               transition={{ type: "spring", bounce: 0.3 }}
             />
@@ -310,9 +310,9 @@ function BargainScreen() {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex justify-end"
               >
-                <div className="px-3 py-2 rounded-2xl rounded-br-md bg-[#39FF14]/10 border border-[#39FF14]/20 max-w-[75%]">
+                <div className="px-3 py-2 rounded-2xl rounded-br-md bg-[#cafe38]/10 border border-[#cafe38]/20 max-w-[75%]">
                   <p className="text-[10px] text-white/60">Your offer</p>
-                  <p className="text-[13px] text-[#39FF14] font-bold">₹1,800</p>
+                  <p className="text-[13px] text-[#cafe38] font-bold">₹1,800</p>
                 </div>
               </motion.div>
             )}
@@ -324,8 +324,8 @@ function BargainScreen() {
               >
                 <div className="px-3 py-2 rounded-2xl rounded-bl-md bg-white/[0.05] border border-white/[0.08] max-w-[75%]">
                   <div className="flex items-center gap-1 mb-0.5">
-                    <Zap className="w-2.5 h-2.5 text-[#39FF14]" />
-                    <p className="text-[10px] text-[#39FF14]/60">Auto-counter</p>
+                    <Zap className="w-2.5 h-2.5 text-[#cafe38]" />
+                    <p className="text-[10px] text-[#cafe38]/60">Auto-counter</p>
                   </div>
                   <p className="text-[13px] text-white font-bold">₹2,100</p>
                 </div>
@@ -337,9 +337,9 @@ function BargainScreen() {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex justify-end"
               >
-                <div className="px-3 py-2 rounded-2xl rounded-br-md bg-[#39FF14]/10 border border-[#39FF14]/20 max-w-[75%]">
+                <div className="px-3 py-2 rounded-2xl rounded-br-md bg-[#cafe38]/10 border border-[#cafe38]/20 max-w-[75%]">
                   <p className="text-[10px] text-white/60">Your counter</p>
-                  <p className="text-[13px] text-[#39FF14] font-bold">₹1,999</p>
+                  <p className="text-[13px] text-[#cafe38] font-bold">₹1,999</p>
                 </div>
               </motion.div>
             )}
@@ -351,8 +351,8 @@ function BargainScreen() {
               >
                 <div className="px-3 py-2 rounded-2xl rounded-bl-md bg-white/[0.05] border border-white/[0.08] max-w-[75%]">
                   <div className="flex items-center gap-1 mb-0.5">
-                    <Zap className="w-2.5 h-2.5 text-[#39FF14]" />
-                    <p className="text-[10px] text-[#39FF14]/60">Auto-counter</p>
+                    <Zap className="w-2.5 h-2.5 text-[#cafe38]" />
+                    <p className="text-[10px] text-[#cafe38]/60">Auto-counter</p>
                   </div>
                   <p className="text-[13px] text-white font-bold">₹1,999 ✓</p>
                 </div>
@@ -363,10 +363,10 @@ function BargainScreen() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: "spring", bounce: 0.5 }}
-                className="mt-3 p-3 rounded-2xl bg-[#39FF14]/10 border border-[#39FF14]/30 text-center"
+                className="mt-3 p-3 rounded-2xl bg-[#cafe38]/10 border border-[#cafe38]/30 text-center"
               >
-                <Sparkles className="w-5 h-5 text-[#39FF14] mx-auto mb-1" />
-                <p className="text-[12px] text-[#39FF14] font-bold">Deal Locked at ₹1,999!</p>
+                <Sparkles className="w-5 h-5 text-[#cafe38] mx-auto mb-1" />
+                <p className="text-[12px] text-[#cafe38] font-bold">Deal Locked at ₹1,999!</p>
                 <p className="text-[9px] text-white/30 mt-0.5">You saved ₹500 (20% off)</p>
               </motion.div>
             )}
@@ -395,14 +395,14 @@ export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
         setPhoneKey(k => k + 1);
         return next;
       });
-    }, 2000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
   const screens = [<LiveScreen />, <DiscoverScreen />, <BargainScreen />];
 
   return (
-    <section id="buyers" ref={ref} className="py-32 md:py-40 bg-[#030303] relative overflow-hidden">
+    <section id="buyers" ref={ref} className="py-20 md:py-28 bg-[#030303] relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
       </div>
@@ -421,14 +421,14 @@ export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-px bg-[#39FF14]" />
-              <span className="text-[11px] font-bold text-[#39FF14] tracking-[0.4em] uppercase" data-testid="text-buyers-tag">For Buyers</span>
+              <div className="w-8 h-px bg-[#cafe38]" />
+              <span className="text-[11px] font-bold text-[#cafe38] tracking-[0.4em] uppercase" data-testid="text-buyers-tag">For Buyers</span>
             </div>
 
             <h3 className="text-4xl sm:text-5xl md:text-[4rem] font-bold font-display tracking-tight leading-[0.95] mb-6" data-testid="text-buyers-heading">
               <span className="text-white">Shop Like</span><br />
               <span className="text-white">You </span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] to-[#39FF14]/60">Mean It.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#cafe38] to-[#cafe38]/60">Mean It.</span>
             </h3>
 
             <p className="text-base text-white/30 leading-relaxed max-w-md mb-12">
@@ -450,14 +450,14 @@ export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
                   {activeFeature === i && (
                     <motion.div
                       layoutId="activeFeature"
-                      className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#39FF14]"
+                      className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#cafe38]"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
 
                   <div className="pl-5">
                     <div className="flex items-center gap-3 mb-1.5">
-                      <span className="text-[10px] text-[#39FF14]/40 font-mono">{f.tag}</span>
+                      <span className="text-[10px] text-[#cafe38]/40 font-mono">{f.tag}</span>
                       <h4 className={`text-lg font-bold tracking-tight transition-colors duration-300 ${activeFeature === i ? 'text-white' : 'text-white/60'}`}>
                         {f.title}
                       </h4>
@@ -481,10 +481,10 @@ export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
                   {activeFeature === i && (
                     <div className="absolute bottom-0 left-5 right-0 h-[1px] bg-white/[0.04] overflow-hidden">
                       <motion.div
-                        className="h-full bg-[#39FF14]/30"
+                        className="h-full bg-[#cafe38]/30"
                         initial={{ width: "0%" }}
                         animate={{ width: "100%" }}
-                        transition={{ duration: 2, ease: "linear" }}
+                        transition={{ duration: 6, ease: "linear" }}
                         key={phoneKey}
                       />
                     </div>
@@ -520,7 +520,7 @@ export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
           >
             {/* Ambient glow behind phone */}
             <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full blur-[100px] pointer-events-none transition-all duration-1000 ${
-              activeFeature === 0 ? 'bg-purple-500/10' : activeFeature === 1 ? 'bg-blue-500/10' : 'bg-[#39FF14]/8'
+              activeFeature === 0 ? 'bg-purple-500/10' : activeFeature === 1 ? 'bg-blue-500/10' : 'bg-[#cafe38]/8'
             }`} />
 
             {/* Floating accent elements */}
@@ -530,7 +530,7 @@ export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
               transition={{ duration: 4, repeat: Infinity }}
             >
               <span className="text-[10px] text-white/30 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#39FF14]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#cafe38]" />
                 Live experience
               </span>
             </motion.div>
@@ -541,7 +541,7 @@ export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
               transition={{ duration: 5, repeat: Infinity }}
             >
               <span className="text-[10px] text-white/30 flex items-center gap-1.5">
-                <ShoppingBag className="w-3 h-3 text-[#39FF14]/60" />
+                <ShoppingBag className="w-3 h-3 text-[#cafe38]/60" />
                 Instant checkout
               </span>
             </motion.div>

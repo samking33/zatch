@@ -15,7 +15,7 @@ Preferred communication style: Simple, everyday language.
 ### Frontend (`client/`)
 - **Framework**: React 18 with TypeScript (no SSR, SPA mode)
 - **Routing**: Wouter (lightweight client-side router)
-- **Styling**: Tailwind CSS v4 with CSS variables for theming, using a dark/black theme with neon green (#39FF14 / #C7F04F) accent colors
+- **Styling**: Tailwind CSS v4 with CSS variables for theming, using a dark/black theme with brand green (#cafe38) accent colors
 - **UI Components**: shadcn/ui (new-york style) with Radix UI primitives — components live in `client/src/components/ui/`
 - **Animations**: Framer Motion used extensively for scroll-driven animations, mouse tracking, physics-based interactions, and micro-interactions
 - **Fonts**: Space Grotesk (headings/display) and Inter (body text) loaded from Google Fonts

@@ -16,7 +16,7 @@
   --color-popover: hsl(0 0% 5%);
   --color-popover-foreground: hsl(0 0% 100%);
 
-  --color-primary: hsl(74 86% 63%); /* Neon Lime Green #C7F04F */
+  --color-primary: hsl(55 89% 58%); /* Brand Green #cafe38 */
   --color-primary-foreground: hsl(0 0% 0%);
 
   --color-secondary: hsl(0 0% 9%); /* Charcoal Dark #171717 */
@@ -25,7 +25,7 @@
   --color-muted: hsl(0 0% 15%);
   --color-muted-foreground: hsl(0 0% 60%);
 
-  --color-accent: hsl(74 86% 63%);
+  --color-accent: hsl(55 89% 58%);
   --color-accent-foreground: hsl(0 0% 0%);
 
   --color-destructive: hsl(0 62% 30%);
@@ -33,7 +33,7 @@
 
   --color-border: hsl(0 0% 20%);
   --color-input: hsl(0 0% 20%);
-  --color-ring: hsl(74 86% 63%);
+  --color-ring: hsl(55 89% 58%);
 
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
@@ -85,10 +85,10 @@
     @apply bg-gradient-to-br from-[#8FBF3A] to-[#4F7F1F];
   }
   .hero-glow {
-    background: radial-gradient(circle at center, rgba(199, 240, 79, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    background: radial-gradient(circle at center, rgba(202, 254, 56, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
   }
   .text-stroke-primary {
-    -webkit-text-stroke: 1px #C7F04F;
+    -webkit-text-stroke: 1px #cafe38;
     color: transparent;
   }
 }

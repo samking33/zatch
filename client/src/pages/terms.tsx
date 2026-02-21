@@ -42,7 +42,7 @@ export default function TermsPage() {
               <span className="text-white/70">Have questions? Reach out to us at</span>
               <a
                 href="mailto:support@zatch.shop"
-                className="text-[#39FF14] font-medium hover:underline"
+                className="text-[#cafe38] font-medium hover:underline"
                 data-testid="link-support-email"
               >
                 support@zatch.shop

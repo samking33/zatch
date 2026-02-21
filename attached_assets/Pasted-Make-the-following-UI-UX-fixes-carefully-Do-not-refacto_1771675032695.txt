@@ -1,0 +1,133 @@
+Make the following UI/UX fixes carefully.
+Do not refactor unrelated components, do not change layout structure unless explicitly stated, and preserve responsiveness across breakpoints.
+Address all points below in one pass.
+
+1️⃣ Hero background tiles opacity (text readability issue)
+
+In the hero section where the text “Catch it. Match it. Zatch it.” appears:
+
+Reduce the visual dominance of the tiled video/image cards behind the text.
+
+Specifically:
+
+Lower their opacity and/or add a subtle dark overlay so the headline text is clearly readable.
+
+Do not blur or remove the tiles entirely.
+
+Do not change the hero layout or typography.
+
+Ensure contrast meets accessibility standards (text clearly legible at first glance).
+
+2️⃣ “How It Works” cards alignment + interaction fixes
+
+This applies to the cards:
+
+Live Shopping
+
+Buy Bits
+
+Zatching
+
+Fix the following:
+
+Alignment & scroll behavior
+
+When scrolling to this section:
+
+Ensure the cards remain properly center-aligned vertically within their section.
+
+Prevent them from snapping too high toward the top of the viewport and staying there.
+
+The section should scroll naturally and settle centrally, not cling to the top.
+
+Interaction cleanup
+
+Remove the cursor-based “wiggle / hover-follow / parallax” motion effect on these cards.
+
+Replace it with either:
+
+No motion, or
+
+A very subtle standard hover effect (e.g., slight scale or shadow).
+
+The goal is a more professional, stable interaction feel.
+
+3️⃣ Excessive vertical gaps between sections (scroll smoothness issue)
+
+Identify and reduce awkward empty vertical spacing between major sections.
+
+Remove unnecessary padding/margins that create dead space during scroll.
+
+Ensure:
+
+Sections flow smoothly into each other.
+
+Scrolling feels continuous and intentional, not broken.
+
+Do not compress content unnaturally — just remove excessive gaps.
+
+4️⃣ Brand color unification (IMPORTANT)
+
+Replace every instance of the color #39ff14 across the entire website with:
+
+#cafe38
+
+This includes:
+
+Buttons (e.g., “Download Zatch”, “Get App”)
+
+Highlights
+
+Accents
+
+Icons
+
+Hover states
+
+Ensure color usage is consistent everywhere.
+
+Do not introduce additional green variants.
+
+5️⃣ Page jitter / glitch when idle
+
+The webpage currently jitters/glitches when left idle.
+
+Investigate and fix the root cause.
+
+Likely sources to inspect:
+
+Unthrottled animation loops
+
+requestAnimationFrame misuse
+
+Hover listeners firing continuously
+
+Scroll or mousemove listeners not being cleaned up
+
+Fix the issue so:
+
+The page remains completely stable when idle.
+
+CPU usage remains normal.
+
+No visual movement occurs unless user interaction is intentional.
+
+Final constraints & validation
+
+Do not break mobile responsiveness.
+
+Do not introduce new animations unless explicitly stated.
+
+Do not change copy or content.
+
+After changes:
+
+Hero text must be clearly readable.
+
+“How It Works” cards must align correctly and feel stable.
+
+Scroll must feel smooth and continuous.
+
+Brand green must be consistent.
+
+No idle jitter should remain.

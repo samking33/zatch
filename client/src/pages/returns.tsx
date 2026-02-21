@@ -45,7 +45,7 @@ export default function ReturnsPage() {
               <span className="text-white/70">If you face any issues with your order, contact us at</span>
               <a
                 href="mailto:support@zatch.shop"
-                className="text-[#39FF14] font-medium hover:underline"
+                className="text-[#cafe38] font-medium hover:underline"
                 data-testid="link-return-support-email"
               >
                 support@zatch.shop

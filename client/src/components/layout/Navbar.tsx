@@ -96,8 +96,8 @@ export function Navbar() {
             data-testid="link-home"
           >
             <img src={zatchLogo} alt="Zatch" className="w-8 h-8 rounded-lg" />
-            <span className="text-white group-hover:text-[#39FF14] transition-colors duration-300">ZATCH</span>
-            <span className="text-[#39FF14] text-[10px] align-top font-medium">&trade;</span>
+            <span className="text-white group-hover:text-[#cafe38] transition-colors duration-300">ZATCH</span>
+            <span className="text-[#cafe38] text-[10px] align-top font-medium">&trade;</span>
           </button>
 
           {/* Desktop Nav */}
@@ -130,7 +130,7 @@ export function Navbar() {
               href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#39FF14] text-black text-[13px] font-bold rounded-xl hover:bg-[#39FF14]/90 transition-all duration-200 shadow-[0_0_20px_rgba(57,255,20,0.2)] hover:shadow-[0_0_30px_rgba(57,255,20,0.35)]"
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#cafe38] text-black text-[13px] font-bold rounded-xl hover:bg-[#cafe38]/90 transition-all duration-200 shadow-[0_0_20px_rgba(202,254,56,0.2)] hover:shadow-[0_0_30px_rgba(202,254,56,0.35)]"
               data-testid="nav-download"
             >
               <Download className="w-3.5 h-3.5" />
@@ -144,7 +144,7 @@ export function Navbar() {
               href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-[#39FF14] text-black text-xs font-bold rounded-lg shadow-[0_0_12px_rgba(57,255,20,0.2)]"
+              className="px-4 py-2 bg-[#cafe38] text-black text-xs font-bold rounded-lg shadow-[0_0_12px_rgba(202,254,56,0.2)]"
               data-testid="nav-download-mobile"
             >
               Get App
@@ -179,7 +179,7 @@ export function Navbar() {
                   transition={{ delay: 0.05 + i * 0.05, duration: 0.3 }}
                   onClick={() => navigate(link)}
                   className={`text-left text-3xl font-bold font-display py-3 transition-colors ${
-                    isActive(link) ? "text-[#39FF14]" : "text-white/60 hover:text-white"
+                    isActive(link) ? "text-[#cafe38]" : "text-white/60 hover:text-white"
                   }`}
                   data-testid={`nav-mobile-${link.target}`}
                 >
@@ -198,7 +198,7 @@ export function Navbar() {
                 href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 bg-[#39FF14] text-black font-bold py-4 text-lg rounded-xl shadow-[0_0_20px_rgba(57,255,20,0.2)]"
+                className="w-full flex items-center justify-center gap-2 bg-[#cafe38] text-black font-bold py-4 text-lg rounded-xl shadow-[0_0_20px_rgba(202,254,56,0.2)]"
               >
                 <Download className="w-5 h-5" />
                 Download App

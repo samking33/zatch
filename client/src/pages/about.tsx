@@ -43,18 +43,18 @@ export default function AboutPage() {
       <Navbar />
 
       <main className="pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[#39FF14]/5 rounded-full blur-[200px] pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[#cafe38]/5 rounded-full blur-[200px] pointer-events-none" />
 
         {/* Hero */}
         <div className="container mx-auto px-6 mb-32 relative z-10">
           <motion.div {...fadeUp} className="max-w-4xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-sm">
-              <Sparkles className="w-3 h-3 text-[#39FF14]" />
-              <span className="text-xs font-medium text-[#39FF14] tracking-wide uppercase">About Zatch&trade;</span>
+              <Sparkles className="w-3 h-3 text-[#cafe38]" />
+              <span className="text-xs font-medium text-[#cafe38] tracking-wide uppercase">About Zatch&trade;</span>
             </div>
             <h1 className="text-5xl md:text-8xl font-bold font-display tracking-tighter mb-8 leading-[0.9]">
               Building the <br />
-              <span className="text-[#39FF14]">Live Commerce</span> <br />
+              <span className="text-[#cafe38]">Live Commerce</span> <br />
               Movement.
             </h1>
             <p className="text-xl md:text-2xl text-white/50 leading-relaxed max-w-2xl">
@@ -67,7 +67,7 @@ export default function AboutPage() {
         <section className="py-20 border-y border-white/5 bg-white/[0.01]">
           <div className="container mx-auto px-6 max-w-4xl">
             <motion.div {...fadeUp}>
-              <h2 className="text-sm font-bold text-[#39FF14] tracking-widest uppercase mb-6">What is Zatch&trade;</h2>
+              <h2 className="text-sm font-bold text-[#cafe38] tracking-widest uppercase mb-6">What is Zatch&trade;</h2>
               <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-6">
                 Zatch&trade; is a live and short-video shopping app built for how people actually buy. Watch sellers explain products on video, interact in real time, bargain instantly, and shop with confidence.
               </p>
@@ -78,7 +78,7 @@ export default function AboutPage() {
                 Discover products through short videos, join live shopping sessions, ask questions, and negotiate prices using Zatch&trade;'s three-step bargaining flow called "Zatch it." Complete purchases with proper checkout and tracking.
               </p>
               <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] w-fit">
-                <Globe className="w-4 h-4 text-[#39FF14]" />
+                <Globe className="w-4 h-4 text-[#cafe38]" />
                 <span className="text-sm text-white/60">Supports Hindi, Telugu, and English</span>
               </div>
             </motion.div>
@@ -93,7 +93,7 @@ export default function AboutPage() {
                 Catch the product.<br />
                 Match the price.<br />
                 Snatch the deal.<br />
-                <span className="text-[#39FF14]">Just Zatch&trade; it.</span>
+                <span className="text-[#cafe38]">Just Zatch&trade; it.</span>
               </p>
             </motion.div>
           </div>
@@ -103,22 +103,22 @@ export default function AboutPage() {
         <section className="py-20 border-y border-white/5 bg-white/[0.01]">
           <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16">
             <motion.div {...fadeUp}>
-              <h2 className="text-sm font-bold text-[#39FF14] tracking-widest uppercase mb-6">Our Vision</h2>
+              <h2 className="text-sm font-bold text-[#cafe38] tracking-widest uppercase mb-6">Our Vision</h2>
               <h3 className="text-3xl font-bold text-white mb-6">Making commerce feel human again.</h3>
               <p className="text-white/50 text-lg leading-relaxed mb-6">
                 To become India's leading live commerce ecosystem where buying and selling feel human again.
               </p>
               <ul className="space-y-3 text-white/40">
-                <li className="flex items-start gap-3"><span className="text-[#39FF14] mt-1">&#x2022;</span> Shopping is interactive</li>
-                <li className="flex items-start gap-3"><span className="text-[#39FF14] mt-1">&#x2022;</span> Content drives commerce</li>
-                <li className="flex items-start gap-3"><span className="text-[#39FF14] mt-1">&#x2022;</span> Pricing is dynamic</li>
-                <li className="flex items-start gap-3"><span className="text-[#39FF14] mt-1">&#x2022;</span> Sellers build communities, not just listings</li>
+                <li className="flex items-start gap-3"><span className="text-[#cafe38] mt-1">&#x2022;</span> Shopping is interactive</li>
+                <li className="flex items-start gap-3"><span className="text-[#cafe38] mt-1">&#x2022;</span> Content drives commerce</li>
+                <li className="flex items-start gap-3"><span className="text-[#cafe38] mt-1">&#x2022;</span> Pricing is dynamic</li>
+                <li className="flex items-start gap-3"><span className="text-[#cafe38] mt-1">&#x2022;</span> Sellers build communities, not just listings</li>
               </ul>
               <p className="text-white/40 mt-6">The future of commerce is live, visual, and negotiable.</p>
             </motion.div>
 
             <motion.div {...fadeUp} transition={{ duration: 0.6, delay: 0.2 }}>
-              <h2 className="text-sm font-bold text-[#39FF14] tracking-widest uppercase mb-6">Our Mission</h2>
+              <h2 className="text-sm font-bold text-[#cafe38] tracking-widest uppercase mb-6">Our Mission</h2>
               <h3 className="text-3xl font-bold text-white mb-6">Empowering sellers, delighting buyers.</h3>
               <p className="text-white/50 text-lg leading-relaxed mb-4">
                 To empower Indian sellers to monetize video and close sales faster. To give buyers confidence through live interaction and transparent negotiation. To remove the friction of DMs, manual follow-ups, and static catalogs.
@@ -133,7 +133,7 @@ export default function AboutPage() {
         {/* Why We Started */}
         <section className="py-24 container mx-auto px-6 max-w-4xl">
           <motion.div {...fadeUp}>
-            <h2 className="text-sm font-bold text-[#39FF14] tracking-widest uppercase mb-6">Why We Started</h2>
+            <h2 className="text-sm font-bold text-[#cafe38] tracking-widest uppercase mb-6">Why We Started</h2>
             <h3 className="text-4xl md:text-5xl font-bold font-display tracking-tight text-white mb-8">
               Indian shopping has always been conversational.
             </h3>
@@ -152,12 +152,12 @@ export default function AboutPage() {
         {/* Founding Team */}
         <section className="py-32 border-t border-white/5 relative">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#39FF14]/[0.03] rounded-full blur-[150px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#cafe38]/[0.03] rounded-full blur-[150px]" />
           </div>
 
           <div className="container mx-auto px-6 relative z-10">
             <motion.div {...fadeUp} className="text-center mb-20">
-              <h2 className="text-sm font-bold text-[#39FF14] tracking-widest uppercase mb-4">The Team</h2>
+              <h2 className="text-sm font-bold text-[#cafe38] tracking-widest uppercase mb-4">The Team</h2>
               <h3 className="text-4xl md:text-6xl font-bold font-display tracking-tight">
                 Meet the Founders
               </h3>
@@ -188,18 +188,18 @@ export default function AboutPage() {
                           <div className={`absolute inset-0 bg-gradient-to-${i % 2 === 0 ? 'r' : 'l'} from-transparent via-transparent to-black/60 hidden md:block`} />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent md:hidden" />
                           <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
-                            <span className="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse" />
+                            <span className="w-2 h-2 rounded-full bg-[#cafe38] animate-pulse" />
                             <span className="text-[11px] text-white/80 font-medium tracking-wide">{member.role}</span>
                           </div>
                         </div>
                       ) : (
-                        <div className="relative w-full md:w-[380px] lg:w-[420px] shrink-0 aspect-[4/5] md:aspect-auto overflow-hidden bg-gradient-to-br from-[#39FF14]/[0.08] to-transparent flex items-center justify-center">
-                          <div className="w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br from-[#39FF14]/20 to-[#39FF14]/5 border border-[#39FF14]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                            <span className="text-5xl md:text-6xl font-bold text-[#39FF14] font-display">{member.initials}</span>
+                        <div className="relative w-full md:w-[380px] lg:w-[420px] shrink-0 aspect-[4/5] md:aspect-auto overflow-hidden bg-gradient-to-br from-[#cafe38]/[0.08] to-transparent flex items-center justify-center">
+                          <div className="w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br from-[#cafe38]/20 to-[#cafe38]/5 border border-[#cafe38]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                            <span className="text-5xl md:text-6xl font-bold text-[#cafe38] font-display">{member.initials}</span>
                           </div>
                           <div className={`absolute inset-0 bg-gradient-to-${i % 2 === 0 ? 'r' : 'l'} from-transparent via-transparent to-black/60 hidden md:block`} />
                           <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
-                            <span className="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse" />
+                            <span className="w-2 h-2 rounded-full bg-[#cafe38] animate-pulse" />
                             <span className="text-[11px] text-white/80 font-medium tracking-wide">{member.role}</span>
                           </div>
                         </div>
@@ -207,18 +207,18 @@ export default function AboutPage() {
 
                       <div className="flex-1 p-8 md:p-10 lg:p-14 flex flex-col justify-center">
                         <div className="flex items-center gap-3 mb-2">
-                          <div className="w-8 h-px bg-[#39FF14]/40" />
-                          <span className="text-[11px] text-[#39FF14]/60 font-mono tracking-widest uppercase">0{i + 1}</span>
+                          <div className="w-8 h-px bg-[#cafe38]/40" />
+                          <span className="text-[11px] text-[#cafe38]/60 font-mono tracking-widest uppercase">0{i + 1}</span>
                         </div>
                         <h3 className="text-3xl md:text-4xl font-bold text-white font-display tracking-tight mb-2">{member.name}</h3>
-                        <p className="text-[#39FF14] font-semibold text-sm mb-6 md:hidden">{member.role}</p>
+                        <p className="text-[#cafe38] font-semibold text-sm mb-6 md:hidden">{member.role}</p>
                         <p className="text-base md:text-lg text-white/40 leading-relaxed">{member.bio}</p>
 
                         <div className="mt-8 flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-[#39FF14]/10 hover:border-[#39FF14]/20 transition-all duration-300 cursor-pointer">
+                          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-[#cafe38]/10 hover:border-[#cafe38]/20 transition-all duration-300 cursor-pointer">
                             <Linkedin className="w-4 h-4 text-white/40 hover:text-white transition-colors" />
                           </div>
-                          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-[#39FF14]/10 hover:border-[#39FF14]/20 transition-all duration-300 cursor-pointer">
+                          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-[#cafe38]/10 hover:border-[#cafe38]/20 transition-all duration-300 cursor-pointer">
                             <Twitter className="w-4 h-4 text-white/40 hover:text-white transition-colors" />
                           </div>
                         </div>
@@ -239,7 +239,7 @@ export default function AboutPage() {
                 Zatch&trade; is not just building another marketplace.
               </h2>
               <p className="text-2xl text-white/50 mb-8">
-                We are building a <span className="text-[#39FF14] font-medium">live commerce movement</span> designed for India.
+                We are building a <span className="text-[#cafe38] font-medium">live commerce movement</span> designed for India.
               </p>
               <p className="text-3xl font-bold font-display text-white">
                 Catch it. Match it. Snatch it.

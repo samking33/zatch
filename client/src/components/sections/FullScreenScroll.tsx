@@ -11,7 +11,7 @@ export function FullScreenScroll() {
   const smoothProgress = useSpring(scrollYProgress, { mass: 0.1, stiffness: 100, damping: 20 });
 
   return (
-    <section ref={container} className="relative h-[200vh] bg-black">
+    <section ref={container} className="relative h-[160vh] bg-black">
        <div className="sticky top-0 h-screen overflow-hidden">
           <BackgroundParallax progress={smoothProgress} />
           
