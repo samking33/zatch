@@ -45,7 +45,10 @@ export function Trust() {
               </Button>
             </div>
             <p className="mt-6 text-sm text-white/30">
-              Available on iOS and Android • Simple onboarding • No website needed
+              Available on iOS and Android &bull; Simple onboarding &bull; No website needed
+            </p>
+            <p className="mt-4 text-xs text-white/20 italic">
+              Interactive does not mean risky. It means transparent.
             </p>
           </div>
         </div>

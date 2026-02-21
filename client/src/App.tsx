@@ -8,6 +8,10 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import AboutPage from "@/pages/about";
 import DownloadPage from "@/pages/download";
+import PrivacyPage from "@/pages/privacy";
+import TermsPage from "@/pages/terms";
+import ReturnsPage from "@/pages/returns";
+import ShippingPage from "@/pages/shipping";
 
 function Router() {
   return (
@@ -15,6 +19,10 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/about" component={AboutPage} />
       <Route path="/download" component={DownloadPage} />
+      <Route path="/privacy" component={PrivacyPage} />
+      <Route path="/terms" component={TermsPage} />
+      <Route path="/returns" component={ReturnsPage} />
+      <Route path="/shipping" component={ShippingPage} />
       <Route component={NotFound} />
     </Switch>
   );
