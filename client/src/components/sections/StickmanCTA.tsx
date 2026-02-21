@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { Play, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
 
@@ -322,7 +322,9 @@ export function StickmanCTA() {
                     <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)] group-hover:bg-white/[0.08] group-hover:border-white/[0.2] group-hover:shadow-[0_8px_50px_rgba(57,255,20,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 group-hover:scale-105">
                       {/* Key icon cut */}
                       <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center group-hover:bg-[#39FF14]/10 group-hover:border-[#39FF14]/20 transition-all duration-500">
-                        <span className="text-2xl md:text-3xl"></span>
+                        <svg className="w-6 h-6 md:w-7 md:h-7 text-white/70 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.97 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
+                        </svg>
                       </div>
                       <div className="text-center px-2">
                         <p className="text-[8px] text-white/30 uppercase tracking-widest">Download on</p>
@@ -348,7 +350,12 @@ export function StickmanCTA() {
                     <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-[#39FF14]/20 via-[#39FF14]/5 to-[#39FF14]/10 blur-[0.5px]" />
                     <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-[#39FF14]/[0.04] backdrop-blur-xl border border-[#39FF14]/[0.15] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(57,255,20,0.06)] group-hover:bg-[#39FF14]/[0.08] group-hover:border-[#39FF14]/[0.3] group-hover:shadow-[0_8px_50px_rgba(57,255,20,0.15),inset_0_1px_0_rgba(57,255,20,0.1)] transition-all duration-500 group-hover:scale-105">
                       <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[#39FF14]/[0.06] border border-[#39FF14]/[0.1] flex items-center justify-center group-hover:bg-[#39FF14]/15 group-hover:border-[#39FF14]/25 transition-all duration-500">
-                        <Play className="w-5 h-5 md:w-6 md:h-6 text-[#39FF14]/60 group-hover:text-[#39FF14] transition-colors" fill="currentColor" />
+                        <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24">
+                          <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92z" fill="#4285F4"/>
+                          <path d="M17.556 8.248l-3.764 3.753 3.764 3.753 4.243-2.399c.477-.27.77-.772.77-1.316s-.294-1.046-.77-1.316l-4.243-2.475z" fill="#FBBC04"/>
+                          <path d="M3.609 22.186L14.99 13.21l-1.198-1.21L3.609 22.186z" fill="#EA4335"/>
+                          <path d="M3.609 1.814L13.792 12l1.198-1.21L3.609 1.814z" fill="#34A853"/>
+                        </svg>
                       </div>
                       <div className="text-center px-2">
                         <p className="text-[8px] text-[#39FF14]/30 uppercase tracking-widest">Get it on</p>
