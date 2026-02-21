@@ -1,0 +1,152 @@
+Refine the existing WebGL “Old Way vs Zatch Way” section.
+Do NOT change animation logic, transformation timing, camera setup, or scroll behavior.
+This task is strictly about content accuracy, screenshot sources, and text readability.
+
+1️⃣ Text readability & foreground separation (CRITICAL)
+
+Improve readability of all overlay text:
+
+“The Old Way”
+
+“Manual selling via DMs”
+
+“The Zatch Way”
+
+“Automated. Live. Closed.”
+
+Requirements:
+
+Text must visually sit above the WebGL canvas.
+
+Add a subtle readability aid behind text:
+
+soft dark gradient scrim OR
+
+vignette OR
+
+very subtle translucent backdrop.
+
+Text must not directly overlap dense UI screenshots.
+
+Do NOT:
+
+Animate text heavily
+
+Change copy
+
+Blend text into the 3D scene
+
+Goal: text must be readable within 1 second on first view.
+
+2️⃣ Old Way visuals — STRICT CONTENT RULE
+
+The Old Way state must represent only manual DM-based selling.
+
+Allowed content:
+
+Chat conversations
+
+Bargaining messages
+
+“Last price?” / follow-ups
+
+Unread messages
+
+Payment confusion
+
+Explicitly disallowed:
+
+Dashboards
+
+Charts
+
+Analytics
+
+Structured deal cards
+
+Any system-like UI
+
+You may reuse existing Old Way assets or generate generic DM-style chat visuals, but keep them purely conversational and chaotic.
+
+3️⃣ Zatch Way visuals — USE FIGMA APP SCREENS ONLY
+
+For the Zatch Way state:
+
+Use only real UI screens from the provided Figma link:
+
+https://www.figma.com/design/spwtuZBvdZ20Q1WqT0K6fa/Zatch-Collaborative
+
+Instructions:
+
+Extract relevant app screens that clearly show:
+
+Seller dashboard
+
+Deal cards
+
+Auto-negotiation states
+
+Revenue / order summaries
+
+Export them consistently (same scale, aspect ratio).
+
+Map them as textures on WebGL planes.
+
+Maintain visual consistency and hierarchy.
+
+Do NOT:
+
+Use placeholder UI
+
+Invent screens
+
+Mix unrelated mockups
+
+Use buyer-only or irrelevant flows
+
+Zatch Way must feel intentional, systemized, and credible.
+
+4️⃣ Visual contrast between states (NO motion changes)
+
+Without touching animation logic:
+
+Old Way:
+
+Slightly more overlap
+
+More visual noise
+
+Lower perceived order
+
+Zatch Way:
+
+Cleaner spacing
+
+Clear hierarchy
+
+Reduced clutter
+
+Achieve this through asset selection, layering, and opacity, not motion changes.
+
+5️⃣ Constraints (NON-NEGOTIABLE)
+
+Do NOT modify:
+
+Animation curves
+
+Scroll triggers
+
+Camera behavior
+
+Interaction logic
+
+Do NOT add new colors
+
+Preserve brand green #cafe38
+
+Maintain or improve performance
+
+Final instruction
+
+If there is uncertainty about which Figma screens best represent the Zatch Way, pause and ask before proceeding.
+Do not guess UI content.
