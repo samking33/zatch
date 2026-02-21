@@ -2,6 +2,16 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useScroll } from "framer-motion";
 import * as THREE from "three";
 
+import figmaScreen1 from "@assets/12.1_When_Seller_Rejected_1771679610601.jpg";
+import figmaScreen2 from "@assets/12.1_When_Seller_Rejected-1_1771679610615.jpg";
+import figmaScreen3 from "@assets/12.1_When_Seller_Rejected-2_1771679610616.jpg";
+import figmaScreen4 from "@assets/12.2_Seller_Offer_1771679610617.jpg";
+import figmaScreen5 from "@assets/4_1771679610617.jpg";
+import figmaScreen6 from "@assets/36_1771679610618.jpg";
+import figmaScreen7 from "@assets/46_1771679610619.jpg";
+
+const FIGMA_SCREENS = [figmaScreen1, figmaScreen2, figmaScreen3, figmaScreen4, figmaScreen5, figmaScreen6, figmaScreen7];
+
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -670,10 +680,14 @@ interface CardData {
   driftPhase: number;
   driftAmplitude: THREE.Vector3;
   mesh: THREE.Mesh;
+  chaosTexture: THREE.Texture;
+  orderTexture: THREE.Texture | null;
+  textureSwapped: boolean;
 }
 
 function createCardData(
   textureCreators: (() => HTMLCanvasElement)[],
+  orderTextures: THREE.Texture[],
   count: number,
   cols: number
 ): CardData[] {
@@ -687,13 +701,17 @@ function createCardData(
   for (let i = 0; i < count; i++) {
     const texIdx = i % textureCreators.length;
     const canvas = textureCreators[texIdx]();
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
+    const chaosTexture = new THREE.CanvasTexture(canvas);
+    chaosTexture.minFilter = THREE.LinearFilter;
+    chaosTexture.magFilter = THREE.LinearFilter;
+
+    const orderTexture = orderTextures.length > 0
+      ? orderTextures[i % orderTextures.length]
+      : null;
 
     const geo = new THREE.PlaneGeometry(1.8, 2.7);
     const mat = new THREE.MeshBasicMaterial({
-      map: texture,
+      map: chaosTexture,
       transparent: true,
       opacity: 0.55 + Math.random() * 0.25,
       color: new THREE.Color(0.75, 0.35, 0.35),
@@ -728,6 +746,9 @@ function createCardData(
         0.15 + Math.random() * 0.25
       ),
       mesh,
+      chaosTexture,
+      orderTexture,
+      textureSwapped: false,
     });
   }
 
@@ -901,14 +922,44 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       createShippingConfusionTexture,
     ];
 
-    const cards = createCardData(textureCreators, 36, 6);
-    cardsRef.current = cards;
+    const loader = new THREE.TextureLoader();
+    const orderTextures: THREE.Texture[] = [];
+    let loadedCount = 0;
+    const totalToLoad = FIGMA_SCREENS.length;
 
-    for (const card of cards) {
-      card.mesh.position.copy(card.chaosPos);
-      card.mesh.rotation.copy(card.chaosRot);
-      scene.add(card.mesh);
-    }
+    const initCards = () => {
+      const cards = createCardData(textureCreators, orderTextures, 36, 6);
+      cardsRef.current = cards;
+
+      for (const card of cards) {
+        card.mesh.position.copy(card.chaosPos);
+        card.mesh.rotation.copy(card.chaosRot);
+        scene.add(card.mesh);
+      }
+    };
+
+    FIGMA_SCREENS.forEach((src) => {
+      loader.load(src, (tex) => {
+        tex.minFilter = THREE.LinearFilter;
+        tex.magFilter = THREE.LinearFilter;
+        orderTextures.push(tex);
+        loadedCount++;
+        if (loadedCount === totalToLoad && cardsRef.current.length === 0) {
+          initCards();
+        }
+      }, undefined, () => {
+        loadedCount++;
+        if (loadedCount === totalToLoad && cardsRef.current.length === 0) {
+          initCards();
+        }
+      });
+    });
+
+    setTimeout(() => {
+      if (cardsRef.current.length === 0) {
+        initCards();
+      }
+    }, 3000);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -940,8 +991,18 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       const time = (performance.now() - startTimeRef.current) / 1000;
       const p = progressRef.current;
 
-      for (const card of cards) {
+      for (const card of cardsRef.current) {
         const mat = card.mesh.material as THREE.MeshBasicMaterial;
+
+        if (p > 0.5 && !card.textureSwapped && card.orderTexture) {
+          mat.map = card.orderTexture;
+          mat.needsUpdate = true;
+          card.textureSwapped = true;
+        } else if (p < 0.3 && card.textureSwapped) {
+          mat.map = card.chaosTexture;
+          mat.needsUpdate = true;
+          card.textureSwapped = false;
+        }
 
         if (p < 0.4) {
           const chaosP = p / 0.4;
@@ -1002,12 +1063,16 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       observer.disconnect();
       window.removeEventListener("resize", handleResize);
 
-      for (const card of cards) {
+      for (const card of cardsRef.current) {
         const mat = card.mesh.material as THREE.MeshBasicMaterial;
-        mat.map?.dispose();
+        card.chaosTexture.dispose();
         mat.dispose();
         card.mesh.geometry.dispose();
         scene.remove(card.mesh);
+      }
+
+      for (const tex of orderTextures) {
+        tex.dispose();
       }
 
       renderer.dispose();
