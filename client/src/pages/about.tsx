@@ -3,6 +3,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Linkedin, Twitter, ArrowRight, Sparkles, Video, MessageSquareText, ShoppingBag, Globe } from "lucide-react";
 import rakshitImg from "@/assets/rakshit.png";
+import luckyImg from "@/assets/lucky.jpeg";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -31,6 +32,7 @@ export default function AboutPage() {
       role: "Chief Marketing Officer",
       bio: "Lucky leads growth, brand strategy, and creator ecosystem development. He focuses on building community, onboarding sellers, and shaping Zatch\u2122 into a movement rather than just an app. His work centers on connecting culture, commerce, and content.",
       initials: "LP",
+      photo: luckyImg,
     },
   ];
 
