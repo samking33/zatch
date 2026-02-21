@@ -1,81 +1,85 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { ExternalLink } from "lucide-react";
 
 const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
+const HOLD_DURATION = 1400;
 
-function GlowParticle({ delay, size, x, y }: { delay: number; size: number; x: string; y: string }) {
-  return (
-    <motion.div
-      className="absolute rounded-full pointer-events-none"
-      style={{ left: x, top: y, width: size, height: size }}
-      animate={{
-        opacity: [0, 0.6, 0],
-        scale: [0.5, 1.2, 0.5],
-        y: [0, -30, 0],
-      }}
-      transition={{ duration: 4, delay, repeat: Infinity, ease: "easeInOut" }}
-    >
-      <div className="w-full h-full rounded-full bg-[#cafe38]" style={{ filter: `blur(${size/3}px)` }} />
-    </motion.div>
-  );
-}
+type GatewayState = "idle" | "proximity" | "unlocking" | "unlocked";
 
 export function StickmanCTA() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
-  const [isHovered, setIsHovered] = useState(false);
-  const [revealed, setRevealed] = useState(false);
+  const [state, setState] = useState<GatewayState>("idle");
+  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const unlockTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleHoverStart = () => {
-    setIsHovered(true);
-    setTimeout(() => setRevealed(true), 600);
-  };
+  const clearTimers = useCallback(() => {
+    if (holdTimerRef.current) {
+      clearTimeout(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+    if (unlockTimerRef.current) {
+      clearTimeout(unlockTimerRef.current);
+      unlockTimerRef.current = null;
+    }
+  }, []);
 
-  const handleHoverEnd = () => {
-    setIsHovered(false);
-    setRevealed(false);
-  };
+  const handleCenterEnter = useCallback(() => {
+    if (state === "unlocked") return;
+    clearTimers();
+    setState("proximity");
+
+    holdTimerRef.current = setTimeout(() => {
+      setState("unlocking");
+      unlockTimerRef.current = setTimeout(() => {
+        setState("unlocked");
+      }, HOLD_DURATION);
+    }, 300);
+  }, [state, clearTimers]);
+
+  const handleCenterLeave = useCallback(() => {
+    if (state === "unlocked") return;
+    clearTimers();
+    setState("idle");
+  }, [state, clearTimers]);
+
+  const handleTouchUnlock = useCallback(() => {
+    if (state === "unlocked") return;
+    clearTimers();
+    setState("unlocked");
+  }, [state, clearTimers]);
+
+  useEffect(() => {
+    return () => clearTimers();
+  }, [clearTimers]);
+
+  const isOpen = state === "unlocked";
+  const isActive = state === "proximity" || state === "unlocking";
+  const isUnlocking = state === "unlocking";
 
   return (
     <section id="download" ref={ref} className="py-20 md:py-28 bg-[#020202] relative overflow-hidden">
-      {/* Atmospheric void background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[#cafe38]/[0.015] blur-[150px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#cafe38]/[0.02] blur-[80px]" />
-
-        {/* Grid floor effect */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-[40%] opacity-[0.03]"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-[150px] transition-opacity duration-1000"
           style={{
-            backgroundImage: 'linear-gradient(rgba(202,254,56,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(202,254,56,0.4) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-            transform: 'perspective(500px) rotateX(60deg)',
-            transformOrigin: 'bottom center',
+            background: "radial-gradient(circle, rgba(202,254,56,0.02) 0%, transparent 70%)",
+            opacity: isOpen ? 1 : 0.4,
           }}
         />
       </div>
 
-      {/* Floating particles */}
-      <GlowParticle delay={0} size={4} x="30%" y="20%" />
-      <GlowParticle delay={1.5} size={3} x="70%" y="30%" />
-      <GlowParticle delay={0.8} size={5} x="20%" y="60%" />
-      <GlowParticle delay={2.2} size={3} x="75%" y="70%" />
-      <GlowParticle delay={1} size={4} x="50%" y="15%" />
-      <GlowParticle delay={3} size={3} x="40%" y="75%" />
-
       <div className="container mx-auto px-6 relative z-10 max-w-5xl">
-        {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-20 md:mb-28"
+          className="text-center mb-16 md:mb-24"
         >
           <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-display tracking-tight text-white leading-[0.95]" data-testid="text-download-heading">
             Enter the
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#cafe38] via-[#cafe38] to-[#00d4ff]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#cafe38] via-[#cafe38] to-[#cafe38]/60">
               Zatch&trade; Ecosystem
             </span>
           </h3>
@@ -83,343 +87,290 @@ export function StickmanCTA() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-sm md:text-base text-white/20 mt-6 font-mono tracking-wide"
+            className="text-white/30 text-sm md:text-base mt-4 font-display"
           >
-            [ HOVER TO UNLOCK ]
+            Where live commerce becomes a system.
           </motion.p>
         </motion.div>
 
-        {/* The Cube Zone */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col items-center"
         >
-          {/* Cube container */}
-          <div
-            className="relative w-[280px] h-[280px] md:w-[340px] md:h-[340px] cursor-pointer"
-            onMouseEnter={handleHoverStart}
-            onMouseLeave={handleHoverEnd}
-            onTouchStart={handleHoverStart}
-            style={{ perspective: "1000px" }}
-          >
-            {/* Cube pulse ring */}
+          <div className="relative w-full max-w-[600px] h-[320px] md:h-[380px] flex items-center justify-center">
             <motion.div
-              className="absolute inset-[-20px] rounded-full border border-[#cafe38]/10"
-              animate={isHovered ? { scale: 1.3, opacity: 0 } : { scale: [1, 1.1, 1], opacity: [0.3, 0.1, 0.3] }}
-              transition={isHovered ? { duration: 0.6 } : { duration: 3, repeat: Infinity }}
-            />
-            <motion.div
-              className="absolute inset-[-40px] rounded-full border border-[#cafe38]/5"
-              animate={isHovered ? { scale: 1.5, opacity: 0 } : { scale: [1, 1.08, 1], opacity: [0.15, 0.05, 0.15] }}
-              transition={isHovered ? { duration: 0.8 } : { duration: 4, repeat: Infinity, delay: 1 }}
-            />
-
-            {/* THE 3D CUBE */}
-            <div className="w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
-              {/* Left half */}
-              <motion.div
-                className="absolute inset-0"
-                style={{ transformStyle: "preserve-3d" }}
-                animate={
-                  isHovered
-                    ? { rotateY: 0, x: "-55%" }
-                    : { rotateY: [0, 360], x: "0%" }
-                }
-                transition={
-                  isHovered
-                    ? { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-                    : { rotateY: { duration: 12, repeat: Infinity, ease: "linear" }, x: { duration: 0.8 } }
-                }
-              >
-                {/* Front face - left half */}
-                <div
-                  className="absolute w-full h-full"
-                  style={{
-                    transform: "translateZ(140px) md:translateZ(170px)",
-                    clipPath: "inset(0 50% 0 0)",
-                  }}
-                >
-                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/20 bg-gradient-to-br from-[#cafe38]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_60px_rgba(202,254,56,0.05)]">
-                    <div className="absolute inset-0 rounded-2xl bg-[#cafe38]/[0.03]" />
-                    {/* Circuit pattern */}
-                    <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 200 200">
-                      <path d="M20 100 L80 100 L80 40 L140 40" stroke="#cafe38" strokeWidth="1" fill="none" />
-                      <path d="M20 140 L60 140 L60 160 L120 160" stroke="#cafe38" strokeWidth="1" fill="none" />
-                      <circle cx="140" cy="40" r="3" fill="#cafe38" />
-                      <circle cx="120" cy="160" r="3" fill="#cafe38" />
-                    </svg>
+              className="absolute h-[260px] md:h-[300px] w-[42%] rounded-2xl border overflow-hidden"
+              style={{ left: 0 }}
+              animate={{
+                x: isOpen ? "-8%" : isActive ? "2%" : "5%",
+                borderColor: isActive
+                  ? "rgba(202,254,56,0.2)"
+                  : "rgba(255,255,255,0.06)",
+                boxShadow: isActive
+                  ? "inset -4px 0 20px rgba(202,254,56,0.06), 0 0 40px rgba(0,0,0,0.3)"
+                  : "0 0 30px rgba(0,0,0,0.2)",
+              }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] to-[#0a1a0a]/80 backdrop-blur-md" />
+              <div className="relative z-10 p-6 md:p-8 h-full flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-2 h-2 rounded-full bg-[#cafe38]/40" />
+                    <span className="text-[10px] font-mono text-white/25 uppercase tracking-[0.2em]">Buyer World</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-2 bg-white/[0.04] rounded-full w-4/5" />
+                    <div className="h-2 bg-white/[0.03] rounded-full w-3/5" />
+                    <div className="h-2 bg-white/[0.02] rounded-full w-4/6" />
                   </div>
                 </div>
-
-                {/* Back face - left half */}
-                <div
-                  className="absolute w-full h-full"
-                  style={{
-                    transform: "translateZ(-140px) rotateY(180deg)",
-                    clipPath: "inset(0 0 0 50%)",
-                  }}
-                >
-                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-bl from-[#cafe38]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm" />
+                <div className="space-y-2">
+                  <div className="h-1.5 bg-white/[0.03] rounded-full w-2/3" />
+                  <div className="h-1.5 bg-white/[0.02] rounded-full w-1/2" />
                 </div>
+              </div>
+              <div
+                className="absolute top-0 right-0 w-px h-full transition-opacity duration-500"
+                style={{
+                  background: "linear-gradient(to bottom, transparent, rgba(202,254,56,0.3), transparent)",
+                  opacity: isActive ? 1 : 0,
+                }}
+              />
+            </motion.div>
 
-                {/* Left face */}
-                <div
-                  className="absolute w-full h-full"
-                  style={{ transform: "rotateY(-90deg) translateZ(140px)" }}
-                >
-                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-r from-[#cafe38]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_40px_rgba(202,254,56,0.03)]" />
-                </div>
-
-                {/* Top face - left half */}
-                <div
-                  className="absolute w-full h-full"
-                  style={{
-                    transform: "rotateX(90deg) translateZ(140px)",
-                    clipPath: "inset(0 50% 0 0)",
-                  }}
-                >
-                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-b from-[#cafe38]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm" />
-                </div>
-
-                {/* Bottom face - left half */}
-                <div
-                  className="absolute w-full h-full"
-                  style={{
-                    transform: "rotateX(-90deg) translateZ(140px)",
-                    clipPath: "inset(0 50% 0 0)",
-                  }}
-                >
-                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/10 bg-[#050a05]/80" />
-                </div>
-              </motion.div>
-
-              {/* Right half */}
-              <motion.div
-                className="absolute inset-0"
-                style={{ transformStyle: "preserve-3d" }}
-                animate={
-                  isHovered
-                    ? { rotateY: 0, x: "55%" }
-                    : { rotateY: [0, 360], x: "0%" }
-                }
-                transition={
-                  isHovered
-                    ? { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-                    : { rotateY: { duration: 12, repeat: Infinity, ease: "linear" }, x: { duration: 0.8 } }
-                }
-              >
-                {/* Front face - right half */}
-                <div
-                  className="absolute w-full h-full"
-                  style={{
-                    transform: "translateZ(140px)",
-                    clipPath: "inset(0 0 0 50%)",
-                  }}
-                >
-                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/20 bg-gradient-to-bl from-[#cafe38]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_60px_rgba(202,254,56,0.05)]">
-                    <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 200 200">
-                      <path d="M180 60 L120 60 L120 120 L60 120" stroke="#cafe38" strokeWidth="1" fill="none" />
-                      <path d="M180 100 L140 100 L140 50 L100 50" stroke="#cafe38" strokeWidth="1" fill="none" />
-                      <circle cx="60" cy="120" r="3" fill="#cafe38" />
-                      <circle cx="100" cy="50" r="3" fill="#cafe38" />
-                    </svg>
+            <motion.div
+              className="absolute h-[260px] md:h-[300px] w-[42%] rounded-2xl border overflow-hidden"
+              style={{ right: 0 }}
+              animate={{
+                x: isOpen ? "8%" : isActive ? "-2%" : "-5%",
+                borderColor: isActive
+                  ? "rgba(202,254,56,0.2)"
+                  : "rgba(255,255,255,0.06)",
+                boxShadow: isActive
+                  ? "inset 4px 0 20px rgba(202,254,56,0.06), 0 0 40px rgba(0,0,0,0.3)"
+                  : "0 0 30px rgba(0,0,0,0.2)",
+              }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-bl from-white/[0.04] to-[#0a1a0a]/80 backdrop-blur-md" />
+              <div className="relative z-10 p-6 md:p-8 h-full flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2 mb-4 justify-end">
+                    <span className="text-[10px] font-mono text-white/25 uppercase tracking-[0.2em]">Seller World</span>
+                    <div className="w-2 h-2 rounded-full bg-[#cafe38]/40" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-2 bg-white/[0.04] rounded-full w-4/5 ml-auto" />
+                    <div className="h-2 bg-white/[0.03] rounded-full w-3/5 ml-auto" />
+                    <div className="h-2 bg-white/[0.02] rounded-full w-4/6 ml-auto" />
                   </div>
                 </div>
-
-                {/* Back face - right half */}
-                <div
-                  className="absolute w-full h-full"
-                  style={{
-                    transform: "translateZ(-140px) rotateY(180deg)",
-                    clipPath: "inset(0 50% 0 0)",
-                  }}
-                >
-                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-br from-[#cafe38]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm" />
+                <div className="space-y-2">
+                  <div className="h-1.5 bg-white/[0.03] rounded-full w-2/3 ml-auto" />
+                  <div className="h-1.5 bg-white/[0.02] rounded-full w-1/2 ml-auto" />
                 </div>
+              </div>
+              <div
+                className="absolute top-0 left-0 w-px h-full transition-opacity duration-500"
+                style={{
+                  background: "linear-gradient(to bottom, transparent, rgba(202,254,56,0.3), transparent)",
+                  opacity: isActive ? 1 : 0,
+                }}
+              />
+            </motion.div>
 
-                {/* Right face */}
-                <div
-                  className="absolute w-full h-full"
-                  style={{ transform: "rotateY(90deg) translateZ(140px)" }}
-                >
-                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-l from-[#cafe38]/[0.04] to-[#0a1a0a]/80 backdrop-blur-sm shadow-[inset_0_0_40px_rgba(202,254,56,0.03)]" />
+            <div
+              className="absolute inset-0 z-20 flex items-center justify-center"
+              style={{ left: "25%", right: "25%", width: "50%" }}
+              onMouseEnter={handleCenterEnter}
+              onMouseLeave={handleCenterLeave}
+              onTouchStart={handleTouchUnlock}
+            >
+              {!isOpen && (
+                <div className="absolute w-16 h-16 md:w-20 md:h-20">
+                  <svg className="w-full h-full -rotate-90" viewBox="0 0 40 40">
+                    <circle
+                      cx="20" cy="20" r="17"
+                      fill="none"
+                      stroke="rgba(202,254,56,0.1)"
+                      strokeWidth="1.5"
+                    />
+                    <circle
+                      cx="20" cy="20" r="17"
+                      fill="none"
+                      stroke="#cafe38"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeDasharray="106.8 106.8"
+                      strokeDashoffset={isUnlocking ? "0" : "106.8"}
+                      style={{
+                        transition: isUnlocking
+                          ? `stroke-dashoffset ${HOLD_DURATION}ms linear`
+                          : "stroke-dashoffset 200ms ease-out",
+                        filter: "drop-shadow(0 0 4px rgba(202,254,56,0.5))",
+                        opacity: isActive ? 1 : 0,
+                      }}
+                    />
+                  </svg>
                 </div>
+              )}
 
-                {/* Top face - right half */}
-                <div
-                  className="absolute w-full h-full"
-                  style={{
-                    transform: "rotateX(90deg) translateZ(140px)",
-                    clipPath: "inset(0 0 0 50%)",
-                  }}
-                >
-                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/15 bg-gradient-to-b from-[#cafe38]/[0.06] to-[#0a1a0a]/80 backdrop-blur-sm" />
-                </div>
-
-                {/* Bottom face - right half */}
-                <div
-                  className="absolute w-full h-full"
-                  style={{
-                    transform: "rotateX(-90deg) translateZ(140px)",
-                    clipPath: "inset(0 0 0 50%)",
-                  }}
-                >
-                  <div className="w-full h-full rounded-2xl border border-[#cafe38]/10 bg-[#050a05]/80" />
-                </div>
-              </motion.div>
-
-              {/* Inner core glow - visible when split */}
-              <AnimatePresence>
-                {isHovered && (
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                  >
-                    <div className="relative">
-                      <motion.div
-                        className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#cafe38]/20 blur-xl"
-                        animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0.8, 0.4] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                      <motion.div
-                        className="absolute inset-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#cafe38]/10 blur-3xl"
-                        animate={{ scale: [1.2, 1.8, 1.2] }}
-                        transition={{ duration: 3, repeat: Infinity }}
-                      />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <div
+                className="w-3 h-3 rounded-full transition-all duration-600"
+                style={{
+                  transform: `scale(${isOpen ? 2 : isActive ? 1.5 : 1})`,
+                  backgroundColor: isOpen
+                    ? "rgba(202,254,56,0.6)"
+                    : isActive
+                      ? "rgba(202,254,56,0.3)"
+                      : "rgba(255,255,255,0.1)",
+                  boxShadow: isOpen
+                    ? "0 0 30px rgba(202,254,56,0.4), 0 0 60px rgba(202,254,56,0.2)"
+                    : isActive
+                      ? "0 0 15px rgba(202,254,56,0.2)"
+                      : "none",
+                  transition: "all 0.6s ease",
+                }}
+              />
             </div>
 
-            {/* Access Keys - revealed from inside */}
             <AnimatePresence>
-              {revealed && (
+              {isOpen && (
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center gap-4 md:gap-6 z-50"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                  className="absolute z-30 flex items-center justify-center gap-4 md:gap-6"
+                  initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  {/* Apple App Store Key */}
-                  <motion.a
-                    href={PLAYSTORE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, scale: 0.3, x: 20, rotateY: -90 }}
-                    animate={{ opacity: 1, scale: 1, x: 0, rotateY: 0 }}
-                    exit={{ opacity: 0, scale: 0.3, x: 20, rotateY: -90 }}
-                    transition={{ duration: 0.7, delay: 0.1, type: "spring", bounce: 0.3 }}
-                    className="group relative"
-                    data-testid="button-download-appstore"
+                  <div
+                    className="p-5 md:p-6 rounded-2xl flex gap-4 md:gap-6"
+                    style={{
+                      background: "radial-gradient(ellipse 120% 140% at center, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 60%, transparent 100%)",
+                    }}
                   >
-                    <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-white/20 via-white/5 to-white/10 blur-[0.5px]" />
-                    <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)] group-hover:bg-white/[0.08] group-hover:border-white/[0.2] group-hover:shadow-[0_8px_50px_rgba(202,254,56,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 group-hover:scale-105">
-                      {/* Key icon cut */}
-                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center group-hover:bg-[#cafe38]/10 group-hover:border-[#cafe38]/20 transition-all duration-500">
-                        <svg className="w-6 h-6 md:w-7 md:h-7 text-white/70 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.97 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
-                        </svg>
+                    <motion.a
+                      href={PLAYSTORE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5, duration: 0.5 }}
+                      className="group relative"
+                      data-testid="button-download-appstore"
+                    >
+                      <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-white/15 via-white/5 to-white/10 blur-[0.5px]" />
+                      <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.5)] group-hover:bg-white/[0.1] group-hover:border-white/[0.2] transition-all duration-500">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center group-hover:bg-[#cafe38]/10 group-hover:border-[#cafe38]/20 transition-all duration-500">
+                          <svg className="w-6 h-6 md:w-7 md:h-7 text-white/70 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.97 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
+                          </svg>
+                        </div>
+                        <div className="text-center px-2">
+                          <p className="text-[8px] text-white/30 uppercase tracking-widest">Download on</p>
+                          <p className="text-[11px] md:text-xs text-white/80 font-semibold mt-0.5">App Store</p>
+                        </div>
+                        <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#cafe38]/30 group-hover:bg-[#cafe38]/60 transition-colors" />
                       </div>
-                      <div className="text-center px-2">
-                        <p className="text-[8px] text-white/30 uppercase tracking-widest">Download on</p>
-                        <p className="text-[11px] md:text-xs text-white/80 font-semibold mt-0.5">App Store</p>
-                      </div>
-                      {/* Corner accent */}
-                      <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#cafe38]/30 group-hover:bg-[#cafe38]/60 transition-colors" />
-                    </div>
-                  </motion.a>
+                    </motion.a>
 
-                  {/* Google Play Key */}
-                  <motion.a
-                    href={PLAYSTORE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, scale: 0.3, x: -20, rotateY: 90 }}
-                    animate={{ opacity: 1, scale: 1, x: 0, rotateY: 0 }}
-                    exit={{ opacity: 0, scale: 0.3, x: -20, rotateY: 90 }}
-                    transition={{ duration: 0.7, delay: 0.2, type: "spring", bounce: 0.3 }}
-                    className="group relative"
-                    data-testid="button-download-app"
-                  >
-                    <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-[#cafe38]/20 via-[#cafe38]/5 to-[#cafe38]/10 blur-[0.5px]" />
-                    <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-[#cafe38]/[0.04] backdrop-blur-xl border border-[#cafe38]/[0.15] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(202,254,56,0.06)] group-hover:bg-[#cafe38]/[0.08] group-hover:border-[#cafe38]/[0.3] group-hover:shadow-[0_8px_50px_rgba(202,254,56,0.15),inset_0_1px_0_rgba(202,254,56,0.1)] transition-all duration-500 group-hover:scale-105">
-                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[#cafe38]/[0.06] border border-[#cafe38]/[0.1] flex items-center justify-center group-hover:bg-[#cafe38]/15 group-hover:border-[#cafe38]/25 transition-all duration-500">
-                        <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24">
-                          <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92z" fill="#4285F4"/>
-                          <path d="M17.556 8.248l-3.764 3.753 3.764 3.753 4.243-2.399c.477-.27.77-.772.77-1.316s-.294-1.046-.77-1.316l-4.243-2.475z" fill="#FBBC04"/>
-                          <path d="M3.609 22.186L14.99 13.21l-1.198-1.21L3.609 22.186z" fill="#EA4335"/>
-                          <path d="M3.609 1.814L13.792 12l1.198-1.21L3.609 1.814z" fill="#34A853"/>
-                        </svg>
+                    <motion.a
+                      href={PLAYSTORE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6, duration: 0.5 }}
+                      className="group relative"
+                      data-testid="button-download-app"
+                    >
+                      <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-[#cafe38]/20 via-[#cafe38]/5 to-[#cafe38]/10 blur-[0.5px]" />
+                      <div className="relative w-[110px] h-[140px] md:w-[130px] md:h-[165px] rounded-2xl bg-[#cafe38]/[0.06] backdrop-blur-xl border border-[#cafe38]/[0.15] flex flex-col items-center justify-center gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.5)] group-hover:bg-[#cafe38]/[0.1] group-hover:border-[#cafe38]/[0.3] transition-all duration-500">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[#cafe38]/[0.06] border border-[#cafe38]/[0.1] flex items-center justify-center group-hover:bg-[#cafe38]/15 group-hover:border-[#cafe38]/25 transition-all duration-500">
+                          <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24">
+                            <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92z" fill="#4285F4"/>
+                            <path d="M17.556 8.248l-3.764 3.753 3.764 3.753 4.243-2.399c.477-.27.77-.772.77-1.316s-.294-1.046-.77-1.316l-4.243-2.475z" fill="#FBBC04"/>
+                            <path d="M3.609 22.186L14.99 13.21l-1.198-1.21L3.609 22.186z" fill="#EA4335"/>
+                            <path d="M3.609 1.814L13.792 12l1.198-1.21L3.609 1.814z" fill="#34A853"/>
+                          </svg>
+                        </div>
+                        <div className="text-center px-2">
+                          <p className="text-[8px] text-[#cafe38]/30 uppercase tracking-widest">Get it on</p>
+                          <p className="text-[11px] md:text-xs text-white/80 font-semibold mt-0.5">Google Play</p>
+                        </div>
+                        <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#cafe38]/40 group-hover:bg-[#cafe38]/80 transition-colors" />
                       </div>
-                      <div className="text-center px-2">
-                        <p className="text-[8px] text-[#cafe38]/30 uppercase tracking-widest">Get it on</p>
-                        <p className="text-[11px] md:text-xs text-white/80 font-semibold mt-0.5">Google Play</p>
-                      </div>
-                      <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#cafe38]/40 group-hover:bg-[#cafe38]/80 transition-colors" />
-                    </div>
-                  </motion.a>
+                    </motion.a>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          {/* Glass Pedestal */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="relative mt-8"
-          >
-            {/* Pedestal surface */}
-            <div className="w-[320px] md:w-[400px] h-[3px] rounded-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
-            {/* Pedestal glow */}
-            <motion.div
-              className="w-[200px] md:w-[260px] h-[2px] rounded-full mx-auto mt-[1px] bg-gradient-to-r from-transparent via-[#cafe38]/20 to-transparent"
-              animate={isHovered ? { opacity: [0.6, 1, 0.6], width: ["260px", "300px", "260px"] } : { opacity: [0.2, 0.4, 0.2] }}
-              transition={{ duration: 2, repeat: Infinity }}
+          <div className="relative mt-4">
+            <div className="w-[320px] md:w-[400px] h-[2px] rounded-full bg-gradient-to-r from-transparent via-white/[0.06] to-transparent mx-auto" />
+            <div
+              className="w-[200px] md:w-[260px] h-[1px] rounded-full mx-auto mt-[1px] bg-gradient-to-r from-transparent via-[#cafe38]/20 to-transparent transition-opacity duration-600"
+              style={{ opacity: isOpen ? 0.8 : isActive ? 0.4 : 0.15 }}
             />
-            {/* Pedestal reflection */}
-            <div className="w-[180px] md:w-[220px] h-20 mx-auto bg-gradient-to-b from-[#cafe38]/[0.02] to-transparent blur-md rounded-full" />
-          </motion.div>
+          </div>
 
-          {/* Hint text */}
-          <AnimatePresence mode="wait">
-            {!isHovered ? (
-              <motion.p
-                key="hint"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="mt-6 text-[11px] font-mono text-white/15 tracking-[0.3em] uppercase"
-              >
-                <motion.span
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 2, repeat: Infinity }}
+          <div className="mt-6 h-5">
+            <AnimatePresence mode="wait">
+              {state === "idle" && (
+                <motion.p
+                  key="idle"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-[11px] font-mono text-white/20 tracking-[0.3em] uppercase text-center"
                 >
-                  hover the cube
-                </motion.span>
-              </motion.p>
-            ) : (
-              <motion.p
-                key="unlocked"
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="mt-6 text-[11px] font-mono text-[#cafe38]/40 tracking-[0.3em] uppercase"
-              >
-                access granted
-              </motion.p>
-            )}
-          </AnimatePresence>
+                  [ Hover to unlock ]
+                </motion.p>
+              )}
+              {state === "proximity" && (
+                <motion.p
+                  key="proximity"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-[11px] font-mono text-white/25 tracking-[0.3em] uppercase text-center"
+                >
+                  [ Establishing connection… ]
+                </motion.p>
+              )}
+              {state === "unlocking" && (
+                <motion.p
+                  key="unlocking"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-[11px] font-mono text-[#cafe38]/35 tracking-[0.3em] uppercase text-center"
+                >
+                  [ Establishing connection… ]
+                </motion.p>
+              )}
+              {state === "unlocked" && (
+                <motion.p
+                  key="unlocked"
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="text-[11px] font-mono text-[#cafe38]/50 tracking-[0.3em] uppercase text-center"
+                >
+                  Access granted
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
         </motion.div>
 
-        {/* Bottom section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}

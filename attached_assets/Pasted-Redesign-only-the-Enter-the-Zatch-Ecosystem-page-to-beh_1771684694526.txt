@@ -1,0 +1,179 @@
+Redesign only the “Enter the Zatch™ Ecosystem” page to behave as an interactive gateway, not a static hero.
+This is a conceptual + interaction upgrade, not a visual reskin.
+Do not touch other pages, routes, or global components.
+
+🎯 Core Intent
+
+This page must feel like a threshold the user activates, not a poster they scroll past.
+
+The user should:
+
+sense tension on load
+
+interact to unlock
+
+feel rewarded with clarity and CTA
+
+🧱 Existing Structure (KEEP)
+
+Preserve:
+
+Dark background
+
+Central layout
+
+Two translucent/glass panels (left & right)
+
+Headline placement
+
+App Store buttons (but not their timing)
+
+Do NOT introduce a new layout grid.
+
+🧠 New Concept: “THE GATEWAY”
+Meaning Assignment
+
+Left glass panel → Buyer World
+
+Right glass panel → Seller World
+
+Center space → Zatch Core (system access point)
+
+Panels are locked by default.
+
+🧩 Interaction States (MANDATORY)
+1️⃣ Idle State (on load)
+
+Panels sit slightly apart
+
+Low opacity
+
+Minimal idle motion (almost none)
+
+App Store buttons are hidden
+
+Subtext reads:
+
+[ Hover to unlock ]
+
+Cursor should feel neutral.
+
+2️⃣ Proximity / Hover State
+
+When the cursor moves toward the center:
+
+Panels subtly respond:
+
+very slight inward pull
+
+faint glow along inner edges
+
+Cursor gains a subtle signal ring (brand green #cafe38)
+
+Subtext updates smoothly to:
+
+[ Establishing connection… ]
+
+No sudden motion. Everything must feel intentional and restrained.
+
+3️⃣ Unlock State (HOLD-TO-UNLOCK)
+
+If the cursor stays within the center zone for ~1–1.5 seconds:
+
+Panels slide open horizontally (clean, controlled motion)
+
+Background depth subtly increases
+
+Zatch Core activates (soft pulse or glow)
+
+Subtext switches to:
+
+Access granted
+
+This is the hero moment.
+
+🎨 Headline & Copy (Refine, don’t overdesign)
+Headline (keep structure)
+Enter the Zatch™ Ecosystem
+Add a subline (new)
+Where live commerce becomes a system.
+
+Keep typography bold, confident, and readable.
+Do NOT animate text heavily.
+
+🟢 App Store CTA Rules (VERY IMPORTANT)
+
+App Store buttons must:
+
+Appear only after unlock
+
+Emerge from the center (fade + slight upward motion)
+
+Improve contrast:
+
+Add a subtle dark scrim or backdrop behind buttons
+
+Ensure text is readable at first glance
+
+Maintain brand green #cafe38
+
+Do NOT change CTA labels
+
+CTAs should feel earned, not decorative.
+
+🧊 Glass Panel Refinement
+
+Reduce excessive glass layers
+
+Panels should:
+
+feel architectural
+
+not look like random sci-fi rectangles
+
+Inner edges can glow slightly on hover
+
+No pointless idle jitter
+
+⚙️ Technical Constraints (Non-Negotiable)
+
+No heavy WebGL or Three.js on this page
+
+Use CSS + lightweight JS only
+
+No continuous animation loops
+
+Pause all motion when idle
+
+Maintain performance on mid-range laptops
+
+🚫 Do NOT
+
+Do not add new colors
+
+Do not add lore-style copy
+
+Do not introduce complex gestures
+
+Do not refactor shared components
+
+Do not affect other hero sections
+
+✅ Success Criteria
+
+This page should:
+
+Feel like an intentional gateway
+
+Have a clear moment of activation
+
+Make the user want to proceed
+
+Feel minimal, confident, premium
+
+If any interaction detail is unclear, pause and ask before implementing.
+
+🔚 Final instruction to agent
+
+Treat this as a hero installation, not a marketing block.
+Less motion. More meaning.
