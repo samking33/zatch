@@ -94,7 +94,7 @@ export function Hero() {
             <h1 className="text-6xl md:text-8xl font-bold font-display tracking-tight leading-[0.9] mb-8">
               <motion.span custom={1} variants={textVariants} initial="hidden" animate="visible" className="block text-white">Watch it <span className="text-stroke-primary text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">live.</span></motion.span>
               <motion.span custom={2} variants={textVariants} initial="hidden" animate="visible" className="block text-white/30 italic font-serif">Shop videos.</motion.span>
-              <motion.span custom={3} variants={textVariants} initial="hidden" animate="visible" className="block mt-2 bg-clip-text text-transparent bg-gradient-to-r from-primary via-[#C7F04F] to-emerald-400">Zatch your price.</motion.span>
+              <motion.span custom={3} variants={textVariants} initial="hidden" animate="visible" className="block mt-2 bg-clip-text text-transparent bg-gradient-to-r from-primary via-[#cafe38] to-emerald-400">Zatch your price.</motion.span>
             </h1>
             
             <motion.p 

@@ -16,7 +16,7 @@
   --color-popover: hsl(0 0% 5%);
   --color-popover-foreground: hsl(0 0% 100%);
 
-  --color-primary: hsl(55 89% 58%); /* Brand Green #cafe38 */
+  --color-primary: hsl(76 99% 61%); /* Brand Green #cafe38 */
   --color-primary-foreground: hsl(0 0% 0%);
 
   --color-secondary: hsl(0 0% 9%); /* Charcoal Dark #171717 */
@@ -25,7 +25,7 @@
   --color-muted: hsl(0 0% 15%);
   --color-muted-foreground: hsl(0 0% 60%);
 
-  --color-accent: hsl(55 89% 58%);
+  --color-accent: hsl(76 99% 61%); /* Brand Green #cafe38 */
   --color-accent-foreground: hsl(0 0% 0%);
 
   --color-destructive: hsl(0 62% 30%);
@@ -33,7 +33,7 @@
 
   --color-border: hsl(0 0% 20%);
   --color-input: hsl(0 0% 20%);
-  --color-ring: hsl(55 89% 58%);
+  --color-ring: hsl(76 99% 61%); /* Brand Green #cafe38 */
 
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;

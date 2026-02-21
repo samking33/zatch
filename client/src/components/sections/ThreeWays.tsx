@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Video, ShoppingBag, MessageSquareText, ArrowRight, Sparkles } from "lucide-react";
 import { BargainSimulator } from "@/components/interactive/BargainSimulator";
@@ -28,7 +28,7 @@ const cards = [
     title: "Zatching",
     subtitle: "Strategic Bargaining",
     description: "Your Price. Your Deal. Send a quote. Receive approval or counter. Close the deal instantly.",
-    color: "#C7F04F",
+    color: "#cafe38",
     bg: "bg-primary",
     icon: MessageSquareText,
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=2070&auto=format&fit=crop",
@@ -79,32 +79,21 @@ export function ThreeWays() {
 }
 
 function Card({ card, index, range, targetScale, progress }: any) {
-  const container = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ['start end', 'start start']
-  });
-
-  const imageScale = useTransform(scrollYProgress, [0, 1], [2, 1]);
   const scale = useTransform(progress, range, [1, targetScale]);
 
   return (
-    <div ref={container} className="h-screen flex items-center justify-center sticky top-0">
+    <div className="h-screen flex items-center justify-center sticky top-0">
       <motion.div 
         style={{ 
            scale, 
            top: `calc(-5vh + ${index * 25}px)`,
         }}
-        className="relative flex flex-col md:flex-row h-[600px] w-full rounded-[3rem] border border-white/10 bg-[#0A0A0A] overflow-hidden origin-top shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] group hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.6)] hover:border-white/15 transition-all duration-500"
+        className="relative flex flex-col md:flex-row h-[600px] w-full rounded-[3rem] border border-white/10 bg-[#0A0A0A] overflow-hidden origin-top shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] group hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.6)] hover:border-white/15 transition-shadow transition-border duration-500 will-change-transform"
       >
-        {/* Shine Effect */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20 bg-gradient-to-tr from-white/5 to-transparent mix-blend-overlay" />
-
-        {/* Content Side */}
-        <div className="flex-1 p-12 flex flex-col justify-between z-10 relative bg-black/20 backdrop-blur-sm">
+        <div className="flex-1 p-12 flex flex-col justify-between z-10 relative">
            <div>
               <div className={`w-14 h-14 rounded-2xl ${card.bg}/10 flex items-center justify-center mb-8 border ${card.bg}/20`}>
-                 <card.icon className={`w-7 h-7 ${index === 2 ? 'text-black' : 'text-white'}`} style={{ color: card.color }} />
+                 <card.icon className="w-7 h-7" style={{ color: card.color }} />
               </div>
               <h3 className="text-4xl font-bold font-display mb-2 text-white">{card.title}</h3>
               <p className="text-xl text-white/60 mb-8 font-medium">{card.subtitle}</p>
@@ -113,13 +102,12 @@ function Card({ card, index, range, targetScale, progress }: any) {
               </p>
            </div>
            
-           <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest group cursor-pointer hover:text-white transition-colors" style={{ color: card.color }}>
+           <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest cursor-pointer hover:text-white transition-colors" style={{ color: card.color }}>
               <span>Learn More</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4" />
            </div>
         </div>
 
-        {/* Image / Interactive Side */}
         <div className="flex-1 relative overflow-hidden bg-black/50">
            {card.type === 'bargain' ? (
               <div className="absolute inset-0 flex items-center justify-center p-8 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-black to-black">
@@ -127,16 +115,14 @@ function Card({ card, index, range, targetScale, progress }: any) {
               </div>
            ) : (
               <>
-                 <motion.div style={{ scale: imageScale }} className="absolute inset-0 w-full h-full">
-                    <img 
-                       src={card.image} 
-                       alt={card.title} 
-                       className="w-full h-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
-                    />
-                 </motion.div>
+                 <img 
+                    src={card.image} 
+                    alt={card.title} 
+                    className="absolute inset-0 w-full h-full object-cover opacity-80"
+                    loading="lazy"
+                 />
                  <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#0A0A0A]/50 to-[#0A0A0A]" />
                  
-                 {/* Decorative Overlay */}
                  <div className="absolute inset-0 p-8 flex items-end justify-end">
                     <div className="bg-black/40 backdrop-blur-xl border border-white/10 p-4 rounded-2xl flex items-center gap-4">
                        <div className={`w-3 h-3 rounded-full ${card.bg} animate-pulse`} />
