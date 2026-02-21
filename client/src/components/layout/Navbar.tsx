@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useLocation } from "wouter";
 import { Menu, X, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import zatchLogo from "@/assets/zatch-logo.png";
 
 const NAV_LINKS = [
   { name: "Home", target: "hero", type: "scroll" },
@@ -94,6 +95,7 @@ export function Navbar() {
             className="text-2xl font-bold font-display tracking-tighter flex items-center gap-1.5 relative z-50 group"
             data-testid="link-home"
           >
+            <img src={zatchLogo} alt="Zatch" className="w-8 h-8 rounded-lg" />
             <span className="text-white group-hover:text-[#39FF14] transition-colors duration-300">ZATCH</span>
             <span className="text-[#39FF14] text-[10px] align-top font-medium">&trade;</span>
           </button>

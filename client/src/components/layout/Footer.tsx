@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Twitter, Instagram, Linkedin } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import zatchLogo from "@/assets/zatch-logo.png";
 
 export function Footer() {
   const [location, setLocation] = useLocation();
@@ -32,9 +33,12 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           {/* Column 1: Brand */}
           <div className="lg:col-span-1">
-            <h3 className="text-2xl font-bold font-display tracking-tighter mb-4" data-testid="text-footer-brand">
-              ZATCH<span className="text-[#39FF14] text-xs align-top">&trade;</span>
-            </h3>
+            <div className="flex items-center gap-2 mb-4" data-testid="text-footer-brand">
+              <img src={zatchLogo} alt="Zatch" className="w-9 h-9 rounded-lg" />
+              <h3 className="text-2xl font-bold font-display tracking-tighter">
+                ZATCH<span className="text-[#39FF14] text-xs align-top">&trade;</span>
+              </h3>
+            </div>
             <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
               India's live bargain marketplace. Live shopping. Video discovery. Strategic negotiation.
             </p>
