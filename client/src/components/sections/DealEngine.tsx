@@ -1088,7 +1088,7 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       if (v < 0.35) setOverlayState("chaos");
       else if (v > 0.65) setOverlayState("order");
       else setOverlayState("transition");
-      setShowCTA(v > 0.85);
+      setShowCTA(v > 0.65);
     });
     return unsub;
   }, [scrollYProgress]);
