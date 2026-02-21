@@ -264,7 +264,7 @@ export function StickmanCTA() {
     : SPEECH_BUBBLES[speechIndex];
 
   return (
-    <section className="py-24 md:py-32 bg-[#030303] relative overflow-hidden">
+    <section id="download" className="py-24 md:py-32 bg-[#030303] relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
       </div>

@@ -42,6 +42,7 @@ export function KineticHero() {
 
   return (
     <section 
+      id="hero"
       ref={containerRef} 
       className="h-[150vh] relative bg-black cursor-crosshair"
       onMouseMove={handleMouseMove}
