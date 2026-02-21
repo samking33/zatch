@@ -1,0 +1,202 @@
+You are implementing a flagship interactive WebGL section for the Zatch website using Three.js (or WebGL via Three.js abstraction).
+This section replaces the current “Old Way vs Zatch Way” comparison and must feel hyper-real, premium, and narrative-driven.
+Do not redesign unrelated parts of the page.
+Focus only on this section.
+
+🧠 Concept: “DM Chaos → Deal Engine” (Hyper-Real)
+Core Idea
+
+Old Way: Manual DM selling = chaos, overload, inefficiency
+
+Zatch Way: Automated live selling = structure, clarity, closed deals
+
+This transformation must be felt visually, not explained with text.
+
+🧩 Section Structure (MANDATORY)
+Layout
+
+Full-width section
+
+Dark background (black / near-black)
+
+A single WebGL canvas centered in the section
+
+Minimal DOM overlay text (no heavy HTML animations)
+
+🎬 WebGL Scene Requirements
+Camera
+
+Orthographic or shallow-perspective camera
+
+Fixed angle (no free camera controls)
+
+Subtle depth for realism
+
+Assets (Hyper-Real Requirement)
+
+Use actual UI screenshots (provided assets or placeholders):
+
+DM chat screens
+
+Seller dashboard screens
+
+Deal cards / confirmation UI
+
+These must be mapped as:
+
+Flat planes with rounded corners
+
+Subtle shadows
+
+Correct aspect ratios
+
+No abstract shapes in final state
+
+🟥 STATE 1 — “THE OLD WAY” (Initial)
+Visual Behavior
+
+Multiple DM UI planes floating in 3D space
+
+Slight Z-depth variation
+
+Irregular spacing and overlap
+
+Slow, uneasy drifting motion (no jitter, no shake)
+
+Color Treatment
+
+Desaturated
+
+Red / muted warm tint
+
+Lower contrast
+
+Motion Rules
+
+Movement should feel inefficient and endless
+
+No snapping
+
+No order
+
+Overlay Text (DOM, minimal)
+The Old Way
+Manual selling via DMs
+🔄 TRANSFORMATION TRIGGER
+
+Trigger via scroll progress (preferred) or a single “Transform” CTA.
+
+As progress increases:
+
+Floating DM planes are pulled inward
+
+Motion tightens
+
+Chaos collapses toward center
+
+Red tint fades out
+
+This must be smooth and cinematic, not abrupt.
+
+🟩 STATE 2 — “THE ZATCH WAY” (Final)
+Visual Behavior
+
+DM planes reorganize into:
+
+Structured deal cards
+
+Clean seller dashboard layout
+
+Objects align into a calm, balanced grid
+
+Everything locks into place
+
+Color Treatment
+
+Full color restored
+
+Brand accent #cafe38
+
+Clean contrast, premium SaaS feel
+
+Motion Rules
+
+Almost no movement
+
+Only subtle idle breathing (very slow scale or light shift)
+
+Feels stable and controlled
+
+Overlay Text (DOM)
+The Zatch Way
+Automated. Live. Closed.
+⚙️ Performance Constraints (CRITICAL)
+
+Max 120–150 planes total
+
+No physics engine
+
+No post-processing bloom stacks
+
+No continuous re-renders when idle
+
+Pause or throttle rendering when section is off-screen
+
+Target:
+
+60 FPS on modern laptops
+
+Graceful degradation on mobile (static image fallback allowed)
+
+📱 Mobile Behavior
+
+On mobile:
+
+Disable full WebGL interaction
+
+Show a static before/after visual
+
+Preserve messaging and CTA
+
+Do not attempt full 3D on low-end devices.
+
+🎯 CTA RULES
+
+CTA buttons must live outside the WebGL canvas
+
+Example:
+
+“Download Zatch”
+
+“Start Selling”
+
+CTA appears only after transformation completes
+
+🚫 Explicit DO-NOTS
+
+Do NOT use abstract particles in final state
+
+Do NOT animate DOM elements excessively
+
+Do NOT add parallax to the entire page
+
+Do NOT introduce new brand colors
+
+Do NOT refactor unrelated components
+
+✅ Success Criteria
+
+After implementation:
+
+The user immediately feels DM chaos vs Zatch clarity
+
+No explanation paragraphs needed
+
+The section becomes the visual centerpiece of the page
+
+Smooth performance, no scroll lag, no jitter
+
+🧠 Final Instruction to Agent
+
+Build this as a self-contained, maintainable module.
+If any assumption about assets or triggers is unclear, pause and ask for clarification before proceeding.
