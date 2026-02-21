@@ -1,29 +1,201 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Zap, DollarSign, MessageCircle, X, Check, Video, Wifi, Battery, Signal, ChevronLeft, ChevronRight, Bell, Camera, Phone, Paperclip, Mic, Send, Play, Users, IndianRupee, ShieldCheck, Clock, TrendingUp, GripVertical } from "lucide-react";
+import { ArrowRight, Zap, DollarSign, MessageCircle, X, Check, Video, ChevronLeft, Phone, Camera, Paperclip, Mic, Play, Users, IndianRupee, ShieldCheck, Clock, TrendingUp, GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
 
-function FakeDMBubble({ text, time, isMe, unread }: { text: string; time: string; isMe?: boolean; unread?: boolean }) {
+import avatarPriya from "@/assets/sellers/avatar-priya.png";
+import avatarRahul from "@/assets/sellers/avatar-rahul.png";
+import avatarSneha from "@/assets/sellers/avatar-sneha.png";
+import avatarVikram from "@/assets/sellers/avatar-vikram.png";
+import avatarMeera from "@/assets/sellers/avatar-meera.png";
+import avatarArjun from "@/assets/sellers/avatar-arjun.png";
+import liveStreamImg from "@/assets/sellers/live-stream-sarees.png";
+
+function WhatsAppChat() {
   return (
-    <div className={`flex ${isMe ? 'justify-end' : 'justify-start'} mb-2`}>
-      <div className={`max-w-[75%] px-3 py-2 rounded-2xl ${isMe ? 'bg-[#005c4b] rounded-br-md' : 'bg-[#1f2c33] rounded-bl-md'} relative`}>
-        <p className="text-[11px] text-white/90 leading-relaxed">{text}</p>
-        <div className="flex items-center justify-end gap-1 mt-0.5">
-          <span className="text-[9px] text-white/30">{time}</span>
-          {isMe && <span className="text-[9px] text-white/30">✓✓</span>}
+    <div className="bg-[#111b21] rounded-2xl overflow-hidden border border-white/[0.05] flex flex-col h-full">
+      {/* WhatsApp header */}
+      <div className="px-3 py-2 bg-[#1f2c33] flex items-center gap-2 border-b border-white/[0.05]">
+        <ChevronLeft className="w-4 h-4 text-[#00a884]" />
+        <img src={avatarPriya} alt="Priya" className="w-8 h-8 rounded-full object-cover border border-white/10" />
+        <div className="flex-1">
+          <p className="text-[11px] text-white/90 font-semibold">Priya Sharma</p>
+          <p className="text-[9px] text-white/30">last seen today at 2:14 PM</p>
         </div>
-        {unread && (
-          <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#25D366] flex items-center justify-center">
-            <span className="text-[8px] text-white font-bold">!</span>
+        <Phone className="w-4 h-4 text-[#00a884]/60" />
+        <Camera className="w-4 h-4 text-[#00a884]/60" />
+      </div>
+
+      {/* Chat body */}
+      <div
+        className="flex-1 p-3 space-y-1.5 overflow-hidden"
+        style={{
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'412\' height=\'412\' viewBox=\'0 0 412 412\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.012\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'100\' cy=\'100\' r=\'3\'/%3E%3Ccircle cx=\'300\' cy=\'200\' r=\'2\'/%3E%3Ccircle cx=\'200\' cy=\'350\' r=\'2.5\'/%3E%3C/g%3E%3C/svg%3E")',
+          backgroundColor: '#0b141a',
+        }}
+      >
+        {/* Date stamp */}
+        <div className="flex justify-center mb-2">
+          <span className="text-[9px] text-white/30 bg-[#1f2c33]/80 px-3 py-0.5 rounded-md">TODAY</span>
+        </div>
+
+        {/* Incoming */}
+        <div className="flex items-end gap-1.5">
+          <img src={avatarPriya} alt="" className="w-5 h-5 rounded-full object-cover mb-1 shrink-0" />
+          <div className="max-w-[72%] px-2.5 py-1.5 rounded-xl rounded-bl-sm bg-[#202c33] shadow-sm">
+            <p className="text-[10.5px] text-white/90 leading-relaxed">Hi, is this saree still available? The maroon one you posted yesterday?</p>
+            <div className="flex items-center justify-end gap-1 mt-0.5">
+              <span className="text-[8px] text-white/25">2:14 PM</span>
+            </div>
           </div>
-        )}
+        </div>
+
+        {/* Outgoing */}
+        <div className="flex justify-end">
+          <div className="max-w-[72%] px-2.5 py-1.5 rounded-xl rounded-br-sm bg-[#005c4b] shadow-sm">
+            <p className="text-[10.5px] text-white/90 leading-relaxed">Yes available! ₹1,200 with free shipping</p>
+            <div className="flex items-center justify-end gap-1 mt-0.5">
+              <span className="text-[8px] text-white/25">2:45 PM</span>
+              <span className="text-[8px] text-[#53bdeb]">✓✓</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Incoming */}
+        <div className="flex items-end gap-1.5">
+          <img src={avatarPriya} alt="" className="w-5 h-5 rounded-full object-cover mb-1 shrink-0" />
+          <div className="max-w-[72%] px-2.5 py-1.5 rounded-xl rounded-bl-sm bg-[#202c33] shadow-sm">
+            <p className="text-[10.5px] text-white/90 leading-relaxed">Last price please? 🙏</p>
+            <div className="flex items-center justify-end gap-1 mt-0.5">
+              <span className="text-[8px] text-white/25">2:46 PM</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Outgoing */}
+        <div className="flex justify-end">
+          <div className="max-w-[72%] px-2.5 py-1.5 rounded-xl rounded-br-sm bg-[#005c4b] shadow-sm">
+            <p className="text-[10.5px] text-white/90 leading-relaxed">₹1,100 final ma'am</p>
+            <div className="flex items-center justify-end gap-1 mt-0.5">
+              <span className="text-[8px] text-white/25">3:10 PM</span>
+              <span className="text-[8px] text-[#53bdeb]">✓✓</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Incoming */}
+        <div className="flex items-end gap-1.5">
+          <img src={avatarPriya} alt="" className="w-5 h-5 rounded-full object-cover mb-1 shrink-0" />
+          <div className="max-w-[72%] px-2.5 py-1.5 rounded-xl rounded-bl-sm bg-[#202c33] shadow-sm">
+            <p className="text-[10.5px] text-white/90 leading-relaxed">₹800 possible? I'll buy 2 if you do that price</p>
+            <div className="flex items-center justify-end gap-1 mt-0.5">
+              <span className="text-[8px] text-white/25">3:11 PM</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Outgoing */}
+        <div className="flex justify-end">
+          <div className="max-w-[72%] px-2.5 py-1.5 rounded-xl rounded-br-sm bg-[#005c4b] shadow-sm">
+            <p className="text-[10.5px] text-white/90 leading-relaxed">No ma'am, minimum ₹1,000. Material cost itself is high 😅</p>
+            <div className="flex items-center justify-end gap-1 mt-0.5">
+              <span className="text-[8px] text-white/25">3:30 PM</span>
+              <span className="text-[8px] text-[#53bdeb]">✓✓</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Incoming */}
+        <div className="flex items-end gap-1.5">
+          <img src={avatarPriya} alt="" className="w-5 h-5 rounded-full object-cover mb-1 shrink-0" />
+          <div className="max-w-[72%] px-2.5 py-1.5 rounded-xl rounded-bl-sm bg-[#202c33] shadow-sm">
+            <p className="text-[10.5px] text-white/90 leading-relaxed">Ok let me think... will get back</p>
+            <div className="flex items-center justify-end gap-1 mt-0.5">
+              <span className="text-[8px] text-white/25">3:31 PM</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Outgoing with pending ticks */}
+        <div className="flex justify-end">
+          <div className="max-w-[72%] px-2.5 py-1.5 rounded-xl rounded-br-sm bg-[#005c4b] shadow-sm relative">
+            <p className="text-[10.5px] text-white/90 leading-relaxed">Hello? Still interested? 😊</p>
+            <div className="flex items-center justify-end gap-1 mt-0.5">
+              <span className="text-[8px] text-white/25">5:15 PM</span>
+              <span className="text-[8px] text-white/30">✓✓</span>
+            </div>
+          </div>
+        </div>
+
+        {/* No response indicator */}
+        <div className="flex justify-center pt-2">
+          <span className="text-[8px] text-white/15 bg-[#1f2c33]/50 px-3 py-0.5 rounded-full">⏳ No response since 5:15 PM</span>
+        </div>
+      </div>
+
+      {/* Input bar */}
+      <div className="px-2 py-2 bg-[#1f2c33] flex items-center gap-2 border-t border-white/[0.05]">
+        <div className="w-7 h-7 rounded-full bg-[#2a3942] flex items-center justify-center shrink-0">
+          <span className="text-[12px]">😊</span>
+        </div>
+        <Paperclip className="w-4 h-4 text-white/25 shrink-0" />
+        <div className="flex-1 h-8 rounded-full bg-[#2a3942] px-3 flex items-center">
+          <span className="text-[10px] text-white/20">Type a message...</span>
+        </div>
+        <div className="w-7 h-7 rounded-full bg-[#00a884] flex items-center justify-center shrink-0">
+          <Mic className="w-3.5 h-3.5 text-white" />
+        </div>
       </div>
     </div>
   );
 }
 
-function ZatchStreamCard() {
+function UnreadChats() {
+  const chats = [
+    { name: "Rahul K.", msg: "What's the price for blue one?", time: "12m", count: 3, avatar: avatarRahul },
+    { name: "Sneha D.", msg: "Payment sent where? UPI?", time: "25m", count: 1, avatar: avatarSneha },
+    { name: "Vikram P.", msg: "Still available??? Hello??", time: "1h", count: 7, avatar: avatarVikram },
+    { name: "Meera S.", msg: "Can you ship to Mumbai?", time: "2h", count: 2, avatar: avatarMeera },
+    { name: "Arjun R.", msg: "Last price? I'll buy now", time: "3h", count: 1, avatar: avatarArjun },
+  ];
+
+  return (
+    <div className="space-y-2 overflow-hidden hidden md:block">
+      {/* WhatsApp-style list header */}
+      <div className="flex items-center justify-between px-1 mb-1">
+        <span className="text-[10px] text-[#00a884]/60 font-bold uppercase tracking-wider">Unread Chats</span>
+        <span className="text-[9px] text-red-400/50">47 pending</span>
+      </div>
+      {chats.map((n, i) => (
+        <motion.div
+          key={i}
+          initial={{ x: -10, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ delay: i * 0.08 + 0.3 }}
+          className="flex items-center gap-3 p-2.5 rounded-xl bg-[#111b21]/80 border border-white/[0.04] hover:bg-[#1f2c33]/50 transition-colors"
+        >
+          <img src={n.avatar} alt={n.name} className="w-9 h-9 rounded-full object-cover border border-white/10 shrink-0" />
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] text-white/70 font-semibold truncate">{n.name}</p>
+              <span className="text-[8px] text-white/20 shrink-0">{n.time}</span>
+            </div>
+            <p className="text-[10px] text-white/25 truncate">{n.msg}</p>
+          </div>
+          <div className="w-5 h-5 rounded-full bg-[#25D366] flex items-center justify-center shrink-0">
+            <span className="text-[9px] text-white font-bold">{n.count}</span>
+          </div>
+        </motion.div>
+      ))}
+      <div className="text-center pt-1">
+        <span className="text-[9px] text-red-400/30 italic">+ 42 more unread conversations...</span>
+      </div>
+    </div>
+  );
+}
+
+function ZatchLiveStream() {
   const [viewers, setViewers] = useState(342);
   useEffect(() => {
     const i = setInterval(() => setViewers(v => v + Math.floor(Math.random() * 3) - 1), 2000);
@@ -31,21 +203,31 @@ function ZatchStreamCard() {
   }, []);
   return (
     <div className="bg-gradient-to-br from-[#0a1a0f] to-[#050d08] rounded-2xl border border-[#39FF14]/15 overflow-hidden">
-      <div className="aspect-[16/10] bg-gradient-to-br from-[#0f1a10] to-[#080f08] relative flex items-center justify-center">
-        <div className="w-16 h-16 rounded-full bg-[#39FF14]/10 border border-[#39FF14]/30 flex items-center justify-center">
-          <Play className="w-6 h-6 text-[#39FF14] ml-1" fill="currentColor" />
-        </div>
-        <div className="absolute top-3 left-3 flex items-center gap-2 px-2.5 py-1 rounded-full bg-red-500/90 backdrop-blur-sm">
+      <div className="aspect-[16/10] relative overflow-hidden">
+        <img src={liveStreamImg} alt="Live saree selling" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+        {/* Live badge */}
+        <div className="absolute top-3 left-3 flex items-center gap-2 px-2.5 py-1 rounded-full bg-red-500/90 backdrop-blur-sm shadow-lg">
           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
           <span className="text-[10px] text-white font-bold">LIVE</span>
         </div>
+
+        {/* Viewer count */}
         <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-sm border border-white/10">
           <Users className="w-3 h-3 text-[#39FF14]" />
           <span className="text-[10px] text-white font-bold">{viewers}</span>
         </div>
-        <div className="absolute bottom-3 left-3 right-3 flex items-center gap-2">
-          <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
-            <motion.div className="h-full bg-[#39FF14]/60 rounded-full" animate={{ width: ['20%', '80%'] }} transition={{ duration: 20, repeat: Infinity }} />
+
+        {/* Live chat overlay */}
+        <div className="absolute bottom-3 left-3 right-3 space-y-1">
+          <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-2.5 py-1 w-fit">
+            <img src={avatarMeera} alt="" className="w-4 h-4 rounded-full object-cover" />
+            <span className="text-[9px] text-white/80">Beautiful collection! 😍</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-2.5 py-1 w-fit">
+            <img src={avatarRahul} alt="" className="w-4 h-4 rounded-full object-cover" />
+            <span className="text-[9px] text-white/80">Can I Zatch the red one? 🔴</span>
           </div>
         </div>
       </div>
@@ -67,7 +249,7 @@ function ZatchNegotiationCard() {
       <div className="space-y-2">
         <div className="flex items-center justify-between py-1.5 border-b border-white/[0.04]">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center"><span className="text-[8px]">👤</span></div>
+            <img src={avatarPriya} alt="" className="w-5 h-5 rounded-full object-cover" />
             <span className="text-[10px] text-white/60">Buyer offered</span>
           </div>
           <span className="text-[11px] text-white/80 font-bold">₹750</span>
@@ -75,7 +257,7 @@ function ZatchNegotiationCard() {
         <div className="flex items-center justify-between py-1.5 border-b border-white/[0.04]">
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 rounded-full bg-[#39FF14]/20 flex items-center justify-center"><Zap className="w-2.5 h-2.5 text-[#39FF14]" /></div>
-            <span className="text-[10px] text-[#39FF14]/60">Zatch countered</span>
+            <span className="text-[10px] text-[#39FF14]/60">Zatch&trade; countered</span>
           </div>
           <span className="text-[11px] text-[#39FF14] font-bold">₹899</span>
         </div>
@@ -106,9 +288,9 @@ function ZatchPaymentCard() {
         </div>
       </div>
       {[
-        { name: "Priya M.", amount: "₹2,400", time: "2m ago" },
-        { name: "Rahul K.", amount: "₹4,500", time: "5m ago" },
-        { name: "Sneha D.", amount: "₹1,200", time: "8m ago" },
+        { name: "Priya M.", amount: "₹2,400", time: "2m ago", avatar: avatarPriya },
+        { name: "Rahul K.", amount: "₹4,500", time: "5m ago", avatar: avatarRahul },
+        { name: "Sneha D.", amount: "₹1,200", time: "8m ago", avatar: avatarSneha },
       ].map((p, i) => (
         <motion.div
           key={i}
@@ -118,7 +300,7 @@ function ZatchPaymentCard() {
           className="flex items-center justify-between py-2 border-b border-white/[0.03] last:border-0"
         >
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full bg-[#39FF14]/10 flex items-center justify-center text-[8px]">✓</div>
+            <img src={p.avatar} alt="" className="w-5 h-5 rounded-full object-cover" />
             <span className="text-[10px] text-white/50">{p.name}</span>
           </div>
           <div className="text-right">
@@ -148,7 +330,6 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
   }, [hasInteracted]);
 
   const handleMouseDown = useCallback(() => setIsDragging(true), []);
-  const handleMouseUp = useCallback(() => setIsDragging(false), []);
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => { if (isDragging) handleSliderMove(e.clientX); };
@@ -204,7 +385,7 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
             className="lg:text-right"
           >
             <p className="text-base md:text-lg text-white/30 leading-relaxed max-w-md lg:ml-auto">
-              Drag the slider to see how Zatch transforms the way you sell — from DM chaos to automated deals.
+              Drag the slider to see how Zatch&trade; transforms the way you sell — from DM chaos to automated deals.
             </p>
           </motion.div>
         </div>
@@ -239,10 +420,10 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
 
             {/* OLD WAY (Left/Background layer) */}
             <div className="absolute inset-0 pt-10 bg-gradient-to-br from-[#1a0808] via-[#0f0505] to-[#080303]">
-              <div className="absolute inset-0 pt-10 opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(255,0,0,0.1) 20px, rgba(255,0,0,0.1) 21px)', }} />
+              <div className="absolute inset-0 pt-10 opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(255,0,0,0.1) 20px, rgba(255,0,0,0.1) 21px)' }} />
 
-              <div className="p-6 md:p-8 h-full flex flex-col">
-                <div className="flex items-center gap-3 mb-6">
+              <div className="p-4 md:p-6 h-full flex flex-col">
+                <div className="flex items-center gap-3 mb-4">
                   <div className="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
                     <X className="w-3.5 h-3.5 text-red-500/70" />
                   </div>
@@ -257,76 +438,9 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                   </div>
                 </div>
 
-                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-hidden">
-                  {/* DM Thread */}
-                  <div className="bg-[#111b21] rounded-2xl overflow-hidden border border-white/[0.05] flex flex-col">
-                    <div className="px-3 py-2.5 bg-[#1f2c33] flex items-center gap-2 border-b border-white/[0.05]">
-                      <ChevronLeft className="w-4 h-4 text-white/40" />
-                      <div className="w-7 h-7 rounded-full bg-gray-600/30" />
-                      <div className="flex-1">
-                        <p className="text-[11px] text-white/80 font-semibold">Priya (Buyer)</p>
-                        <p className="text-[9px] text-white/30">last seen 2h ago</p>
-                      </div>
-                      <Phone className="w-4 h-4 text-white/30" />
-                      <Camera className="w-4 h-4 text-white/30" />
-                    </div>
-                    <div className="flex-1 p-3 space-y-0.5 overflow-hidden" style={{ background: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.015\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }}>
-                      <FakeDMBubble text="Hi, is this saree still available?" time="2:14 PM" />
-                      <FakeDMBubble text="Yes available! ₹1,200" time="2:45 PM" isMe />
-                      <FakeDMBubble text="Last price please?" time="2:46 PM" />
-                      <FakeDMBubble text="₹1,100 final" time="3:10 PM" isMe />
-                      <FakeDMBubble text="₹800 possible?" time="3:11 PM" />
-                      <FakeDMBubble text="No ma'am, minimum ₹1,000" time="3:30 PM" isMe />
-                      <FakeDMBubble text="Ok let me think..." time="3:31 PM" />
-                      <FakeDMBubble text="Hello? Will you take it?" time="5:15 PM" isMe unread />
-                      <div className="flex justify-center py-2">
-                        <span className="text-[9px] text-white/20 bg-[#1f2c33] px-3 py-0.5 rounded-full">No response since 5:15 PM</span>
-                      </div>
-                    </div>
-                    <div className="px-2 py-2 bg-[#1f2c33] flex items-center gap-2 border-t border-white/[0.05]">
-                      <Paperclip className="w-4 h-4 text-white/30 shrink-0" />
-                      <div className="flex-1 h-8 rounded-full bg-[#2a3942] px-3 flex items-center">
-                        <span className="text-[10px] text-white/20">Type a message...</span>
-                      </div>
-                      <Mic className="w-4 h-4 text-white/30 shrink-0" />
-                    </div>
-                  </div>
-
-                  {/* Notification Stack */}
-                  <div className="space-y-3 overflow-hidden hidden md:block">
-                    {[
-                      { name: "Rahul K.", msg: "What's the price for blue one?", time: "12m", count: 3 },
-                      { name: "Sneha D.", msg: "Payment sent where?", time: "25m", count: 1 },
-                      { name: "Vikram P.", msg: "Still available??? Hello?", time: "1h", count: 7 },
-                      { name: "Meera S.", msg: "Can you ship to Mumbai?", time: "2h", count: 2 },
-                      { name: "Arjun R.", msg: "Last price? I'll buy now", time: "3h", count: 1 },
-                    ].map((n, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ x: -10, opacity: 0 }}
-                        animate={isInView ? { x: 0, opacity: 1 } : {}}
-                        transition={{ delay: i * 0.1 + 0.5 }}
-                        className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.04] transition-colors"
-                      >
-                        <div className="w-8 h-8 rounded-full bg-gray-700/30 flex items-center justify-center text-[10px] text-white/30 shrink-0">
-                          {n.name[0]}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[11px] text-white/60 font-semibold truncate">{n.name}</p>
-                          <p className="text-[10px] text-white/25 truncate">{n.msg}</p>
-                        </div>
-                        <div className="flex flex-col items-end gap-1 shrink-0">
-                          <span className="text-[9px] text-white/20">{n.time}</span>
-                          <div className="w-4 h-4 rounded-full bg-red-500/80 flex items-center justify-center">
-                            <span className="text-[8px] text-white font-bold">{n.count}</span>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                    <div className="text-center pt-2">
-                      <span className="text-[10px] text-red-400/40">+ 42 more unread conversations...</span>
-                    </div>
-                  </div>
+                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3 overflow-hidden">
+                  <WhatsAppChat />
+                  <UnreadChats />
                 </div>
               </div>
             </div>
@@ -336,13 +450,13 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
               className="absolute inset-0 pt-10 bg-gradient-to-br from-[#040d08] via-[#030a06] to-[#030303]"
               style={{ clipPath: `inset(0 0 0 ${sliderPos}%)` }}
             >
-              <div className="p-6 md:p-8 h-full flex flex-col">
-                <div className="flex items-center gap-3 mb-6">
+              <div className="p-4 md:p-6 h-full flex flex-col">
+                <div className="flex items-center gap-3 mb-4">
                   <div className="w-8 h-8 rounded-lg bg-[#39FF14]/10 border border-[#39FF14]/20 flex items-center justify-center">
                     <Zap className="w-3.5 h-3.5 text-[#39FF14]" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-[#39FF14]/90">The Zatch Way</h4>
+                    <h4 className="text-sm font-bold text-[#39FF14]/90">The Zatch&trade; Way</h4>
                     <p className="text-[9px] text-[#39FF14]/30 uppercase tracking-widest">Automated Live Selling</p>
                   </div>
                   <div className="ml-auto flex items-center gap-2">
@@ -352,15 +466,14 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                   </div>
                 </div>
 
-                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-hidden">
-                  <div className="space-y-4">
-                    <ZatchStreamCard />
+                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3 overflow-hidden">
+                  <div className="space-y-3">
+                    <ZatchLiveStream />
                     <ZatchPaymentCard />
                   </div>
-                  <div className="space-y-4 hidden md:block">
+                  <div className="space-y-3 hidden md:block">
                     <ZatchNegotiationCard />
 
-                    {/* Stats overview */}
                     <div className="bg-[#0a0f0a] rounded-2xl border border-[#39FF14]/10 p-3">
                       <span className="text-[10px] text-[#39FF14]/60 font-bold uppercase tracking-wider">Today's Summary</span>
                       <div className="grid grid-cols-3 gap-3 mt-3">
@@ -378,7 +491,6 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                       </div>
                     </div>
 
-                    {/* Recent activity */}
                     <div className="bg-[#0a0f0a] rounded-2xl border border-[#39FF14]/10 p-3">
                       <span className="text-[10px] text-[#39FF14]/60 font-bold uppercase tracking-wider">Activity Feed</span>
                       <div className="mt-2 space-y-2">
@@ -414,7 +526,6 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                   <GripVertical className="w-4 h-4 text-white/50" />
                 </div>
 
-                {/* Labels */}
                 <div className="absolute top-1/2 -translate-y-1/2 right-6 whitespace-nowrap">
                   <span className="text-[10px] text-red-400/60 font-bold uppercase tracking-widest bg-[#0a0505]/80 backdrop-blur-sm px-2 py-1 rounded-md border border-red-500/10">Old Way</span>
                 </div>
