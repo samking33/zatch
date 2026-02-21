@@ -3,6 +3,11 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Play, Heart, ShoppingBag, MessageCircle, Send, Star, ChevronDown, ArrowRight, Eye, Zap, Tag, Sparkles, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import liveSareeImg from "@/assets/buyers/live-silk-saree.png";
+import productKurti from "@/assets/buyers/product-kurti.png";
+import productJhumkas from "@/assets/buyers/product-jhumkas.png";
+import productPalazzo from "@/assets/buyers/product-palazzo.png";
+
 const FEATURES = [
   {
     id: "live",
@@ -56,26 +61,10 @@ function LiveScreen() {
 
   return (
     <div className="w-full h-full relative bg-gradient-to-b from-[#1a0a20] via-[#0f0515] to-black">
-      {/* Fake video background */}
+      {/* Live stream background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/40 z-10" />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <motion.div
-            className="w-32 h-32 rounded-full bg-purple-500/10 border border-purple-500/20"
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          />
-        </div>
-        <motion.div
-          className="absolute top-[20%] left-[20%] w-20 h-28 rounded-xl bg-purple-400/5 border border-purple-400/10 rotate-[-5deg]"
-          animate={{ y: [0, -5, 0] }}
-          transition={{ duration: 4, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute top-[30%] right-[15%] w-16 h-24 rounded-xl bg-pink-400/5 border border-pink-400/10 rotate-[8deg]"
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 3.5, repeat: Infinity }}
-        />
+        <img src={liveSareeImg} alt="Live saree selling" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/40 z-10" />
       </div>
 
       {/* Top bar */}
@@ -180,9 +169,9 @@ function LiveScreen() {
 
 function DiscoverScreen() {
   const products = [
-    { name: "Designer Kurti Set", price: "₹1,299", rating: "4.8", views: "12K", color: "from-blue-600/20 to-cyan-600/20" },
-    { name: "Handmade Jhumkas", price: "₹449", rating: "4.9", views: "8.5K", color: "from-cyan-600/20 to-teal-600/20" },
-    { name: "Cotton Palazzo Set", price: "₹899", rating: "4.7", views: "15K", color: "from-teal-600/20 to-blue-600/20" },
+    { name: "Designer Kurti Set", price: "₹1,299", rating: "4.8", views: "12K", img: productKurti },
+    { name: "Handmade Jhumkas", price: "₹449", rating: "4.9", views: "8.5K", img: productJhumkas },
+    { name: "Cotton Palazzo Set", price: "₹899", rating: "4.7", views: "15K", img: productPalazzo },
   ];
 
   return (
@@ -204,7 +193,8 @@ function DiscoverScreen() {
             transition={{ delay: i * 0.2 + 0.3 }}
             className="relative rounded-2xl overflow-hidden"
           >
-            <div className={`aspect-[16/9] bg-gradient-to-br ${p.color} relative flex items-center justify-center`}>
+            <div className="aspect-[16/9] relative flex items-center justify-center overflow-hidden">
+              <img src={p.img} alt={p.name} className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
                   className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20"
