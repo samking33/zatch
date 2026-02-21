@@ -1178,24 +1178,31 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                 y: showCTA ? 0 : 30,
               }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="absolute bottom-20 flex flex-col sm:flex-row items-center gap-4 pointer-events-auto"
+              className="absolute bottom-20 pointer-events-auto"
+              style={{
+                background: "radial-gradient(ellipse 110% 160% at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 60%, transparent 100%)",
+                padding: "24px 32px",
+                borderRadius: "20px",
+              }}
             >
-              <button
-                onClick={onJoinWaitlist}
-                className="px-8 py-3 rounded-xl bg-[#cafe38] text-black font-bold text-sm hover:bg-[#d8ff5c] transition-colors"
-                data-testid="button-start-selling"
-              >
-                Start Selling
-              </button>
-              <a
-                href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-3 rounded-xl bg-[#cafe38]/10 border border-[#cafe38]/30 text-[#cafe38] font-bold text-sm hover:bg-[#cafe38]/20 transition-colors"
-                data-testid="link-download-zatch"
-              >
-                Download Zatch
-              </a>
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <button
+                  onClick={onJoinWaitlist}
+                  className="px-8 py-3 rounded-xl bg-[#cafe38] text-black font-bold text-sm hover:bg-[#d8ff5c] transition-colors shadow-[0_0_20px_rgba(202,254,56,0.3)]"
+                  data-testid="button-start-selling"
+                >
+                  Start Selling
+                </button>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-3 rounded-xl bg-[#cafe38]/20 border border-[#cafe38]/50 text-[#cafe38] font-bold text-sm hover:bg-[#cafe38]/30 transition-colors shadow-[0_0_16px_rgba(0,0,0,0.5)] backdrop-blur-sm"
+                  data-testid="link-download-zatch"
+                >
+                  Download Zatch
+                </a>
+              </div>
             </motion.div>
           </div>
         </div>
