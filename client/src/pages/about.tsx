@@ -146,11 +146,15 @@ export default function AboutPage() {
         </section>
 
         {/* Founding Team */}
-        <section className="py-24 border-t border-white/5">
-          <div className="container mx-auto px-6">
-            <motion.div {...fadeUp} className="text-center mb-16">
+        <section className="py-32 border-t border-white/5 relative">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#39FF14]/[0.03] rounded-full blur-[150px]" />
+          </div>
+
+          <div className="container mx-auto px-6 relative z-10">
+            <motion.div {...fadeUp} className="text-center mb-20">
               <h2 className="text-sm font-bold text-[#39FF14] tracking-widest uppercase mb-4">The Team</h2>
-              <h3 className="text-4xl md:text-5xl font-bold font-display tracking-tight">
+              <h3 className="text-4xl md:text-6xl font-bold font-display tracking-tight">
                 Meet the Founders
               </h3>
               <p className="text-white/40 mt-4 max-w-xl mx-auto">
@@ -158,30 +162,64 @@ export default function AboutPage() {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="space-y-16 max-w-6xl mx-auto">
               {team.map((member, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.15 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                   className="group"
                 >
-                  <div className="relative rounded-3xl overflow-hidden bg-white/[0.03] border border-white/[0.06] p-8 hover:bg-white/[0.05] hover:border-white/[0.1] transition-all duration-500">
-                    {member.photo ? (
-                      <div className="w-20 h-20 rounded-2xl overflow-hidden border border-[#39FF14]/20 mb-6 group-hover:scale-110 transition-transform duration-500">
-                        <img src={member.photo} alt={member.name} className="w-full h-full object-cover object-top" />
-                      </div>
-                    ) : (
-                      <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#39FF14]/20 to-[#39FF14]/5 border border-[#39FF14]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-                        <span className="text-2xl font-bold text-[#39FF14] font-display">{member.initials}</span>
-                      </div>
-                    )}
+                  <div className={`relative rounded-[2rem] overflow-hidden bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.12] transition-all duration-700 ${member.photo ? '' : ''}`}>
+                    <div className={`flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-stretch`}>
+                      {member.photo ? (
+                        <div className="relative w-full md:w-[380px] lg:w-[420px] shrink-0 aspect-[4/5] md:aspect-auto overflow-hidden">
+                          <img
+                            src={member.photo}
+                            alt={member.name}
+                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                          />
+                          <div className={`absolute inset-0 bg-gradient-to-${i % 2 === 0 ? 'r' : 'l'} from-transparent via-transparent to-black/60 hidden md:block`} />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent md:hidden" />
+                          <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
+                            <span className="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse" />
+                            <span className="text-[11px] text-white/80 font-medium tracking-wide">{member.role}</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="relative w-full md:w-[380px] lg:w-[420px] shrink-0 aspect-[4/5] md:aspect-auto overflow-hidden bg-gradient-to-br from-[#39FF14]/[0.08] to-transparent flex items-center justify-center">
+                          <div className="w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br from-[#39FF14]/20 to-[#39FF14]/5 border border-[#39FF14]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                            <span className="text-5xl md:text-6xl font-bold text-[#39FF14] font-display">{member.initials}</span>
+                          </div>
+                          <div className={`absolute inset-0 bg-gradient-to-${i % 2 === 0 ? 'r' : 'l'} from-transparent via-transparent to-black/60 hidden md:block`} />
+                          <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
+                            <span className="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse" />
+                            <span className="text-[11px] text-white/80 font-medium tracking-wide">{member.role}</span>
+                          </div>
+                        </div>
+                      )}
 
-                    <h3 className="text-2xl font-bold text-white mb-1">{member.name}</h3>
-                    <p className="text-[#39FF14] font-medium text-sm mb-5">{member.role}</p>
-                    <p className="text-sm text-white/40 leading-relaxed">{member.bio}</p>
+                      <div className="flex-1 p-8 md:p-10 lg:p-14 flex flex-col justify-center">
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-8 h-px bg-[#39FF14]/40" />
+                          <span className="text-[11px] text-[#39FF14]/60 font-mono tracking-widest uppercase">0{i + 1}</span>
+                        </div>
+                        <h3 className="text-3xl md:text-4xl font-bold text-white font-display tracking-tight mb-2">{member.name}</h3>
+                        <p className="text-[#39FF14] font-semibold text-sm mb-6 md:hidden">{member.role}</p>
+                        <p className="text-base md:text-lg text-white/40 leading-relaxed">{member.bio}</p>
+
+                        <div className="mt-8 flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-[#39FF14]/10 hover:border-[#39FF14]/20 transition-all duration-300 cursor-pointer">
+                            <Linkedin className="w-4 h-4 text-white/40 hover:text-white transition-colors" />
+                          </div>
+                          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-[#39FF14]/10 hover:border-[#39FF14]/20 transition-all duration-300 cursor-pointer">
+                            <Twitter className="w-4 h-4 text-white/40 hover:text-white transition-colors" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               ))}
