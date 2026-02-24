@@ -340,7 +340,7 @@ export function KineticHero() {
               scale: useTransform(smoothProgress, [0, 0.3], [1, 1.2]),
               filter: useTransform(smoothProgress, [0, 0.15], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]),
            }}
-           className="absolute z-20 pointer-events-none left-[8%] md:left-[10%] lg:left-[12%] top-1/2 -translate-y-1/2 text-left mix-blend-difference"
+           className="absolute z-20 pointer-events-none left-[8%] md:left-[10%] lg:left-[12%] top-[28%] -translate-y-1/2 text-left mix-blend-difference"
         >
            <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white">
               CATCH IT<br/>
@@ -358,24 +358,33 @@ export function KineticHero() {
         <motion.div
            style={{
               opacity: useTransform(smoothProgress, [0, 0.3], [1, 0]),
+              y: useTransform(smoothProgress, [0, 0.3], [0, 60]),
+           }}
+           className="absolute z-20 left-[8%] md:left-[10%] lg:left-[12%] bottom-[12%] md:bottom-[14%]"
+        >
+           <a href="/download" className="group flex items-center gap-5 px-5 py-4 rounded-2xl pointer-events-auto" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(20px)" }}>
+             <div className="relative w-[90px] h-[90px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden ring-1 ring-white/15 group-hover:ring-primary/50 transition-all duration-300 bg-white p-1.5">
+               <img src={zatchQR} alt="Download Zatch" className="w-full h-full object-cover" />
+             </div>
+             <div className="flex flex-col gap-1">
+               <span className="text-[11px] uppercase tracking-[0.2em] text-white/40 group-hover:text-white/60 transition-colors">Scan to Download</span>
+               <span className="text-lg lg:text-xl font-bold text-white group-hover:text-primary transition-colors duration-300 font-display">Get the App</span>
+               <span className="text-[11px] text-white/30">Available on iOS & Android</span>
+             </div>
+           </a>
+        </motion.div>
+
+        <motion.div
+           style={{
+              opacity: useTransform(smoothProgress, [0, 0.3], [1, 0]),
               y: useTransform(smoothProgress, [0, 0.3], [0, 100]),
               scale: useTransform(smoothProgress, [0, 0.3], [1, 0.9]),
            }}
-           className="absolute z-20 right-[4%] md:right-[6%] lg:right-[8%] top-1/2 -translate-y-1/2 hidden md:flex flex-col items-center gap-5"
+           className="absolute z-20 right-[4%] md:right-[6%] lg:right-[8%] top-1/2 -translate-y-1/2 hidden md:flex flex-col items-center"
         >
            <div className="pointer-events-none">
              <IPhoneLiveStreamMockup />
            </div>
-           <a href="/download" className="group flex items-center gap-3 px-4 py-2.5 rounded-2xl pointer-events-auto" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", backdropFilter: "blur(16px)" }}>
-             <div className="relative w-[52px] h-[52px] rounded-xl overflow-hidden ring-1 ring-white/10 group-hover:ring-primary/40 transition-all duration-300">
-               <img src={zatchQR} alt="Download Zatch" className="w-full h-full object-cover invert" />
-               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-             </div>
-             <div className="flex flex-col">
-               <span className="text-[10px] uppercase tracking-[0.15em] text-white/40 group-hover:text-white/60 transition-colors">Scan to</span>
-               <span className="text-sm font-semibold text-white group-hover:text-primary transition-colors duration-300">Download App</span>
-             </div>
-           </a>
         </motion.div>
         
         <motion.div 
