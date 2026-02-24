@@ -683,10 +683,111 @@ interface CardData {
 }
 
 const HERO_POSITIONS = [
-  new THREE.Vector3(-4.5, 0.2, 0),
+  new THREE.Vector3(-5.5, 0.2, 0),
   new THREE.Vector3(0, 0.4, 0.5),
-  new THREE.Vector3(4.5, 0.2, 0),
+  new THREE.Vector3(5.5, 0.2, 0),
 ];
+
+const HERO_LABELS = ["Catalogue", "Live Bargain", "Seller Offer"];
+
+function createPhoneFrameTexture(
+  image: HTMLImageElement,
+  label: string
+): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = 360;
+  c.height = 640;
+  const ctx = c.getContext("2d")!;
+
+  ctx.clearRect(0, 0, 360, 640);
+
+  const frameX = 16;
+  const frameY = 12;
+  const frameW = 328;
+  const frameH = 568;
+  const radius = 36;
+
+  ctx.fillStyle = "#1a1a1a";
+  roundRect(ctx, frameX, frameY, frameW, frameH, radius);
+  ctx.fill();
+
+  ctx.strokeStyle = "#333333";
+  ctx.lineWidth = 1.5;
+  roundRect(ctx, frameX, frameY, frameW, frameH, radius);
+  ctx.stroke();
+
+  const bezelTop = 32;
+  const bezelSide = 8;
+  const bezelBottom = 32;
+  const screenX = frameX + bezelSide;
+  const screenY = frameY + bezelTop;
+  const screenW = frameW - bezelSide * 2;
+  const screenH = frameH - bezelTop - bezelBottom;
+  const screenR = 20;
+
+  ctx.save();
+  ctx.beginPath();
+  roundRect(ctx, screenX, screenY, screenW, screenH, screenR);
+  ctx.clip();
+
+  const imgAspect = image.width / image.height;
+  const slotAspect = screenW / screenH;
+  let drawW: number, drawH: number, drawX: number, drawY: number;
+  if (imgAspect > slotAspect) {
+    drawH = screenH;
+    drawW = screenH * imgAspect;
+    drawX = screenX + (screenW - drawW) / 2;
+    drawY = screenY;
+  } else {
+    drawW = screenW;
+    drawH = screenW / imgAspect;
+    drawX = screenX;
+    drawY = screenY + (screenH - drawH) / 2;
+  }
+  ctx.drawImage(image, drawX, drawY, drawW, drawH);
+  ctx.restore();
+
+  const notchW = 100;
+  const notchH = 20;
+  const notchX = frameX + (frameW - notchW) / 2;
+  const notchY = frameY;
+  ctx.fillStyle = "#1a1a1a";
+  roundRect(ctx, notchX, notchY, notchW, notchH, 10);
+  ctx.fill();
+
+  ctx.fillStyle = "#333333";
+  ctx.beginPath();
+  ctx.arc(notchX + notchW / 2, notchY + notchH / 2 + 2, 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  const indicatorW = 80;
+  const indicatorH = 4;
+  const indicatorX = frameX + (frameW - indicatorW) / 2;
+  const indicatorY = frameY + frameH - 14;
+  ctx.fillStyle = "#555555";
+  roundRect(ctx, indicatorX, indicatorY, indicatorW, indicatorH, 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 22px 'Space Grotesk', Inter, system-ui, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  ctx.fillText(label, 180, frameY + frameH + 16);
+
+  ctx.fillStyle = "rgba(202, 254, 56, 0.15)";
+  ctx.beginPath();
+  ctx.arc(180, frameY + frameH + 24, 60, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#cafe38";
+  ctx.font = "bold 22px 'Space Grotesk', Inter, system-ui, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText(label, 180, frameY + frameH + 16);
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
+
+  return c;
+}
 
 function createCardData(
   textureCreators: (() => HTMLCanvasElement)[],
@@ -708,7 +809,7 @@ function createCardData(
       ? orderTextures[i % orderTextures.length]
       : null;
 
-    const geo = new THREE.PlaneGeometry(1.8, 2.7);
+    const geo = new THREE.PlaneGeometry(1.8, 3.2);
     const mat = new THREE.MeshBasicMaterial({
       map: chaosTexture,
       transparent: true,
@@ -915,13 +1016,13 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       createShippingConfusionTexture,
     ];
 
-    const loader = new THREE.TextureLoader();
-    const orderTextures: THREE.Texture[] = [];
+    const orderTextures: (THREE.Texture | null)[] = new Array(FIGMA_SCREENS.length).fill(null);
     let loadedCount = 0;
     const totalToLoad = FIGMA_SCREENS.length;
 
     const initCards = () => {
-      const cards = createCardData(textureCreators, orderTextures, 36, 6);
+      const validTextures = orderTextures.filter((t): t is THREE.Texture => t !== null);
+      const cards = createCardData(textureCreators, validTextures, 36, 6);
       cardsRef.current = cards;
 
       for (const card of cards) {
@@ -931,21 +1032,27 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       }
     };
 
-    FIGMA_SCREENS.forEach((src) => {
-      loader.load(src, (tex) => {
+    FIGMA_SCREENS.forEach((src, idx) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        const frameCanvas = createPhoneFrameTexture(img, HERO_LABELS[idx]);
+        const tex = new THREE.CanvasTexture(frameCanvas);
         tex.minFilter = THREE.LinearFilter;
         tex.magFilter = THREE.LinearFilter;
-        orderTextures.push(tex);
+        orderTextures[idx] = tex;
         loadedCount++;
         if (loadedCount === totalToLoad && cardsRef.current.length === 0) {
           initCards();
         }
-      }, undefined, () => {
+      };
+      img.onerror = () => {
         loadedCount++;
         if (loadedCount === totalToLoad && cardsRef.current.length === 0) {
           initCards();
         }
-      });
+      };
+      img.src = src;
     });
 
     setTimeout(() => {
@@ -1079,7 +1186,7 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       }
 
       for (const tex of orderTextures) {
-        tex.dispose();
+        if (tex) tex.dispose();
       }
 
       renderer.dispose();
