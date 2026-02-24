@@ -119,11 +119,11 @@ export function KineticHero() {
             opacity: useTransform(smoothProgress, [0, 0.3], [1, 0]),
             scale: useTransform(smoothProgress, [0, 0.3], [1, 1.05]),
           }}
-          className="absolute inset-0 z-20 flex flex-col lg:flex-row items-center justify-center lg:justify-between px-6 md:px-12 lg:px-20 xl:px-28 gap-8 lg:gap-4"
+          className="absolute inset-0 z-20 flex flex-col lg:flex-row items-center justify-center lg:items-center px-6 md:px-12 lg:px-24 xl:px-32 gap-6 lg:gap-12"
         >
 
-          <div className="w-full lg:w-[57%] flex flex-col justify-center items-center lg:items-start text-center lg:text-left pt-16 lg:pt-0">
-            <h1 className="text-[14vw] md:text-[10vw] lg:text-[7.5vw] xl:text-[6.5vw] font-bold font-display leading-[0.85] tracking-tighter text-white">
+          <div className="w-full lg:w-[62%] flex flex-col justify-center items-center lg:items-start text-center lg:text-left pt-16 lg:pt-0">
+            <h1 className="text-[16vw] md:text-[12vw] lg:text-[9vw] xl:text-[8vw] font-bold font-display leading-[0.82] tracking-tighter text-white">
               CATCH IT<br />
               MATCH IT<br />
               <span className="relative inline-block text-primary italic pr-4">
@@ -134,12 +134,12 @@ export function KineticHero() {
                 <span className="absolute inset-0 translate-x-1 translate-y-0 opacity-50 mix-blend-screen blur-[1px] skew-x-12 scale-x-110 bg-gradient-to-r from-transparent via-primary/20 to-transparent -z-10" />
               </span> IT
             </h1>
-            <p className="mt-6 text-white/50 text-sm md:text-base lg:text-lg max-w-md font-body tracking-wide">
+            <p className="mt-6 text-white/50 text-base md:text-lg lg:text-xl max-w-lg font-body tracking-wide">
               India's First Live Bargain Marketplace
             </p>
           </div>
 
-          <div className="w-full lg:w-[43%] flex items-center justify-center">
+          <div className="w-full lg:w-[38%] flex items-center justify-center lg:justify-end">
             <IPhoneMockup />
           </div>
         </motion.div>
@@ -184,12 +184,12 @@ function IPhoneMockup() {
   }, []);
 
   return (
-    <div className="relative w-[260px] h-[540px] md:w-[280px] md:h-[580px] lg:w-[300px] lg:h-[620px] xl:w-[320px] xl:h-[660px]">
-      <div className="absolute inset-0 rounded-[3rem] border-[12px] border-neutral-800 bg-black overflow-hidden shadow-2xl shadow-primary/10">
+    <div className="relative w-[200px] h-[420px] md:w-[220px] md:h-[460px] lg:w-[230px] lg:h-[480px] xl:w-[250px] xl:h-[520px]">
+      <div className="absolute inset-0 rounded-[2.5rem] border-[10px] border-neutral-800 bg-black overflow-hidden shadow-2xl shadow-primary/10">
 
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-30 w-[100px] h-[28px] bg-black rounded-b-2xl flex items-center justify-center gap-2">
-          <div className="w-[8px] h-[8px] rounded-full bg-neutral-800 ring-1 ring-neutral-700" />
-          <div className="w-[40px] h-[8px] rounded-full bg-neutral-800" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-30 w-[80px] h-[22px] bg-black rounded-b-xl flex items-center justify-center gap-1.5">
+          <div className="w-[6px] h-[6px] rounded-full bg-neutral-800 ring-1 ring-neutral-700" />
+          <div className="w-[32px] h-[6px] rounded-full bg-neutral-800" />
         </div>
 
         <img
@@ -276,7 +276,7 @@ function IPhoneMockup() {
 
       </div>
 
-      <div className="absolute -inset-2 rounded-[3.5rem] bg-gradient-to-br from-primary/20 via-transparent to-primary/10 -z-10 blur-xl" />
+      <div className="absolute -inset-2 rounded-[3rem] bg-gradient-to-br from-primary/20 via-transparent to-primary/10 -z-10 blur-xl" />
     </div>
   );
 }
