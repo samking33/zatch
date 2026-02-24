@@ -1,11 +1,20 @@
 import { useRef, useMemo } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
-// Import generated assets (using duplicated array to fill grid)
 import streamFashion from "@/assets/kinetic/stream-fashion.png";
 import streamTech from "@/assets/kinetic/stream-tech.png";
 import streamSneaker from "@/assets/kinetic/stream-sneaker.png";
 import streamBeauty from "@/assets/kinetic/stream-beauty.png";
+import streamSaree from "@/assets/kinetic/stream-saree.png";
+import streamShoes from "@/assets/kinetic/stream-shoes.png";
+import streamJewelry from "@/assets/kinetic/stream-jewelry.png";
+import streamPhones from "@/assets/kinetic/stream-phones.png";
+import streamSkincare from "@/assets/kinetic/stream-skincare.png";
+import streamWatches from "@/assets/kinetic/stream-watches.png";
+import streamKurti from "@/assets/kinetic/stream-kurti.png";
+import streamSports from "@/assets/kinetic/stream-sports.png";
+import streamHomedecor from "@/assets/kinetic/stream-homedecor.png";
+import streamBags from "@/assets/kinetic/stream-bags.png";
 
 export function KineticHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -18,7 +27,12 @@ export function KineticHero() {
 
   // Generate a grid of 48 items by repeating the base assets
   const gridItems = useMemo(() => {
-    const baseImages = [streamFashion, streamTech, streamSneaker, streamBeauty];
+    const baseImages = [
+      streamSaree, streamShoes, streamJewelry, streamPhones,
+      streamSkincare, streamWatches, streamKurti, streamSports,
+      streamHomedecor, streamBags, streamFashion, streamTech,
+      streamSneaker, streamBeauty,
+    ];
     return Array.from({ length: 48 }).map((_, i) => ({
       id: i,
       image: baseImages[i % baseImages.length],
