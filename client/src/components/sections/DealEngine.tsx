@@ -2,11 +2,6 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useScroll } from "framer-motion";
 import * as THREE from "three";
 
-import screenCatalogue from "@assets/zatch-way/screen-catalogue.jpg";
-import screenBargain from "@assets/zatch-way/screen-bargain.jpg";
-import screenOffer from "@assets/zatch-way/screen-offer.jpg";
-
-const FIGMA_SCREENS = [screenCatalogue, screenBargain, screenOffer];
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
@@ -688,106 +683,472 @@ const HERO_POSITIONS = [
   new THREE.Vector3(5.5, 0.2, 0),
 ];
 
-const HERO_LABELS = ["Catalogue", "Live Bargain", "Seller Offer"];
+const CW = 390;
+const CH = 760;
+const FX = 6;
+const FY = 6;
+const FW = CW - 12;
+const FH = 680;
+const FR = 44;
+const SX = FX + 4;
+const SY = FY + 4;
+const SW = FW - 8;
+const SH = FH - 8;
+const SR = 40;
+const BRAND = "#cafe38";
+const FONT = "'Space Grotesk', Inter, system-ui, sans-serif";
 
-function createPhoneFrameTexture(
-  image: HTMLImageElement,
-  label: string
-): HTMLCanvasElement {
-  const c = document.createElement("canvas");
-  c.width = 360;
-  c.height = 640;
-  const ctx = c.getContext("2d")!;
+function drawIPhoneFrame(ctx: CanvasRenderingContext2D, label: string) {
+  ctx.clearRect(0, 0, CW, CH);
 
-  ctx.clearRect(0, 0, 360, 640);
-
-  const frameX = 16;
-  const frameY = 12;
-  const frameW = 328;
-  const frameH = 568;
-  const radius = 36;
-
-  ctx.fillStyle = "#1a1a1a";
-  roundRect(ctx, frameX, frameY, frameW, frameH, radius);
+  const grad = ctx.createLinearGradient(FX, FY, FX + FW, FY + FH);
+  grad.addColorStop(0, "#2a2a2e");
+  grad.addColorStop(0.3, "#1c1c1e");
+  grad.addColorStop(0.7, "#1c1c1e");
+  grad.addColorStop(1, "#2a2a2e");
+  ctx.fillStyle = grad;
+  roundRect(ctx, FX, FY, FW, FH, FR);
   ctx.fill();
 
-  ctx.strokeStyle = "#333333";
-  ctx.lineWidth = 1.5;
-  roundRect(ctx, frameX, frameY, frameW, frameH, radius);
+  ctx.strokeStyle = "#444448";
+  ctx.lineWidth = 1;
+  roundRect(ctx, FX, FY, FW, FH, FR);
   ctx.stroke();
 
-  const bezelTop = 32;
-  const bezelSide = 8;
-  const bezelBottom = 32;
-  const screenX = frameX + bezelSide;
-  const screenY = frameY + bezelTop;
-  const screenW = frameW - bezelSide * 2;
-  const screenH = frameH - bezelTop - bezelBottom;
-  const screenR = 20;
+  const innerGrad = ctx.createLinearGradient(FX, FY, FX + FW, FY);
+  innerGrad.addColorStop(0, "#3a3a3e");
+  innerGrad.addColorStop(0.02, "#444448");
+  innerGrad.addColorStop(0.05, "#1c1c1e");
+  innerGrad.addColorStop(0.95, "#1c1c1e");
+  innerGrad.addColorStop(0.98, "#444448");
+  innerGrad.addColorStop(1, "#3a3a3e");
+  ctx.strokeStyle = innerGrad;
+  ctx.lineWidth = 0.5;
+  roundRect(ctx, FX + 1.5, FY + 1.5, FW - 3, FH - 3, FR - 1);
+  ctx.stroke();
 
-  ctx.save();
-  ctx.beginPath();
-  roundRect(ctx, screenX, screenY, screenW, screenH, screenR);
-  ctx.clip();
-
-  const imgAspect = image.width / image.height;
-  const slotAspect = screenW / screenH;
-  let drawW: number, drawH: number, drawX: number, drawY: number;
-  if (imgAspect > slotAspect) {
-    drawH = screenH;
-    drawW = screenH * imgAspect;
-    drawX = screenX + (screenW - drawW) / 2;
-    drawY = screenY;
-  } else {
-    drawW = screenW;
-    drawH = screenW / imgAspect;
-    drawX = screenX;
-    drawY = screenY + (screenH - drawH) / 2;
-  }
-  ctx.drawImage(image, drawX, drawY, drawW, drawH);
-  ctx.restore();
-
-  const notchW = 100;
-  const notchH = 20;
-  const notchX = frameX + (frameW - notchW) / 2;
-  const notchY = frameY;
-  ctx.fillStyle = "#1a1a1a";
-  roundRect(ctx, notchX, notchY, notchW, notchH, 10);
+  ctx.fillStyle = "#000000";
+  roundRect(ctx, SX, SY, SW, SH, SR);
   ctx.fill();
 
-  ctx.fillStyle = "#333333";
-  ctx.beginPath();
-  ctx.arc(notchX + notchW / 2, notchY + notchH / 2 + 2, 4, 0, Math.PI * 2);
+  const diW = 120;
+  const diH = 32;
+  const diX = FX + (FW - diW) / 2;
+  const diY = SY + 10;
+  ctx.fillStyle = "#1c1c1e";
+  roundRect(ctx, diX, diY, diW, diH, 16);
   ctx.fill();
-
-  const indicatorW = 80;
-  const indicatorH = 4;
-  const indicatorX = frameX + (frameW - indicatorW) / 2;
-  const indicatorY = frameY + frameH - 14;
-  ctx.fillStyle = "#555555";
-  roundRect(ctx, indicatorX, indicatorY, indicatorW, indicatorH, 2);
+  ctx.fillStyle = "#0a0a0c";
+  roundRect(ctx, diX + 2, diY + 2, diW - 4, diH - 4, 14);
+  ctx.fill();
+  ctx.fillStyle = "#1a1a2e";
+  ctx.beginPath();
+  ctx.arc(diX + diW - 22, diY + diH / 2, 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#0d0d1a";
+  ctx.beginPath();
+  ctx.arc(diX + diW - 22, diY + diH / 2, 3, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 22px 'Space Grotesk', Inter, system-ui, sans-serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "top";
-  ctx.fillText(label, 180, frameY + frameH + 16);
+  ctx.font = `bold 11px ${FONT}`;
+  ctx.textAlign = "left";
+  ctx.fillText("9:41", SX + 28, diY + 21);
+  ctx.textAlign = "right";
+  ctx.fillText("100%", SX + SW - 24, diY + 21);
 
-  ctx.fillStyle = "rgba(202, 254, 56, 0.15)";
-  ctx.beginPath();
-  ctx.arc(180, frameY + frameH + 24, 60, 0, Math.PI * 2);
+  ctx.fillStyle = "#ffffff";
+  roundRect(ctx, SX + SW - 22, diY + 12, 18, 9, 2);
+  ctx.fill();
+  ctx.fillStyle = "#000000";
+  roundRect(ctx, SX + SW - 21, diY + 13, 16, 7, 1.5);
+  ctx.fill();
+  ctx.fillStyle = "#cafe38";
+  roundRect(ctx, SX + SW - 20, diY + 14, 14, 5, 1);
+  ctx.fill();
+  ctx.fillStyle = "#ffffff";
+  roundRect(ctx, SX + SW - 5, diY + 15, 2, 3, 1);
   ctx.fill();
 
-  ctx.fillStyle = "#cafe38";
-  ctx.font = "bold 22px 'Space Grotesk', Inter, system-ui, sans-serif";
+  const hiW = 120;
+  const hiH = 5;
+  const hiX = FX + (FW - hiW) / 2;
+  const hiY = FY + FH - 18;
+  ctx.fillStyle = "#ffffff";
+  roundRect(ctx, hiX, hiY, hiW, hiH, 3);
+  ctx.fill();
+
+  ctx.fillStyle = BRAND;
+  ctx.font = `bold 20px ${FONT}`;
   ctx.textAlign = "center";
-  ctx.fillText(label, 180, frameY + frameH + 16);
+  ctx.textBaseline = "top";
+  ctx.fillText(label, CW / 2, FY + FH + 18);
   ctx.textAlign = "left";
   ctx.textBaseline = "alphabetic";
+}
+
+function createSellerCatalogueScreen(): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = CW;
+  c.height = CH;
+  const ctx = c.getContext("2d")!;
+  drawIPhoneFrame(ctx, "Your Catalogue");
+
+  const x = SX;
+  const w = SW;
+  let y = SY + 54;
+
+  ctx.fillStyle = "#111111";
+  ctx.fillRect(x, y, w, 44);
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `bold 16px ${FONT}`;
+  ctx.fillText("My Products", x + 14, y + 28);
+  ctx.fillStyle = BRAND;
+  ctx.font = `bold 12px ${FONT}`;
+  ctx.textAlign = "right";
+  ctx.fillText("+ Add New", x + w - 14, y + 28);
+  ctx.textAlign = "left";
+  y += 52;
+
+  ctx.fillStyle = "#1a1a1a";
+  roundRect(ctx, x + 10, y, w - 20, 34, 17);
+  ctx.fill();
+  ctx.fillStyle = "#666666";
+  ctx.font = `13px ${FONT}`;
+  ctx.fillText("Search products...", x + 36, y + 22);
+  ctx.fillStyle = "#888888";
+  ctx.font = `14px ${FONT}`;
+  ctx.fillText("⌕", x + 18, y + 23);
+  y += 44;
+
+  ctx.fillStyle = "#ffffff80";
+  ctx.font = `11px ${FONT}`;
+  ctx.fillText("12 Products · 3 Live · ₹45,200 revenue", x + 14, y + 14);
+  y += 26;
+
+  const products = [
+    { name: "Silk Banarasi Saree", price: "₹2,400", stock: "8 left", live: true, sold: 24, img: "#c13584" },
+    { name: "Cotton Kurti Set", price: "₹899", stock: "15 left", live: true, sold: 67, img: "#4a90d9" },
+    { name: "Designer Lehenga", price: "₹5,200", stock: "3 left", live: false, sold: 12, img: "#d9a04a" },
+    { name: "Embroidered Dupatta", price: "₹650", stock: "22 left", live: true, sold: 41, img: "#4ad99a" },
+  ];
+
+  for (const prod of products) {
+    ctx.fillStyle = "#0d0d0d";
+    roundRect(ctx, x + 8, y, w - 16, 90, 14);
+    ctx.fill();
+    ctx.strokeStyle = "#1f1f1f";
+    ctx.lineWidth = 0.5;
+    roundRect(ctx, x + 8, y, w - 16, 90, 14);
+    ctx.stroke();
+
+    ctx.fillStyle = prod.img;
+    roundRect(ctx, x + 16, y + 10, 60, 70, 10);
+    ctx.fill();
+    ctx.fillStyle = "#ffffff30";
+    ctx.font = `bold 20px ${FONT}`;
+    ctx.textAlign = "center";
+    ctx.fillText("👗", x + 46, y + 52);
+    ctx.textAlign = "left";
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `bold 13px ${FONT}`;
+    ctx.fillText(prod.name, x + 86, y + 26);
+
+    ctx.fillStyle = BRAND;
+    ctx.font = `bold 15px ${FONT}`;
+    ctx.fillText(prod.price, x + 86, y + 46);
+
+    ctx.fillStyle = "#888888";
+    ctx.font = `11px ${FONT}`;
+    ctx.fillText(`${prod.stock} · ${prod.sold} sold`, x + 86, y + 62);
+
+    if (prod.live) {
+      ctx.fillStyle = "#cafe3830";
+      roundRect(ctx, x + 86, y + 68, 42, 16, 8);
+      ctx.fill();
+      ctx.fillStyle = BRAND;
+      ctx.font = `bold 9px ${FONT}`;
+      ctx.fillText("● LIVE", x + 92, y + 80);
+    } else {
+      ctx.fillStyle = "#ffffff15";
+      roundRect(ctx, x + 86, y + 68, 42, 16, 8);
+      ctx.fill();
+      ctx.fillStyle = "#666666";
+      ctx.font = `bold 9px ${FONT}`;
+      ctx.fillText("DRAFT", x + 92, y + 80);
+    }
+
+    ctx.fillStyle = "#ffffff20";
+    ctx.font = `16px ${FONT}`;
+    ctx.textAlign = "right";
+    ctx.fillText("›", x + w - 24, y + 50);
+    ctx.textAlign = "left";
+
+    y += 98;
+  }
+
+  ctx.fillStyle = "#0d0d0d";
+  ctx.fillRect(x, SY + SH - 56, w, 56);
+  ctx.strokeStyle = "#1f1f1f";
+  ctx.lineWidth = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(x, SY + SH - 56);
+  ctx.lineTo(x + w, SY + SH - 56);
+  ctx.stroke();
+
+  const tabs = [
+    { icon: "🏠", label: "Home", active: false },
+    { icon: "📦", label: "Products", active: true },
+    { icon: "💬", label: "Bargains", active: false },
+    { icon: "📊", label: "Analytics", active: false },
+  ];
+  const tabW = w / tabs.length;
+  tabs.forEach((tab, i) => {
+    const tx = x + i * tabW + tabW / 2;
+    const ty = SY + SH - 38;
+    ctx.fillStyle = tab.active ? BRAND : "#666666";
+    ctx.font = `16px ${FONT}`;
+    ctx.textAlign = "center";
+    ctx.fillText(tab.icon, tx, ty);
+    ctx.font = `bold 8px ${FONT}`;
+    ctx.fillText(tab.label, tx, ty + 14);
+  });
+  ctx.textAlign = "left";
 
   return c;
 }
+
+function createSellerBargainScreen(): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = CW;
+  c.height = CH;
+  const ctx = c.getContext("2d")!;
+  drawIPhoneFrame(ctx, "Live Bargain");
+
+  const x = SX;
+  const w = SW;
+  let y = SY + 54;
+
+  const headerGrad = ctx.createLinearGradient(x, y, x, y + 50);
+  headerGrad.addColorStop(0, "#0a1a0f");
+  headerGrad.addColorStop(1, "#080808");
+  ctx.fillStyle = headerGrad;
+  ctx.fillRect(x, y, w, 50);
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `14px ${FONT}`;
+  ctx.fillText("‹", x + 14, y + 30);
+  ctx.font = `bold 15px ${FONT}`;
+  ctx.fillText("Live Bargain", x + 34, y + 30);
+  ctx.fillStyle = "#ff4444";
+  ctx.beginPath();
+  ctx.arc(x + w - 30, y + 25, 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#ff4444";
+  ctx.font = `bold 9px ${FONT}`;
+  ctx.textAlign = "right";
+  ctx.fillText("LIVE", x + w - 14, y + 29);
+  ctx.textAlign = "left";
+  y += 58;
+
+  ctx.fillStyle = "#0f0f0f";
+  roundRect(ctx, x + 10, y, w - 20, 80, 14);
+  ctx.fill();
+  ctx.fillStyle = "#c13584";
+  roundRect(ctx, x + 18, y + 10, 52, 60, 10);
+  ctx.fill();
+  ctx.fillStyle = "#ffffff30";
+  ctx.font = `bold 22px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.fillText("👗", x + 44, y + 48);
+  ctx.textAlign = "left";
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `bold 14px ${FONT}`;
+  ctx.fillText("Silk Banarasi Saree", x + 80, y + 28);
+  ctx.fillStyle = "#888888";
+  ctx.font = `12px ${FONT}`;
+  ctx.fillText("Listed price:", x + 80, y + 46);
+  ctx.fillStyle = BRAND;
+  ctx.font = `bold 16px ${FONT}`;
+  ctx.fillText("₹2,400", x + 155, y + 46);
+  ctx.fillStyle = "#666666";
+  ctx.font = `11px ${FONT}`;
+  ctx.fillText("5 buyers watching", x + 80, y + 64);
+  y += 92;
+
+  ctx.fillStyle = "#cafe3815";
+  roundRect(ctx, x + 10, y, w - 20, 34, 10);
+  ctx.fill();
+  ctx.fillStyle = BRAND;
+  ctx.font = `bold 11px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.fillText("⏱ Bargain ends in 2:34", CW / 2, y + 22);
+  ctx.textAlign = "left";
+  y += 44;
+
+  ctx.fillStyle = "#ffffff60";
+  ctx.font = `bold 10px ${FONT}`;
+  ctx.fillText("BUYER OFFERS", x + 14, y + 10);
+  y += 20;
+
+  const offers = [
+    { buyer: "Priya S.", offer: "₹1,800", time: "12s ago", avatar: "#4a90d9", best: true },
+    { buyer: "Rahul K.", offer: "₹1,600", time: "28s ago", avatar: "#d9a04a", best: false },
+    { buyer: "Sneha M.", offer: "₹1,500", time: "45s ago", avatar: "#9a4ad9", best: false },
+  ];
+
+  for (const o of offers) {
+    ctx.fillStyle = o.best ? "#cafe3808" : "#0a0a0a";
+    roundRect(ctx, x + 10, y, w - 20, 64, 12);
+    ctx.fill();
+    if (o.best) {
+      ctx.strokeStyle = "#cafe3840";
+      ctx.lineWidth = 1;
+      roundRect(ctx, x + 10, y, w - 20, 64, 12);
+      ctx.stroke();
+    }
+
+    drawAvatar(ctx, x + 20, y + 12, 36, o.avatar, o.buyer.substring(0, 2).toUpperCase());
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `bold 13px ${FONT}`;
+    ctx.fillText(o.buyer, x + 64, y + 28);
+    ctx.fillStyle = "#666666";
+    ctx.font = `10px ${FONT}`;
+    ctx.fillText(o.time, x + 64, y + 44);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `bold 17px ${FONT}`;
+    ctx.textAlign = "right";
+    ctx.fillText(o.offer, x + w - 24, y + 32);
+    if (o.best) {
+      ctx.fillStyle = BRAND;
+      ctx.font = `bold 9px ${FONT}`;
+      ctx.fillText("BEST OFFER", x + w - 24, y + 48);
+    }
+    ctx.textAlign = "left";
+
+    y += 72;
+  }
+
+  y += 8;
+  ctx.fillStyle = BRAND;
+  roundRect(ctx, x + 14, y, w - 28, 44, 12);
+  ctx.fill();
+  ctx.fillStyle = "#000000";
+  ctx.font = `bold 14px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.fillText("Accept Best Offer  ₹1,800", CW / 2, y + 28);
+  ctx.textAlign = "left";
+  y += 52;
+
+  ctx.fillStyle = "#1a1a1a";
+  roundRect(ctx, x + 14, y, w - 28, 44, 12);
+  ctx.fill();
+  ctx.strokeStyle = "#cafe3850";
+  ctx.lineWidth = 1;
+  roundRect(ctx, x + 14, y, w - 28, 44, 12);
+  ctx.stroke();
+  ctx.fillStyle = BRAND;
+  ctx.font = `bold 14px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.fillText("Counter Offer", CW / 2, y + 28);
+  ctx.textAlign = "left";
+
+  return c;
+}
+
+function createSellerOfferScreen(): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = CW;
+  c.height = CH;
+  const ctx = c.getContext("2d")!;
+  drawIPhoneFrame(ctx, "Deal Closed");
+
+  const x = SX;
+  const w = SW;
+  let y = SY + 54;
+
+  ctx.fillStyle = "#0a1a0f";
+  ctx.fillRect(x, y, w, 50);
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `14px ${FONT}`;
+  ctx.fillText("‹", x + 14, y + 30);
+  ctx.font = `bold 15px ${FONT}`;
+  ctx.fillText("Order Confirmed", x + 34, y + 30);
+  y += 58;
+
+  ctx.fillStyle = "#cafe3815";
+  roundRect(ctx, x + 10, y, w - 20, 130, 16);
+  ctx.fill();
+  ctx.strokeStyle = "#cafe3830";
+  ctx.lineWidth = 1;
+  roundRect(ctx, x + 10, y, w - 20, 130, 16);
+  ctx.stroke();
+
+  ctx.fillStyle = BRAND;
+  ctx.font = `bold 36px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.fillText("✓", CW / 2, y + 40);
+  ctx.font = `bold 16px ${FONT}`;
+  ctx.fillText("Deal Closed!", CW / 2, y + 64);
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `bold 24px ${FONT}`;
+  ctx.fillText("₹1,800", CW / 2, y + 96);
+  ctx.fillStyle = "#ffffff60";
+  ctx.font = `12px ${FONT}`;
+  ctx.fillText("Sold to Priya S. · Just now", CW / 2, y + 116);
+  ctx.textAlign = "left";
+  y += 144;
+
+  ctx.fillStyle = "#ffffff40";
+  ctx.font = `bold 10px ${FONT}`;
+  ctx.fillText("ORDER DETAILS", x + 14, y + 14);
+  y += 26;
+
+  const details = [
+    { label: "Product", value: "Silk Banarasi Saree" },
+    { label: "Listed Price", value: "₹2,400" },
+    { label: "Final Price", value: "₹1,800", highlight: true },
+    { label: "Buyer", value: "Priya S." },
+    { label: "Payment", value: "UPI · Verified ✓" },
+    { label: "Shipping", value: "Auto-generated label" },
+  ];
+
+  for (const d of details) {
+    ctx.fillStyle = "#0a0a0a";
+    roundRect(ctx, x + 10, y, w - 20, 36, 8);
+    ctx.fill();
+    ctx.fillStyle = "#888888";
+    ctx.font = `12px ${FONT}`;
+    ctx.fillText(d.label, x + 20, y + 23);
+    ctx.fillStyle = d.highlight ? BRAND : "#ffffff";
+    ctx.font = d.highlight ? `bold 13px ${FONT}` : `13px ${FONT}`;
+    ctx.textAlign = "right";
+    ctx.fillText(d.value, x + w - 20, y + 23);
+    ctx.textAlign = "left";
+    y += 40;
+  }
+
+  y += 12;
+  ctx.fillStyle = BRAND;
+  roundRect(ctx, x + 14, y, w - 28, 42, 12);
+  ctx.fill();
+  ctx.fillStyle = "#000000";
+  ctx.font = `bold 13px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.fillText("Print Shipping Label", CW / 2, y + 27);
+  ctx.textAlign = "left";
+
+  return c;
+}
+
+const SELLER_SCREEN_CREATORS = [
+  createSellerCatalogueScreen,
+  createSellerBargainScreen,
+  createSellerOfferScreen,
+];
 
 function createCardData(
   textureCreators: (() => HTMLCanvasElement)[],
@@ -809,7 +1170,7 @@ function createCardData(
       ? orderTextures[i % orderTextures.length]
       : null;
 
-    const geo = new THREE.PlaneGeometry(1.8, 3.2);
+    const geo = new THREE.PlaneGeometry(1.8, 3.5);
     const mat = new THREE.MeshBasicMaterial({
       map: chaosTexture,
       transparent: true,
@@ -1016,50 +1377,22 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       createShippingConfusionTexture,
     ];
 
-    const orderTextures: (THREE.Texture | null)[] = new Array(FIGMA_SCREENS.length).fill(null);
-    let loadedCount = 0;
-    const totalToLoad = FIGMA_SCREENS.length;
-
-    const initCards = () => {
-      const validTextures = orderTextures.filter((t): t is THREE.Texture => t !== null);
-      const cards = createCardData(textureCreators, validTextures, 36, 6);
-      cardsRef.current = cards;
-
-      for (const card of cards) {
-        card.mesh.position.copy(card.chaosPos);
-        card.mesh.rotation.copy(card.chaosRot);
-        scene.add(card.mesh);
-      }
-    };
-
-    FIGMA_SCREENS.forEach((src, idx) => {
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      img.onload = () => {
-        const frameCanvas = createPhoneFrameTexture(img, HERO_LABELS[idx]);
-        const tex = new THREE.CanvasTexture(frameCanvas);
-        tex.minFilter = THREE.LinearFilter;
-        tex.magFilter = THREE.LinearFilter;
-        orderTextures[idx] = tex;
-        loadedCount++;
-        if (loadedCount === totalToLoad && cardsRef.current.length === 0) {
-          initCards();
-        }
-      };
-      img.onerror = () => {
-        loadedCount++;
-        if (loadedCount === totalToLoad && cardsRef.current.length === 0) {
-          initCards();
-        }
-      };
-      img.src = src;
+    const orderTextures: THREE.Texture[] = SELLER_SCREEN_CREATORS.map((creator) => {
+      const canvas = creator();
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.minFilter = THREE.LinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      return tex;
     });
 
-    setTimeout(() => {
-      if (cardsRef.current.length === 0) {
-        initCards();
-      }
-    }, 3000);
+    const cards = createCardData(textureCreators, orderTextures, 36, 6);
+    cardsRef.current = cards;
+
+    for (const card of cards) {
+      card.mesh.position.copy(card.chaosPos);
+      card.mesh.rotation.copy(card.chaosRot);
+      scene.add(card.mesh);
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
