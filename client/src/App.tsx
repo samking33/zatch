@@ -12,6 +12,8 @@ import PrivacyPage from "@/pages/privacy";
 import TermsPage from "@/pages/terms";
 import ReturnsPage from "@/pages/returns";
 import ShippingPage from "@/pages/shipping";
+import JoinBuyerPage from "@/pages/join-buyer";
+import JoinSellerPage from "@/pages/join-seller";
 
 function Router() {
   return (
@@ -23,6 +25,8 @@ function Router() {
       <Route path="/terms" component={TermsPage} />
       <Route path="/returns" component={ReturnsPage} />
       <Route path="/shipping" component={ShippingPage} />
+      <Route path="/join/buyer" component={JoinBuyerPage} />
+      <Route path="/join/seller" component={JoinSellerPage} />
       <Route component={NotFound} />
     </Switch>
   );

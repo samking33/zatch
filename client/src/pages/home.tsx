@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { KineticHero } from "@/components/sections/KineticHero";
 import { FullScreenScroll } from "@/components/sections/FullScreenScroll";
 import { ThreeWays } from "@/components/sections/ThreeWays";
+import { JoinSection } from "@/components/sections/JoinSection";
 import { ForBuyers } from "@/components/sections/ForBuyers";
 import { DealEngine } from "@/components/sections/DealEngine";
 import { StickmanCTA } from "@/components/sections/StickmanCTA";
@@ -28,6 +29,7 @@ export default function Home() {
         <KineticHero />
         <FullScreenScroll />
         <ThreeWays />
+        <JoinSection />
         <ForBuyers onJoinWaitlist={() => openWaitlist("buyer")} />
         <DealEngine onJoinWaitlist={() => openWaitlist("seller")} />
         <StickmanCTA />
