@@ -49,6 +49,7 @@ import streamScarves from "@/assets/kinetic/stream-scarves.png";
 import streamCoffee from "@/assets/kinetic/stream-coffee.png";
 import streamEco from "@/assets/kinetic/stream-eco.png";
 import streamArtprints from "@/assets/kinetic/stream-artprints.png";
+import heroIphoneMockup from "@/assets/kinetic/hero-iphone-mockup.png";
 
 const ALL_STREAMS = [
   streamSaree, streamShoes, streamJewelry, streamPhones,
@@ -109,7 +110,7 @@ export function KineticHero() {
               scale: useTransform(smoothProgress, [0, 0.3], [1, 1.2]),
               filter: useTransform(smoothProgress, [0, 0.15], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]),
            }}
-           className="absolute z-20 pointer-events-none text-center mix-blend-difference"
+           className="absolute z-20 pointer-events-none left-[8%] md:left-[10%] lg:left-[12%] top-1/2 -translate-y-1/2 text-left mix-blend-difference"
         >
            <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white">
               CATCH IT<br/>
@@ -122,6 +123,28 @@ export function KineticHero() {
                 <span className="absolute inset-0 translate-x-1 translate-y-0 opacity-50 mix-blend-screen blur-[1px] skew-x-12 scale-x-110 bg-gradient-to-r from-transparent via-primary/20 to-transparent -z-10"></span>
               </span> IT
            </h1>
+        </motion.div>
+
+        <motion.div
+           style={{
+              opacity: useTransform(smoothProgress, [0, 0.3], [1, 0]),
+              y: useTransform(smoothProgress, [0, 0.3], [0, 100]),
+              scale: useTransform(smoothProgress, [0, 0.3], [1, 0.9]),
+           }}
+           className="absolute z-20 pointer-events-none right-[6%] md:right-[8%] lg:right-[10%] top-1/2 -translate-y-1/2 hidden md:block"
+        >
+           <div className="relative">
+              <div className="absolute -inset-8 bg-primary/10 rounded-[3rem] blur-3xl" />
+              <div className="absolute -inset-4 bg-primary/5 rounded-[2.5rem] blur-xl" />
+              <img
+                src={heroIphoneMockup}
+                alt="Zatch App"
+                className="relative w-[220px] lg:w-[280px] xl:w-[320px] h-auto drop-shadow-[0_0_40px_rgba(202,254,56,0.15)] rounded-[2rem]"
+              />
+              <div className="absolute top-4 right-4 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse shadow-lg shadow-red-500/50">
+                LIVE
+              </div>
+           </div>
         </motion.div>
         
         <motion.div 
