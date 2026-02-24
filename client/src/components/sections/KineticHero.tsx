@@ -15,6 +15,55 @@ import streamKurti from "@/assets/kinetic/stream-kurti.png";
 import streamSports from "@/assets/kinetic/stream-sports.png";
 import streamHomedecor from "@/assets/kinetic/stream-homedecor.png";
 import streamBags from "@/assets/kinetic/stream-bags.png";
+import streamVinyl from "@/assets/kinetic/stream-vinyl.png";
+import streamSpices from "@/assets/kinetic/stream-spices.png";
+import streamGaming from "@/assets/kinetic/stream-gaming.png";
+import streamSunglasses from "@/assets/kinetic/stream-sunglasses.png";
+import streamCustomshoes from "@/assets/kinetic/stream-customshoes.png";
+import streamPashmina from "@/assets/kinetic/stream-pashmina.png";
+import streamCamera from "@/assets/kinetic/stream-camera.png";
+import streamCandles from "@/assets/kinetic/stream-candles.png";
+import streamHeadphones from "@/assets/kinetic/stream-headphones.png";
+import streamFabric from "@/assets/kinetic/stream-fabric.png";
+import streamFurniture from "@/assets/kinetic/stream-furniture.png";
+import streamSweets from "@/assets/kinetic/stream-sweets.png";
+import streamSmartwatch from "@/assets/kinetic/stream-smartwatch.png";
+import streamPlants from "@/assets/kinetic/stream-plants.png";
+import streamKurta from "@/assets/kinetic/stream-kurta.png";
+import streamChocolate from "@/assets/kinetic/stream-chocolate.png";
+import streamBackpack from "@/assets/kinetic/stream-backpack.png";
+import streamPottery from "@/assets/kinetic/stream-pottery.png";
+import streamTshirts from "@/assets/kinetic/stream-tshirts.png";
+import streamBridal from "@/assets/kinetic/stream-bridal.png";
+import streamHairaccess from "@/assets/kinetic/stream-hairaccess.png";
+import streamPerfume from "@/assets/kinetic/stream-perfume.png";
+import streamYoga from "@/assets/kinetic/stream-yoga.png";
+import streamKeyboards from "@/assets/kinetic/stream-keyboards.png";
+import streamBangles from "@/assets/kinetic/stream-bangles.png";
+import streamScooter from "@/assets/kinetic/stream-scooter.png";
+import streamTea from "@/assets/kinetic/stream-tea.png";
+import streamComics from "@/assets/kinetic/stream-comics.png";
+import streamJuttis from "@/assets/kinetic/stream-juttis.png";
+import streamDrone from "@/assets/kinetic/stream-drone.png";
+import streamScarves from "@/assets/kinetic/stream-scarves.png";
+import streamCoffee from "@/assets/kinetic/stream-coffee.png";
+import streamEco from "@/assets/kinetic/stream-eco.png";
+import streamArtprints from "@/assets/kinetic/stream-artprints.png";
+
+const ALL_STREAMS = [
+  streamSaree, streamShoes, streamJewelry, streamPhones,
+  streamSkincare, streamWatches, streamKurti, streamSports,
+  streamHomedecor, streamBags, streamFashion, streamTech,
+  streamSneaker, streamBeauty, streamVinyl, streamSpices,
+  streamGaming, streamSunglasses, streamCustomshoes, streamPashmina,
+  streamCamera, streamCandles, streamHeadphones, streamFabric,
+  streamFurniture, streamSweets, streamSmartwatch, streamPlants,
+  streamKurta, streamChocolate, streamBackpack, streamPottery,
+  streamTshirts, streamBridal, streamHairaccess, streamPerfume,
+  streamYoga, streamKeyboards, streamBangles, streamScooter,
+  streamTea, streamComics, streamJuttis, streamDrone,
+  streamScarves, streamCoffee, streamEco, streamArtprints,
+];
 
 export function KineticHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,18 +74,10 @@ export function KineticHero() {
 
   const smoothProgress = useSpring(scrollYProgress, { mass: 0.1, stiffness: 100, damping: 20 });
 
-  // Generate a grid of 48 items by repeating the base assets
   const gridItems = useMemo(() => {
-    const baseImages = [
-      streamSaree, streamShoes, streamJewelry, streamPhones,
-      streamSkincare, streamWatches, streamKurti, streamSports,
-      streamHomedecor, streamBags, streamFashion, streamTech,
-      streamSneaker, streamBeauty,
-    ];
-    return Array.from({ length: 48 }).map((_, i) => ({
+    return ALL_STREAMS.map((image, i) => ({
       id: i,
-      image: baseImages[i % baseImages.length],
-      // Random "float" parameters for the scroll animation
+      image,
       randomX: (Math.random() - 0.5) * 200, 
       randomY: -100 - Math.random() * 300, 
       randomRotate: (Math.random() - 0.5) * 30,
@@ -52,7 +93,6 @@ export function KineticHero() {
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-black">
         
-        {/* The Grid */}
         <div className="absolute inset-0 grid grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-1 p-1">
           {gridItems.map((item) => (
             <GridItem 
@@ -63,7 +103,6 @@ export function KineticHero() {
           ))}
         </div>
 
-        {/* The Text Overlay */}
         <motion.div 
            style={{ 
               opacity: useTransform(smoothProgress, [0, 0.3], [1, 0]),
@@ -77,7 +116,6 @@ export function KineticHero() {
               MATCH IT<br/>
               <span className="relative inline-block text-primary italic pr-4">
                 <span className="relative z-10">ZATCH</span>
-                {/* Speed Lines Effect */}
                 <span className="absolute top-1/2 -left-20 w-full h-[2px] bg-primary/50 -translate-y-1/2 blur-[1px]" />
                 <span className="absolute top-[30%] -left-32 w-3/4 h-[1px] bg-primary/30 blur-[0.5px]" />
                 <span className="absolute top-[70%] -left-24 w-4/5 h-[1.5px] bg-primary/40 blur-[0.5px]" />
@@ -86,7 +124,6 @@ export function KineticHero() {
            </h1>
         </motion.div>
         
-        {/* Scroll CTA */}
         <motion.div 
            style={{ opacity: useTransform(smoothProgress, [0, 0.15], [1, 0]) }}
            className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 text-sm uppercase tracking-widest animate-pulse pointer-events-none z-30"
