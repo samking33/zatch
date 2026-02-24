@@ -166,7 +166,7 @@ function IPhoneLiveStreamMockup() {
       <div className="absolute -inset-6 bg-primary/4 rounded-[3rem] blur-2xl" />
 
       <div
-        className="relative w-[240px] lg:w-[290px] xl:w-[330px] rounded-[2.5rem] lg:rounded-[3rem] overflow-hidden"
+        className="relative w-[200px] lg:w-[240px] xl:w-[270px] rounded-[2.2rem] lg:rounded-[2.5rem] overflow-hidden"
         style={{
           aspectRatio: "390/844",
           background: "#1a1a1a",
