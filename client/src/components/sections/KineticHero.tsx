@@ -129,9 +129,12 @@ export function KineticHero() {
                 </span> IT
              </motion.h1>
 
-             <div className="hidden md:block flex-shrink-0 ml-8">
+             <motion.div
+                style={{ opacity: textOpacity, scale: textScale }}
+                className="hidden md:block flex-shrink-0 ml-8 origin-center"
+             >
                <IPhoneMockup scrollProgress={smoothProgress} />
-             </div>
+             </motion.div>
            </div>
         </div>
         
