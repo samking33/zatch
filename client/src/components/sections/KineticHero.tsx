@@ -319,7 +319,7 @@ export function KineticHero() {
     <section 
       id="hero"
       ref={containerRef} 
-      className="h-[100vh] relative bg-black"
+      className="h-[105vh] relative bg-black"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-black">
         
