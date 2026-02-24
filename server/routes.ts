@@ -36,5 +36,59 @@ export async function registerRoutes(
     }
   });
 
+  app.post("/api/google-form/submit", async (req, res) => {
+    try {
+      const { name, contact, email, formType } = req.body;
+
+      if (!name || !contact || !email || !formType) {
+        return res.status(400).json({ error: "All fields are required" });
+      }
+
+      const formConfigs: Record<string, { formId: string; entries: Record<string, string> }> = {
+        buyer: {
+          formId: "1FAIpQLSe2tTXmTnjayVcxx4FXukSoDJBEZcJQe2VcMbMq78PqEeZzRA",
+          entries: {
+            name: "entry.1256265853",
+            contact: "entry.286212901",
+            email: "entry.1533294851",
+          },
+        },
+        seller: {
+          formId: "1FAIpQLSftMpAYkGKMCmL8uo1FTTooA-w_ejrzcySRizeFan4_CCsHbg",
+          entries: {
+            name: "entry.1753396057",
+            contact: "entry.891290933",
+            email: "entry.48482020",
+          },
+        },
+      };
+
+      const config = formConfigs[formType];
+      if (!config) {
+        return res.status(400).json({ error: "Invalid form type" });
+      }
+
+      const formData = new URLSearchParams();
+      formData.append(config.entries.name, name);
+      formData.append(config.entries.contact, contact);
+      formData.append(config.entries.email, email);
+
+      const googleFormUrl = `https://docs.google.com/forms/d/e/${config.formId}/formResponse`;
+
+      await fetch(googleFormUrl, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+
+      return res.status(200).json({ success: true });
+    } catch (error) {
+      console.error("Google Form submission error:", error);
+      return res.status(500).json({ error: "Failed to submit form. Please try again." });
+    }
+  });
+
   return httpServer;
 }
