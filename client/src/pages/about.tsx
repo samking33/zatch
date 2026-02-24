@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Linkedin, Twitter, ArrowRight, Sparkles, Video, MessageSquareText, ShoppingBag, Globe } from "lucide-react";
-import rakshitImg from "@/assets/rakshit.png";
+import rakshitImg from "@assets/Untitled_design_(1)_1771950553421.png";
 import luckyImg from "@/assets/lucky.jpeg";
 import rigvedImg from "@/assets/rigved.jpeg";
 
