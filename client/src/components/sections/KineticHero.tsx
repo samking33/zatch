@@ -359,7 +359,6 @@ export function KineticHero() {
                <img src={zatchQR} alt="Download Zatch" className="w-full h-full object-cover" />
              </div>
              <div className="flex flex-col gap-1">
-               <span className="text-[11px] uppercase tracking-[0.2em] text-white/40 group-hover:text-white/60 transition-colors">Scan to Download</span>
                <span className="text-lg lg:text-xl font-bold text-white group-hover:text-primary transition-colors duration-300 font-display">Get the App</span>
                <span className="text-[11px] text-white/30">Available on iOS & Android</span>
              </div>
