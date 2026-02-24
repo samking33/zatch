@@ -16,7 +16,7 @@ Preferred communication style: Simple, everyday language.
 - **Framework**: React 18 with TypeScript (no SSR, SPA mode)
 - **Routing**: Wouter (lightweight client-side router)
 - **Styling**: Tailwind CSS v4 with CSS variables for theming, using a dark/black theme with brand green (#cafe38) accent colors
-- **UI Components**: shadcn/ui (new-york style) with Radix UI primitives — components live in `client/src/components/ui/`
+- **UI Components**: shadcn/ui (new-york style) with Radix UI primitives — only actively used components kept in `client/src/components/ui/` (accordion, button, card, custom-cursor, dialog, input, label, live-marquee, marquee, separator, sheet, skeleton, slider, spotlight-card, textarea, toast, toaster, toggle, tooltip)
 - **Animations**: Framer Motion used extensively for scroll-driven animations, and micro-interactions
 - **3D/WebGL**: Three.js used for the "DealEngine" For Sellers section — scroll-driven chaos-to-order card transformation with programmatic canvas textures
 - **Fonts**: Space Grotesk (headings/display) and Inter (body text) loaded from Google Fonts
@@ -42,7 +42,6 @@ Preferred communication style: Simple, everyday language.
 - **Database**: PostgreSQL (required, connection via `DATABASE_URL` environment variable)
 - **ORM**: Drizzle ORM with `drizzle-zod` for schema validation
 - **Schema** (`shared/schema.ts`):
-  - `users` table: id (UUID), username, password
   - `waitlist` table: id (serial), email (unique), name, role (default "buyer"), created_at
 - **Migrations**: Drizzle Kit with `drizzle-kit push` command (no migration files, direct push to DB)
 - **Connection**: `pg.Pool` from the `pg` package
@@ -60,7 +59,7 @@ Preferred communication style: Simple, everyday language.
 - **Monorepo structure**: Client, server, and shared code in one repo with path aliases for clean imports
 - **Heavy animation focus**: The site prioritizes visual impact with scroll-driven parallax, mouse-tracking interactions, physics-based animations, and interactive demos (e.g., BargainSimulator)
 - **Waitlist-first**: The app is pre-launch; the primary conversion action is joining the waitlist via a modal
-- **No authentication yet**: The users table exists in schema but auth is not implemented on the frontend
+- **No authentication**: Auth is not implemented; can be added later if needed
 
 ## External Dependencies
 
