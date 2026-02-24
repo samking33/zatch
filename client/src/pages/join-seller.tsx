@@ -13,8 +13,19 @@ export default function JoinSellerPage() {
           <p className="text-white/50 text-lg text-center mb-10 max-w-lg mx-auto">
             Fill out the form below to register as a seller on Zatch.
           </p>
-          <div className="max-w-3xl mx-auto rounded-2xl overflow-hidden bg-white/5 border border-white/10 min-h-[600px] flex items-center justify-center">
-            <p className="text-white/30 text-lg">Google Form will be embedded here</p>
+          <div className="max-w-3xl mx-auto rounded-2xl overflow-hidden bg-white/5 border border-white/10">
+            <iframe
+              src="https://docs.google.com/forms/d/e/1FAIpQLSftMpAYkGKMCmL8uo1FTTooA-w_ejrzcySRizeFan4_CCsHbg/viewform?embedded=true"
+              width="100%"
+              height="800"
+              frameBorder="0"
+              marginHeight={0}
+              marginWidth={0}
+              title="Join as Seller"
+              className="w-full"
+            >
+              Loading...
+            </iframe>
           </div>
         </div>
       </main>
