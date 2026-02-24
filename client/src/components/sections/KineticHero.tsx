@@ -340,9 +340,9 @@ export function KineticHero() {
               scale: useTransform(smoothProgress, [0, 0.3], [1, 1.2]),
               filter: useTransform(smoothProgress, [0, 0.15], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]),
            }}
-           className="absolute z-20 pointer-events-none left-[8%] md:left-[10%] lg:left-[12%] top-[28%] -translate-y-1/2 text-left mix-blend-difference"
+           className="absolute z-20 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex flex-col items-center"
         >
-           <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white">
+           <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white text-center mix-blend-difference">
               CATCH IT<br/>
               MATCH IT<br/>
               <span className="relative inline-block text-primary italic pr-4">
@@ -353,16 +353,8 @@ export function KineticHero() {
                 <span className="absolute inset-0 translate-x-1 translate-y-0 opacity-50 mix-blend-screen blur-[1px] skew-x-12 scale-x-110 bg-gradient-to-r from-transparent via-primary/20 to-transparent -z-10"></span>
               </span> IT
            </h1>
-        </motion.div>
 
-        <motion.div
-           style={{
-              opacity: useTransform(smoothProgress, [0, 0.3], [1, 0]),
-              y: useTransform(smoothProgress, [0, 0.3], [0, 60]),
-           }}
-           className="absolute z-20 left-1/2 -translate-x-1/2 bottom-[18%] md:bottom-[20%]"
-        >
-           <a href="/download" className="group flex items-center gap-5 px-5 py-4 rounded-2xl pointer-events-auto" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(20px)" }}>
+           <a href="/download" className="group flex items-center gap-5 px-5 py-4 rounded-2xl pointer-events-auto mt-8" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(20px)" }}>
              <div className="relative w-[90px] h-[90px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden ring-1 ring-white/15 group-hover:ring-primary/50 transition-all duration-300 bg-white p-1.5">
                <img src={zatchQR} alt="Download Zatch" className="w-full h-full object-cover" />
              </div>
