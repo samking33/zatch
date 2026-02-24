@@ -2,15 +2,11 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useScroll } from "framer-motion";
 import * as THREE from "three";
 
-import figmaScreen1 from "@assets/12.1_When_Seller_Rejected_1771679610601.jpg";
-import figmaScreen2 from "@assets/12.1_When_Seller_Rejected-1_1771679610615.jpg";
-import figmaScreen3 from "@assets/12.1_When_Seller_Rejected-2_1771679610616.jpg";
-import figmaScreen4 from "@assets/12.2_Seller_Offer_1771679610617.jpg";
-import figmaScreen5 from "@assets/4_1771679610617.jpg";
-import figmaScreen6 from "@assets/36_1771679610618.jpg";
-import figmaScreen7 from "@assets/46_1771679610619.jpg";
+import screenCatalogue from "@assets/zatch-way/screen-catalogue.jpg";
+import screenBargain from "@assets/zatch-way/screen-bargain.jpg";
+import screenOffer from "@assets/zatch-way/screen-offer.jpg";
 
-const FIGMA_SCREENS = [figmaScreen1, figmaScreen2, figmaScreen3, figmaScreen4, figmaScreen5, figmaScreen6, figmaScreen7];
+const FIGMA_SCREENS = [screenCatalogue, screenBargain, screenOffer];
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
@@ -683,29 +679,32 @@ interface CardData {
   chaosTexture: THREE.Texture;
   orderTexture: THREE.Texture | null;
   textureSwapped: boolean;
+  isHero: boolean;
 }
+
+const HERO_POSITIONS = [
+  new THREE.Vector3(-4.5, 0.2, 0),
+  new THREE.Vector3(0, 0.4, 0.5),
+  new THREE.Vector3(4.5, 0.2, 0),
+];
 
 function createCardData(
   textureCreators: (() => HTMLCanvasElement)[],
   orderTextures: THREE.Texture[],
   count: number,
-  cols: number
+  _cols: number
 ): CardData[] {
   const cards: CardData[] = [];
-  const rows = Math.ceil(count / cols);
-  const spacingX = 2.2;
-  const spacingY = 3.0;
-  const offsetX = ((cols - 1) * spacingX) / 2;
-  const offsetY = ((rows - 1) * spacingY) / 2;
 
   for (let i = 0; i < count; i++) {
+    const isHero = i < 3;
     const texIdx = i % textureCreators.length;
     const canvas = textureCreators[texIdx]();
     const chaosTexture = new THREE.CanvasTexture(canvas);
     chaosTexture.minFilter = THREE.LinearFilter;
     chaosTexture.magFilter = THREE.LinearFilter;
 
-    const orderTexture = orderTextures.length > 0
+    const orderTexture = isHero && orderTextures.length > 0
       ? orderTextures[i % orderTextures.length]
       : null;
 
@@ -719,9 +718,6 @@ function createCardData(
     });
     const mesh = new THREE.Mesh(geo, mat);
 
-    const col = i % cols;
-    const row = Math.floor(i / cols);
-
     cards.push({
       chaosPos: new THREE.Vector3(
         (Math.random() - 0.5) * 14,
@@ -733,11 +729,7 @@ function createCardData(
         (Math.random() - 0.5) * 0.5,
         (Math.random() - 0.5) * 0.5
       ),
-      gridPos: new THREE.Vector3(
-        col * spacingX - offsetX,
-        -(row * spacingY - offsetY),
-        0
-      ),
+      gridPos: isHero ? HERO_POSITIONS[i].clone() : new THREE.Vector3(0, 0, -2),
       driftSpeed: 0.3 + Math.random() * 0.7,
       driftPhase: Math.random() * Math.PI * 2,
       driftAmplitude: new THREE.Vector3(
@@ -749,6 +741,7 @@ function createCardData(
       chaosTexture,
       orderTexture,
       textureSwapped: false,
+      isHero,
     });
   }
 
@@ -991,6 +984,8 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       const time = (performance.now() - startTimeRef.current) / 1000;
       const p = progressRef.current;
 
+      const heroScale = 2.6;
+
       for (const card of cardsRef.current) {
         const mat = card.mesh.material as THREE.MeshBasicMaterial;
 
@@ -1005,6 +1000,7 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
         }
 
         if (p < 0.4) {
+          card.mesh.visible = true;
           const chaosP = p / 0.4;
           const collapseTarget = new THREE.Vector3(
             card.chaosPos.x * (1 - chaosP * 0.6),
@@ -1024,33 +1020,44 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
           card.mesh.rotation.y = THREE.MathUtils.lerp(card.mesh.rotation.y, card.chaosRot.y * (1 - chaosP * 0.5), 0.08);
           card.mesh.rotation.z = THREE.MathUtils.lerp(card.mesh.rotation.z, card.chaosRot.z * (1 - chaosP * 0.5), 0.08);
 
+          card.mesh.scale.setScalar(THREE.MathUtils.lerp(card.mesh.scale.x, 1, 0.08));
+
           const r = THREE.MathUtils.lerp(0.8, 1, chaosP);
           const g = THREE.MathUtils.lerp(0.4, 0.7, chaosP);
           const b = THREE.MathUtils.lerp(0.4, 0.7, chaosP);
           mat.color.setRGB(r, g, b);
+
+          mat.opacity = THREE.MathUtils.lerp(mat.opacity, 0.7 + Math.random() * 0.05, 0.05);
         } else {
           const gridP = Math.min((p - 0.4) / 0.6, 1);
           const eased = gridP * gridP * (3 - 2 * gridP);
 
-          const breathe = Math.sin(time * 1.5 + card.driftPhase) * 0.01 * eased;
+          if (card.isHero) {
+            card.mesh.visible = true;
+            const breathe = Math.sin(time * 1.5 + card.driftPhase) * 0.01 * eased;
 
-          card.mesh.position.x = THREE.MathUtils.lerp(card.mesh.position.x, card.gridPos.x, 0.06 + eased * 0.06);
-          card.mesh.position.y = THREE.MathUtils.lerp(card.mesh.position.y, card.gridPos.y, 0.06 + eased * 0.06);
-          card.mesh.position.z = THREE.MathUtils.lerp(card.mesh.position.z, card.gridPos.z, 0.06 + eased * 0.06);
+            card.mesh.position.x = THREE.MathUtils.lerp(card.mesh.position.x, card.gridPos.x, 0.06 + eased * 0.06);
+            card.mesh.position.y = THREE.MathUtils.lerp(card.mesh.position.y, card.gridPos.y, 0.06 + eased * 0.06);
+            card.mesh.position.z = THREE.MathUtils.lerp(card.mesh.position.z, card.gridPos.z, 0.06 + eased * 0.06);
 
-          card.mesh.rotation.x = THREE.MathUtils.lerp(card.mesh.rotation.x, 0, 0.08 + eased * 0.08);
-          card.mesh.rotation.y = THREE.MathUtils.lerp(card.mesh.rotation.y, 0, 0.08 + eased * 0.08);
-          card.mesh.rotation.z = THREE.MathUtils.lerp(card.mesh.rotation.z, 0, 0.08 + eased * 0.08);
+            card.mesh.rotation.x = THREE.MathUtils.lerp(card.mesh.rotation.x, 0, 0.08 + eased * 0.08);
+            card.mesh.rotation.y = THREE.MathUtils.lerp(card.mesh.rotation.y, 0, 0.08 + eased * 0.08);
+            card.mesh.rotation.z = THREE.MathUtils.lerp(card.mesh.rotation.z, 0, 0.08 + eased * 0.08);
 
-          card.mesh.scale.setScalar(1 + breathe);
+            card.mesh.scale.setScalar(THREE.MathUtils.lerp(card.mesh.scale.x, heroScale + breathe, 0.06 + eased * 0.06));
 
-          const r = THREE.MathUtils.lerp(mat.color.r, 1, 0.08);
-          const g = THREE.MathUtils.lerp(mat.color.g, 1, 0.08);
-          const b = THREE.MathUtils.lerp(mat.color.b, 1, 0.08);
-          mat.color.setRGB(r, g, b);
+            mat.opacity = THREE.MathUtils.lerp(mat.opacity, 1, 0.05);
+            const r = THREE.MathUtils.lerp(mat.color.r, 1, 0.08);
+            const g = THREE.MathUtils.lerp(mat.color.g, 1, 0.08);
+            const b = THREE.MathUtils.lerp(mat.color.b, 1, 0.08);
+            mat.color.setRGB(r, g, b);
+          } else {
+            mat.opacity = THREE.MathUtils.lerp(mat.opacity, 0, 0.08);
+            if (mat.opacity < 0.01) {
+              card.mesh.visible = false;
+            }
+          }
         }
-
-        mat.opacity = THREE.MathUtils.lerp(mat.opacity, p > 0.5 ? 1 : 0.7 + Math.random() * 0.05, 0.05);
       }
 
       renderer.render(scene, camera);
@@ -1165,10 +1172,10 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                   <span className="text-[11px] font-bold text-[#cafe38] tracking-[0.4em] uppercase">For Sellers</span>
                   <div className="w-8 h-px bg-[#cafe38]" />
                 </div>
-                <h3 className="text-5xl md:text-7xl font-bold font-display tracking-tight leading-[0.95] text-[#cafe38] mb-3 drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)]">
+                <h3 className="text-6xl md:text-8xl lg:text-9xl font-bold font-display tracking-tight leading-[0.85] text-[#cafe38] mb-3 drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)]">
                   The Zatch Way
                 </h3>
-                <p className="text-lg text-[#cafe38]/70 drop-shadow-[0_1px_8px_rgba(0,0,0,0.9)]">There's a better way. Keep scrolling.</p>
+                <p className="text-base md:text-lg text-[#cafe38]/60 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">Three screens. That's all it takes.</p>
               </motion.div>
             </div>
 
