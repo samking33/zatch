@@ -340,7 +340,7 @@ export function KineticHero() {
               scale: useTransform(smoothProgress, [0, 0.3], [1, 1.2]),
               filter: useTransform(smoothProgress, [0, 0.15], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]),
            }}
-           className="absolute z-20 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex flex-col items-center"
+           className="absolute z-20 left-[42%] -translate-x-1/2 top-1/2 -translate-y-1/2 flex flex-col items-center"
         >
            <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white text-center mix-blend-difference">
               CATCH IT<br/>
