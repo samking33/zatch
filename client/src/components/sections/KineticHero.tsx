@@ -116,7 +116,7 @@ export function KineticHero() {
                   scale: textScale,
                   filter: textFilter,
                 }}
-                className="text-[13vw] md:text-[10.5vw] lg:text-[9.5vw] font-bold font-display leading-[0.85] tracking-tighter text-white mix-blend-difference origin-left"
+                className="text-[14vw] md:text-[11.5vw] lg:text-[10.5vw] font-bold font-display leading-[0.85] tracking-tighter text-white mix-blend-difference origin-left"
              >
                 CATCH IT<br/>
                 MATCH IT<br/>
