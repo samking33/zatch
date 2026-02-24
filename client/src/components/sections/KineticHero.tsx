@@ -131,16 +131,19 @@ export function KineticHero() {
               y: useTransform(smoothProgress, [0, 0.3], [0, 100]),
               scale: useTransform(smoothProgress, [0, 0.3], [1, 0.9]),
            }}
-           className="absolute z-20 pointer-events-none right-[4%] md:right-[6%] lg:right-[8%] top-1/2 -translate-y-1/2 hidden md:block"
+           className="absolute z-20 pointer-events-none right-[6%] md:right-[8%] lg:right-[10%] top-1/2 -translate-y-1/2 hidden md:block"
         >
            <div className="relative">
-              <div className="absolute -inset-10 bg-primary/8 rounded-[3rem] blur-[60px]" />
-              <div className="absolute -inset-6 bg-primary/5 rounded-[2.5rem] blur-2xl" />
+              <div className="absolute -inset-8 bg-primary/10 rounded-[3rem] blur-3xl" />
+              <div className="absolute -inset-4 bg-primary/5 rounded-[2.5rem] blur-xl" />
               <img
                 src={heroIphoneMockup}
                 alt="Zatch App"
-                className="relative w-[260px] lg:w-[320px] xl:w-[370px] h-auto drop-shadow-[0_0_60px_rgba(202,254,56,0.12)] rounded-[2.5rem]"
+                className="relative w-[220px] lg:w-[280px] xl:w-[320px] h-auto drop-shadow-[0_0_40px_rgba(202,254,56,0.15)] rounded-[2rem]"
               />
+              <div className="absolute top-4 right-4 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse shadow-lg shadow-red-500/50">
+                LIVE
+              </div>
            </div>
         </motion.div>
         
