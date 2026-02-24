@@ -1168,7 +1168,7 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                 <h3 className="text-5xl md:text-7xl font-bold font-display tracking-tight leading-[0.95] text-[#cafe38] mb-3 drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)]">
                   The Zatch Way
                 </h3>
-                <p className="text-lg text-[#cafe38]/70 drop-shadow-[0_1px_8px_rgba(0,0,0,0.9)]">Automated. Live. Closed.</p>
+                <p className="text-lg text-[#cafe38]/70 drop-shadow-[0_1px_8px_rgba(0,0,0,0.9)]">There's a better way. Keep scrolling.</p>
               </motion.div>
             </div>
 
