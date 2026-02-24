@@ -109,9 +109,9 @@ export function KineticHero() {
               scale: useTransform(smoothProgress, [0, 0.3], [1, 1.2]),
               filter: useTransform(smoothProgress, [0, 0.15], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]),
            }}
-           className="absolute z-20 pointer-events-none w-full px-6 md:px-12 lg:px-20"
+           className="absolute z-20 pointer-events-none w-full px-6 md:px-12 lg:px-16"
         >
-           <div className="flex items-center justify-between max-w-[1400px] mx-auto">
+           <div className="flex items-center justify-center gap-8 lg:gap-16 max-w-[1400px] mx-auto">
              <h1 className="text-[11vw] md:text-[9vw] font-bold font-display leading-[0.85] tracking-tighter text-white mix-blend-difference">
                 CATCH IT<br/>
                 MATCH IT<br/>
@@ -124,7 +124,7 @@ export function KineticHero() {
                 </span> IT
              </h1>
 
-             <div className="hidden md:block flex-shrink-0 ml-8">
+             <div className="hidden md:block flex-shrink-0">
                <IPhoneMockup />
              </div>
            </div>
