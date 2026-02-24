@@ -161,7 +161,7 @@ function ScrollingComments() {
 
 function IPhoneLiveStreamMockup() {
   return (
-    <div className="relative" style={{ transform: "perspective(1200px) rotateY(-6deg) rotateX(2deg)" }}>
+    <div className="relative">
       <div className="absolute -inset-10 bg-primary/8 rounded-[3rem] blur-3xl" />
       <div className="absolute -inset-6 bg-primary/4 rounded-[2.5rem] blur-2xl" />
 
