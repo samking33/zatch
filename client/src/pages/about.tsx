@@ -179,11 +179,11 @@ export default function AboutPage() {
                   <div className={`relative rounded-[2rem] overflow-hidden bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.12] transition-all duration-700 ${member.photo ? '' : ''}`}>
                     <div className={`flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-stretch`}>
                       {member.photo ? (
-                        <div className="relative w-full md:w-[380px] lg:w-[420px] shrink-0 aspect-[4/5] md:aspect-auto overflow-hidden">
+                        <div className="relative w-full md:w-[380px] lg:w-[420px] shrink-0 aspect-square overflow-hidden">
                           <img
                             src={member.photo}
                             alt={member.name}
-                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                           />
                           <div className={`absolute inset-0 bg-gradient-to-${i % 2 === 0 ? 'r' : 'l'} from-transparent via-transparent to-black/60 hidden md:block`} />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent md:hidden" />
@@ -193,7 +193,7 @@ export default function AboutPage() {
                           </div>
                         </div>
                       ) : (
-                        <div className="relative w-full md:w-[380px] lg:w-[420px] shrink-0 aspect-[4/5] md:aspect-auto overflow-hidden bg-gradient-to-br from-[#cafe38]/[0.08] to-transparent flex items-center justify-center">
+                        <div className="relative w-full md:w-[380px] lg:w-[420px] shrink-0 aspect-square overflow-hidden bg-gradient-to-br from-[#cafe38]/[0.08] to-transparent flex items-center justify-center">
                           <div className="w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br from-[#cafe38]/20 to-[#cafe38]/5 border border-[#cafe38]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                             <span className="text-5xl md:text-6xl font-bold text-[#cafe38] font-display">{member.initials}</span>
                           </div>
