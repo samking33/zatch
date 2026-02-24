@@ -164,25 +164,45 @@ function IPhoneMockup({ scrollProgress }: { scrollProgress: MotionValue<number> 
       style={{ scale: phoneScale }}
       className="relative w-[300px] lg:w-[340px] xl:w-[380px] pointer-events-auto"
     >
-      <div className="relative rounded-[3rem] border-[3px] border-white/20 bg-black overflow-hidden shadow-2xl shadow-black/50"
-           style={{ aspectRatio: "9/19.5" }}>
-        
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120px] h-[34px] bg-black rounded-b-[1.2rem] z-30" />
-        <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[8px] h-[8px] bg-[#1a1a2e] rounded-full z-30 border border-[#2a2a3e]" />
+      <div className="absolute -left-[3px] top-[18%] w-[3px] h-[6%] rounded-l-sm z-40"
+           style={{ background: "linear-gradient(to right, #5a5a60, #8a8a90, #6a6a70)" }} />
+      <div className="absolute -left-[3px] top-[26%] w-[3px] h-[8%] rounded-l-sm z-40"
+           style={{ background: "linear-gradient(to right, #5a5a60, #8a8a90, #6a6a70)" }} />
+      <div className="absolute -left-[3px] top-[36%] w-[3px] h-[8%] rounded-l-sm z-40"
+           style={{ background: "linear-gradient(to right, #5a5a60, #8a8a90, #6a6a70)" }} />
+      <div className="absolute -right-[3px] top-[30%] w-[3px] h-[10%] rounded-r-sm z-40"
+           style={{ background: "linear-gradient(to left, #5a5a60, #8a8a90, #6a6a70)" }} />
 
-        <div className="absolute top-0 left-0 right-0 h-[50px] z-20 flex items-end justify-between px-6 pb-1">
-          <span className="text-white text-[13px] font-semibold">9:41</span>
-          <div className="flex items-center gap-1.5">
-            <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="6" width="3" height="6" rx="0.5"/><rect x="4.5" y="4" width="3" height="8" rx="0.5"/><rect x="9" y="2" width="3" height="10" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity="0.3"/></svg>
-            <svg width="15" height="12" viewBox="0 0 15 12" fill="white"><path d="M7.5 3.6C9.4 3.6 11.1 4.3 12.3 5.5L13.7 4.1C12.1 2.5 10 1.5 7.5 1.5C5 1.5 2.9 2.5 1.3 4.1L2.7 5.5C3.9 4.3 5.6 3.6 7.5 3.6Z" opacity="0.3"/><path d="M7.5 6.7C8.8 6.7 10 7.2 10.9 8L12.3 6.6C11 5.4 9.3 4.6 7.5 4.6C5.7 4.6 4 5.4 2.7 6.6L4.1 8C5 7.2 6.2 6.7 7.5 6.7Z"/><circle cx="7.5" cy="10.5" r="1.5"/></svg>
-            <div className="flex items-center">
-              <div className="w-[22px] h-[11px] border border-white rounded-[3px] relative">
-                <div className="absolute inset-[1.5px] right-[3px] bg-primary rounded-[1.5px]" />
+      <div className="relative rounded-[3.2rem] p-[4px]"
+           style={{ 
+             aspectRatio: "9/19.5",
+             background: "linear-gradient(145deg, #8a8a90, #4a4a50, #6a6a70, #3a3a40, #7a7a80)",
+             boxShadow: "0 0 0 1px rgba(255,255,255,0.08), 0 25px 60px -12px rgba(0,0,0,0.7), 0 10px 20px rgba(0,0,0,0.5), -5px 0 15px rgba(0,0,0,0.3), 5px 0 15px rgba(0,0,0,0.3)"
+           }}>
+        
+        <div className="relative w-full h-full rounded-[2.9rem] bg-black overflow-hidden"
+             style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)" }}>
+        
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[126px] h-[36px] bg-black rounded-b-[1.4rem] z-30 flex items-center justify-center gap-2"
+               style={{ boxShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+            <div className="w-[10px] h-[10px] rounded-full z-30"
+                 style={{ background: "radial-gradient(circle at 35% 35%, #2a2a3e 0%, #0d0d1a 60%, #1a1a2e 100%)", border: "1px solid #2a2a3e" }} />
+          </div>
+
+          <div className="absolute top-0 left-0 right-0 h-[50px] z-20 flex items-end justify-between px-6 pb-1">
+            <span className="text-white text-[13px] font-semibold" style={{ fontFeatureSettings: "'tnum'" }}>9:41</span>
+            <div className="flex items-center gap-1.5">
+              <svg width="17" height="12" viewBox="0 0 17 12" fill="white"><rect x="0" y="6" width="3" height="6" rx="0.7"/><rect x="4.5" y="4" width="3" height="8" rx="0.7"/><rect x="9" y="1.5" width="3" height="10.5" rx="0.7"/><rect x="13.5" y="0" width="3" height="12" rx="0.7" opacity="0.35"/></svg>
+              <svg width="15" height="12" viewBox="0 0 15 12" fill="white"><path d="M7.5 3.6C9.4 3.6 11.1 4.3 12.3 5.5L13.7 4.1C12.1 2.5 10 1.5 7.5 1.5C5 1.5 2.9 2.5 1.3 4.1L2.7 5.5C3.9 4.3 5.6 3.6 7.5 3.6Z" opacity="0.35"/><path d="M7.5 6.7C8.8 6.7 10 7.2 10.9 8L12.3 6.6C11 5.4 9.3 4.6 7.5 4.6C5.7 4.6 4 5.4 2.7 6.6L4.1 8C5 7.2 6.2 6.7 7.5 6.7Z"/><circle cx="7.5" cy="10.5" r="1.5"/></svg>
+              <div className="flex items-center">
+                <div className="w-[24px] h-[12px] border-[1.5px] border-white rounded-[3.5px] relative">
+                  <div className="absolute inset-[1.5px] right-[3px] rounded-[1.5px]"
+                       style={{ background: "linear-gradient(to right, #cafe38, #b8e030)" }} />
+                </div>
+                <div className="w-[2px] h-[5px] bg-white/50 rounded-r-full ml-[0.5px]" />
               </div>
-              <div className="w-[1.5px] h-[5px] bg-white rounded-r-full ml-[0.5px]" />
             </div>
           </div>
-        </div>
 
         <motion.div style={{ opacity: liveOpacity }} className="absolute inset-0 z-10">
           <div className="absolute inset-0" id="hero-video-placeholder" data-testid="hero-video-placeholder">
@@ -303,6 +323,8 @@ function IPhoneMockup({ scrollProgress }: { scrollProgress: MotionValue<number> 
             <div className="mt-6 mx-auto w-[134px] h-[5px] bg-white/30 rounded-full" />
           </div>
         </motion.div>
+
+        </div>
       </div>
 
       <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-primary/20 blur-2xl rounded-full" />
