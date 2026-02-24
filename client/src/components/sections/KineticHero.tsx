@@ -319,7 +319,7 @@ export function KineticHero() {
     <section 
       id="hero"
       ref={containerRef} 
-      className="h-[130vh] relative bg-black"
+      className="h-[105vh] relative bg-black"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-black">
         
@@ -367,9 +367,17 @@ export function KineticHero() {
         
         <motion.div 
            style={{ opacity: useTransform(smoothProgress, [0, 0.15], [1, 0]) }}
-           className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 text-sm uppercase tracking-widest animate-pulse pointer-events-none z-30"
+           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-30"
         >
-           Scroll to Explore
+           <span className="text-white/50 text-sm uppercase tracking-widest">Scroll to Explore</span>
+           <motion.svg
+             animate={{ y: [0, 6, 0] }}
+             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+             width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/50"
+           >
+             <path d="M7 13l5 5 5-5" />
+             <path d="M7 6l5 5 5-5" />
+           </motion.svg>
         </motion.div>
 
       </div>
