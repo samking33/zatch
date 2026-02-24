@@ -1,14 +1,14 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
-import screenBrowse from "@assets/1_1771960705703.png";
-import screenBargain from "@assets/2_1771960705705.png";
-import screenDone from "@assets/3_1771960705706.png";
+import screenCatalogue from "@assets/zatch-way/screen-catalogue.jpg";
+import screenBargain from "@assets/zatch-way/screen-bargain.jpg";
+import screenOffer from "@assets/zatch-way/screen-offer.jpg";
 
 
 const screens = [
   {
-    image: screenBrowse,
+    image: screenCatalogue,
     step: "01",
     title: "Browse & Pick",
     desc: "Explore live catalogues from real sellers",
@@ -20,7 +20,7 @@ const screens = [
     desc: "Slide to your bargain price - no awkward DMs",
   },
   {
-    image: screenDone,
+    image: screenOffer,
     step: "03",
     title: "Deal Done",
     desc: "Accept the seller's offer and pay instantly",
@@ -93,7 +93,7 @@ export function ZatchWay() {
                   <img
                     src={screen.image}
                     alt={screen.title}
-                    className="w-full aspect-[9/19.5] object-cover object-center"
+                    className="w-full aspect-[9/19] object-cover object-top"
                     loading="lazy"
                     data-testid={`img-zatch-screen-${screen.step}`}
                   />
