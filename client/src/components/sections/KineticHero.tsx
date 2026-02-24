@@ -85,11 +85,16 @@ export function KineticHero() {
     }));
   }, []);
 
+  const textOpacity = useTransform(smoothProgress, [0.4, 0.7], [1, 0]);
+  const textScale = useTransform(smoothProgress, [0.4, 0.7], [1, 1.2]);
+  const textFilter = useTransform(smoothProgress, [0.4, 0.55], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]);
+  const scrollCTAOpacity = useTransform(smoothProgress, [0, 0.1], [1, 0]);
+
   return (
     <section 
       id="hero"
       ref={containerRef} 
-      className="h-[130vh] relative bg-black"
+      className="h-[300vh] relative bg-black"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-black">
         
@@ -107,9 +112,9 @@ export function KineticHero() {
            <div className="flex items-center justify-between max-w-[1400px] mx-auto w-full">
              <motion.h1
                 style={{ 
-                  opacity: useTransform(smoothProgress, [0, 0.3], [1, 0]),
-                  scale: useTransform(smoothProgress, [0, 0.3], [1, 1.2]),
-                  filter: useTransform(smoothProgress, [0, 0.15], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]),
+                  opacity: textOpacity,
+                  scale: textScale,
+                  filter: textFilter,
                 }}
                 className="text-[11vw] md:text-[9vw] font-bold font-display leading-[0.85] tracking-tighter text-white mix-blend-difference origin-left"
              >
@@ -131,7 +136,7 @@ export function KineticHero() {
         </div>
         
         <motion.div 
-           style={{ opacity: useTransform(smoothProgress, [0, 0.15], [1, 0]) }}
+           style={{ opacity: scrollCTAOpacity }}
            className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 text-sm uppercase tracking-widest animate-pulse pointer-events-none z-30"
         >
            Scroll to Explore
@@ -143,10 +148,10 @@ export function KineticHero() {
 }
 
 function IPhoneMockup({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
-  const liveOpacity = useTransform(scrollProgress, [0, 0.15, 0.25], [1, 1, 0]);
-  const zatchiOpacity = useTransform(scrollProgress, [0.15, 0.25, 0.35], [0, 0, 1]);
-  const zatchiScale = useTransform(scrollProgress, [0.2, 0.35], [0.9, 1]);
-  const phoneScale = useTransform(scrollProgress, [0.1, 0.3], [1, 1.05]);
+  const liveOpacity = useTransform(scrollProgress, [0, 0.08, 0.18], [1, 1, 0]);
+  const zatchiOpacity = useTransform(scrollProgress, [0.1, 0.18, 0.25], [0, 0, 1]);
+  const zatchiScale = useTransform(scrollProgress, [0.15, 0.25], [0.9, 1]);
+  const phoneScale = useTransform(scrollProgress, [0.05, 0.2], [1, 1.05]);
 
   const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app";
   const QR_SRC = `https://api.qrserver.com/api/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(PLAY_STORE_URL)}&bgcolor=000000&color=cafe38&margin=8`;
@@ -303,11 +308,11 @@ function IPhoneMockup({ scrollProgress }: { scrollProgress: MotionValue<number> 
 }
 
 function GridItem({ item, scrollYProgress }: any) {
-  const y = useTransform(scrollYProgress, [0, 1], [0, item.randomY + "%"]);
-  const x = useTransform(scrollYProgress, [0, 1], [0, item.randomX + "%"]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, item.randomRotate]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  const y = useTransform(scrollYProgress, [0.35, 1], [0, item.randomY + "%"]);
+  const x = useTransform(scrollYProgress, [0.35, 1], [0, item.randomX + "%"]);
+  const rotate = useTransform(scrollYProgress, [0.35, 1], [0, item.randomRotate]);
+  const scale = useTransform(scrollYProgress, [0.35, 0.75], [1, 0]);
+  const opacity = useTransform(scrollYProgress, [0.35, 0.65], [1, 0]);
 
   return (
     <motion.div
