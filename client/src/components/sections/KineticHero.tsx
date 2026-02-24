@@ -162,18 +162,32 @@ function ScrollingComments() {
 function IPhoneLiveStreamMockup() {
   return (
     <div className="relative" style={{ transform: "perspective(1200px) rotateY(-6deg) rotateX(2deg)" }}>
-      <div className="absolute -inset-10 bg-primary/8 rounded-[4rem] blur-3xl" />
-      <div className="absolute -inset-6 bg-primary/4 rounded-[3rem] blur-2xl" />
+      <div className="absolute -inset-10 bg-primary/8 rounded-[3rem] blur-3xl" />
+      <div className="absolute -inset-6 bg-primary/4 rounded-[2.5rem] blur-2xl" />
 
       <div
-        className="relative w-[200px] lg:w-[240px] xl:w-[270px] rounded-[2.2rem] lg:rounded-[2.5rem] overflow-hidden"
+        className="relative w-[200px] lg:w-[240px] xl:w-[270px] rounded-[2rem] lg:rounded-[2.2rem] overflow-hidden"
         style={{
-          aspectRatio: "390/844",
-          background: "#1a1a1a",
-          boxShadow: "0 0 0 2px rgba(120,120,120,0.3), 0 0 0 4px rgba(60,60,60,0.2), 0 25px 80px rgba(0,0,0,0.7), 0 0 60px rgba(202,254,56,0.08), inset 0 0 1px rgba(255,255,255,0.1)",
+          aspectRatio: "414/896",
+          background: "linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #111 100%)",
+          boxShadow: "0 0 0 1.5px rgba(80,80,80,0.5), 0 0 0 3px rgba(40,40,40,0.4), 0 0 0 5px rgba(20,20,20,0.3), 0 25px 80px rgba(0,0,0,0.7), 0 0 60px rgba(202,254,56,0.08), inset 0 1px 0 rgba(255,255,255,0.08)",
         }}
       >
-        <div className="absolute inset-[3px] rounded-[2.3rem] lg:rounded-[2.8rem] overflow-hidden bg-black">
+        <div
+          className="absolute left-1/2 -translate-x-1/2 top-[2px] z-30 flex items-center justify-center gap-[6px]"
+          style={{ width: "45%", height: "20px", background: "#0a0a0a", borderRadius: "0 0 14px 14px" }}
+        >
+          <div className="w-[4px] h-[4px] rounded-full bg-gray-700 ring-1 ring-gray-600/50" />
+          <div className="w-[6px] h-[6px] rounded-full" style={{ background: "linear-gradient(135deg, #1a1a2e, #0d0d1a)", boxShadow: "inset 0 0 2px rgba(50,50,80,0.5), 0 0 1px rgba(100,100,150,0.3)" }} />
+          <div className="w-[4px] h-[4px] rounded-full bg-gray-700" />
+        </div>
+
+        <div
+          className="absolute top-[1px] left-[1px] right-[1px] h-[6px] z-20 rounded-t-[2rem] lg:rounded-t-[2.2rem]"
+          style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%)" }}
+        />
+
+        <div className="absolute inset-[4px] rounded-[1.8rem] lg:rounded-[2rem] overflow-hidden bg-black">
           <img
             src={heroLivestreamBg}
             alt="Live Stream"
@@ -181,8 +195,8 @@ function IPhoneLiveStreamMockup() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70" />
 
-          <div className="absolute top-0 left-0 right-0 z-10">
-            <div className="flex items-center justify-between px-5 pt-2">
+          <div className="absolute top-0 left-0 right-0 z-10 pt-[22px]">
+            <div className="flex items-center justify-between px-4">
               <span className="text-[8px] font-semibold text-white">9:41</span>
               <div className="flex items-center gap-[3px]">
                 <svg width="10" height="8" viewBox="0 0 16 12" fill="white"><path d="M1 8h2v4H1V8zm4-3h2v7H5V5zm4-3h2v10H9V2zm4-2h2v12h-2V0z"/></svg>
@@ -192,37 +206,35 @@ function IPhoneLiveStreamMockup() {
                 </div>
               </div>
             </div>
-
-            <div className="w-[72px] lg:w-[85px] h-[22px] lg:h-[26px] bg-black rounded-full mx-auto mt-[1px]" />
           </div>
 
-          <div className="absolute top-10 lg:top-12 left-0 right-0 px-3 z-10">
+          <div className="absolute top-[38px] lg:top-[42px] left-0 right-0 px-3 z-10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-[6px]">
-                <div className="w-[28px] h-[28px] lg:w-[32px] lg:h-[32px] rounded-full overflow-hidden ring-2 ring-primary/60 flex-shrink-0" style={{ background: "linear-gradient(135deg, #cafe38, #8fb825)" }}>
-                  <div className="w-full h-full flex items-center justify-center text-black font-bold text-[9px] lg:text-[10px]">BC</div>
+                <div className="w-[26px] h-[26px] lg:w-[30px] lg:h-[30px] rounded-full overflow-hidden ring-2 ring-primary/60 flex-shrink-0" style={{ background: "linear-gradient(135deg, #cafe38, #8fb825)" }}>
+                  <div className="w-full h-full flex items-center justify-center text-black font-bold text-[8px] lg:text-[9px]">BC</div>
                 </div>
                 <div className="flex flex-col">
                   <div className="flex items-center gap-[4px]">
-                    <span className="text-[9px] lg:text-[10px] font-bold text-white">BCE Perfumes</span>
-                    <span className="bg-red-500 text-white text-[6px] lg:text-[7px] font-bold px-[5px] py-[1px] rounded-full animate-pulse shadow-lg shadow-red-500/50">LIVE</span>
+                    <span className="text-[8px] lg:text-[9px] font-bold text-white">BCE Perfumes</span>
+                    <span className="bg-red-500 text-white text-[5px] lg:text-[6px] font-bold px-[4px] py-[1px] rounded-full animate-pulse shadow-lg shadow-red-500/50">LIVE</span>
                   </div>
-                  <span className="text-[7px] lg:text-[8px] text-white/60">2.2K viewers</span>
+                  <span className="text-[6px] lg:text-[7px] text-white/60">2.2K viewers</span>
                 </div>
               </div>
-              <div className="w-[22px] h-[22px] lg:w-[26px] lg:h-[26px] rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)" }}>
-                <svg width="10" height="10" viewBox="0 0 24 24" stroke="white" strokeWidth="2.5" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <div className="w-[20px] h-[20px] lg:w-[24px] lg:h-[24px] rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)" }}>
+                <svg width="9" height="9" viewBox="0 0 24 24" stroke="white" strokeWidth="2.5" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg>
               </div>
             </div>
 
             <motion.div
               animate={{ opacity: [0.6, 1, 0.6] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="mt-2 flex items-center gap-[4px] px-[8px] py-[4px] rounded-xl w-fit"
+              className="mt-2 flex items-center gap-[4px] px-[7px] py-[3px] rounded-xl w-fit"
               style={{ background: "rgba(202,254,56,0.12)", backdropFilter: "blur(12px)", border: "1px solid rgba(202,254,56,0.2)" }}
             >
-              <div className="w-[6px] h-[6px] rounded-full bg-primary animate-pulse" />
-              <span className="text-[7px] lg:text-[8px] text-primary font-semibold">Bargain Open · ₹899</span>
+              <div className="w-[5px] h-[5px] rounded-full bg-primary animate-pulse" />
+              <span className="text-[6px] lg:text-[7px] text-primary font-semibold">Bargain Open · ₹899</span>
             </motion.div>
           </div>
 
@@ -234,23 +246,23 @@ function IPhoneLiveStreamMockup() {
             </div>
 
             <div className="px-3 pb-3 pt-1">
-              <div className="flex items-center gap-[6px]">
+              <div className="flex items-center gap-[5px]">
                 <div
-                  className="flex-1 h-[26px] lg:h-[30px] rounded-full flex items-center px-3"
+                  className="flex-1 h-[24px] lg:h-[28px] rounded-full flex items-center px-3"
                   style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.1)" }}
                 >
-                  <span className="text-[8px] text-white/40">Comment...</span>
+                  <span className="text-[7px] text-white/40">Comment...</span>
                 </div>
-                <div className="w-[26px] h-[26px] lg:w-[30px] lg:h-[30px] rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.1)" }}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#ff4d6d"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <div className="w-[24px] h-[24px] lg:w-[28px] lg:h-[28px] rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.1)" }}>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#ff4d6d"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                 </div>
-                <div className="w-[26px] h-[26px] lg:w-[30px] lg:h-[30px] rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.1)" }}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="white" opacity="0.7"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                <div className="w-[24px] h-[24px] lg:w-[28px] lg:h-[28px] rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.1)" }}>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="white" opacity="0.7"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </div>
               </div>
             </div>
 
-            <div className="w-[100px] lg:w-[120px] h-[4px] bg-white/30 rounded-full mx-auto mb-2" />
+            <div className="w-[90px] lg:w-[110px] h-[4px] bg-white/30 rounded-full mx-auto mb-2" />
           </div>
 
           <div
@@ -268,11 +280,16 @@ function IPhoneLiveStreamMockup() {
         </div>
 
         <div
-          className="absolute inset-0 rounded-[2.5rem] lg:rounded-[3rem] pointer-events-none"
+          className="absolute inset-0 rounded-[2rem] lg:rounded-[2.2rem] pointer-events-none"
           style={{
-            background: "linear-gradient(160deg, rgba(255,255,255,0.12) 0%, transparent 25%, transparent 75%, rgba(255,255,255,0.04) 100%)",
+            background: "linear-gradient(160deg, rgba(255,255,255,0.1) 0%, transparent 20%, transparent 80%, rgba(255,255,255,0.03) 100%)",
           }}
         />
+
+        <div className="absolute left-[-2px] top-[25%] w-[3px] h-[18px] rounded-l-sm" style={{ background: "linear-gradient(180deg, #333, #222)" }} />
+        <div className="absolute left-[-2px] top-[33%] w-[3px] h-[28px] rounded-l-sm" style={{ background: "linear-gradient(180deg, #333, #222)" }} />
+        <div className="absolute left-[-2px] top-[42%] w-[3px] h-[28px] rounded-l-sm" style={{ background: "linear-gradient(180deg, #333, #222)" }} />
+        <div className="absolute right-[-2px] top-[30%] w-[3px] h-[35px] rounded-r-sm" style={{ background: "linear-gradient(180deg, #333, #222)" }} />
       </div>
     </div>
   );
