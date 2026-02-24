@@ -360,7 +360,7 @@ export function KineticHero() {
               opacity: useTransform(smoothProgress, [0, 0.3], [1, 0]),
               y: useTransform(smoothProgress, [0, 0.3], [0, 60]),
            }}
-           className="absolute z-20 left-[8%] md:left-[10%] lg:left-[12%] bottom-[12%] md:bottom-[14%]"
+           className="absolute z-20 left-1/2 -translate-x-1/2 bottom-[18%] md:bottom-[20%]"
         >
            <a href="/download" className="group flex items-center gap-5 px-5 py-4 rounded-2xl pointer-events-auto" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(20px)" }}>
              <div className="relative w-[90px] h-[90px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden ring-1 ring-white/15 group-hover:ring-primary/50 transition-all duration-300 bg-white p-1.5">
