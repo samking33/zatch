@@ -11,6 +11,9 @@ import avatarVikram from "@/assets/sellers/avatar-vikram.png";
 import avatarMeera from "@/assets/sellers/avatar-meera.png";
 import avatarArjun from "@/assets/sellers/avatar-arjun.png";
 import liveStreamImg from "@/assets/sellers/live-stream-sarees.png";
+import zatchScreen1 from "@assets/1_1771960705703.png";
+import zatchScreen2 from "@assets/2_1771960705705.png";
+import zatchScreen3 from "@assets/3_1771960705706.png";
 
 function WhatsAppChat() {
   return (
@@ -466,46 +469,31 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                   </div>
                 </div>
 
-                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3 overflow-hidden">
-                  <div className="space-y-3">
-                    <ZatchLiveStream />
-                    <ZatchPaymentCard />
-                  </div>
-                  <div className="space-y-3 hidden md:block">
-                    <ZatchNegotiationCard />
-
-                    <div className="bg-[#0a0f0a] rounded-2xl border border-[#cafe38]/10 p-3">
-                      <span className="text-[10px] text-[#cafe38]/60 font-bold uppercase tracking-wider">Today's Summary</span>
-                      <div className="grid grid-cols-3 gap-3 mt-3">
-                        {[
-                          { label: "Sales", value: "₹24.5K", icon: TrendingUp },
-                          { label: "Orders", value: "18", icon: IndianRupee },
-                          { label: "Time Saved", value: "4.2h", icon: Clock },
-                        ].map((s, i) => (
-                          <div key={i} className="text-center py-2 rounded-xl bg-[#cafe38]/5 border border-[#cafe38]/10">
-                            <s.icon className="w-3 h-3 text-[#cafe38]/50 mx-auto mb-1" />
-                            <p className="text-[13px] text-[#cafe38] font-bold">{s.value}</p>
-                            <p className="text-[8px] text-white/20 uppercase tracking-wider">{s.label}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="bg-[#0a0f0a] rounded-2xl border border-[#cafe38]/10 p-3">
-                      <span className="text-[10px] text-[#cafe38]/60 font-bold uppercase tracking-wider">Activity Feed</span>
-                      <div className="mt-2 space-y-2">
-                        {[
-                          "Auto-negotiation closed at ₹850",
-                          "Payment received from Priya M.",
-                          "New viewer milestone: 500+",
-                        ].map((a, i) => (
-                          <div key={i} className="flex items-center gap-2 py-1">
-                            <div className="w-1 h-1 rounded-full bg-[#cafe38]/50" />
-                            <span className="text-[10px] text-white/35">{a}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                <div className="flex-1 flex items-center justify-center overflow-hidden py-2">
+                  <div className="flex items-end justify-center gap-3 md:gap-5 h-full">
+                    {[
+                      { img: zatchScreen1, label: "Your Catalogue" },
+                      { img: zatchScreen2, label: "Bargain" },
+                      { img: zatchScreen3, label: "Deal Closed" },
+                    ].map((screen, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 + i * 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex flex-col items-center gap-2"
+                      >
+                        <div className="relative rounded-2xl md:rounded-[1.25rem] overflow-hidden border border-[#cafe38]/15 shadow-[0_4px_40px_rgba(202,254,56,0.08)] hover:shadow-[0_8px_50px_rgba(202,254,56,0.15)] hover:border-[#cafe38]/30 transition-all duration-500">
+                          <img
+                            src={screen.img}
+                            alt={screen.label}
+                            className="w-[100px] md:w-[160px] lg:w-[190px] h-auto object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                        <span className="text-[8px] md:text-[10px] text-[#cafe38]/50 font-bold uppercase tracking-widest">{screen.label}</span>
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
               </div>
