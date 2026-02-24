@@ -1,5 +1,5 @@
 import { useRef, useMemo } from "react";
-import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 import streamFashion from "@/assets/kinetic/stream-fashion.png";
 import streamTech from "@/assets/kinetic/stream-tech.png";
@@ -85,16 +85,11 @@ export function KineticHero() {
     }));
   }, []);
 
-  const textOpacity = useTransform(smoothProgress, [0.4, 0.7], [1, 0]);
-  const textScale = useTransform(smoothProgress, [0.4, 0.7], [1, 1.2]);
-  const textFilter = useTransform(smoothProgress, [0.4, 0.55], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]);
-  const scrollCTAOpacity = useTransform(smoothProgress, [0, 0.1], [1, 0]);
-
   return (
     <section 
       id="hero"
       ref={containerRef} 
-      className="h-[300vh] relative bg-black"
+      className="h-[130vh] relative bg-black"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-black">
         
@@ -108,15 +103,15 @@ export function KineticHero() {
           ))}
         </div>
 
-        <div className="absolute z-20 pointer-events-none w-full h-full">
-           <motion.h1
-              style={{ 
-                opacity: textOpacity,
-                scale: textScale,
-                filter: textFilter,
-              }}
-              className="absolute left-[3vw] md:left-[4vw] lg:left-[5vw] top-1/2 -translate-y-[45%] text-[14vw] md:text-[11vw] lg:text-[10vw] font-bold font-display leading-[0.88] tracking-tighter text-white mix-blend-difference origin-left z-10"
-           >
+        <motion.div 
+           style={{ 
+              opacity: useTransform(smoothProgress, [0, 0.3], [1, 0]),
+              scale: useTransform(smoothProgress, [0, 0.3], [1, 1.2]),
+              filter: useTransform(smoothProgress, [0, 0.15], ["brightness(1) contrast(1)", "brightness(1.5) contrast(1.2)"]),
+           }}
+           className="absolute z-20 pointer-events-none text-center mix-blend-difference"
+        >
+           <h1 className="text-[12vw] font-bold font-display leading-[0.8] tracking-tighter text-white">
               CATCH IT<br/>
               MATCH IT<br/>
               <span className="relative inline-block text-primary italic pr-4">
@@ -126,18 +121,11 @@ export function KineticHero() {
                 <span className="absolute top-[70%] -left-24 w-4/5 h-[1.5px] bg-primary/40 blur-[0.5px]" />
                 <span className="absolute inset-0 translate-x-1 translate-y-0 opacity-50 mix-blend-screen blur-[1px] skew-x-12 scale-x-110 bg-gradient-to-r from-transparent via-primary/20 to-transparent -z-10"></span>
               </span> IT
-           </motion.h1>
-
-           <motion.div
-              style={{ opacity: textOpacity, scale: textScale }}
-              className="hidden md:block absolute right-[4vw] lg:right-[6vw] top-1/2 -translate-y-[48%] origin-center z-20"
-           >
-             <IPhoneMockup scrollProgress={smoothProgress} />
-           </motion.div>
-        </div>
+           </h1>
+        </motion.div>
         
         <motion.div 
-           style={{ opacity: scrollCTAOpacity }}
+           style={{ opacity: useTransform(smoothProgress, [0, 0.15], [1, 0]) }}
            className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 text-sm uppercase tracking-widest animate-pulse pointer-events-none z-30"
         >
            Scroll to Explore
@@ -148,194 +136,12 @@ export function KineticHero() {
   );
 }
 
-function IPhoneMockup({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
-  const liveOpacity = useTransform(scrollProgress, [0, 0.08, 0.18], [1, 1, 0]);
-  const zatchiOpacity = useTransform(scrollProgress, [0.1, 0.18, 0.25], [0, 0, 1]);
-  const zatchiScale = useTransform(scrollProgress, [0.15, 0.25], [0.9, 1]);
-  const phoneScale = useTransform(scrollProgress, [0.05, 0.2], [1, 1.05]);
-
-  const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app";
-  const QR_SRC = `https://api.qrserver.com/api/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(PLAY_STORE_URL)}&bgcolor=000000&color=cafe38&margin=8`;
-
-  return (
-    <motion.div
-      style={{ scale: phoneScale }}
-      className="relative w-[260px] md:w-[280px] lg:w-[320px] xl:w-[350px] pointer-events-auto"
-    >
-      <div className="absolute -left-[3px] top-[18%] w-[3px] h-[6%] rounded-l-sm z-40"
-           style={{ background: "linear-gradient(to right, #5a5a60, #8a8a90, #6a6a70)" }} />
-      <div className="absolute -left-[3px] top-[26%] w-[3px] h-[8%] rounded-l-sm z-40"
-           style={{ background: "linear-gradient(to right, #5a5a60, #8a8a90, #6a6a70)" }} />
-      <div className="absolute -left-[3px] top-[36%] w-[3px] h-[8%] rounded-l-sm z-40"
-           style={{ background: "linear-gradient(to right, #5a5a60, #8a8a90, #6a6a70)" }} />
-      <div className="absolute -right-[3px] top-[30%] w-[3px] h-[10%] rounded-r-sm z-40"
-           style={{ background: "linear-gradient(to left, #5a5a60, #8a8a90, #6a6a70)" }} />
-
-      <div className="relative rounded-[3.2rem] p-[4px]"
-           style={{ 
-             aspectRatio: "9/19.5",
-             background: "linear-gradient(145deg, #8a8a90, #4a4a50, #6a6a70, #3a3a40, #7a7a80)",
-             boxShadow: "0 0 0 1px rgba(255,255,255,0.08), 0 25px 60px -12px rgba(0,0,0,0.7), 0 10px 20px rgba(0,0,0,0.5), -5px 0 15px rgba(0,0,0,0.3), 5px 0 15px rgba(0,0,0,0.3)"
-           }}>
-        
-        <div className="relative w-full h-full rounded-[2.9rem] bg-black overflow-hidden"
-             style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)" }}>
-        
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[126px] h-[36px] bg-black rounded-b-[1.4rem] z-30 flex items-center justify-center gap-2"
-               style={{ boxShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
-            <div className="w-[10px] h-[10px] rounded-full z-30"
-                 style={{ background: "radial-gradient(circle at 35% 35%, #2a2a3e 0%, #0d0d1a 60%, #1a1a2e 100%)", border: "1px solid #2a2a3e" }} />
-          </div>
-
-          <div className="absolute top-0 left-0 right-0 h-[50px] z-20 flex items-end justify-between px-6 pb-1">
-            <span className="text-white text-[13px] font-semibold" style={{ fontFeatureSettings: "'tnum'" }}>9:41</span>
-            <div className="flex items-center gap-1.5">
-              <svg width="17" height="12" viewBox="0 0 17 12" fill="white"><rect x="0" y="6" width="3" height="6" rx="0.7"/><rect x="4.5" y="4" width="3" height="8" rx="0.7"/><rect x="9" y="1.5" width="3" height="10.5" rx="0.7"/><rect x="13.5" y="0" width="3" height="12" rx="0.7" opacity="0.35"/></svg>
-              <svg width="15" height="12" viewBox="0 0 15 12" fill="white"><path d="M7.5 3.6C9.4 3.6 11.1 4.3 12.3 5.5L13.7 4.1C12.1 2.5 10 1.5 7.5 1.5C5 1.5 2.9 2.5 1.3 4.1L2.7 5.5C3.9 4.3 5.6 3.6 7.5 3.6Z" opacity="0.35"/><path d="M7.5 6.7C8.8 6.7 10 7.2 10.9 8L12.3 6.6C11 5.4 9.3 4.6 7.5 4.6C5.7 4.6 4 5.4 2.7 6.6L4.1 8C5 7.2 6.2 6.7 7.5 6.7Z"/><circle cx="7.5" cy="10.5" r="1.5"/></svg>
-              <div className="flex items-center">
-                <div className="w-[24px] h-[12px] border-[1.5px] border-white rounded-[3.5px] relative">
-                  <div className="absolute inset-[1.5px] right-[3px] rounded-[1.5px]"
-                       style={{ background: "linear-gradient(to right, #cafe38, #b8e030)" }} />
-                </div>
-                <div className="w-[2px] h-[5px] bg-white/50 rounded-r-full ml-[0.5px]" />
-              </div>
-            </div>
-          </div>
-
-        <motion.div style={{ opacity: liveOpacity }} className="absolute inset-0 z-10">
-          <div className="absolute inset-0" id="hero-video-placeholder" data-testid="hero-video-placeholder">
-            <div className="w-full h-full bg-gradient-to-b from-[#1a1a2e] via-[#16213e] to-[#0f0f23] flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full border-2 border-white/20 flex items-center justify-center mx-auto mb-3">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-40 ml-1">
-                    <polygon points="5 3 19 12 5 21 5 3" fill="white" fillOpacity="0.4"/>
-                  </svg>
-                </div>
-                <span className="text-white/30 text-xs uppercase tracking-widest">Video Placeholder</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute top-[55px] left-0 right-0 z-20 px-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-black font-bold text-sm">Z</div>
-                <div>
-                  <div className="text-white text-[13px] font-semibold leading-tight">Zatch Store</div>
-                  <div className="text-white/50 text-[10px]">2.7K viewers</div>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="bg-red-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-md tracking-wide">LIVE</div>
-                <div className="flex items-center gap-1 bg-white/10 backdrop-blur-sm rounded-full px-2 py-0.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zM12 17c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5zm0-8c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"/></svg>
-                  <span className="text-white text-[10px] font-medium">55K</span>
-                </div>
-                <button className="text-white/70">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute bottom-0 left-0 right-0 z-20 px-4 pb-8">
-            <div className="space-y-2.5 mb-4">
-              <div className="flex items-start gap-2">
-                <div className="w-6 h-6 rounded-full bg-blue-500/40 flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="text-white/70 text-[11px] font-semibold">rahul_deals</span>
-                  <span className="text-[9px] text-primary/70 ml-1">Host</span>
-                  <p className="text-white/50 text-[10px] leading-tight">Check out these amazing deals!</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-2">
-                <div className="w-6 h-6 rounded-full bg-purple-500/40 flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="text-white/70 text-[11px] font-semibold">sneha_m</span>
-                  <p className="text-white/50 text-[10px] leading-tight">What's the price?</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-2">
-                <div className="w-6 h-6 rounded-full bg-orange-500/40 flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="text-white/70 text-[11px] font-semibold">priya_shops99</span>
-                  <p className="text-white/50 text-[10px] leading-tight">Can I bargain on this?</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/10">
-                <span className="text-white/30 text-[11px]">Comment...</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="white" opacity="0.6"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-                </div>
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="white" opacity="0.6"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-                </div>
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" opacity="0.6"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-                </div>
-              </div>
-            </div>
-            
-            <div className="mt-3 mx-auto w-[134px] h-[5px] bg-white/30 rounded-full" />
-          </div>
-          
-          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-[15] pointer-events-none" />
-        </motion.div>
-
-        <motion.div
-          style={{ opacity: zatchiOpacity, scale: zatchiScale }}
-          className="absolute inset-0 z-10 flex flex-col items-center justify-center"
-        >
-          <div className="w-full h-full bg-black flex flex-col items-center justify-center px-8">
-            <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center mb-6">
-              <span className="text-black font-bold text-2xl font-display">Z</span>
-            </div>
-
-            <h2 className="text-white text-2xl lg:text-3xl font-bold font-display text-center leading-tight mb-2">
-              Start<br/>
-              <span className="text-primary">Zatching</span>
-            </h2>
-            <p className="text-white/40 text-[11px] text-center mb-6">Scan to download the app</p>
-
-            <div className="w-[140px] h-[140px] lg:w-[160px] lg:h-[160px] rounded-2xl overflow-hidden border-2 border-primary/30 bg-black p-1 mb-5">
-              <img 
-                src={QR_SRC}
-                alt="Download Zatch App QR Code"
-                className="w-full h-full rounded-xl"
-                data-testid="hero-qr-code"
-              />
-            </div>
-
-            <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M3 3l8.735 18L15 13l8-3.265L3 3z" fill="#cafe38"/>
-              </svg>
-              <span className="text-primary text-[11px] font-semibold">Get it on Google Play</span>
-            </div>
-
-            <div className="mt-6 mx-auto w-[134px] h-[5px] bg-white/30 rounded-full" />
-          </div>
-        </motion.div>
-
-        </div>
-      </div>
-
-      <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-primary/20 blur-2xl rounded-full" />
-    </motion.div>
-  );
-}
-
 function GridItem({ item, scrollYProgress }: any) {
-  const y = useTransform(scrollYProgress, [0.35, 1], [0, item.randomY + "%"]);
-  const x = useTransform(scrollYProgress, [0.35, 1], [0, item.randomX + "%"]);
-  const rotate = useTransform(scrollYProgress, [0.35, 1], [0, item.randomRotate]);
-  const scale = useTransform(scrollYProgress, [0.35, 0.75], [1, 0]);
-  const opacity = useTransform(scrollYProgress, [0.35, 0.65], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, item.randomY + "%"]);
+  const x = useTransform(scrollYProgress, [0, 1], [0, item.randomX + "%"]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, item.randomRotate]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
   return (
     <motion.div
