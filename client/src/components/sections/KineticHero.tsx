@@ -1,5 +1,5 @@
-import { useRef, useMemo } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef, useMemo, useEffect, useState } from "react";
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 
 import streamFashion from "@/assets/kinetic/stream-fashion.png";
 import streamTech from "@/assets/kinetic/stream-tech.png";
@@ -49,7 +49,7 @@ import streamScarves from "@/assets/kinetic/stream-scarves.png";
 import streamCoffee from "@/assets/kinetic/stream-coffee.png";
 import streamEco from "@/assets/kinetic/stream-eco.png";
 import streamArtprints from "@/assets/kinetic/stream-artprints.png";
-import heroIphoneMockup from "@/assets/kinetic/hero-iphone-mockup.png";
+import heroLivestreamBg from "@/assets/kinetic/hero-livestream-bg.png";
 
 const ALL_STREAMS = [
   streamSaree, streamShoes, streamJewelry, streamPhones,
@@ -65,6 +65,218 @@ const ALL_STREAMS = [
   streamTea, streamComics, streamJuttis, streamDrone,
   streamScarves, streamCoffee, streamEco, streamArtprints,
 ];
+
+const LIVE_COMMENTS = [
+  { user: "priya_styles", text: "Omg this smells amazing! 🔥", color: "#cafe38" },
+  { user: "rahul.k", text: "What's the price?? 💰", color: "#60a5fa" },
+  { user: "sneha_21", text: "I need this!! 😍", color: "#f472b6" },
+  { user: "arjun.m", text: "Can you show the bottle again?", color: "#a78bfa" },
+  { user: "divya_shop", text: "Just ordered! ✨", color: "#34d399" },
+  { user: "vikram.p", text: "Is this unisex?? 🙌", color: "#fbbf24" },
+  { user: "meera.r", text: "Best live ever! 💕", color: "#fb7185" },
+  { user: "amit_deals", text: "500 for 2 bottles? 🤝", color: "#38bdf8" },
+];
+
+function FloatingHearts() {
+  const [hearts, setHearts] = useState<{ id: number; x: number; delay: number; color: string }[]>([]);
+  const idRef = useRef(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const colors = ["#ff4d6d", "#ff6b8a", "#cafe38", "#ff85a1", "#f472b6"];
+      setHearts(prev => {
+        const next = [...prev, {
+          id: idRef.current++,
+          x: Math.random() * 20 - 10,
+          delay: Math.random() * 0.3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+        }];
+        return next.slice(-12);
+      });
+    }, 800);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="absolute right-2 bottom-[140px] w-10 h-[180px] overflow-hidden">
+      <AnimatePresence>
+        {hearts.map(h => (
+          <motion.div
+            key={h.id}
+            initial={{ opacity: 1, y: 160, x: h.x, scale: 0.5 }}
+            animate={{ opacity: 0, y: -20, x: h.x + (Math.random() - 0.5) * 30, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 2.5, delay: h.delay, ease: "easeOut" }}
+            className="absolute"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill={h.color}>
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function ScrollingComments() {
+  const [comments, setComments] = useState(() =>
+    LIVE_COMMENTS.slice(0, 3).map((c, i) => ({ ...c, _key: i }))
+  );
+  const keyRef = useRef(3);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setComments(prev => {
+        const idx = keyRef.current % LIVE_COMMENTS.length;
+        const next = [...prev.slice(1), { ...LIVE_COMMENTS[idx], _key: keyRef.current }];
+        keyRef.current++;
+        return next;
+      });
+    }, 2200);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex flex-col gap-[5px]">
+      <AnimatePresence mode="popLayout">
+        {comments.map((c) => (
+          <motion.div
+            key={c._key}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3 }}
+            className="flex items-start gap-[4px] px-[6px] py-[3px] rounded-lg"
+            style={{ background: "rgba(0,0,0,0.35)", backdropFilter: "blur(8px)" }}
+          >
+            <span className="text-[7px] font-semibold shrink-0" style={{ color: c.color }}>{c.user}</span>
+            <span className="text-[7px] text-white/90 leading-tight">{c.text}</span>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function IPhoneLiveStreamMockup() {
+  return (
+    <div className="relative" style={{ transform: "perspective(1200px) rotateY(-6deg) rotateX(2deg)" }}>
+      <div className="absolute -inset-10 bg-primary/8 rounded-[4rem] blur-3xl" />
+      <div className="absolute -inset-6 bg-primary/4 rounded-[3rem] blur-2xl" />
+
+      <div
+        className="relative w-[240px] lg:w-[290px] xl:w-[330px] rounded-[2.5rem] lg:rounded-[3rem] overflow-hidden"
+        style={{
+          aspectRatio: "390/844",
+          background: "#1a1a1a",
+          boxShadow: "0 0 0 2px rgba(120,120,120,0.3), 0 0 0 4px rgba(60,60,60,0.2), 0 25px 80px rgba(0,0,0,0.7), 0 0 60px rgba(202,254,56,0.08), inset 0 0 1px rgba(255,255,255,0.1)",
+        }}
+      >
+        <div className="absolute inset-[3px] rounded-[2.3rem] lg:rounded-[2.8rem] overflow-hidden bg-black">
+          <img
+            src={heroLivestreamBg}
+            alt="Live Stream"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70" />
+
+          <div className="absolute top-0 left-0 right-0 z-10">
+            <div className="flex items-center justify-between px-5 pt-2">
+              <span className="text-[8px] font-semibold text-white">9:41</span>
+              <div className="flex items-center gap-[3px]">
+                <svg width="10" height="8" viewBox="0 0 16 12" fill="white"><path d="M1 8h2v4H1V8zm4-3h2v7H5V5zm4-3h2v10H9V2zm4-2h2v12h-2V0z"/></svg>
+                <svg width="10" height="8" viewBox="0 0 16 12" fill="white"><path d="M8 2C5 2 2.4 3.6 1 6c1.4 2.4 4 4 7 4s5.6-1.6 7-4c-1.4-2.4-4-4-7-4z" opacity="0.9"/></svg>
+                <div className="w-[16px] h-[7px] rounded-sm border border-white/60 flex items-center p-[1px]">
+                  <div className="h-full w-[70%] bg-primary rounded-[1px]" />
+                </div>
+              </div>
+            </div>
+
+            <div className="w-[72px] lg:w-[85px] h-[22px] lg:h-[26px] bg-black rounded-full mx-auto mt-[1px]" />
+          </div>
+
+          <div className="absolute top-10 lg:top-12 left-0 right-0 px-3 z-10">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-[6px]">
+                <div className="w-[28px] h-[28px] lg:w-[32px] lg:h-[32px] rounded-full overflow-hidden ring-2 ring-primary/60 flex-shrink-0" style={{ background: "linear-gradient(135deg, #cafe38, #8fb825)" }}>
+                  <div className="w-full h-full flex items-center justify-center text-black font-bold text-[9px] lg:text-[10px]">BC</div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-[4px]">
+                    <span className="text-[9px] lg:text-[10px] font-bold text-white">BCE Perfumes</span>
+                    <span className="bg-red-500 text-white text-[6px] lg:text-[7px] font-bold px-[5px] py-[1px] rounded-full animate-pulse shadow-lg shadow-red-500/50">LIVE</span>
+                  </div>
+                  <span className="text-[7px] lg:text-[8px] text-white/60">2.2K viewers</span>
+                </div>
+              </div>
+              <div className="w-[22px] h-[22px] lg:w-[26px] lg:h-[26px] rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)" }}>
+                <svg width="10" height="10" viewBox="0 0 24 24" stroke="white" strokeWidth="2.5" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </div>
+            </div>
+
+            <motion.div
+              animate={{ opacity: [0.6, 1, 0.6] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="mt-2 flex items-center gap-[4px] px-[8px] py-[4px] rounded-xl w-fit"
+              style={{ background: "rgba(202,254,56,0.12)", backdropFilter: "blur(12px)", border: "1px solid rgba(202,254,56,0.2)" }}
+            >
+              <div className="w-[6px] h-[6px] rounded-full bg-primary animate-pulse" />
+              <span className="text-[7px] lg:text-[8px] text-primary font-semibold">Bargain Open · ₹899</span>
+            </motion.div>
+          </div>
+
+          <FloatingHearts />
+
+          <div className="absolute bottom-0 left-0 right-0 z-10">
+            <div className="px-3 pb-2">
+              <ScrollingComments />
+            </div>
+
+            <div className="px-3 pb-3 pt-1">
+              <div className="flex items-center gap-[6px]">
+                <div
+                  className="flex-1 h-[26px] lg:h-[30px] rounded-full flex items-center px-3"
+                  style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.1)" }}
+                >
+                  <span className="text-[8px] text-white/40">Comment...</span>
+                </div>
+                <div className="w-[26px] h-[26px] lg:w-[30px] lg:h-[30px] rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.1)" }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#ff4d6d"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </div>
+                <div className="w-[26px] h-[26px] lg:w-[30px] lg:h-[30px] rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.1)" }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="white" opacity="0.7"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-[100px] lg:w-[120px] h-[4px] bg-white/30 rounded-full mx-auto mb-2" />
+          </div>
+
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.03) 100%)",
+            }}
+          />
+
+          <motion.div
+            animate={{ opacity: [0, 0.04, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute inset-0 pointer-events-none bg-white"
+          />
+        </div>
+
+        <div
+          className="absolute inset-0 rounded-[2.5rem] lg:rounded-[3rem] pointer-events-none"
+          style={{
+            background: "linear-gradient(160deg, rgba(255,255,255,0.12) 0%, transparent 25%, transparent 75%, rgba(255,255,255,0.04) 100%)",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
 
 export function KineticHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -131,20 +343,9 @@ export function KineticHero() {
               y: useTransform(smoothProgress, [0, 0.3], [0, 100]),
               scale: useTransform(smoothProgress, [0, 0.3], [1, 0.9]),
            }}
-           className="absolute z-20 pointer-events-none right-[6%] md:right-[8%] lg:right-[10%] top-1/2 -translate-y-1/2 hidden md:block"
+           className="absolute z-20 pointer-events-none right-[4%] md:right-[6%] lg:right-[8%] top-1/2 -translate-y-1/2 hidden md:block"
         >
-           <div className="relative">
-              <div className="absolute -inset-8 bg-primary/10 rounded-[3rem] blur-3xl" />
-              <div className="absolute -inset-4 bg-primary/5 rounded-[2.5rem] blur-xl" />
-              <img
-                src={heroIphoneMockup}
-                alt="Zatch App"
-                className="relative w-[220px] lg:w-[280px] xl:w-[320px] h-auto drop-shadow-[0_0_40px_rgba(202,254,56,0.15)] rounded-[2rem]"
-              />
-              <div className="absolute top-4 right-4 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse shadow-lg shadow-red-500/50">
-                LIVE
-              </div>
-           </div>
+           <IPhoneLiveStreamMockup />
         </motion.div>
         
         <motion.div 
