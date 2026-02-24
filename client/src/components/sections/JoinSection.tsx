@@ -19,7 +19,7 @@ export function JoinSection() {
             Ready to <span className="text-primary">Join?</span>
           </h2>
           <p className="text-white/50 text-lg max-w-md mx-auto">
-            Whether you want to discover deals or sell your products — there's a place for you on Zatch.
+            Whether you want to discover deals or sell your products - there's a place for you on Zatch.
           </p>
         </motion.div>
 

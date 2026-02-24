@@ -72,7 +72,7 @@ export default function AboutPage() {
                 Zatch is a live and short-video shopping app built for how people actually buy. Watch sellers explain products on video, interact in real time, bargain instantly, and shop with confidence.
               </p>
               <p className="text-lg text-white/50 leading-relaxed mb-6">
-                Most online shopping relies on static images and text that hide the real value of a product. Zatch fixes this by letting sellers demonstrate, explain, and sell through live video and short pitches &mdash; just like offline.
+                Most online shopping relies on static images and text that hide the real value of a product. Zatch fixes this by letting sellers demonstrate, explain, and sell through live video and short pitches - just like offline.
               </p>
               <p className="text-lg text-white/50 leading-relaxed mb-8">
                 Discover products through short videos, join live shopping sessions, ask questions, and negotiate prices using Zatch's three-step bargaining flow called "Zatch it." Complete purchases with proper checkout and tracking.
@@ -144,7 +144,7 @@ export default function AboutPage() {
               Digital commerce removed that interaction.
             </p>
             <p className="text-xl text-white/60 leading-relaxed font-medium">
-              Zatch brings it back &mdash; in a scalable, structured way. We combine live selling, short video discovery, and strategic bargaining into one unified platform built for India's mobile-first generation.
+              Zatch brings it back - in a scalable, structured way. We combine live selling, short video discovery, and strategic bargaining into one unified platform built for India's mobile-first generation.
             </p>
           </motion.div>
         </section>

@@ -17,7 +17,7 @@ const screens = [
     image: screenBargain,
     step: "02",
     title: "Set Your Price",
-    desc: "Slide to your bargain price — no awkward DMs",
+    desc: "Slide to your bargain price - no awkward DMs",
   },
   {
     image: screenOffer,

@@ -13,7 +13,7 @@ const FEATURES = [
     id: "live",
     tag: "01",
     title: "See It Live",
-    desc: "Watch real sellers demonstrate products. Ask questions in real-time. Buy with total confidence — no guessing.",
+    desc: "Watch real sellers demonstrate products. Ask questions in real-time. Buy with total confidence - no guessing.",
     accent: "from-purple-500/20 to-pink-500/20",
     borderAccent: "border-purple-500/30",
   },
@@ -21,7 +21,7 @@ const FEATURES = [
     id: "discover",
     tag: "02",
     title: "Discover Fast",
-    desc: "Swipe through short product videos like reels. No endless scrolling — find what you love and checkout in seconds.",
+    desc: "Swipe through short product videos like reels. No endless scrolling - find what you love and checkout in seconds.",
     accent: "from-blue-500/20 to-cyan-500/20",
     borderAccent: "border-blue-500/30",
   },
@@ -432,7 +432,7 @@ export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
             </h3>
 
             <p className="text-base text-white/30 leading-relaxed max-w-md mb-12">
-              A shopping experience built for how India actually buys — live, social, and on your terms.
+              A shopping experience built for how India actually buys - live, social, and on your terms.
             </p>
 
             {/* Feature Selector */}

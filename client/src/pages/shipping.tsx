@@ -43,7 +43,7 @@ export default function ShippingPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h2 className="text-2xl font-bold text-white mb-6">Integrated Zatch™ Shipping — Coming Soon</h2>
+            <h2 className="text-2xl font-bold text-white mb-6">Integrated Zatch™ Shipping - Coming Soon</h2>
             <p className="text-white/50 leading-relaxed mb-4">
               We are actively developing our own integrated Zatch™ shipping service to make the process easier, faster, and more reliable. Once launched, it will offer seamless order fulfillment, simplified logistics management, and competitive shipping rates.
             </p>

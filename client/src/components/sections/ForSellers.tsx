@@ -232,7 +232,7 @@ function ZatchLiveStream() {
         </div>
       </div>
       <div className="p-3">
-        <p className="text-[11px] text-white/80 font-semibold">Silk Sarees Collection — Starting ₹899</p>
+        <p className="text-[11px] text-white/80 font-semibold">Silk Sarees Collection - Starting ₹899</p>
         <p className="text-[10px] text-white/30 mt-0.5">Live now · 12 items listed</p>
       </div>
     </div>
@@ -385,7 +385,7 @@ export function ForSellers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
             className="lg:text-right"
           >
             <p className="text-base md:text-lg text-white/30 leading-relaxed max-w-md lg:ml-auto">
-              Drag the slider to see how Zatch&trade; transforms the way you sell — from DM chaos to automated deals.
+              Drag the slider to see how Zatch&trade; transforms the way you sell - from DM chaos to automated deals.
             </p>
           </motion.div>
         </div>
