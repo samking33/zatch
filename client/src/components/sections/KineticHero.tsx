@@ -108,34 +108,32 @@ export function KineticHero() {
           ))}
         </div>
 
-        <div className="absolute z-20 pointer-events-none w-full h-full flex items-center">
-           <div className="relative w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
-             <motion.h1
-                style={{ 
-                  opacity: textOpacity,
-                  scale: textScale,
-                  filter: textFilter,
-                }}
-                className="text-[14vw] md:text-[11.5vw] lg:text-[10.5vw] font-bold font-display leading-[0.85] tracking-tighter text-white mix-blend-difference origin-left"
-             >
-                CATCH IT<br/>
-                MATCH IT<br/>
-                <span className="relative inline-block text-primary italic pr-4">
-                  <span className="relative z-10">ZATCH</span>
-                  <span className="absolute top-1/2 -left-20 w-full h-[2px] bg-primary/50 -translate-y-1/2 blur-[1px]" />
-                  <span className="absolute top-[30%] -left-32 w-3/4 h-[1px] bg-primary/30 blur-[0.5px]" />
-                  <span className="absolute top-[70%] -left-24 w-4/5 h-[1.5px] bg-primary/40 blur-[0.5px]" />
-                  <span className="absolute inset-0 translate-x-1 translate-y-0 opacity-50 mix-blend-screen blur-[1px] skew-x-12 scale-x-110 bg-gradient-to-r from-transparent via-primary/20 to-transparent -z-10"></span>
-                </span> IT
-             </motion.h1>
+        <div className="absolute z-20 pointer-events-none w-full h-full">
+           <motion.h1
+              style={{ 
+                opacity: textOpacity,
+                scale: textScale,
+                filter: textFilter,
+              }}
+              className="absolute left-[3vw] md:left-[4vw] lg:left-[5vw] top-1/2 -translate-y-[45%] text-[14vw] md:text-[11vw] lg:text-[10vw] font-bold font-display leading-[0.88] tracking-tighter text-white mix-blend-difference origin-left z-10"
+           >
+              CATCH IT<br/>
+              MATCH IT<br/>
+              <span className="relative inline-block text-primary italic pr-4">
+                <span className="relative z-10">ZATCH</span>
+                <span className="absolute top-1/2 -left-20 w-full h-[2px] bg-primary/50 -translate-y-1/2 blur-[1px]" />
+                <span className="absolute top-[30%] -left-32 w-3/4 h-[1px] bg-primary/30 blur-[0.5px]" />
+                <span className="absolute top-[70%] -left-24 w-4/5 h-[1.5px] bg-primary/40 blur-[0.5px]" />
+                <span className="absolute inset-0 translate-x-1 translate-y-0 opacity-50 mix-blend-screen blur-[1px] skew-x-12 scale-x-110 bg-gradient-to-r from-transparent via-primary/20 to-transparent -z-10"></span>
+              </span> IT
+           </motion.h1>
 
-             <motion.div
-                style={{ opacity: textOpacity, scale: textScale }}
-                className="hidden md:block absolute right-6 md:right-10 lg:right-16 top-1/2 -translate-y-1/2 origin-center"
-             >
-               <IPhoneMockup scrollProgress={smoothProgress} />
-             </motion.div>
-           </div>
+           <motion.div
+              style={{ opacity: textOpacity, scale: textScale }}
+              className="hidden md:block absolute right-[4vw] lg:right-[6vw] top-1/2 -translate-y-[48%] origin-center z-20"
+           >
+             <IPhoneMockup scrollProgress={smoothProgress} />
+           </motion.div>
         </div>
         
         <motion.div 
@@ -162,7 +160,7 @@ function IPhoneMockup({ scrollProgress }: { scrollProgress: MotionValue<number> 
   return (
     <motion.div
       style={{ scale: phoneScale }}
-      className="relative w-[300px] lg:w-[340px] xl:w-[380px] pointer-events-auto"
+      className="relative w-[260px] md:w-[280px] lg:w-[320px] xl:w-[350px] pointer-events-auto"
     >
       <div className="absolute -left-[3px] top-[18%] w-[3px] h-[6%] rounded-l-sm z-40"
            style={{ background: "linear-gradient(to right, #5a5a60, #8a8a90, #6a6a70)" }} />
