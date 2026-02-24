@@ -108,15 +108,15 @@ export function KineticHero() {
           ))}
         </div>
 
-        <div className="absolute z-20 pointer-events-none w-full px-6 md:px-12 lg:px-20 h-full flex items-center">
-           <div className="flex items-center justify-between max-w-[1400px] mx-auto w-full">
+        <div className="absolute z-20 pointer-events-none w-full h-full flex items-center">
+           <div className="relative w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
              <motion.h1
                 style={{ 
                   opacity: textOpacity,
                   scale: textScale,
                   filter: textFilter,
                 }}
-                className="text-[11vw] md:text-[9vw] font-bold font-display leading-[0.85] tracking-tighter text-white mix-blend-difference origin-left"
+                className="text-[13vw] md:text-[10.5vw] lg:text-[9.5vw] font-bold font-display leading-[0.85] tracking-tighter text-white mix-blend-difference origin-left"
              >
                 CATCH IT<br/>
                 MATCH IT<br/>
@@ -131,7 +131,7 @@ export function KineticHero() {
 
              <motion.div
                 style={{ opacity: textOpacity, scale: textScale }}
-                className="hidden md:block flex-shrink-0 ml-8 origin-center"
+                className="hidden md:block absolute right-6 md:right-10 lg:right-16 top-1/2 -translate-y-1/2 origin-center"
              >
                <IPhoneMockup scrollProgress={smoothProgress} />
              </motion.div>
@@ -162,7 +162,7 @@ function IPhoneMockup({ scrollProgress }: { scrollProgress: MotionValue<number> 
   return (
     <motion.div
       style={{ scale: phoneScale }}
-      className="relative w-[280px] lg:w-[320px] xl:w-[360px] pointer-events-auto"
+      className="relative w-[300px] lg:w-[340px] xl:w-[380px] pointer-events-auto"
     >
       <div className="relative rounded-[3rem] border-[3px] border-white/20 bg-black overflow-hidden shadow-2xl shadow-black/50"
            style={{ aspectRatio: "9/19.5" }}>
