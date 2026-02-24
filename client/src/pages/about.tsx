@@ -50,7 +50,7 @@ export default function AboutPage() {
           <motion.div {...fadeUp} className="max-w-4xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-sm">
               <Sparkles className="w-3 h-3 text-[#cafe38]" />
-              <span className="text-xs font-medium text-[#cafe38] tracking-wide uppercase">About Zatch&trade;</span>
+              <span className="text-xs font-medium text-[#cafe38] tracking-wide uppercase">About Zatch</span>
             </div>
             <h1 className="text-5xl md:text-8xl font-bold font-display tracking-tighter mb-8 leading-[0.9]">
               Building the <br />
@@ -58,7 +58,7 @@ export default function AboutPage() {
               Movement.
             </h1>
             <p className="text-xl md:text-2xl text-white/50 leading-relaxed max-w-2xl">
-              Zatch&trade; is not just building another marketplace. We are building a live commerce ecosystem designed for India.
+              Zatch is not just building another marketplace. We are building a live commerce ecosystem designed for India.
             </p>
           </motion.div>
         </div>
@@ -67,15 +67,15 @@ export default function AboutPage() {
         <section className="py-20 border-y border-white/5 bg-white/[0.01]">
           <div className="container mx-auto px-6 max-w-4xl">
             <motion.div {...fadeUp}>
-              <h2 className="text-sm font-bold text-[#cafe38] tracking-widest uppercase mb-6">What is Zatch&trade;</h2>
+              <h2 className="text-sm font-bold text-[#cafe38] tracking-widest uppercase mb-6">What is Zatch</h2>
               <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-6">
-                Zatch&trade; is a live and short-video shopping app built for how people actually buy. Watch sellers explain products on video, interact in real time, bargain instantly, and shop with confidence.
+                Zatch is a live and short-video shopping app built for how people actually buy. Watch sellers explain products on video, interact in real time, bargain instantly, and shop with confidence.
               </p>
               <p className="text-lg text-white/50 leading-relaxed mb-6">
-                Most online shopping relies on static images and text that hide the real value of a product. Zatch&trade; fixes this by letting sellers demonstrate, explain, and sell through live video and short pitches &mdash; just like offline.
+                Most online shopping relies on static images and text that hide the real value of a product. Zatch fixes this by letting sellers demonstrate, explain, and sell through live video and short pitches &mdash; just like offline.
               </p>
               <p className="text-lg text-white/50 leading-relaxed mb-8">
-                Discover products through short videos, join live shopping sessions, ask questions, and negotiate prices using Zatch&trade;'s three-step bargaining flow called "Zatch it." Complete purchases with proper checkout and tracking.
+                Discover products through short videos, join live shopping sessions, ask questions, and negotiate prices using Zatch's three-step bargaining flow called "Zatch it." Complete purchases with proper checkout and tracking.
               </p>
               <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] w-fit">
                 <Globe className="w-4 h-4 text-[#cafe38]" />
@@ -93,7 +93,7 @@ export default function AboutPage() {
                 Catch the product.<br />
                 Match the price.<br />
                 Snatch the deal.<br />
-                <span className="text-[#cafe38]">Just Zatch&trade; it.</span>
+                <span className="text-[#cafe38]">Just Zatch it.</span>
               </p>
             </motion.div>
           </div>
@@ -144,7 +144,7 @@ export default function AboutPage() {
               Digital commerce removed that interaction.
             </p>
             <p className="text-xl text-white/60 leading-relaxed font-medium">
-              Zatch&trade; brings it back &mdash; in a scalable, structured way. We combine live selling, short video discovery, and strategic bargaining into one unified platform built for India's mobile-first generation.
+              Zatch brings it back &mdash; in a scalable, structured way. We combine live selling, short video discovery, and strategic bargaining into one unified platform built for India's mobile-first generation.
             </p>
           </motion.div>
         </section>
@@ -162,7 +162,7 @@ export default function AboutPage() {
                 Meet the Founders
               </h3>
               <p className="text-white/40 mt-4 max-w-xl mx-auto">
-                Zatch&trade; is built by founders who combine product, technology, and growth expertise.
+                Zatch is built by founders who combine product, technology, and growth expertise.
               </p>
             </motion.div>
 
@@ -236,7 +236,7 @@ export default function AboutPage() {
           <div className="container mx-auto px-6 text-center max-w-3xl">
             <motion.div {...fadeUp}>
               <h2 className="text-4xl md:text-6xl font-bold font-display tracking-tighter mb-8 leading-tight">
-                Zatch&trade; is not just building another marketplace.
+                Zatch is not just building another marketplace.
               </h2>
               <p className="text-2xl text-white/50 mb-8">
                 We are building a <span className="text-[#cafe38] font-medium">live commerce movement</span> designed for India.
