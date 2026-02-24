@@ -18,8 +18,8 @@ export function FullScreenScroll() {
           <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
              <div className="container mx-auto px-6 text-center">
                 <motion.div style={{ opacity: useTransform(smoothProgress, [0, 0.2], [1, 0]) }}>
-                   <h2 className="text-6xl md:text-8xl font-bold font-display tracking-tight text-white mb-6">
-                      Shopping was meant to be <span className="text-stroke-primary text-transparent">Social.</span>
+                   <h2 className="text-6xl md:text-8xl font-bold font-display tracking-tight text-white mb-6" style={{ WebkitTextStroke: '0.5px rgba(255,255,255,0.3)' }}>
+                      Shopping was meant to be <span className="text-stroke-primary text-transparent" style={{ WebkitTextStroke: '1.5px #cafe38' }}>Social.</span>
                    </h2>
                 </motion.div>
 
