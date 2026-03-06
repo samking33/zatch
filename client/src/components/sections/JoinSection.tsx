@@ -2,7 +2,11 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ShoppingCart, Store } from "lucide-react";
 
-export function JoinSection() {
+interface JoinSectionProps {
+  onJoinBuyer?: () => void;
+}
+
+export function JoinSection({ onJoinBuyer }: JoinSectionProps) {
   return (
     <section className="relative py-20 md:py-28 bg-black overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(202,254,56,0.04)_0%,transparent_70%)]" />
@@ -30,16 +34,17 @@ export function JoinSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
         >
-          <Link href="/join/buyer">
-            <motion.div
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              className="group flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-black font-semibold text-lg cursor-pointer transition-shadow hover:shadow-[0_0_30px_rgba(202,254,56,0.3)]"
-            >
-              <ShoppingCart className="w-5 h-5" />
-              Join as Buyer
-            </motion.div>
-          </Link>
+          <motion.button
+            type="button"
+            onClick={onJoinBuyer}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.97 }}
+            className="group flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-black font-semibold text-lg cursor-pointer transition-shadow hover:shadow-[0_0_30px_rgba(202,254,56,0.3)]"
+            data-testid="button-join-buyer"
+          >
+            <ShoppingCart className="w-5 h-5" />
+            Join as Buyer
+          </motion.button>
 
           <Link href="/join/seller">
             <motion.div

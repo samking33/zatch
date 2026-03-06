@@ -377,7 +377,7 @@ function BargainScreen() {
   );
 }
 
-export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
+export function ForBuyers({ onJoinBuyer }: { onJoinBuyer?: () => void }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeFeature, setActiveFeature] = useState(0);
@@ -501,7 +501,7 @@ export function ForBuyers({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
             >
               <Button
                 size="lg"
-                onClick={onJoinWaitlist}
+                onClick={onJoinBuyer}
                 className="bg-white/[0.06] text-white hover:bg-white/10 border border-white/[0.08] hover:border-white/15 font-bold px-8 h-12 rounded-full text-sm transition-all duration-300 hover:scale-105 active:scale-95 group"
                 data-testid="button-buyer-waitlist"
               >

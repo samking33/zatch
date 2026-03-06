@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { KineticHero } from "@/components/sections/KineticHero";
@@ -10,15 +11,14 @@ import { DealEngine } from "@/components/sections/DealEngine";
 import { StickmanCTA } from "@/components/sections/StickmanCTA";
 import { FAQ } from "@/components/sections/FAQ";
 import { Trust } from "@/components/sections/Trust";
-import { WaitlistModal } from "@/components/WaitlistModal";
+import { BuyerDownloadModal } from "@/components/BuyerDownloadModal";
 
 export default function Home() {
-  const [waitlistOpen, setWaitlistOpen] = useState(false);
-  const [waitlistRole, setWaitlistRole] = useState<"buyer" | "seller">("buyer");
+  const [, setLocation] = useLocation();
+  const [buyerDownloadOpen, setBuyerDownloadOpen] = useState(false);
 
-  const openWaitlist = (role: "buyer" | "seller" = "buyer") => {
-    setWaitlistRole(role);
-    setWaitlistOpen(true);
+  const openBuyerDownload = () => {
+    setBuyerDownloadOpen(true);
   };
 
   return (
@@ -29,20 +29,19 @@ export default function Home() {
         <KineticHero />
         <FullScreenScroll />
         <ThreeWays />
-        <JoinSection />
-        <ForBuyers onJoinWaitlist={() => openWaitlist("buyer")} />
-        <DealEngine onJoinWaitlist={() => openWaitlist("seller")} />
+        <JoinSection onJoinBuyer={openBuyerDownload} />
+        <ForBuyers onJoinBuyer={openBuyerDownload} />
+        <DealEngine onStartSelling={() => setLocation("/join/seller")} />
         <StickmanCTA />
         <FAQ />
-        <Trust />
+        <Trust onStartSelling={() => setLocation("/join/seller")} />
       </main>
 
       <Footer />
 
-      <WaitlistModal
-        isOpen={waitlistOpen}
-        onClose={() => setWaitlistOpen(false)}
-        defaultRole={waitlistRole}
+      <BuyerDownloadModal
+        isOpen={buyerDownloadOpen}
+        onClose={() => setBuyerDownloadOpen(false)}
       />
     </div>
   );

@@ -1,7 +1,11 @@
 import { Shield, UserCheck, Lock, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function Trust() {
+interface TrustProps {
+  onStartSelling?: () => void;
+}
+
+export function Trust({ onStartSelling }: TrustProps) {
   return (
     <section className="py-24 bg-black border-t border-white/5">
       <div className="container mx-auto px-6">
@@ -40,7 +44,12 @@ export function Trust() {
               <Button size="lg" className="bg-primary text-black hover:bg-primary/90 font-bold px-10 h-14 rounded-full text-lg w-full sm:w-auto" onClick={() => window.open("https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share", "_blank")}>
                 Download Zatch
               </Button>
-              <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10 font-bold px-10 h-14 rounded-full text-lg w-full sm:w-auto">
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={onStartSelling}
+                className="border-white/20 text-white hover:bg-white/10 font-bold px-10 h-14 rounded-full text-lg w-full sm:w-auto"
+              >
                 Start Selling Today
               </Button>
             </div>

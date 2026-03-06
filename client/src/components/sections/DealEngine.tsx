@@ -1,6 +1,9 @@
 import { useRef, useEffect, useState, useCallback } from "react";
-import { motion, useScroll } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import * as THREE from "three";
+import sellerScreen1 from "@/assets/sellers/1.png";
+import sellerScreen2 from "@/assets/sellers/2.png";
+import sellerScreen3 from "@/assets/sellers/3.png";
 
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
@@ -678,10 +681,35 @@ interface CardData {
 }
 
 const HERO_POSITIONS = [
-  new THREE.Vector3(-5.5, 0.2, 0),
-  new THREE.Vector3(0, 0.4, 0.5),
-  new THREE.Vector3(5.5, 0.2, 0),
+  new THREE.Vector3(-3.4, -0.55, 0),
+  new THREE.Vector3(0, -0.35, 0.3),
+  new THREE.Vector3(3.4, -0.55, 0),
 ];
+
+const CHAOS_PHASE_END_PROGRESS = 0.36;
+const ORDER_SWAP_IN_PROGRESS = CHAOS_PHASE_END_PROGRESS;
+const ORDER_SWAP_OUT_PROGRESS = 0.31;
+const ORDER_OVERLAY_PROGRESS = 0.58;
+const SELLER_SECTION_HEIGHT = "220vh";
+const HERO_TARGET_SCALE = 1.8;
+const ORDER_SCREEN_IMAGE_URLS = [sellerScreen1, sellerScreen2, sellerScreen3];
+const OLD_WAY_PAIN_POINTS = [
+  { text: "Lost in DMs", style: { top: "18%", left: "10%" } },
+  { text: "Manual Follow-ups", style: { top: "26%", right: "12%" } },
+  { text: "Price Confusion", style: { bottom: "30%", left: "14%" } },
+  { text: "No Order Tracking", style: { bottom: "20%", right: "12%" } },
+];
+
+function isTextureReady(texture: THREE.Texture | null): texture is THREE.Texture {
+  if (!texture) return false;
+  const image = texture.image as HTMLImageElement | undefined;
+  return Boolean(
+    image &&
+    image.complete &&
+    image.naturalWidth > 0 &&
+    image.naturalHeight > 0,
+  );
+}
 
 const CW = 390;
 const CH = 760;
@@ -1144,12 +1172,6 @@ function createSellerOfferScreen(): HTMLCanvasElement {
   return c;
 }
 
-const SELLER_SCREEN_CREATORS = [
-  createSellerCatalogueScreen,
-  createSellerBargainScreen,
-  createSellerOfferScreen,
-];
-
 function createCardData(
   textureCreators: (() => HTMLCanvasElement)[],
   orderTextures: THREE.Texture[],
@@ -1210,7 +1232,7 @@ function createCardData(
   return cards;
 }
 
-function MobileView({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
+function MobileView({ onStartSelling }: { onStartSelling?: () => void }) {
   return (
     <section id="sellers" className="py-16 bg-[#030303] relative overflow-hidden">
       <div className="container mx-auto px-5 max-w-lg">
@@ -1270,7 +1292,7 @@ function MobileView({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
 
         <div className="flex flex-col gap-3">
           <button
-            onClick={onJoinWaitlist}
+            onClick={onStartSelling}
             className="w-full py-3 rounded-xl bg-[#cafe38] text-black font-bold text-sm"
             data-testid="button-start-selling-mobile"
           >
@@ -1291,7 +1313,7 @@ function MobileView({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
   );
 }
 
-export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) {
+export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(0);
@@ -1311,6 +1333,7 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
     target: containerRef,
     offset: ["start end", "end start"],
   });
+  const smoothProgress = useSpring(scrollYProgress, { mass: 0.25, stiffness: 90, damping: 26 });
 
   const checkMobile = useCallback(() => {
     setIsMobile(window.innerWidth < 768);
@@ -1377,11 +1400,12 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       createShippingConfusionTexture,
     ];
 
-    const orderTextures: THREE.Texture[] = SELLER_SCREEN_CREATORS.map((creator) => {
-      const canvas = creator();
-      const tex = new THREE.CanvasTexture(canvas);
+    const textureLoader = new THREE.TextureLoader();
+    const orderTextures: THREE.Texture[] = ORDER_SCREEN_IMAGE_URLS.map((imageUrl) => {
+      const tex = textureLoader.load(imageUrl);
       tex.minFilter = THREE.LinearFilter;
       tex.magFilter = THREE.LinearFilter;
+      tex.colorSpace = THREE.SRGBColorSpace;
       return tex;
     });
 
@@ -1424,24 +1448,30 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       const time = (performance.now() - startTimeRef.current) / 1000;
       const p = progressRef.current;
 
-      const heroScale = 2.6;
+      const heroScale = HERO_TARGET_SCALE;
 
       for (const card of cardsRef.current) {
         const mat = card.mesh.material as THREE.MeshBasicMaterial;
 
-        if (p > 0.5 && !card.textureSwapped && card.orderTexture) {
+        if (
+          p >= ORDER_SWAP_IN_PROGRESS &&
+          !card.textureSwapped &&
+          isTextureReady(card.orderTexture)
+        ) {
           mat.map = card.orderTexture;
+          mat.color.setRGB(1, 1, 1);
+          mat.opacity = 1;
           mat.needsUpdate = true;
           card.textureSwapped = true;
-        } else if (p < 0.3 && card.textureSwapped) {
+        } else if (p <= ORDER_SWAP_OUT_PROGRESS && card.textureSwapped) {
           mat.map = card.chaosTexture;
           mat.needsUpdate = true;
           card.textureSwapped = false;
         }
 
-        if (p < 0.4) {
+        if (p < CHAOS_PHASE_END_PROGRESS) {
           card.mesh.visible = true;
-          const chaosP = p / 0.4;
+          const chaosP = p / CHAOS_PHASE_END_PROGRESS;
           const collapseTarget = new THREE.Vector3(
             card.chaosPos.x * (1 - chaosP * 0.6),
             card.chaosPos.y * (1 - chaosP * 0.6),
@@ -1469,7 +1499,7 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
 
           mat.opacity = THREE.MathUtils.lerp(mat.opacity, 0.7 + Math.random() * 0.05, 0.05);
         } else {
-          const gridP = Math.min((p - 0.4) / 0.6, 1);
+          const gridP = Math.min((p - CHAOS_PHASE_END_PROGRESS) / (1 - CHAOS_PHASE_END_PROGRESS), 1);
           const eased = gridP * gridP * (3 - 2 * gridP);
 
           if (card.isHero) {
@@ -1492,8 +1522,9 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
             const b = THREE.MathUtils.lerp(mat.color.b, 1, 0.08);
             mat.color.setRGB(r, g, b);
           } else {
-            mat.opacity = THREE.MathUtils.lerp(mat.opacity, 0, 0.08);
-            if (mat.opacity < 0.01) {
+            const fadeSpeed = gridP > 0.12 ? 0.24 : 0.12;
+            mat.opacity = THREE.MathUtils.lerp(mat.opacity, 0, fadeSpeed);
+            if (gridP > 0.16 || mat.opacity < 0.02) {
               card.mesh.visible = false;
             }
           }
@@ -1530,18 +1561,18 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
   }, [isMobile]);
 
   useEffect(() => {
-    const unsub = scrollYProgress.on("change", (v) => {
+    const unsub = smoothProgress.on("change", (v) => {
       progressRef.current = v;
-      if (v < 0.35) setOverlayState("chaos");
-      else if (v > 0.65) setOverlayState("order");
+      if (v < CHAOS_PHASE_END_PROGRESS - 0.06) setOverlayState("chaos");
+      else if (v > ORDER_OVERLAY_PROGRESS + 0.04) setOverlayState("order");
       else setOverlayState("transition");
-      setShowCTA(v > 0.65);
+      setShowCTA(v > ORDER_OVERLAY_PROGRESS + 0.02);
     });
     return unsub;
-  }, [scrollYProgress]);
+  }, [smoothProgress]);
 
   if (isMobile || webglFailed) {
-    return <MobileView onJoinWaitlist={onJoinWaitlist} />;
+    return <MobileView onStartSelling={onStartSelling} />;
   }
 
   return (
@@ -1549,7 +1580,7 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
       id="sellers"
       ref={containerRef}
       className="relative bg-[#030303]"
-      style={{ height: "250vh" }}
+      style={{ height: SELLER_SECTION_HEIGHT }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div
@@ -1575,6 +1606,36 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
               background: "radial-gradient(ellipse 60% 50% at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 50%, transparent 80%)",
             }}
           />
+
+          <div className="absolute inset-0">
+            {OLD_WAY_PAIN_POINTS.map((point, index) => (
+              <motion.div
+                key={point.text}
+                initial={false}
+                animate={overlayState === "chaos"
+                  ? { opacity: 1, scale: 1, y: 0 }
+                  : { opacity: 0, scale: 0.8, y: 10 }
+                }
+                transition={{ duration: 0.4, delay: overlayState === "chaos" ? index * 0.06 : 0 }}
+                className="absolute"
+                style={point.style}
+              >
+                <motion.div
+                  animate={overlayState === "chaos"
+                    ? { y: [0, -6, 0], scale: [1, 1.05, 1] }
+                    : { y: 0, scale: 1 }
+                  }
+                  transition={overlayState === "chaos"
+                    ? { duration: 3 + index * 0.4, repeat: Infinity, ease: "easeInOut" }
+                    : { duration: 0.2 }
+                  }
+                  className="px-4 py-2 rounded-full bg-red-500/15 border border-red-500/40 text-red-100 text-xs font-semibold tracking-wide shadow-[0_12px_30px_rgba(255,80,80,0.25)] backdrop-blur-md"
+                >
+                  {point.text}
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
 
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <div className="relative w-full max-w-2xl px-8 text-center">
@@ -1612,45 +1673,37 @@ export function DealEngine({ onJoinWaitlist }: { onJoinWaitlist?: () => void }) 
                   <span className="text-[11px] font-bold text-[#cafe38] tracking-[0.4em] uppercase">For Sellers</span>
                   <div className="w-8 h-px bg-[#cafe38]" />
                 </div>
-                <h3 className="text-6xl md:text-8xl lg:text-9xl font-bold font-display tracking-tight leading-[0.85] text-[#cafe38] mb-3 drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)]">
+                <h3 className="text-5xl md:text-7xl lg:text-8xl font-bold font-display tracking-tight leading-[0.88] text-[#cafe38] mb-3 drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)]">
                   The Zatch Way
                 </h3>
                 <p className="text-base md:text-lg text-[#cafe38]/60 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">Three screens. That's all it takes.</p>
+                <motion.div
+                  animate={{
+                    opacity: showCTA ? 1 : 0,
+                    y: showCTA ? 0 : 10,
+                  }}
+                  transition={{ duration: 0.35, delay: 0.1 }}
+                  className="pointer-events-auto mt-5 flex flex-col sm:flex-row items-center gap-2 rounded-xl border border-[#cafe38]/25 bg-black/80 px-3 py-2 backdrop-blur-md"
+                >
+                  <button
+                    onClick={onStartSelling}
+                    className="px-5 py-2 rounded-lg bg-[#cafe38] text-black font-bold text-xs hover:bg-[#d8ff5c] transition-colors shadow-[0_0_16px_rgba(202,254,56,0.32)]"
+                    data-testid="button-start-selling"
+                  >
+                    Start Selling
+                  </button>
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-5 py-2 rounded-lg bg-[#cafe38]/35 border border-[#cafe38]/55 text-[#d8ff5c] font-bold text-xs hover:bg-[#cafe38]/45 transition-colors shadow-[0_0_12px_rgba(0,0,0,0.45)]"
+                    data-testid="link-download-zatch"
+                  >
+                    Download Zatch
+                  </a>
+                </motion.div>
               </motion.div>
             </div>
-
-            <motion.div
-              animate={{
-                opacity: showCTA ? 1 : 0,
-                y: showCTA ? 0 : 30,
-              }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="absolute bottom-20 pointer-events-auto"
-              style={{
-                background: "radial-gradient(ellipse 110% 160% at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 60%, transparent 100%)",
-                padding: "24px 32px",
-                borderRadius: "20px",
-              }}
-            >
-              <div className="flex flex-col sm:flex-row items-center gap-4">
-                <button
-                  onClick={onJoinWaitlist}
-                  className="px-8 py-3 rounded-xl bg-[#cafe38] text-black font-bold text-sm hover:bg-[#d8ff5c] transition-colors shadow-[0_0_20px_rgba(202,254,56,0.3)]"
-                  data-testid="button-start-selling"
-                >
-                  Start Selling
-                </button>
-                <a
-                  href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-8 py-3 rounded-xl bg-[#cafe38]/20 border border-[#cafe38]/50 text-[#cafe38] font-bold text-sm hover:bg-[#cafe38]/30 transition-colors shadow-[0_0_16px_rgba(0,0,0,0.5)] backdrop-blur-sm"
-                  data-testid="link-download-zatch"
-                >
-                  Download Zatch
-                </a>
-              </div>
-            </motion.div>
           </div>
         </div>
       </div>

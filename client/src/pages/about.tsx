@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Linkedin, Twitter, ArrowRight, Sparkles, Video, MessageSquareText, ShoppingBag, Globe } from "lucide-react";
+import { Sparkles, Globe } from "lucide-react";
 import rakshitImg from "@assets/Untitled_design_(1)_1771950553421.png";
 import luckyImg from "@/assets/lucky.jpeg";
 import rigvedImg from "@/assets/rigved.jpeg";
@@ -14,6 +15,9 @@ const fadeUp = {
 };
 
 export default function AboutPage() {
+  const [selectedMember, setSelectedMember] = useState<number | null>(null);
+  const [hoveredMember, setHoveredMember] = useState<number | null>(null);
+
   const team = [
     {
       name: "Rakshit Gade",
@@ -21,6 +25,7 @@ export default function AboutPage() {
       bio: "Rakshit leads the vision and strategy behind Zatch\u2122. With experience across product, business analysis, and enterprise systems, he focuses on building scalable platforms that solve real behavioral problems in digital commerce. He believes the next evolution of shopping in India will be content-led, community-driven, and negotiation-enabled.",
       initials: "RG",
       photo: rakshitImg,
+      photoPosition: "center 16%",
     },
     {
       name: "Rigved Kaleru",
@@ -28,6 +33,7 @@ export default function AboutPage() {
       bio: "Rigved leads technology and product architecture at Zatch\u2122. He is responsible for building the live streaming infrastructure, transaction systems, and scalable backend that powers real-time interaction. His focus is on creating a seamless, high-performance platform optimized for India's mobile-first users.",
       initials: "RK",
       photo: rigvedImg,
+      photoPosition: "center 14%",
     },
     {
       name: "Lucky Preetham Rayi",
@@ -35,6 +41,7 @@ export default function AboutPage() {
       bio: "Lucky leads growth, brand strategy, and creator ecosystem development. He focuses on building community, onboarding sellers, and shaping Zatch\u2122 into a movement rather than just an app. His work centers on connecting culture, commerce, and content.",
       initials: "LP",
       photo: luckyImg,
+      photoPosition: "center 17%",
     },
   ];
 
@@ -166,67 +173,79 @@ export default function AboutPage() {
               </p>
             </motion.div>
 
-            <div className="space-y-16 max-w-6xl mx-auto">
-              {team.map((member, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  className="group"
-                >
-                  <div className={`relative rounded-[2rem] overflow-hidden bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.12] transition-all duration-700 ${member.photo ? '' : ''}`}>
-                    <div className={`flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-stretch`}>
-                      {member.photo ? (
-                        <div className="relative w-full md:w-[320px] lg:w-[360px] shrink-0 aspect-square overflow-hidden">
-                          <img
-                            src={member.photo}
-                            alt={member.name}
-                            className="w-full h-full object-cover object-[center_15%] group-hover:scale-105 transition-transform duration-700"
-                          />
-                          <div className={`absolute inset-0 bg-gradient-to-${i % 2 === 0 ? 'r' : 'l'} from-transparent via-transparent to-black/60 hidden md:block`} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent md:hidden" />
-                          <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
-                            <span className="w-2 h-2 rounded-full bg-[#cafe38] animate-pulse" />
-                            <span className="text-[11px] text-white/80 font-medium tracking-wide">{member.role}</span>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="relative w-full md:w-[320px] lg:w-[360px] shrink-0 aspect-square overflow-hidden bg-gradient-to-br from-[#cafe38]/[0.08] to-transparent flex items-center justify-center">
-                          <div className="w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br from-[#cafe38]/20 to-[#cafe38]/5 border border-[#cafe38]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                            <span className="text-5xl md:text-6xl font-bold text-[#cafe38] font-display">{member.initials}</span>
-                          </div>
-                          <div className={`absolute inset-0 bg-gradient-to-${i % 2 === 0 ? 'r' : 'l'} from-transparent via-transparent to-black/60 hidden md:block`} />
-                          <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
-                            <span className="w-2 h-2 rounded-full bg-[#cafe38] animate-pulse" />
-                            <span className="text-[11px] text-white/80 font-medium tracking-wide">{member.role}</span>
-                          </div>
-                        </div>
-                      )}
+            <div className="grid gap-6 md:grid-cols-3 max-w-6xl mx-auto">
+              {team.map((member, i) => {
+                const isActive =
+                  hoveredMember !== null ? hoveredMember === i : selectedMember === i;
 
-                      <div className="flex-1 p-8 md:p-10 lg:p-14 flex flex-col justify-center">
-                        <div className="flex items-center gap-3 mb-2">
-                          <div className="w-8 h-px bg-[#cafe38]/40" />
-                          <span className="text-[11px] text-[#cafe38]/60 font-mono tracking-widest uppercase">0{i + 1}</span>
-                        </div>
-                        <h3 className="text-3xl md:text-4xl font-bold text-white font-display tracking-tight mb-2">{member.name}</h3>
-                        <p className="text-[#cafe38] font-semibold text-sm mb-6 md:hidden">{member.role}</p>
-                        <p className="text-base md:text-lg text-white/40 leading-relaxed">{member.bio}</p>
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    className="group relative h-[590px] overflow-hidden rounded-[1.8rem] border border-white/[0.1] bg-[#060606] transition-all duration-500 hover:border-white/[0.2] hover:shadow-[0_20px_60px_rgba(0,0,0,0.45)] cursor-pointer"
+                    onMouseEnter={() => setHoveredMember(i)}
+                    onMouseLeave={() => setHoveredMember(null)}
+                    onClick={() => setSelectedMember(i)}
+                    onFocus={() => setHoveredMember(i)}
+                    onBlur={() => setHoveredMember(null)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelectedMember(i);
+                      }
+                    }}
+                    tabIndex={0}
+                  >
+                    <img
+                      src={member.photo}
+                      alt={member.name}
+                      style={{ objectPosition: member.photoPosition }}
+                      className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ${
+                        isActive ? "scale-105" : "scale-100"
+                      }`}
+                    />
 
-                        <div className="mt-8 flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-[#cafe38]/10 hover:border-[#cafe38]/20 transition-all duration-300 cursor-pointer">
-                            <Linkedin className="w-4 h-4 text-white/40 hover:text-white transition-colors" />
-                          </div>
-                          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-[#cafe38]/10 hover:border-[#cafe38]/20 transition-all duration-300 cursor-pointer">
-                            <Twitter className="w-4 h-4 text-white/40 hover:text-white transition-colors" />
-                          </div>
-                        </div>
-                      </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/94 via-black/30 to-black/12" />
+                    <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full border border-white/12 bg-black/45 px-3 py-1.5 backdrop-blur-md">
+                      <span className="h-2 w-2 rounded-full bg-[#cafe38] animate-pulse" />
+                      <span className="text-[11px] font-medium tracking-wide text-white/80">{member.role}</span>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+
+                    <motion.div
+                      animate={{ y: isActive ? 0 : 205 }}
+                      transition={{ type: "spring", stiffness: 220, damping: 24 }}
+                      className="absolute bottom-0 left-0 right-0 border-t border-white/10 bg-black/82 px-6 py-5 backdrop-blur-xl"
+                    >
+                      <div className="mb-2 flex items-center gap-3">
+                        <div className="w-7 h-px bg-[#cafe38]/45" />
+                        <span className="text-[10px] font-mono tracking-widest text-[#cafe38]/65 uppercase">
+                          0{i + 1}
+                        </span>
+                      </div>
+                      <h3 className="text-2xl font-bold font-display tracking-tight text-white">{member.name}</h3>
+                      <p className="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#cafe38]/70">
+                        {member.role}
+                      </p>
+
+                      <motion.div
+                        animate={{
+                          opacity: isActive ? 1 : 0,
+                          height: isActive ? "auto" : 0,
+                          marginTop: isActive ? 12 : 0,
+                        }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <p className="text-sm leading-relaxed text-white/58">{member.bio}</p>
+                      </motion.div>
+
+                    </motion.div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>

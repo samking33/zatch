@@ -25,4 +25,30 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-export const storage = new DatabaseStorage();
+class MemoryStorage implements IStorage {
+  private entries: WaitlistEntry[] = [];
+  private nextId = 1;
+
+  async addToWaitlist(entry: InsertWaitlistEntry): Promise<WaitlistEntry> {
+    const newEntry: WaitlistEntry = {
+      id: this.nextId++,
+      email: entry.email!,
+      name: entry.name ?? null,
+      role: entry.role ?? "buyer",
+      createdAt: new Date(),
+    };
+    this.entries.push(newEntry);
+    return newEntry;
+  }
+
+  async getWaitlistByEmail(email: string): Promise<WaitlistEntry | undefined> {
+    return this.entries.find((entry) => entry.email === email);
+  }
+
+  async getWaitlistCount(): Promise<number> {
+    return this.entries.length;
+  }
+}
+
+const useMemoryStorage = !process.env.DATABASE_URL || process.env.SKIP_DB === "true";
+export const storage = useMemoryStorage ? new MemoryStorage() : new DatabaseStorage();

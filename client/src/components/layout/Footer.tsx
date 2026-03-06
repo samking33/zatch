@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Twitter, Instagram, Linkedin } from "lucide-react";
+import { Instagram } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import zatchLogo from "@/assets/zatch-logo.png";
 
@@ -55,14 +55,8 @@ export function Footer() {
               Download Zatch&trade;
             </a>
             <div className="flex gap-4">
-              <a href="#" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#cafe38]/20 hover:text-[#cafe38] transition-colors cursor-pointer" data-testid="link-twitter">
-                <Twitter size={16} />
-              </a>
               <a href="#" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#cafe38]/20 hover:text-[#cafe38] transition-colors cursor-pointer" data-testid="link-instagram">
                 <Instagram size={16} />
-              </a>
-              <a href="#" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#cafe38]/20 hover:text-[#cafe38] transition-colors cursor-pointer" data-testid="link-linkedin">
-                <Linkedin size={16} />
               </a>
             </div>
           </div>
