@@ -2,20 +2,21 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { LazySection } from "@/components/LazySection";
 import { KineticHero } from "@/components/sections/KineticHero";
 import { FullScreenScroll } from "@/components/sections/FullScreenScroll";
-import { ThreeWays } from "@/components/sections/ThreeWays";
 import { JoinSection } from "@/components/sections/JoinSection";
 import { ForBuyers } from "@/components/sections/ForBuyers";
-import { DealEngine } from "@/components/sections/DealEngine";
-import { StickmanCTA } from "@/components/sections/StickmanCTA";
 import { FAQ } from "@/components/sections/FAQ";
 import { Trust } from "@/components/sections/Trust";
 import { BuyerDownloadModal } from "@/components/BuyerDownloadModal";
+import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 
 export default function Home() {
   const [, setLocation] = useLocation();
   const [buyerDownloadOpen, setBuyerDownloadOpen] = useState(false);
+  const { isMobileViewport } = useDeviceCapabilities();
+  const useMobileSections = isMobileViewport;
 
   const openBuyerDownload = () => {
     setBuyerDownloadOpen(true);
@@ -28,11 +29,32 @@ export default function Home() {
       <main>
         <KineticHero />
         <FullScreenScroll />
-        <ThreeWays />
+        <LazySection
+          loader={() => import("@/components/sections/ThreeWays").then((mod) => mod.ThreeWays)}
+          rootMargin="400px 0px"
+          fallback={<SectionFallback />}
+        />
         <JoinSection onJoinBuyer={openBuyerDownload} />
         <ForBuyers onJoinBuyer={openBuyerDownload} />
-        <DealEngine onStartSelling={() => setLocation("/join/seller")} />
-        <StickmanCTA />
+        <LazySection
+          loader={() =>
+            useMobileSections
+              ? import("@/components/sections/DealEngineMobile").then((mod) => mod.DealEngineMobile)
+              : import("@/components/sections/DealEngine").then((mod) => mod.DealEngine)
+          }
+          componentProps={{ onStartSelling: () => setLocation("/join/seller") }}
+          rootMargin="500px 0px"
+          fallback={<SectionFallback />}
+        />
+        <LazySection
+          loader={() =>
+            useMobileSections
+              ? import("@/components/sections/StickmanCTAStatic").then((mod) => mod.StickmanCTAStatic)
+              : import("@/components/sections/StickmanCTA").then((mod) => mod.StickmanCTA)
+          }
+          rootMargin="500px 0px"
+          fallback={<SectionFallback />}
+        />
         <FAQ />
         <Trust onStartSelling={() => setLocation("/join/seller")} />
       </main>
@@ -44,5 +66,15 @@ export default function Home() {
         onClose={() => setBuyerDownloadOpen(false)}
       />
     </div>
+  );
+}
+
+function SectionFallback() {
+  return (
+    <section className="py-20 md:py-28 bg-[#030303] border-t border-white/5">
+      <div className="container mx-auto px-6">
+        <div className="h-28 rounded-2xl border border-white/10 bg-white/[0.03] animate-pulse" />
+      </div>
+    </section>
   );
 }

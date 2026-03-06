@@ -4,6 +4,7 @@ import * as THREE from "three";
 import sellerScreen1 from "@/assets/sellers/1.png";
 import sellerScreen2 from "@/assets/sellers/2.png";
 import sellerScreen3 from "@/assets/sellers/3.png";
+import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
@@ -1313,6 +1314,81 @@ function MobileView({ onStartSelling }: { onStartSelling?: () => void }) {
   );
 }
 
+function DesktopFallbackView({ onStartSelling }: { onStartSelling?: () => void }) {
+  return (
+    <section id="sellers" className="relative bg-[#030303] py-24 lg:py-28">
+      <div className="container mx-auto max-w-6xl px-6">
+        <div className="mx-auto mb-12 max-w-3xl text-center">
+          <div className="mb-5 flex items-center justify-center gap-3">
+            <div className="h-px w-10 bg-[#cafe38]" />
+            <span className="text-[11px] font-bold uppercase tracking-[0.4em] text-[#cafe38]">For Sellers</span>
+            <div className="h-px w-10 bg-[#cafe38]" />
+          </div>
+          <h3 className="text-5xl font-bold font-display leading-[0.94] tracking-tight text-white md:text-6xl">
+            Your DMs Are Not a{" "}
+            <span className="bg-gradient-to-r from-[#cafe38] to-[#cafe38]/60 bg-clip-text text-transparent">
+              Sales System.
+            </span>
+          </h3>
+        </div>
+
+        <div className="mx-auto mb-10 grid max-w-5xl gap-5 md:grid-cols-2">
+          <div className="rounded-3xl border border-red-500/25 bg-gradient-to-br from-[#1a0808] to-[#0f0505] p-6">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border border-red-500/30 bg-red-500/10 text-red-300">
+                x
+              </div>
+              <span className="text-sm font-bold uppercase tracking-[0.18em] text-red-300/90">Old Way</span>
+            </div>
+            <div className="space-y-2.5">
+              <div className="h-3 rounded-full bg-red-500/15 w-full" />
+              <div className="h-3 rounded-full bg-red-500/15 w-[82%]" />
+              <div className="h-3 rounded-full bg-red-500/15 w-[75%]" />
+              <div className="h-3 rounded-full bg-red-500/15 w-[68%]" />
+            </div>
+            <p className="mt-4 text-xs tracking-wide text-red-300/60">Manual DMs - Lost deals - No tracking</p>
+          </div>
+
+          <div className="rounded-3xl border border-[#cafe38]/30 bg-gradient-to-br from-[#0a1a0f] to-[#050d08] p-6">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#cafe38]/35 bg-[#cafe38]/10 text-[#dfff88]">
+                *
+              </div>
+              <span className="text-sm font-bold uppercase tracking-[0.18em] text-[#dfff88]">Zatch Way</span>
+            </div>
+            <div className="space-y-2.5">
+              <div className="h-3 rounded-full bg-[#cafe38]/18 w-full" />
+              <div className="h-3 rounded-full bg-[#cafe38]/18 w-[82%]" />
+              <div className="h-3 rounded-full bg-[#cafe38]/18 w-[75%]" />
+              <div className="h-3 rounded-full bg-[#cafe38]/18 w-[68%]" />
+            </div>
+            <p className="mt-4 text-xs tracking-wide text-[#cafe38]/65">Automated - Live - Closed deals</p>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <button
+            onClick={onStartSelling}
+            className="w-full max-w-[220px] rounded-xl bg-[#cafe38] px-6 py-3 text-sm font-bold text-black shadow-[0_0_24px_rgba(202,254,56,0.22)]"
+            data-testid="button-start-selling"
+          >
+            Start Selling
+          </button>
+          <a
+            href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full max-w-[220px] rounded-xl border border-[#cafe38]/35 bg-[#cafe38]/10 px-6 py-3 text-center text-sm font-bold text-[#dfff88]"
+            data-testid="link-download-zatch"
+          >
+            Download Zatch
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -1328,6 +1404,7 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
   const [webglFailed, setWebglFailed] = useState(false);
   const [overlayState, setOverlayState] = useState<"chaos" | "transition" | "order">("chaos");
   const [showCTA, setShowCTA] = useState(false);
+  const { isFinePointer, prefersReducedMotion } = useDeviceCapabilities();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -1346,7 +1423,7 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
   }, [checkMobile]);
 
   useEffect(() => {
-    if (isMobile || !canvasRef.current) return;
+    if (isMobile || !canvasRef.current || !isFinePointer || prefersReducedMotion) return;
 
     const container = canvasRef.current;
     const width = container.clientWidth;
@@ -1558,7 +1635,7 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
         container.removeChild(renderer.domElement);
       }
     };
-  }, [isMobile]);
+  }, [isFinePointer, isMobile, prefersReducedMotion]);
 
   useEffect(() => {
     const unsub = smoothProgress.on("change", (v) => {
@@ -1571,8 +1648,12 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
     return unsub;
   }, [smoothProgress]);
 
-  if (isMobile || webglFailed) {
+  if (isMobile) {
     return <MobileView onStartSelling={onStartSelling} />;
+  }
+
+  if (webglFailed || !isFinePointer || prefersReducedMotion) {
+    return <DesktopFallbackView onStartSelling={onStartSelling} />;
   }
 
   return (

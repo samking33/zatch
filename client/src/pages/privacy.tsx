@@ -69,18 +69,18 @@ export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-black text-foreground selection:bg-primary selection:text-black">
       <Navbar />
-      <main className="pt-32 pb-20">
-        <div className="container mx-auto px-6 max-w-4xl">
-          <motion.div {...fadeUp} className="mb-16">
-            <h1 className="text-5xl md:text-7xl font-bold font-display tracking-tighter mb-6 text-white">
+      <main className="pt-28 md:pt-32 pb-16 md:pb-20">
+        <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
+          <motion.div {...fadeUp} className="mb-12 md:mb-16">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold font-display tracking-tighter mb-5 md:mb-6 text-white">
               Privacy Policy
             </h1>
-            <p className="text-lg text-white/50">
+            <p className="text-base sm:text-lg text-white/50 leading-relaxed">
               Your privacy matters to us. This policy explains how Zatch™ collects, uses, and protects your information.
             </p>
           </motion.div>
 
-          <div className="space-y-12">
+          <div className="space-y-10 md:space-y-12">
             {sections.map((section, i) => (
               <motion.div
                 key={i}
@@ -88,15 +88,15 @@ export default function PrivacyPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.05 }}
-                className="border-b border-white/5 pb-12"
+                className="border-b border-white/5 pb-10 md:pb-12"
               >
-                <h2 className="text-2xl font-bold text-white mb-4">{section.title}</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">{section.title}</h2>
                 {section.content && (
-                  <p className="text-white/50 leading-relaxed">{section.content}</p>
+                  <p className="text-white/50 text-sm sm:text-base leading-7">{section.content}</p>
                 )}
                 {section.paragraphs &&
                   section.paragraphs.map((p, j) => (
-                    <p key={j} className="text-white/50 leading-relaxed mb-4 last:mb-0">
+                    <p key={j} className="text-white/50 text-sm sm:text-base leading-7 mb-4 last:mb-0">
                       {p}
                     </p>
                   ))}

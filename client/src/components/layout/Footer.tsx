@@ -28,28 +28,28 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#050505] pt-24 pb-12 border-t border-white/5" data-testid="footer">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+    <footer className="bg-[#050505] pt-16 md:pt-24 pb-10 md:pb-12 border-t border-white/5" data-testid="footer">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 md:gap-12 mb-12 md:mb-16">
           {/* Column 1: Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4" data-testid="text-footer-brand">
               <img src={zatchLogo} alt="Zatch" className="w-9 h-9 rounded-lg" />
-              <h3 className="text-2xl font-bold font-display tracking-tighter">
+              <h3 className="text-xl sm:text-2xl font-bold font-display tracking-tighter">
                 ZATCH<span className="text-[#cafe38] text-xs align-top">&trade;</span>
               </h3>
             </div>
-            <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
+            <p className="text-muted-foreground text-sm mb-5 leading-relaxed">
               India's live bargain marketplace. Live shopping. Video discovery. Strategic negotiation.
             </p>
-            <p className="text-muted-foreground text-xs mb-6">
+            <p className="text-muted-foreground text-xs mb-5">
               Download the app and experience interactive commerce.
             </p>
             <a
               href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
               target="_blank"
               rel="noopener noreferrer"
-              className="block bg-[#cafe38] hover:bg-[#cafe38]/90 text-black px-6 py-3 rounded-lg font-bold text-sm transition-all w-full text-center mb-6"
+              className="block bg-[#cafe38] hover:bg-[#cafe38]/90 text-black px-6 py-3 rounded-lg font-bold text-sm transition-all w-full text-center mb-5"
               data-testid="button-footer-download"
             >
               Download Zatch&trade;
@@ -63,7 +63,7 @@ export function Footer() {
 
           {/* Column 2: Product */}
           <div>
-            <h4 className="font-bold mb-6 text-white">Product</h4>
+            <h4 className="font-bold mb-4 md:mb-6 text-white">Product</h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
               <li><button onClick={() => navigateToSection("features")} className="hover:text-[#cafe38] transition-colors text-left" data-testid="link-footer-features">How It Works</button></li>
               <li><button onClick={() => navigateToSection("buyers")} className="hover:text-[#cafe38] transition-colors text-left" data-testid="link-footer-buyers">For Buyers</button></li>
@@ -74,7 +74,7 @@ export function Footer() {
 
           {/* Column 3: Company */}
           <div>
-            <h4 className="font-bold mb-6 text-white">Company</h4>
+            <h4 className="font-bold mb-4 md:mb-6 text-white">Company</h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
               <li><Link href="/about" className="hover:text-[#cafe38] transition-colors" data-testid="link-footer-about">About Us</Link></li>
               <li><button onClick={() => navigateToSection("sellers")} className="hover:text-[#cafe38] transition-colors text-left" data-testid="link-footer-start-selling">Start Selling</button></li>
@@ -83,7 +83,7 @@ export function Footer() {
 
           {/* Column 4: Legal */}
           <div>
-            <h4 className="font-bold mb-6 text-white">Legal</h4>
+            <h4 className="font-bold mb-4 md:mb-6 text-white">Legal</h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
               <li><Link href="/privacy" className="hover:text-[#cafe38] transition-colors" data-testid="link-footer-privacy">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-[#cafe38] transition-colors" data-testid="link-footer-terms">Terms & Conditions</Link></li>
@@ -94,7 +94,7 @@ export function Footer() {
 
           {/* Column 5: Support */}
           <div>
-            <h4 className="font-bold mb-6 text-white">Support</h4>
+            <h4 className="font-bold mb-4 md:mb-6 text-white">Support</h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
               <li><a href="mailto:support@zatch.shop" className="hover:text-[#cafe38] transition-colors" data-testid="link-footer-support">Contact Support</a></li>
               <li className="text-xs pt-2 text-[#cafe38]" data-testid="text-support-email">support@zatch.shop</li>
@@ -105,7 +105,7 @@ export function Footer() {
 
         <Separator className="bg-white/10 mb-8" />
 
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4 text-xs text-muted-foreground">
           <p data-testid="text-copyright">&copy; 2025 Zatch&trade;. All rights reserved.</p>
           <p data-testid="text-company">A product of Just Emagine Pvt Ltd</p>
         </div>

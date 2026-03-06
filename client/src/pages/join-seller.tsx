@@ -38,17 +38,17 @@ export default function JoinSellerPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
-      <main className="pt-24 pb-16">
-        <div className="container mx-auto px-6">
+      <main className="pt-24 pb-20 md:pb-16 min-h-[calc(100dvh-96px)]">
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold font-display tracking-tight text-white mb-4 text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display tracking-tight text-white mb-4 text-center">
               Join as a <span className="text-primary">Seller</span>
             </h1>
-            <p className="text-white/50 text-lg text-center mb-10 max-w-lg mx-auto">
+            <p className="text-white/50 text-base sm:text-lg text-center mb-8 md:mb-10 max-w-lg mx-auto">
               Fill out the form below to register as a seller on Zatch.
             </p>
           </motion.div>
@@ -57,7 +57,7 @@ export default function JoinSellerPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="max-w-lg mx-auto"
+            className="max-w-lg mx-auto w-full"
           >
             {status === "success" ? (
               <div className="rounded-2xl bg-white/5 border border-primary/20 p-10 text-center">
@@ -68,7 +68,7 @@ export default function JoinSellerPage() {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="rounded-2xl bg-white/[0.03] border border-white/10 p-8 md:p-10 space-y-6">
+              <form onSubmit={handleSubmit} className="rounded-2xl bg-white/[0.03] border border-white/10 p-6 sm:p-8 md:p-10 space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-white/60 mb-2">Full Name</label>
                   <div className="relative">
@@ -76,6 +76,7 @@ export default function JoinSellerPage() {
                     <input
                       type="text"
                       required
+                      autoComplete="name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Enter your full name"
@@ -91,6 +92,7 @@ export default function JoinSellerPage() {
                     <input
                       type="tel"
                       required
+                      autoComplete="tel"
                       value={contact}
                       onChange={(e) => setContact(e.target.value)}
                       placeholder="Enter your phone number"
@@ -106,6 +108,7 @@ export default function JoinSellerPage() {
                     <input
                       type="email"
                       required
+                      autoComplete="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email address"

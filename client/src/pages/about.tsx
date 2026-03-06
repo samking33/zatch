@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Sparkles, Globe } from "lucide-react";
+import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 import rakshitImg from "@assets/Untitled_design_(1)_1771950553421.png";
 import luckyImg from "@/assets/lucky.jpeg";
 import rigvedImg from "@/assets/rigved.jpeg";
@@ -17,6 +18,7 @@ const fadeUp = {
 export default function AboutPage() {
   const [selectedMember, setSelectedMember] = useState<number | null>(null);
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
+  const { isFinePointer } = useDeviceCapabilities();
 
   const team = [
     {
@@ -185,9 +187,15 @@ export default function AboutPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                    className="group relative h-[590px] overflow-hidden rounded-[1.8rem] border border-white/[0.1] bg-[#060606] transition-all duration-500 hover:border-white/[0.2] hover:shadow-[0_20px_60px_rgba(0,0,0,0.45)] cursor-pointer"
-                    onMouseEnter={() => setHoveredMember(i)}
-                    onMouseLeave={() => setHoveredMember(null)}
+                    className={`group relative h-[460px] sm:h-[520px] md:h-[590px] overflow-hidden rounded-[1.8rem] border border-white/[0.1] bg-[#060606] transition-all duration-500 cursor-pointer ${isFinePointer ? "hover:border-white/[0.2] hover:shadow-[0_20px_60px_rgba(0,0,0,0.45)]" : ""}`}
+                    onMouseEnter={() => {
+                      if (!isFinePointer) return;
+                      setHoveredMember(i);
+                    }}
+                    onMouseLeave={() => {
+                      if (!isFinePointer) return;
+                      setHoveredMember(null);
+                    }}
                     onClick={() => setSelectedMember(i)}
                     onFocus={() => setHoveredMember(i)}
                     onBlur={() => setHoveredMember(null)}

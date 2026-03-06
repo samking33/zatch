@@ -41,6 +41,17 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHome]);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) {
+      document.body.style.overflow = "";
+      return;
+    }
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
   const navigate = useCallback((link: typeof NAV_LINKS[0]) => {
     setMobileMenuOpen(false);
 
@@ -85,11 +96,11 @@ export function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-black/80 backdrop-blur-2xl border-b border-white/[0.08] py-3 shadow-[0_4px_30px_rgba(0,0,0,0.5)]"
+            ? "bg-black/80 backdrop-blur-lg md:backdrop-blur-2xl border-b border-white/[0.08] py-3 shadow-[0_4px_30px_rgba(0,0,0,0.5)]"
             : "bg-gradient-to-b from-black/60 to-transparent py-5"
         }`}
       >
-        <div className="container mx-auto px-6 flex items-center justify-between">
+        <div className="container mx-auto px-4 sm:px-6 flex items-center justify-between">
           <button
             onClick={() => { setLocation("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
             className="text-2xl font-bold font-display tracking-tighter flex items-center gap-1.5 relative z-50 group"
@@ -139,12 +150,12 @@ export function Navbar() {
           </div>
 
           {/* Mobile Actions */}
-          <div className="md:hidden flex items-center gap-3">
+          <div className="md:hidden flex items-center gap-2.5">
             <a
               href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-[#cafe38] text-black text-xs font-bold rounded-lg shadow-[0_0_12px_rgba(202,254,56,0.2)]"
+              className="px-3.5 py-2 bg-[#cafe38] text-black text-xs font-bold rounded-lg shadow-[0_0_12px_rgba(202,254,56,0.2)]"
               data-testid="nav-download-mobile"
             >
               Get App
@@ -168,7 +179,7 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/95 backdrop-blur-xl z-40 flex flex-col pt-28 px-8"
+            className="fixed inset-0 bg-black/95 backdrop-blur-md md:backdrop-blur-xl z-40 flex flex-col pt-24 sm:pt-28 px-6 sm:px-8"
           >
             <div className="flex flex-col gap-2">
               {NAV_LINKS.map((link, i) => (
@@ -178,7 +189,7 @@ export function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 + i * 0.05, duration: 0.3 }}
                   onClick={() => navigate(link)}
-                  className={`text-left text-3xl font-bold font-display py-3 transition-colors ${
+                  className={`text-left text-2xl sm:text-3xl font-bold font-display py-2.5 sm:py-3 transition-colors ${
                     isActive(link) ? "text-[#cafe38]" : "text-white/60 hover:text-white"
                   }`}
                   data-testid={`nav-mobile-${link.target}`}

@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Play, Heart, ShoppingBag, MessageCircle, Send, Star, ChevronDown, ArrowRight, Eye, Zap, Tag, Sparkles, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 
 import liveSareeImg from "@/assets/buyers/live-silk-saree.png";
 import productKurti from "@/assets/buyers/product-kurti.png";
@@ -35,9 +36,9 @@ const FEATURES = [
   },
 ];
 
-function PhoneFrame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function PhoneFrame({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`relative mx-auto ${className}`} style={{ width: 280, height: 580 }}>
+    <div className={`relative mx-auto w-[min(280px,76vw)] h-[min(580px,157vw)] max-h-[580px] ${className}`}>
       <div className="absolute inset-0 rounded-[3rem] bg-[#1a1a1a] border-[3px] border-[#2a2a2a] shadow-[0_0_80px_rgba(0,0,0,0.8),0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-[#1a1a1a] rounded-b-2xl z-30 flex items-center justify-center gap-2">
           <div className="w-2 h-2 rounded-full bg-[#333]" />
@@ -380,8 +381,13 @@ function BargainScreen() {
 export function ForBuyers({ onJoinBuyer }: { onJoinBuyer?: () => void }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isActiveInView = useInView(ref, { amount: 0.35 });
+  const { isMobileViewport } = useDeviceCapabilities();
   const [activeFeature, setActiveFeature] = useState(0);
   const [phoneKey, setPhoneKey] = useState(0);
+  const [isPageVisible, setIsPageVisible] = useState(() =>
+    typeof document === "undefined" ? true : !document.hidden,
+  );
 
   const handleFeatureChange = (idx: number) => {
     setActiveFeature(idx);
@@ -389,15 +395,22 @@ export function ForBuyers({ onJoinBuyer }: { onJoinBuyer?: () => void }) {
   };
 
   useEffect(() => {
+    const onVisibilityChange = () => setIsPageVisible(!document.hidden);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, []);
+
+  useEffect(() => {
+    if (!isActiveInView || !isPageVisible) return;
     const interval = setInterval(() => {
-      setActiveFeature(prev => {
+      setActiveFeature((prev) => {
         const next = (prev + 1) % 3;
-        setPhoneKey(k => k + 1);
+        setPhoneKey((k) => k + 1);
         return next;
       });
     }, 6000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isActiveInView, isPageVisible]);
 
   const screens = [<LiveScreen />, <DiscoverScreen />, <BargainScreen />];
 
@@ -519,32 +532,36 @@ export function ForBuyers({ onJoinBuyer }: { onJoinBuyer?: () => void }) {
             className="relative flex justify-center"
           >
             {/* Ambient glow behind phone */}
-            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full blur-[100px] pointer-events-none transition-all duration-1000 ${
+            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isMobileViewport ? "w-[250px] h-[250px] blur-[70px]" : "w-[350px] h-[350px] blur-[100px]"} rounded-full pointer-events-none transition-all duration-1000 ${
               activeFeature === 0 ? 'bg-purple-500/10' : activeFeature === 1 ? 'bg-blue-500/10' : 'bg-[#cafe38]/8'
             }`} />
 
             {/* Floating accent elements */}
-            <motion.div
-              className="absolute top-10 right-0 lg:right-10 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] backdrop-blur-sm"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 4, repeat: Infinity }}
-            >
-              <span className="text-[10px] text-white/30 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#cafe38]" />
-                Live experience
-              </span>
-            </motion.div>
+            {!isMobileViewport && (
+              <>
+                <motion.div
+                  className="absolute top-10 right-0 lg:right-10 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] backdrop-blur-sm"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                >
+                  <span className="text-[10px] text-white/30 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#cafe38]" />
+                    Live experience
+                  </span>
+                </motion.div>
 
-            <motion.div
-              className="absolute bottom-16 left-0 lg:left-5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] backdrop-blur-sm"
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 5, repeat: Infinity }}
-            >
-              <span className="text-[10px] text-white/30 flex items-center gap-1.5">
-                <ShoppingBag className="w-3 h-3 text-[#cafe38]/60" />
-                Instant checkout
-              </span>
-            </motion.div>
+                <motion.div
+                  className="absolute bottom-16 left-0 lg:left-5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] backdrop-blur-sm"
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 5, repeat: Infinity }}
+                >
+                  <span className="text-[10px] text-white/30 flex items-center gap-1.5">
+                    <ShoppingBag className="w-3 h-3 text-[#cafe38]/60" />
+                    Instant checkout
+                  </span>
+                </motion.div>
+              </>
+            )}
 
             <PhoneFrame>
               <AnimatePresence mode="wait">

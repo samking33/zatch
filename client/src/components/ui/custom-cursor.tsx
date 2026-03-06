@@ -4,8 +4,42 @@ import { motion } from "framer-motion";
 export function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [enabled, setEnabled] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    return finePointer && !reducedMotion;
+  });
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const finePointerQuery = window.matchMedia("(pointer: fine)");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateEnabled = () => {
+      setEnabled(finePointerQuery.matches && !reducedMotionQuery.matches);
+    };
+    const subscribe = (query: MediaQueryList) => {
+      if (typeof query.addEventListener === "function") {
+        query.addEventListener("change", updateEnabled);
+        return () => query.removeEventListener("change", updateEnabled);
+      }
+      query.addListener(updateEnabled);
+      return () => query.removeListener(updateEnabled);
+    };
+    updateEnabled();
+
+    const unsubscribeFinePointer = subscribe(finePointerQuery);
+    const unsubscribeReducedMotion = subscribe(reducedMotionQuery);
+
+    return () => {
+      unsubscribeFinePointer();
+      unsubscribeReducedMotion();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
+
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -25,7 +59,9 @@ export function CustomCursor() {
       window.removeEventListener("mousemove", updateMousePosition);
       window.removeEventListener("mouseover", handleMouseOver);
     };
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) return null;
 
   return (
     <>
