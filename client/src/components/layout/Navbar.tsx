@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { Menu, X, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import zatchLogo from "@/assets/zatch-logo.png";
+import { scrollToSection, setPendingSection } from "@/lib/section-navigation";
 
 const NAV_LINKS = [
   { name: "Home", target: "hero", type: "scroll" },
@@ -62,15 +63,8 @@ export function Navbar() {
     }
 
     if (!isHome) {
+      setPendingSection(link.target);
       setLocation("/");
-      setTimeout(() => {
-        const el = document.getElementById(link.target);
-        if (el) {
-          const offset = 80;
-          const top = el.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top, behavior: "smooth" });
-        }
-      }, 100);
       return;
     }
 
@@ -78,12 +72,7 @@ export function Navbar() {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    const el = document.getElementById(link.target);
-    if (el) {
-      const offset = 80;
-      const top = el.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
+    scrollToSection(link.target);
   }, [isHome, setLocation]);
 
   const isActive = (link: typeof NAV_LINKS[0]) => {

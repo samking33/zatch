@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { Link } from "wouter";
 import zatchQR from "@assets/zatchQR_1771958263462.png";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 
@@ -173,9 +174,10 @@ export function KineticHero() {
               </motion.div>
             </div>
           ) : (
-            <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-7 sm:gap-8 md:gap-12 lg:gap-16">
-              <div className="flex flex-col items-center md:items-start">
-                <h1 className="text-[17vw] sm:text-[14vw] md:text-[11.6vw] lg:text-[10vw] xl:text-[9.1vw] font-bold font-display leading-[0.8] tracking-tighter text-white text-center md:text-left mix-blend-difference">
+            <div className="flex w-full justify-center">
+              <div className="flex flex-col md:flex-row items-center md:items-center justify-center gap-7 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-14">
+                <div className="flex flex-col items-center md:items-start">
+                <h1 className="text-[17vw] sm:text-[14vw] md:text-[clamp(7.25rem,8.3vw,8.9rem)] font-bold font-display leading-[0.8] tracking-tighter text-white text-center md:text-left mix-blend-difference">
                   CATCH IT
                   <br />
                   MATCH IT
@@ -190,7 +192,7 @@ export function KineticHero() {
                   IT
                 </h1>
 
-                <a
+                <Link
                   href="/download"
                   className="group flex items-center gap-4 sm:gap-5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-2xl pointer-events-auto mt-5 sm:mt-7 w-fit self-center md:self-center"
                   style={{
@@ -206,18 +208,19 @@ export function KineticHero() {
                     <span className="text-base sm:text-lg lg:text-xl font-bold text-white group-hover:text-primary transition-colors duration-300 font-display">Get the App</span>
                     <span className="text-[11px] text-white/30">Available on iOS & Android</span>
                   </div>
-                </a>
-              </div>
+                </Link>
+                </div>
 
-              <motion.div
-                style={{
-                  y: phoneY,
-                  scale: phoneScale,
-                }}
-                className="pointer-events-none shrink-0 scale-[0.72] sm:scale-[0.84] md:scale-100 origin-center"
-              >
-                <IPhoneLiveStreamMockup />
-              </motion.div>
+                <motion.div
+                  style={{
+                    y: phoneY,
+                    scale: phoneScale,
+                  }}
+                  className="pointer-events-none shrink-0 -translate-x-3 lg:-translate-x-4 xl:-translate-x-5 scale-[0.72] sm:scale-[0.84] md:scale-100 origin-center"
+                >
+                  <IPhoneLiveStreamMockup />
+                </motion.div>
+              </div>
             </div>
           )}
         </motion.div>

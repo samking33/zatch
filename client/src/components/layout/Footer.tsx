@@ -2,28 +2,17 @@ import { Link, useLocation } from "wouter";
 import { Instagram } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import zatchLogo from "@/assets/zatch-logo.png";
+import { scrollToSection, setPendingSection } from "@/lib/section-navigation";
 
 export function Footer() {
   const [location, setLocation] = useLocation();
 
   const navigateToSection = (target: string) => {
     if (location !== "/") {
+      setPendingSection(target);
       setLocation("/");
-      setTimeout(() => {
-        const el = document.getElementById(target);
-        if (el) {
-          const offset = 80;
-          const top = el.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top, behavior: "smooth" });
-        }
-      }, 200);
     } else {
-      const el = document.getElementById(target);
-      if (el) {
-        const offset = 80;
-        const top = el.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: "smooth" });
-      }
+      scrollToSection(target);
     }
   };
 

@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { ArrowRight, Download, Smartphone, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, Play, Star } from "lucide-react";
+
+const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
 
 export default function DownloadPage() {
   return (
@@ -36,6 +37,7 @@ export default function DownloadPage() {
                initial={{ opacity: 0, x: -50 }}
                animate={{ opacity: 1, x: 0 }}
                transition={{ duration: 0.6, delay: 0.2 }}
+               id="qr-download"
                className="bg-white/5 border border-white/10 rounded-[2rem] md:rounded-[2.5rem] p-6 sm:p-8 md:p-10 flex flex-col items-center justify-center text-center relative overflow-hidden group md:hover:border-primary/30 transition-all duration-500"
              >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -62,14 +64,14 @@ export default function DownloadPage() {
                transition={{ duration: 0.6, delay: 0.4 }}
                className="space-y-4 md:space-y-6"
              >
-                <a href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" className="block group">
+                <a href="#qr-download" className="block group">
                    <div className="bg-[#1A1A1A] hover:bg-[#252525] border border-white/10 rounded-2xl p-5 md:p-6 flex items-center gap-4 md:gap-6 transition-all duration-300 md:group-hover:scale-105 group-hover:border-primary/50">
                       <div className="w-16 h-16 bg-black rounded-xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 transition-colors">
                          <span className="text-3xl"></span>
                       </div>
                       <div>
-                         <p className="text-xs text-white/60 uppercase tracking-widest mb-1">Download on the</p>
-                         <h3 className="text-xl md:text-2xl font-bold text-white">App Store</h3>
+                         <p className="text-xs text-white/60 uppercase tracking-widest mb-1">For iPhone</p>
+                         <h3 className="text-xl md:text-2xl font-bold text-white">Scan the QR Code</h3>
                       </div>
                       <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
                          <ArrowRight className="text-primary" />
@@ -77,7 +79,7 @@ export default function DownloadPage() {
                    </div>
                 </a>
 
-                <a href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" className="block group">
+                <a href={PLAYSTORE_URL} target="_blank" rel="noopener noreferrer" className="block group">
                    <div className="bg-[#1A1A1A] hover:bg-[#252525] border border-white/10 rounded-2xl p-5 md:p-6 flex items-center gap-4 md:gap-6 transition-all duration-300 md:group-hover:scale-105 group-hover:border-primary/50">
                       <div className="w-16 h-16 bg-black rounded-xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 transition-colors">
                          <Play className="w-8 h-8 fill-white text-white" />
@@ -113,5 +115,3 @@ export default function DownloadPage() {
     </div>
   );
 }
-
-import { Play } from "lucide-react";
