@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Download } from "lucide-react";
+import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 
 interface BuyerDownloadModalProps {
   isOpen: boolean;
@@ -11,6 +12,8 @@ const PLAYSTORE_URL =
 const QR_IMAGE_URL = "https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://zatch.shop";
 
 export function BuyerDownloadModal({ isOpen, onClose }: BuyerDownloadModalProps) {
+  const { isMobileViewport } = useDeviceCapabilities();
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -46,22 +49,30 @@ export function BuyerDownloadModal({ isOpen, onClose }: BuyerDownloadModalProps)
                 Download Zatch App
               </h3>
               <p className="mt-2 text-sm text-white/45">
-                Scan this QR code to install the app and start shopping live.
+                {isMobileViewport
+                  ? "Install the app to start shopping live."
+                  : "Scan this QR code to install the app and start shopping live."}
               </p>
 
-              <div className="mx-auto mt-6 w-[190px] rounded-2xl bg-white p-3 shadow-2xl">
-                <img
-                  src={QR_IMAGE_URL}
-                  alt="Download Zatch QR code"
-                  className="h-full w-full rounded-lg object-cover"
-                />
-              </div>
+              {!isMobileViewport ? (
+                <div className="mx-auto mt-6 w-[190px] rounded-2xl bg-white p-3 shadow-2xl">
+                  <img
+                    src={QR_IMAGE_URL}
+                    alt="Download Zatch QR code"
+                    className="h-full w-full rounded-lg object-cover"
+                  />
+                </div>
+              ) : null}
 
               <a
                 href={PLAYSTORE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mx-auto mt-5 inline-flex items-center gap-2 rounded-lg border border-[#cafe38]/50 bg-[#cafe38]/18 px-4 py-2 text-xs font-bold text-[#d8ff5c] transition-colors hover:bg-[#cafe38]/28"
+                className={`mx-auto inline-flex items-center gap-2 rounded-lg border border-[#cafe38]/50 bg-[#cafe38]/18 font-bold text-[#d8ff5c] transition-colors hover:bg-[#cafe38]/28 ${
+                  isMobileViewport
+                    ? "mt-6 min-w-[220px] justify-center px-5 py-3 text-sm"
+                    : "mt-5 px-4 py-2 text-xs"
+                }`}
                 data-testid="button-buyer-download-app"
               >
                 <Download className="h-3.5 w-3.5" />

@@ -44,7 +44,13 @@ export function Footer() {
               Download Zatch&trade;
             </a>
             <div className="flex gap-4">
-              <a href="#" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#cafe38]/20 hover:text-[#cafe38] transition-colors cursor-pointer" data-testid="link-instagram">
+              <a
+                href="https://www.instagram.com/zatch.shop?igsh=MW9tb21lc2o5ZnpiZQ%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#cafe38]/20 hover:text-[#cafe38] transition-colors cursor-pointer"
+                data-testid="link-instagram"
+              >
                 <Instagram size={16} />
               </a>
             </div>

@@ -11,15 +11,24 @@ import { FAQ } from "@/components/sections/FAQ";
 import { Trust } from "@/components/sections/Trust";
 import { BuyerDownloadModal } from "@/components/BuyerDownloadModal";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
+import { scrollToSection } from "@/lib/section-navigation";
+
+type BuyerFeatureId = "live" | "discover" | "bargain";
 
 export default function Home() {
   const [, setLocation] = useLocation();
   const [buyerDownloadOpen, setBuyerDownloadOpen] = useState(false);
+  const [buyerFeatureRequest, setBuyerFeatureRequest] = useState<{ id: BuyerFeatureId; token: number } | null>(null);
   const { isMobileViewport } = useDeviceCapabilities();
   const useMobileSections = isMobileViewport;
 
   const openBuyerDownload = () => {
     setBuyerDownloadOpen(true);
+  };
+
+  const handleLearnMore = (featureId: BuyerFeatureId) => {
+    setBuyerFeatureRequest({ id: featureId, token: Date.now() });
+    scrollToSection("buyers");
   };
 
   return (
@@ -31,11 +40,12 @@ export default function Home() {
         <FullScreenScroll />
         <LazySection
           loader={() => import("@/components/sections/ThreeWays").then((mod) => mod.ThreeWays)}
+          componentProps={{ onLearnMore: handleLearnMore }}
           rootMargin="400px 0px"
           fallback={<SectionFallback />}
         />
         <JoinSection onJoinBuyer={openBuyerDownload} />
-        <ForBuyers onJoinBuyer={openBuyerDownload} />
+        <ForBuyers onJoinBuyer={openBuyerDownload} requestedFeature={buyerFeatureRequest} />
         <LazySection
           loader={() =>
             useMobileSections

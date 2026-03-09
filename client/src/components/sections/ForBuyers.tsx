@@ -9,6 +9,8 @@ import productKurti from "@/assets/buyers/product-kurti.png";
 import productJhumkas from "@/assets/buyers/product-jhumkas.png";
 import productPalazzo from "@/assets/buyers/product-palazzo.png";
 
+type BuyerFeatureId = "live" | "discover" | "bargain";
+
 const FEATURES = [
   {
     id: "live",
@@ -378,7 +380,13 @@ function BargainScreen() {
   );
 }
 
-export function ForBuyers({ onJoinBuyer }: { onJoinBuyer?: () => void }) {
+export function ForBuyers({
+  onJoinBuyer,
+  requestedFeature,
+}: {
+  onJoinBuyer?: () => void;
+  requestedFeature?: { id: BuyerFeatureId; token: number } | null;
+}) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const isActiveInView = useInView(ref, { amount: 0.35 });
@@ -408,9 +416,18 @@ export function ForBuyers({ onJoinBuyer }: { onJoinBuyer?: () => void }) {
         setPhoneKey((k) => k + 1);
         return next;
       });
-    }, 6000);
+    }, 3000);
     return () => clearInterval(interval);
   }, [isActiveInView, isPageVisible]);
+
+  useEffect(() => {
+    if (!requestedFeature) return;
+
+    const nextIndex = FEATURES.findIndex((feature) => feature.id === requestedFeature.id);
+    if (nextIndex === -1) return;
+
+    handleFeatureChange(nextIndex);
+  }, [requestedFeature]);
 
   const screens = [<LiveScreen />, <DiscoverScreen />, <BargainScreen />];
 
@@ -449,7 +466,7 @@ export function ForBuyers({ onJoinBuyer }: { onJoinBuyer?: () => void }) {
             </p>
 
             {/* Feature Selector */}
-            <div className="space-y-0">
+            <div className="space-y-3">
               {FEATURES.map((f, i) => (
                 <motion.button
                   key={f.id}
@@ -457,20 +474,24 @@ export function ForBuyers({ onJoinBuyer }: { onJoinBuyer?: () => void }) {
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: i * 0.1 + 0.3 }}
-                  className={`w-full text-left py-5 border-b border-white/[0.04] last:border-0 transition-all duration-500 group relative ${activeFeature === i ? '' : 'opacity-40 hover:opacity-70'}`}
+                  className={`w-full overflow-hidden rounded-none border text-left py-5 px-5 transition-all duration-500 group relative ${
+                    activeFeature === i
+                      ? "border-[#cafe38]/40 bg-[#cafe38]/10 opacity-100 shadow-[0_20px_50px_-35px_rgba(202,254,56,0.28)]"
+                      : "border-white/[0.05] bg-white/[0.015] opacity-50 hover:opacity-72"
+                  }`}
                   data-testid={`button-feature-${f.id}`}
                 >
                   {activeFeature === i && (
                     <motion.div
                       layoutId="activeFeature"
-                      className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#cafe38]"
+                      className="absolute inset-0 rounded-none bg-[#cafe38]/6"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
 
-                  <div className="pl-5">
+                  <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-1.5">
-                      <span className="text-[10px] text-[#cafe38]/40 font-mono">{f.tag}</span>
+                      <span className={`text-[10px] font-mono ${activeFeature === i ? "text-[#cafe38]/75" : "text-[#cafe38]/40"}`}>{f.tag}</span>
                       <h4 className={`text-lg font-bold tracking-tight transition-colors duration-300 ${activeFeature === i ? 'text-white' : 'text-white/60'}`}>
                         {f.title}
                       </h4>
@@ -489,19 +510,6 @@ export function ForBuyers({ onJoinBuyer }: { onJoinBuyer?: () => void }) {
                       )}
                     </AnimatePresence>
                   </div>
-
-                  {/* Progress bar for auto-cycle */}
-                  {activeFeature === i && (
-                    <div className="absolute bottom-0 left-5 right-0 h-[1px] bg-white/[0.04] overflow-hidden">
-                      <motion.div
-                        className="h-full bg-[#cafe38]/30"
-                        initial={{ width: "0%" }}
-                        animate={{ width: "100%" }}
-                        transition={{ duration: 6, ease: "linear" }}
-                        key={phoneKey}
-                      />
-                    </div>
-                  )}
                 </motion.button>
               ))}
             </div>

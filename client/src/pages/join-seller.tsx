@@ -1,15 +1,26 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { User, Phone, Mail, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { User, Phone, Mail, ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 
 export default function JoinSellerPage() {
+  const [, setLocation] = useLocation();
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+
+  const handleBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+
+    setLocation("/");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +51,17 @@ export default function JoinSellerPage() {
       <Navbar />
       <main className="pt-24 pb-20 md:pb-16 min-h-[calc(100dvh-96px)]">
         <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-lg mx-auto w-full mb-6">
+            <button
+              type="button"
+              onClick={handleBack}
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back
+            </button>
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { Link } from "wouter";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
+import { scrollToSection } from "@/lib/section-navigation";
 
 const STREAM_MODULES = import.meta.glob("../../assets/kinetic/stream-*.png", {
   import: "default",
@@ -231,11 +232,19 @@ export function KineticHero() {
           )}
         </motion.div>
 
-        <motion.div
-          style={{ opacity: isMobileViewport ? mobileTextOpacity : scrollIndicatorOpacity }}
-          className={`absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-30 ${isMobileViewport ? "bottom-2" : "bottom-10"}`}
+        <motion.button
+          type="button"
+          onClick={() => scrollToSection("features")}
+          style={{ opacity: scrollIndicatorOpacity }}
+          className={`absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-30 ${
+            isMobileViewport
+              ? "bottom-6 rounded-full border border-white/10 bg-black/35 px-4 py-2.5 backdrop-blur-md"
+              : "bottom-10"
+          }`}
         >
-          <span className={`text-white/50 uppercase tracking-widest ${isMobileViewport ? "hidden" : "text-xs sm:text-sm"}`}>Scroll to Explore</span>
+          <span className={`uppercase tracking-widest ${isMobileViewport ? "text-[10px] text-white/70" : "text-xs sm:text-sm text-white/50"}`}>
+            Scroll to Explore
+          </span>
           <motion.svg
             animate={prefersReducedMotion ? undefined : { y: [0, 6, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
@@ -247,12 +256,12 @@ export function KineticHero() {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-white/50"
+            className={isMobileViewport ? "text-white/75" : "text-white/50"}
           >
             <path d="M7 13l5 5 5-5" />
             <path d="M7 6l5 5 5-5" />
           </motion.svg>
-        </motion.div>
+        </motion.button>
       </div>
     </section>
   );

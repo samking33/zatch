@@ -1,11 +1,12 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-
-const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
+import { DesktopEcosystemCube } from "@/components/sections/DesktopEcosystemCube";
+import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 
 export function StickmanCTAStatic() {
   const ref = useRef<HTMLDivElement>(null);
   const isInViewOnce = useInView(ref, { once: true, margin: "-50px" });
+  const { prefersReducedMotion } = useDeviceCapabilities();
 
   return (
     <section id="download" ref={ref} className="py-20 bg-[#020202] relative overflow-hidden">
@@ -49,20 +50,14 @@ export function StickmanCTAStatic() {
           transition={{ duration: 0.8, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col items-center"
         >
-          <div className="relative w-full h-[300px] flex items-center justify-center">
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-              <StaticEcosystemBackdrop />
-              <a
-                href={PLAYSTORE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative z-10 inline-flex items-center justify-center rounded-full bg-[#cafe38] text-black font-bold px-10 h-12 text-sm shadow-[0_0_30px_rgba(202,254,56,0.25)]"
-                data-testid="button-download-app"
-              >
-                Download Zatch&trade;
-              </a>
-              <p className="relative z-10 text-white/35 text-xs mt-1">Available on Android.</p>
-            </div>
+          <div className="relative w-full min-h-[320px] flex flex-col items-center justify-center">
+            <DesktopEcosystemCube
+              prefersReducedMotion={prefersReducedMotion}
+              compact
+              interactive
+              showCenterCta
+            />
+            <p className="mt-3 text-center text-xs text-white/35">Tap the cube to explode it and reveal the CTA.</p>
           </div>
         </motion.div>
 
@@ -88,14 +83,5 @@ export function StickmanCTAStatic() {
         </motion.div>
       </div>
     </section>
-  );
-}
-
-function StaticEcosystemBackdrop() {
-  return (
-    <div className="absolute inset-0 pointer-events-none">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(202,254,56,0.2)_0%,_rgba(202,254,56,0.08)_35%,_rgba(0,0,0,0)_70%)] opacity-80" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,0,0,0.55)_0%,_rgba(0,0,0,0.82)_55%,_rgba(0,0,0,1)_85%)]" />
-    </div>
   );
 }

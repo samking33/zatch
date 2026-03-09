@@ -1,5 +1,5 @@
 import { motion, useAnimationControls } from "framer-motion";
-import { useEffect, useState, type FocusEvent } from "react";
+import { useEffect, useRef, useState, type FocusEvent } from "react";
 
 const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
 const FACE_SIZE = 232;
@@ -80,9 +80,9 @@ function getFaceTransform(face: FaceConfig, exploded: boolean): string {
   return `translate3d(${tx}px, ${ty}px, 0px) ${face.baseRotation} translateZ(${tz}px)`;
 }
 
-function PlayStoreIcon() {
+function PlayStoreIcon({ size = 16 }: { size?: number }) {
   return (
-    <svg width="16" height="16" viewBox="0 0 512 512" fill="none" aria-hidden="true">
+    <svg width={size} height={size} viewBox="0 0 512 512" fill="none" aria-hidden="true">
       <path d="M47 23l266 233L47 489V23z" fill="#00D4FF" />
       <path d="M47 23l323 180-57 50L47 23z" fill="#00F076" />
       <path d="M47 489l323-180-57-50L47 489z" fill="#FF6A4D" />
@@ -91,34 +91,61 @@ function PlayStoreIcon() {
   );
 }
 
-export function DesktopEcosystemCube({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
+type DesktopEcosystemCubeProps = {
+  prefersReducedMotion: boolean;
+  compact?: boolean;
+  interactive?: boolean;
+  showCenterCta?: boolean;
+};
+
+export function DesktopEcosystemCube({
+  prefersReducedMotion,
+  compact = false,
+  interactive = true,
+  showCenterCta = true,
+}: DesktopEcosystemCubeProps) {
   const [isActive, setIsActive] = useState(false);
-  const exploded = isActive && !prefersReducedMotion;
+  const exploded = interactive && isActive && !prefersReducedMotion;
   const cubeControls = useAnimationControls();
+  const deactivateTimeoutRef = useRef<number | null>(null);
+
+  const clearDeactivateTimeout = () => {
+    if (deactivateTimeoutRef.current === null) return;
+    window.clearTimeout(deactivateTimeoutRef.current);
+    deactivateTimeoutRef.current = null;
+  };
 
   useEffect(() => {
     if (prefersReducedMotion) {
-      cubeControls.set({ rotateX: -14, rotateY: 32, scale: 1 });
+      cubeControls.set({ rotateX: -14, rotateY: compact ? 26 : 32, scale: 1 });
       return;
     }
 
     cubeControls.start({
-      rotateX: -17,
+      rotateX: compact ? -15 : -17,
       rotateY: 360,
       scale: 1,
       transition: {
-        rotateY: { duration: 32, repeat: Infinity, ease: "linear" },
+        rotateY: { duration: compact ? 26 : 32, repeat: Infinity, ease: "linear" },
         rotateX: { duration: 0.3, ease: "easeOut" },
         scale: { duration: 0.3, ease: "easeOut" },
       },
     });
-  }, [cubeControls, prefersReducedMotion]);
+  }, [compact, cubeControls, prefersReducedMotion]);
+
+  useEffect(() => {
+    return () => {
+      clearDeactivateTimeout();
+    };
+  }, []);
 
   const activate = () => {
+    if (!interactive) return;
+
+    clearDeactivateTimeout();
     setIsActive(true);
     if (prefersReducedMotion) return;
 
-    // Restart hover rotation from the same start angle on every hover.
     cubeControls.stop();
     cubeControls.set({ rotateX: -17, rotateY: 0, scale: 1 });
     cubeControls.start({
@@ -130,15 +157,18 @@ export function DesktopEcosystemCube({ prefersReducedMotion }: { prefersReducedM
   };
 
   const deactivate = () => {
+    if (!interactive) return;
+
+    clearDeactivateTimeout();
     setIsActive(false);
     if (prefersReducedMotion) return;
 
     cubeControls.start({
-      rotateX: -17,
+      rotateX: compact ? -15 : -17,
       rotateY: 360,
       scale: 1,
       transition: {
-        rotateY: { duration: 32, repeat: Infinity, ease: "linear" },
+        rotateY: { duration: compact ? 26 : 32, repeat: Infinity, ease: "linear" },
         rotateX: { duration: 0.35, ease: "easeOut" },
         scale: { duration: 0.3, ease: "easeOut" },
       },
@@ -146,20 +176,39 @@ export function DesktopEcosystemCube({ prefersReducedMotion }: { prefersReducedM
   };
 
   const handleBlurCapture = (event: FocusEvent<HTMLDivElement>) => {
+    if (!interactive) return;
+
     const next = event.relatedTarget as Node | null;
     if (!event.currentTarget.contains(next)) {
       deactivate();
     }
   };
 
+  const activateTemporarily = () => {
+    if (!interactive) return;
+
+    activate();
+    if (typeof window === "undefined") return;
+
+    clearDeactivateTimeout();
+    deactivateTimeoutRef.current = window.setTimeout(() => {
+      deactivate();
+    }, 2600);
+  };
+
   return (
     <div
-      tabIndex={0}
+      tabIndex={interactive ? 0 : -1}
       onMouseEnter={activate}
       onMouseLeave={deactivate}
+      onClick={compact && interactive ? activateTemporarily : undefined}
       onFocusCapture={activate}
       onBlurCapture={handleBlurCapture}
-      className="relative w-full max-w-[760px] h-full min-h-[420px] md:min-h-[520px] lg:min-h-[560px] flex items-center justify-center outline-none rounded-3xl"
+      className={`relative flex w-full items-center justify-center outline-none ${
+        compact
+          ? "max-w-[320px] min-h-[250px] rounded-[28px]"
+          : "max-w-[760px] h-full min-h-[420px] rounded-3xl md:min-h-[520px] lg:min-h-[560px]"
+      }`}
       aria-label="Zatch ecosystem interactive cube"
       data-testid="ecosystem-cube-stage"
     >
@@ -167,47 +216,71 @@ export function DesktopEcosystemCube({ prefersReducedMotion }: { prefersReducedM
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(202,254,56,0.14)_0%,_rgba(202,254,56,0.03)_48%,_transparent_78%)]" />
       </div>
 
-      <div className="[perspective:1500px] relative h-[360px] w-[360px] md:h-[430px] md:w-[430px] lg:h-[480px] lg:w-[480px]">
-        <motion.div
-          initial={{ rotateX: -17, rotateY: 0, scale: 1 }}
-          animate={cubeControls}
-          className="absolute left-1/2 top-1/2 h-[232px] w-[232px] -translate-x-1/2 -translate-y-1/2 [transform-style:preserve-3d]"
-        >
-          {FACES.map((face, index) => (
-            <motion.div
-              key={face.id}
-              className={`absolute inset-0 rounded-3xl border bg-gradient-to-br ${face.toneClass} backdrop-blur-sm shadow-[0_0_34px_rgba(202,254,56,0.22)]`}
-              style={{ transform: getFaceTransform(face, exploded), transitionDelay: `${index * 30}ms` }}
-              animate={{ opacity: exploded ? 1 : 0.9 }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(140deg,rgba(255,255,255,0.14)_0%,rgba(255,255,255,0)_55%)]" />
-              <div className="absolute left-4 top-4 text-[11px] uppercase tracking-[0.28em] text-[#edffb8]/85">
-                {face.label}
-              </div>
-              <div className="absolute right-4 bottom-4 w-3 h-3 rounded-full bg-[#cafe38]/70 shadow-[0_0_14px_rgba(202,254,56,0.85)]" />
-            </motion.div>
-          ))}
-        </motion.div>
+      <div className={`[perspective:1500px] relative ${compact ? "h-[260px] w-[260px]" : "h-[360px] w-[360px] md:h-[430px] md:w-[430px] lg:h-[480px] lg:w-[480px]"}`}>
+        <div className="absolute inset-0 origin-center" style={compact ? { scale: 0.68 } : undefined}>
+          <motion.div
+            initial={{ rotateX: compact ? -15 : -17, rotateY: 0, scale: 1 }}
+            animate={cubeControls}
+            className="absolute left-1/2 top-1/2 h-[232px] w-[232px] -translate-x-1/2 -translate-y-1/2 [transform-style:preserve-3d]"
+          >
+            {FACES.map((face, index) => (
+              <motion.div
+                key={face.id}
+                className={`absolute inset-0 rounded-3xl border bg-gradient-to-br ${face.toneClass} backdrop-blur-sm shadow-[0_0_34px_rgba(202,254,56,0.22)]`}
+                style={{ transform: getFaceTransform(face, exploded), transitionDelay: `${index * 30}ms` }}
+                animate={{ opacity: exploded ? 1 : 0.9 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(140deg,rgba(255,255,255,0.14)_0%,rgba(255,255,255,0)_55%)]" />
+                <div className="absolute left-4 top-4 text-[11px] uppercase tracking-[0.28em] text-[#edffb8]/85">
+                  {face.label}
+                </div>
+                <div className="absolute right-4 bottom-4 h-3 w-3 rounded-full bg-[#cafe38]/70 shadow-[0_0_14px_rgba(202,254,56,0.85)]" />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
 
-        <motion.a
-          href={PLAYSTORE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          tabIndex={isActive ? 0 : -1}
-          animate={
-            isActive
-              ? { opacity: 1, scale: 1, filter: "blur(0px)" }
-              : { opacity: 0, scale: 0.35, filter: "blur(8px)" }
-          }
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 rounded-full bg-[#cafe38] text-black font-bold px-7 h-11 text-sm shadow-[0_0_24px_rgba(202,254,56,0.4)] ${isActive ? "pointer-events-auto" : "pointer-events-none"}`}
-          style={{ transformStyle: "preserve-3d" }}
-          data-testid="button-download-android"
-        >
-          <PlayStoreIcon />
-          Download for Android
-        </motion.a>
+        {showCenterCta ? (
+          <motion.a
+            href={PLAYSTORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            tabIndex={isActive ? 0 : -1}
+            animate={
+              isActive
+                ? { opacity: 1, scale: 1, filter: "blur(0px)" }
+                : { opacity: 0, scale: 0.35, filter: "blur(8px)" }
+            }
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${isActive ? "pointer-events-auto" : "pointer-events-none"} ${
+              compact
+                ? "inline-flex h-14 min-w-[190px] items-center gap-3 whitespace-nowrap rounded-[22px] border border-black/8 bg-[#cafe38] px-4 text-black shadow-[0_0_30px_rgba(202,254,56,0.32)]"
+                : "inline-flex h-11 items-center gap-2 rounded-full bg-[#cafe38] px-7 text-sm font-bold text-black shadow-[0_0_24px_rgba(202,254,56,0.4)]"
+            }`}
+            style={{ transformStyle: "preserve-3d" }}
+            data-testid="button-download-android"
+          >
+            {compact ? (
+              <>
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black/14 shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+                  <PlayStoreIcon size={20} />
+                </span>
+                <span className="flex flex-col leading-none">
+                  <span className="text-[13px] font-extrabold tracking-[-0.01em]">Download App</span>
+                  <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-black/65">
+                    Play Store
+                  </span>
+                </span>
+              </>
+            ) : (
+              <>
+                <PlayStoreIcon />
+                Download for Android
+              </>
+            )}
+          </motion.a>
+        ) : null}
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ const cards = [
     icon: Video,
     image: "https://images.unsplash.com/photo-1605902711622-cfb43c4437b5?q=80&w=2069&auto=format&fit=crop",
     type: "video",
+    featureId: "live",
   },
   {
     title: "Buy Bits",
@@ -26,6 +27,7 @@ const cards = [
     icon: ShoppingBag,
     image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1964&auto=format&fit=crop",
     type: "bits",
+    featureId: "discover",
   },
   {
     title: "Zatching",
@@ -37,10 +39,11 @@ const cards = [
     icon: MessageSquareText,
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=2070&auto=format&fit=crop",
     type: "bargain",
+    featureId: "bargain",
   },
 ];
 
-export function ThreeWays() {
+export function ThreeWays({ onLearnMore }: { onLearnMore?: (featureId: "live" | "discover" | "bargain") => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { isMobileViewport } = useDeviceCapabilities();
   const { scrollYProgress } = useScroll({
@@ -87,6 +90,7 @@ export function ThreeWays() {
             targetScale={1 - (cards.length - index) * 0.05}
             progress={scrollYProgress}
             isMobile={isMobileViewport}
+            onLearnMore={onLearnMore}
           />
         ))}
       </div>
@@ -94,7 +98,7 @@ export function ThreeWays() {
   );
 }
 
-function Card({ card, index, range, targetScale, progress, isMobile }: any) {
+function Card({ card, index, range, targetScale, progress, isMobile, onLearnMore }: any) {
   const scale = useTransform(progress, range, [1, targetScale]);
   const cardTop = isMobile ? `calc(6vh + ${index * 18}px)` : `calc(-5vh + ${index * 25}px)`;
   const wrapperClassName = isMobile
@@ -124,13 +128,15 @@ function Card({ card, index, range, targetScale, progress, isMobile }: any) {
             <p className="text-muted-foreground leading-relaxed text-base md:text-lg max-w-md">{card.description}</p>
           </div>
 
-          <div
+          <button
+            type="button"
+            onClick={() => onLearnMore?.(card.featureId)}
             className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest transition-colors"
             style={{ color: card.color }}
           >
             <span>Learn More</span>
             <ArrowRight className="w-4 h-4" />
-          </div>
+          </button>
         </div>
 
         <div className="flex-1 relative overflow-hidden bg-black/50 min-h-[260px] md:min-h-0">
