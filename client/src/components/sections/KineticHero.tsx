@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { Link } from "wouter";
-import zatchQR from "@assets/zatchQR_1771958263462.png";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 
 const STREAM_MODULES = import.meta.glob("../../assets/kinetic/stream-*.png", {
@@ -9,6 +8,9 @@ const STREAM_MODULES = import.meta.glob("../../assets/kinetic/stream-*.png", {
 }) as Record<string, () => Promise<string>>;
 
 const WALK_VIDEO_SRC = "/walk.mp4";
+const MOBILE_TILE_COUNT = 24;
+const REDUCED_MOTION_TILE_COUNT = 12;
+const QR_IMAGE_URL = "https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://zatch.shop";
 
 function IPhoneLiveStreamMockup() {
   return (
@@ -81,7 +83,11 @@ export function KineticHero() {
   useEffect(() => {
     let alive = true;
     const keys = Object.keys(STREAM_MODULES).sort();
-    const maxTiles = prefersReducedMotion ? 12 : isMobileViewport ? 18 : keys.length;
+    const maxTiles = prefersReducedMotion
+      ? REDUCED_MOTION_TILE_COUNT
+      : isMobileViewport
+        ? Math.min(keys.length, MOBILE_TILE_COUNT)
+        : keys.length;
 
     Promise.all(keys.slice(0, maxTiles).map((key) => STREAM_MODULES[key]()))
       .then((images) => {
@@ -202,7 +208,7 @@ export function KineticHero() {
                   }}
                 >
                   <div className="relative w-[82px] h-[82px] sm:w-[90px] sm:h-[90px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden ring-1 ring-white/15 group-hover:ring-primary/50 transition-all duration-300 bg-white p-1.5">
-                    <img src={zatchQR} alt="Download Zatch" className="w-full h-full object-cover" loading="lazy" />
+                    <img src={QR_IMAGE_URL} alt="Download Zatch" className="w-full h-full object-cover" loading="lazy" />
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-base sm:text-lg lg:text-xl font-bold text-white group-hover:text-primary transition-colors duration-300 font-display">Get the App</span>
@@ -263,22 +269,35 @@ function GridItem({
   isFinePointer: boolean;
   isMobileViewport: boolean;
 }) {
+  const [isPressed, setIsPressed] = useState(false);
   const y = useTransform(scrollYProgress, [0, 1], [0, item.randomY + "%"]);
   const x = useTransform(scrollYProgress, [0, 1], [0, item.randomX + "%"]);
   const rotate = useTransform(scrollYProgress, [0, 1], [0, item.randomRotate]);
   const scale = useTransform(scrollYProgress, [0.25, 0.92], [1, isMobileViewport ? 0.25 : 0]);
   const opacity = useTransform(scrollYProgress, [0.5, 0.9], [1, 0]);
 
-  const hoverClasses = isFinePointer
+  const interactiveHighlightClasses = isFinePointer
     ? "hover:grayscale-0 hover:brightness-100 hover:opacity-90 hover:z-10 hover:scale-125 hover:rounded-lg hover:shadow-xl hover:ring-2 hover:ring-primary"
-    : "";
+    : isPressed
+      ? "grayscale-0 brightness-100 opacity-90 z-10 scale-125 rounded-lg shadow-xl ring-2 ring-primary"
+      : "";
 
   return (
     <motion.div
       style={{ y, x, rotate, scale, opacity }}
-      className={`relative w-full h-full overflow-hidden grayscale brightness-[0.25] opacity-40 transition-all duration-300 ${hoverClasses}`}
+      className={`relative w-full h-full overflow-hidden grayscale brightness-[0.25] opacity-40 transition-all duration-300 touch-manipulation ${interactiveHighlightClasses}`}
+      onPointerDown={isFinePointer ? undefined : () => setIsPressed(true)}
+      onPointerUp={isFinePointer ? undefined : () => setIsPressed(false)}
+      onPointerCancel={isFinePointer ? undefined : () => setIsPressed(false)}
+      onPointerLeave={isFinePointer ? undefined : () => setIsPressed(false)}
     >
-      <img src={item.image} alt="Stream" className="w-full h-full object-cover aspect-[9/16]" loading="lazy" />
+      <img
+        src={item.image}
+        alt="Stream"
+        className="w-full h-full object-cover aspect-[9/16]"
+        loading={isMobileViewport ? "eager" : "lazy"}
+        decoding="async"
+      />
     </motion.div>
   );
 }

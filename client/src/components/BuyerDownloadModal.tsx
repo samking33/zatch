@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Download } from "lucide-react";
-import zatchQR from "@assets/zatchQR_1771958263462.png";
 
 interface BuyerDownloadModalProps {
   isOpen: boolean;
@@ -9,6 +8,7 @@ interface BuyerDownloadModalProps {
 
 const PLAYSTORE_URL =
   "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
+const QR_IMAGE_URL = "https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://zatch.shop";
 
 export function BuyerDownloadModal({ isOpen, onClose }: BuyerDownloadModalProps) {
   return (
@@ -51,7 +51,7 @@ export function BuyerDownloadModal({ isOpen, onClose }: BuyerDownloadModalProps)
 
               <div className="mx-auto mt-6 w-[190px] rounded-2xl bg-white p-3 shadow-2xl">
                 <img
-                  src={zatchQR}
+                  src={QR_IMAGE_URL}
                   alt="Download Zatch QR code"
                   className="h-full w-full rounded-lg object-cover"
                 />

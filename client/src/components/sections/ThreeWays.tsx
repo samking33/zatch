@@ -96,16 +96,22 @@ export function ThreeWays() {
 
 function Card({ card, index, range, targetScale, progress, isMobile }: any) {
   const scale = useTransform(progress, range, [1, targetScale]);
+  const cardTop = isMobile ? `calc(6vh + ${index * 18}px)` : `calc(-5vh + ${index * 25}px)`;
+  const wrapperClassName = isMobile
+    ? "h-screen flex items-center justify-center sticky top-0"
+    : "h-screen flex items-center justify-center sticky top-0";
 
   return (
-    <div className={isMobile ? "py-4" : "h-screen flex items-center justify-center sticky top-0"}>
+    <div className={wrapperClassName}>
       <motion.div
         style={{
-          scale: isMobile ? 1 : scale,
-          top: isMobile ? undefined : `calc(-5vh + ${index * 25}px)`,
+          scale,
+          top: cardTop,
         }}
         className={`relative flex flex-col md:flex-row w-full rounded-[2rem] md:rounded-[3rem] border border-white/10 bg-[#0A0A0A] overflow-hidden origin-top shadow-[0_35px_90px_-25px_rgba(0,0,0,0.6)] transition-shadow duration-500 will-change-transform ${
-          isMobile ? "min-h-[500px]" : "h-[600px] group hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.6)] hover:border-white/15"
+          isMobile
+            ? "h-[76svh] min-h-[520px] max-h-[640px]"
+            : "h-[600px] group hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.6)] hover:border-white/15"
         }`}
       >
         <div className="flex-1 p-7 sm:p-9 md:p-12 flex flex-col justify-between z-10 relative">
@@ -129,18 +135,9 @@ function Card({ card, index, range, targetScale, progress, isMobile }: any) {
 
         <div className="flex-1 relative overflow-hidden bg-black/50 min-h-[260px] md:min-h-0">
           {card.type === "bargain" ? (
-            isMobile ? (
-              <div className="absolute inset-0 flex items-center justify-center p-8 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-black to-black">
-                <div className="rounded-2xl border border-primary/20 bg-black/50 px-6 py-5 text-center">
-                  <p className="text-primary text-xs uppercase tracking-widest mb-2">Zatching</p>
-                  <p className="text-white text-sm">Negotiate and close in seconds.</p>
-                </div>
-              </div>
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center p-8 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-black to-black">
-                <BargainSimulator />
-              </div>
-            )
+            <div className={`absolute inset-0 flex items-center justify-center bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-black to-black ${isMobile ? "p-4" : "p-8"}`}>
+              <BargainSimulator />
+            </div>
           ) : (
             <>
               <img src={card.image} alt={card.title} className="absolute inset-0 w-full h-full object-cover opacity-80" loading="lazy" />
