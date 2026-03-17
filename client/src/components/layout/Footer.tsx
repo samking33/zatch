@@ -102,7 +102,7 @@ export function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4 text-xs text-muted-foreground">
           <p data-testid="text-copyright">&copy; 2025 Zatch&trade;. All rights reserved.</p>
-          <p data-testid="text-company">JUST EMAGINE PRIVATE LIMITED</p>
+          <p data-testid="text-company">A Product by JUST EMAGINE PRIVATE LIMITED</p>
         </div>
       </div>
     </footer>
