@@ -1,31 +1,123 @@
-import { useState } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 import { Check, X } from "lucide-react";
 
 export function BargainSimulator() {
   const [offer, setOffer] = useState(1200);
   const [status, setStatus] = useState<"idle" | "thinking" | "accepted" | "rejected">("idle");
-  
+  const timeoutsRef = useRef<number[]>([]);
+  const animationFrameRef = useRef<number | null>(null);
+  const offerRef = useRef(1200);
+
   const originalPrice = 1500;
   const minPrice = 1000;
   const maxPrice = 1500;
+  const lowOffer = 1080;
+  const highOffer = 1360;
 
   const handleOffer = (val: number[]) => {
     setOffer(val[0]);
+    offerRef.current = val[0];
     setStatus("idle");
   };
 
-  const submitOffer = () => {
+  const clearQueuedSteps = () => {
+    for (const timeoutId of timeoutsRef.current) {
+      window.clearTimeout(timeoutId);
+    }
+    timeoutsRef.current = [];
+  };
+
+  const stopOfferAnimation = () => {
+    if (animationFrameRef.current !== null) {
+      window.cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+  };
+
+  const queueStep = (callback: () => void, delay: number) => {
+    const timeoutId = window.setTimeout(callback, delay);
+    timeoutsRef.current.push(timeoutId);
+  };
+
+  const animateOfferTo = (targetOffer: number, duration: number) => {
+    stopOfferAnimation();
+
+    const startOffer = offerRef.current;
+    const delta = targetOffer - startOffer;
+    const startTime = performance.now();
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      const nextOffer =
+        Math.round((startOffer + delta * easedProgress) / 10) * 10;
+
+      offerRef.current = nextOffer;
+      setOffer(nextOffer);
+
+      if (progress < 1) {
+        animationFrameRef.current = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      offerRef.current = targetOffer;
+      setOffer(targetOffer);
+      animationFrameRef.current = null;
+    };
+
+    animationFrameRef.current = window.requestAnimationFrame(tick);
+  };
+
+  const submitOffer = (nextOffer: number) => {
     setStatus("thinking");
-    setTimeout(() => {
-      if (offer >= 1300) {
+    queueStep(() => {
+      if (nextOffer >= 1300) {
         setStatus("accepted");
       } else {
         setStatus("rejected");
       }
-    }, 1500);
+    }, 1200);
   };
+
+  useEffect(() => {
+    const runDemo = () => {
+      stopOfferAnimation();
+      clearQueuedSteps();
+      setStatus("idle");
+      setOffer(1200);
+      offerRef.current = 1200;
+
+      queueStep(() => {
+        animateOfferTo(lowOffer, 1200);
+      }, 700);
+
+      queueStep(() => {
+        submitOffer(lowOffer);
+      }, 1500);
+
+      queueStep(() => {
+        setStatus("idle");
+        animateOfferTo(highOffer, 1400);
+      }, 3400);
+
+      queueStep(() => {
+        submitOffer(highOffer);
+      }, 4300);
+
+      queueStep(() => {
+        runDemo();
+      }, 6800);
+    };
+
+    runDemo();
+
+    return () => {
+      stopOfferAnimation();
+      clearQueuedSteps();
+    };
+  }, []);
 
   return (
     <div className="w-full max-w-md mx-auto bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 relative overflow-hidden group hover:border-primary/30 transition-all">
@@ -44,7 +136,7 @@ export function BargainSimulator() {
 
       <div className="mb-8 relative">
         <Slider 
-           defaultValue={[1200]} 
+           value={[offer]}
            max={maxPrice} 
            min={minPrice} 
            step={10} 
@@ -58,7 +150,7 @@ export function BargainSimulator() {
       </div>
 
       <button 
-        onClick={submitOffer}
+        onClick={() => submitOffer(offer)}
         disabled={status === "thinking" || status === "accepted"}
         className={`w-full py-4 rounded-xl font-bold text-lg transition-all relative overflow-hidden ${
            status === "accepted" ? "bg-green-500 text-black" :

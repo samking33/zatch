@@ -10,16 +10,25 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   async addToWaitlist(entry: InsertWaitlistEntry): Promise<WaitlistEntry> {
+    if (!db) {
+      throw new Error("Database is not configured");
+    }
     const [result] = await db.insert(waitlist).values(entry).returning();
     return result;
   }
 
   async getWaitlistByEmail(email: string): Promise<WaitlistEntry | undefined> {
+    if (!db) {
+      throw new Error("Database is not configured");
+    }
     const [entry] = await db.select().from(waitlist).where(eq(waitlist.email, email));
     return entry;
   }
 
   async getWaitlistCount(): Promise<number> {
+    if (!db) {
+      throw new Error("Database is not configured");
+    }
     const result = await db.select().from(waitlist);
     return result.length;
   }

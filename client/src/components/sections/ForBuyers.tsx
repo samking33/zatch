@@ -10,6 +10,7 @@ import productJhumkas from "@/assets/buyers/product-jhumkas.png";
 import productPalazzo from "@/assets/buyers/product-palazzo.png";
 
 type BuyerFeatureId = "live" | "discover" | "bargain";
+const BUY_VIDEO_SRC = "/buy.mp4";
 
 const FEATURES = [
   {
@@ -64,10 +65,19 @@ function LiveScreen() {
 
   return (
     <div className="w-full h-full relative bg-gradient-to-b from-[#1a0a20] via-[#0f0515] to-black">
-      {/* Live stream background */}
       <div className="absolute inset-0">
-        <img src={liveSareeImg} alt="Live saree selling" className="w-full h-full object-cover" />
+        <video
+          src={BUY_VIDEO_SRC}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={liveSareeImg}
+          className="w-full h-full object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/40 z-10" />
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/35 to-transparent z-10" />
       </div>
 
       {/* Top bar */}

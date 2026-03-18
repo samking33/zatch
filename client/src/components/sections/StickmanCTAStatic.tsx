@@ -67,19 +67,9 @@ export function StickmanCTAStatic() {
           transition={{ duration: 0.45, delay: 0.4 }}
           className="mt-10 text-center"
         >
-          <p className="text-white/25 text-sm leading-relaxed mb-5">
+          <p className="text-white text-sm leading-relaxed mb-5">
             Join India's first live bargain marketplace. Watch sellers go live, negotiate in real-time, and never overpay again.
           </p>
-          <div className="flex items-center justify-center gap-5 text-[11px] text-white/15">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#cafe38]/40" />
-              Free to download
-            </span>
-            <span className="w-px h-3 bg-white/[0.08]" />
-            <span>12,000+ downloads</span>
-            <span className="w-px h-3 bg-white/[0.08]" />
-            <span>4.8 star on Play Store</span>
-          </div>
         </motion.div>
       </div>
     </section>

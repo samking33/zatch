@@ -695,10 +695,19 @@ const SELLER_SECTION_HEIGHT = "220vh";
 const HERO_TARGET_SCALE = 1.8;
 const ORDER_SCREEN_IMAGE_URLS = [sellerScreen1, sellerScreen2, sellerScreen3];
 const OLD_WAY_PAIN_POINTS = [
-  { text: "Lost in DMs", style: { top: "18%", left: "10%" } },
-  { text: "Manual Follow-ups", style: { top: "26%", right: "12%" } },
-  { text: "Price Confusion", style: { bottom: "30%", left: "14%" } },
-  { text: "No Order Tracking", style: { bottom: "20%", right: "12%" } },
+  { text: "Unread buyer messages", style: { top: "24%", left: "18%" } },
+  { text: "Manual follow-ups", style: { top: "18%", right: "19%" } },
+  { text: "Price confusion", style: { top: "42%", left: "16%" } },
+  { text: "Payment screenshot chaos", style: { top: "38%", right: "15%" } },
+  { text: "Ghosted after negotiating", style: { bottom: "24%", left: "20%" } },
+  { text: "No order tracking", style: { bottom: "18%", right: "20%" } },
+];
+const CHAOS_TEXTURE_CREATORS = [
+  createWhatsAppTexture,
+  createUnreadNotificationsTexture,
+  createPaymentConfusionTexture,
+  createGhostingChatTexture,
+  createShippingConfusionTexture,
 ];
 
 function isTextureReady(texture: THREE.Texture | null): texture is THREE.Texture {
@@ -1193,21 +1202,21 @@ function createCardData(
       ? orderTextures[i % orderTextures.length]
       : null;
 
-    const geo = new THREE.PlaneGeometry(1.8, 3.5);
+    const geo = new THREE.PlaneGeometry(2.05, 3.95);
     const mat = new THREE.MeshBasicMaterial({
       map: chaosTexture,
       transparent: true,
-      opacity: 0.55 + Math.random() * 0.25,
-      color: new THREE.Color(0.75, 0.35, 0.35),
+      opacity: 0.72 + Math.random() * 0.16,
+      color: new THREE.Color(0.92, 0.52, 0.52),
       side: THREE.DoubleSide,
     });
     const mesh = new THREE.Mesh(geo, mat);
 
     cards.push({
       chaosPos: new THREE.Vector3(
-        (Math.random() - 0.5) * 14,
-        (Math.random() - 0.5) * 10,
-        (Math.random() - 0.5) * 5
+        (Math.random() - 0.5) * 11,
+        (Math.random() - 0.5) * 8,
+        (Math.random() - 0.5) * 4
       ),
       chaosRot: new THREE.Euler(
         (Math.random() - 0.5) * 0.5,
@@ -1218,9 +1227,9 @@ function createCardData(
       driftSpeed: 0.3 + Math.random() * 0.7,
       driftPhase: Math.random() * Math.PI * 2,
       driftAmplitude: new THREE.Vector3(
-        0.4 + Math.random() * 0.6,
-        0.3 + Math.random() * 0.5,
-        0.15 + Math.random() * 0.25
+        0.25 + Math.random() * 0.4,
+        0.2 + Math.random() * 0.35,
+        0.12 + Math.random() * 0.16
       ),
       mesh,
       chaosTexture,
@@ -1466,17 +1475,6 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    const textureCreators = [
-      createWhatsAppTexture,
-      createInstagramDMTexture,
-      createUnreadNotificationsTexture,
-      createFacebookMarketplaceTexture,
-      createPaymentConfusionTexture,
-      createGhostingChatTexture,
-      createMultiBuyerChaosTexture,
-      createShippingConfusionTexture,
-    ];
-
     const textureLoader = new THREE.TextureLoader();
     const orderTextures: THREE.Texture[] = ORDER_SCREEN_IMAGE_URLS.map((imageUrl) => {
       const tex = textureLoader.load(imageUrl);
@@ -1486,7 +1484,7 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
       return tex;
     });
 
-    const cards = createCardData(textureCreators, orderTextures, 36, 6);
+    const cards = createCardData(CHAOS_TEXTURE_CREATORS, orderTextures, 18, 5);
     cardsRef.current = cards;
 
     for (const card of cards) {
@@ -1710,9 +1708,10 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
                     ? { duration: 3 + index * 0.4, repeat: Infinity, ease: "easeInOut" }
                     : { duration: 0.2 }
                   }
-                  className="px-4 py-2 rounded-full bg-red-500/15 border border-red-500/40 text-red-100 text-xs font-semibold tracking-wide shadow-[0_12px_30px_rgba(255,80,80,0.25)] backdrop-blur-md"
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#25090c]/88 border border-red-400/45 text-red-50 text-[11px] font-semibold tracking-wide shadow-[0_16px_40px_rgba(255,80,80,0.32)] backdrop-blur-md"
                 >
-                  {point.text}
+                  <span className="h-2 w-2 rounded-full bg-red-400 shadow-[0_0_12px_rgba(248,113,113,0.8)]" />
+                  <span>{point.text}</span>
                 </motion.div>
               </motion.div>
             ))}

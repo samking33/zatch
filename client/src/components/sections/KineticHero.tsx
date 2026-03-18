@@ -199,6 +199,10 @@ export function KineticHero() {
                   IT
                 </h1>
 
+                <p className="mt-4 whitespace-nowrap text-[1.2rem] sm:text-[1.35rem] lg:text-[1.55rem] leading-none tracking-tight text-[#cafe38] font-display font-bold text-center md:ml-8 md:text-left">
+                  <span className="italic">India&apos;s</span> first live and interactive market place
+                </p>
+
                 <Link
                   href="/download"
                   className="group flex items-center gap-4 sm:gap-5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-2xl pointer-events-auto mt-5 sm:mt-7 w-fit self-center md:self-center"

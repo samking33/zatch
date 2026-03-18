@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev:client": "vite dev --port 5000",
-    "dev": "NODE_ENV=development tsx server/index.ts",
+    "dev": "PORT=5001 NODE_ENV=development tsx -r dotenv/config server/index.ts",
     "build": "tsx script/build.ts",
     "start": "NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
@@ -28,6 +28,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "dotenv": "^17.3.1",
     "drizzle-orm": "^0.39.3",
     "drizzle-zod": "^0.7.0",
     "express": "^5.0.1",
