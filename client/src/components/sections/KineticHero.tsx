@@ -199,7 +199,7 @@ export function KineticHero() {
                   IT
                 </h1>
 
-                <p className="mt-4 whitespace-nowrap text-[1.2rem] sm:text-[1.35rem] lg:text-[1.55rem] leading-none tracking-tight text-[#cafe38] font-display font-bold text-center md:ml-8 md:text-left">
+                <p className="mt-4 w-fit self-center whitespace-nowrap text-[1.2rem] sm:text-[1.35rem] lg:text-[1.55rem] leading-none tracking-tight text-[#cafe38] font-display font-bold text-center md:-ml-4 md:self-start md:text-left">
                   <span className="italic">India&apos;s</span> first live and interactive market place
                 </p>
 
