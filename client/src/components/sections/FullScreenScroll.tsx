@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 
 export function FullScreenScroll() {
@@ -16,6 +17,7 @@ export function FullScreenScroll() {
   const midScale = useTransform(smoothProgress, [0.2, 0.4], [0.8, 1]);
   const endOpacity = useTransform(smoothProgress, [0.6, 0.8], [0, 1]);
   const endY = useTransform(smoothProgress, [0.6, 0.8], [50, 0]);
+  const scrollCueOpacity = useTransform(smoothProgress, [0, 0.72, 0.9], [0.95, 0.95, 0]);
 
   if (isMobileViewport || prefersReducedMotion) {
     return (
@@ -41,6 +43,16 @@ export function FullScreenScroll() {
               </span>
             ))}
           </div>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            className="mt-10 flex flex-col items-center gap-2"
+          >
+            <span className="text-[10px] font-medium tracking-[0.28em] uppercase text-white/35">
+              More Below
+            </span>
+            <ChevronDown className="w-4 h-4 text-white/45" />
+          </motion.div>
         </div>
       </section>
     );
@@ -97,6 +109,22 @@ export function FullScreenScroll() {
             </motion.div>
           </div>
         </div>
+
+        <motion.div
+          style={{ opacity: scrollCueOpacity }}
+          className="absolute left-1/2 bottom-10 z-20 -translate-x-1/2 pointer-events-none"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            className="flex flex-col items-center gap-1.5"
+          >
+            <span className="text-[10px] font-medium tracking-[0.32em] uppercase text-white/40">
+              Keep Scrolling
+            </span>
+            <ChevronDown className="w-4 h-4 text-white/45" />
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

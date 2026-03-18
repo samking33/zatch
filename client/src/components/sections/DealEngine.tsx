@@ -6,7 +6,6 @@ import sellerScreen2 from "@/assets/sellers/2.png";
 import sellerScreen3 from "@/assets/sellers/3.png";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 
-
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -670,6 +669,7 @@ function createShippingConfusionTexture(): HTMLCanvasElement {
 interface CardData {
   chaosPos: THREE.Vector3;
   chaosRot: THREE.Euler;
+  chaosScale: number;
   gridPos: THREE.Vector3;
   driftSpeed: number;
   driftPhase: number;
@@ -695,21 +695,53 @@ const SELLER_SECTION_HEIGHT = "220vh";
 const HERO_TARGET_SCALE = 1.8;
 const ORDER_SCREEN_IMAGE_URLS = [sellerScreen1, sellerScreen2, sellerScreen3];
 const OLD_WAY_PAIN_POINTS = [
-  { text: "Unread buyer messages", style: { top: "24%", left: "18%" } },
-  { text: "Manual follow-ups", style: { top: "18%", right: "19%" } },
-  { text: "Price confusion", style: { top: "42%", left: "16%" } },
-  { text: "Payment screenshot chaos", style: { top: "38%", right: "15%" } },
-  { text: "Ghosted after negotiating", style: { bottom: "24%", left: "20%" } },
-  { text: "No order tracking", style: { bottom: "18%", right: "20%" } },
+  { text: "Missed sales", style: { top: "30%", left: "25%" } },
+  { text: "Unread buyer chats", style: { top: "32%", right: "24%" } },
+  { text: "Price haggling chaos", style: { bottom: "29%", left: "28%" } },
+  { text: "Payment + fulfilment confusion", style: { bottom: "24%", right: "22%" } },
 ];
-const CHAOS_TEXTURE_CREATORS = [
-  createWhatsAppTexture,
-  createUnreadNotificationsTexture,
-  createPaymentConfusionTexture,
-  createGhostingChatTexture,
-  createShippingConfusionTexture,
+const OLD_WAY_CARD_LAYOUTS = [
+  {
+    createTexture: createUnreadNotificationsTexture,
+    chaosPos: new THREE.Vector3(-3.15, 0.9, -0.8),
+    chaosRot: new THREE.Euler(-0.04, 0.18, -0.26),
+    chaosScale: 1.16,
+    driftAmplitude: new THREE.Vector3(0.13, 0.12, 0.04),
+    isHero: true,
+  },
+  {
+    createTexture: createWhatsAppTexture,
+    chaosPos: new THREE.Vector3(-0.2, -0.1, 0.4),
+    chaosRot: new THREE.Euler(0.03, -0.04, 0.06),
+    chaosScale: 1.24,
+    driftAmplitude: new THREE.Vector3(0.1, 0.14, 0.04),
+    isHero: true,
+  },
+  {
+    createTexture: createGhostingChatTexture,
+    chaosPos: new THREE.Vector3(3.0, 0.92, -0.65),
+    chaosRot: new THREE.Euler(0.03, -0.18, 0.24),
+    chaosScale: 1.16,
+    driftAmplitude: new THREE.Vector3(0.12, 0.11, 0.05),
+    isHero: true,
+  },
+  {
+    createTexture: createPaymentConfusionTexture,
+    chaosPos: new THREE.Vector3(-1.9, -2.12, -0.35),
+    chaosRot: new THREE.Euler(-0.08, 0.08, -0.16),
+    chaosScale: 1.04,
+    driftAmplitude: new THREE.Vector3(0.1, 0.11, 0.04),
+    isHero: false,
+  },
+  {
+    createTexture: createShippingConfusionTexture,
+    chaosPos: new THREE.Vector3(1.95, -2.02, -0.18),
+    chaosRot: new THREE.Euler(0.07, -0.08, 0.16),
+    chaosScale: 1.04,
+    driftAmplitude: new THREE.Vector3(0.1, 0.11, 0.04),
+    isHero: false,
+  },
 ];
-
 function isTextureReady(texture: THREE.Texture | null): texture is THREE.Texture {
   if (!texture) return false;
   const image = texture.image as HTMLImageElement | undefined;
@@ -1182,60 +1214,46 @@ function createSellerOfferScreen(): HTMLCanvasElement {
   return c;
 }
 
-function createCardData(
-  textureCreators: (() => HTMLCanvasElement)[],
-  orderTextures: THREE.Texture[],
-  count: number,
-  _cols: number
-): CardData[] {
+function createCardData(orderTextures: THREE.Texture[]): CardData[] {
   const cards: CardData[] = [];
+  let heroIndex = 0;
 
-  for (let i = 0; i < count; i++) {
-    const isHero = i < 3;
-    const texIdx = i % textureCreators.length;
-    const canvas = textureCreators[texIdx]();
+  for (let i = 0; i < OLD_WAY_CARD_LAYOUTS.length; i++) {
+    const layout = OLD_WAY_CARD_LAYOUTS[i];
+    const canvas = layout.createTexture();
     const chaosTexture = new THREE.CanvasTexture(canvas);
     chaosTexture.minFilter = THREE.LinearFilter;
     chaosTexture.magFilter = THREE.LinearFilter;
 
-    const orderTexture = isHero && orderTextures.length > 0
-      ? orderTextures[i % orderTextures.length]
-      : null;
+    const orderTexture =
+      layout.isHero && orderTextures.length > 0
+        ? orderTextures[heroIndex++ % orderTextures.length]
+        : null;
 
-    const geo = new THREE.PlaneGeometry(2.05, 3.95);
+    const geo = new THREE.PlaneGeometry(2.2, 4.2);
     const mat = new THREE.MeshBasicMaterial({
       map: chaosTexture,
       transparent: true,
-      opacity: 0.72 + Math.random() * 0.16,
-      color: new THREE.Color(0.92, 0.52, 0.52),
+      opacity: 0.84 + Math.random() * 0.08,
+      color: new THREE.Color(1, 0.86, 0.86),
       side: THREE.DoubleSide,
     });
     const mesh = new THREE.Mesh(geo, mat);
+    mesh.scale.setScalar(layout.chaosScale);
 
     cards.push({
-      chaosPos: new THREE.Vector3(
-        (Math.random() - 0.5) * 11,
-        (Math.random() - 0.5) * 8,
-        (Math.random() - 0.5) * 4
-      ),
-      chaosRot: new THREE.Euler(
-        (Math.random() - 0.5) * 0.5,
-        (Math.random() - 0.5) * 0.5,
-        (Math.random() - 0.5) * 0.5
-      ),
-      gridPos: isHero ? HERO_POSITIONS[i].clone() : new THREE.Vector3(0, 0, -2),
+      chaosPos: layout.chaosPos.clone(),
+      chaosRot: layout.chaosRot.clone(),
+      chaosScale: layout.chaosScale,
+      gridPos: layout.isHero ? HERO_POSITIONS[Math.max(heroIndex - 1, 0)].clone() : new THREE.Vector3(0, 0, -2),
       driftSpeed: 0.3 + Math.random() * 0.7,
       driftPhase: Math.random() * Math.PI * 2,
-      driftAmplitude: new THREE.Vector3(
-        0.25 + Math.random() * 0.4,
-        0.2 + Math.random() * 0.35,
-        0.12 + Math.random() * 0.16
-      ),
+      driftAmplitude: layout.driftAmplitude.clone(),
       mesh,
       chaosTexture,
       orderTexture,
       textureSwapped: false,
-      isHero,
+      isHero: layout.isHero,
     });
   }
 
@@ -1484,7 +1502,7 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
       return tex;
     });
 
-    const cards = createCardData(CHAOS_TEXTURE_CREATORS, orderTextures, 18, 5);
+    const cards = createCardData(orderTextures);
     cardsRef.current = cards;
 
     for (const card of cards) {
@@ -1546,60 +1564,58 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
 
         if (p < CHAOS_PHASE_END_PROGRESS) {
           card.mesh.visible = true;
-          const chaosP = p / CHAOS_PHASE_END_PROGRESS;
-          const collapseTarget = new THREE.Vector3(
-            card.chaosPos.x * (1 - chaosP * 0.6),
-            card.chaosPos.y * (1 - chaosP * 0.6),
-            card.chaosPos.z * (1 - chaosP * 0.6)
+          const driftX = Math.sin(time * card.driftSpeed + card.driftPhase) * card.driftAmplitude.x;
+          const driftY = Math.cos(time * card.driftSpeed * 0.7 + card.driftPhase) * card.driftAmplitude.y;
+          const driftZ = Math.sin(time * card.driftSpeed * 0.5 + card.driftPhase + 1) * card.driftAmplitude.z;
+          const bobScale = 1 + Math.sin(time * (0.9 + card.driftSpeed * 0.35) + card.driftPhase) * 0.02;
+
+          card.mesh.position.x = THREE.MathUtils.lerp(card.mesh.position.x, card.chaosPos.x + driftX, 0.08);
+          card.mesh.position.y = THREE.MathUtils.lerp(card.mesh.position.y, card.chaosPos.y + driftY, 0.08);
+          card.mesh.position.z = THREE.MathUtils.lerp(card.mesh.position.z, card.chaosPos.z + driftZ, 0.08);
+
+          card.mesh.rotation.x = THREE.MathUtils.lerp(card.mesh.rotation.x, card.chaosRot.x, 0.08);
+          card.mesh.rotation.y = THREE.MathUtils.lerp(card.mesh.rotation.y, card.chaosRot.y, 0.08);
+          card.mesh.rotation.z = THREE.MathUtils.lerp(card.mesh.rotation.z, card.chaosRot.z, 0.08);
+
+          card.mesh.scale.setScalar(
+            THREE.MathUtils.lerp(card.mesh.scale.x, card.chaosScale * bobScale, 0.08)
           );
 
-          const driftX = Math.sin(time * card.driftSpeed + card.driftPhase) * card.driftAmplitude.x * (1 - chaosP);
-          const driftY = Math.cos(time * card.driftSpeed * 0.7 + card.driftPhase) * card.driftAmplitude.y * (1 - chaosP);
-          const driftZ = Math.sin(time * card.driftSpeed * 0.5 + card.driftPhase + 1) * card.driftAmplitude.z * (1 - chaosP);
-
-          card.mesh.position.x = THREE.MathUtils.lerp(card.mesh.position.x, collapseTarget.x + driftX, 0.08);
-          card.mesh.position.y = THREE.MathUtils.lerp(card.mesh.position.y, collapseTarget.y + driftY, 0.08);
-          card.mesh.position.z = THREE.MathUtils.lerp(card.mesh.position.z, collapseTarget.z + driftZ, 0.08);
-
-          card.mesh.rotation.x = THREE.MathUtils.lerp(card.mesh.rotation.x, card.chaosRot.x * (1 - chaosP * 0.5), 0.08);
-          card.mesh.rotation.y = THREE.MathUtils.lerp(card.mesh.rotation.y, card.chaosRot.y * (1 - chaosP * 0.5), 0.08);
-          card.mesh.rotation.z = THREE.MathUtils.lerp(card.mesh.rotation.z, card.chaosRot.z * (1 - chaosP * 0.5), 0.08);
-
-          card.mesh.scale.setScalar(THREE.MathUtils.lerp(card.mesh.scale.x, 1, 0.08));
-
-          const r = THREE.MathUtils.lerp(0.8, 1, chaosP);
-          const g = THREE.MathUtils.lerp(0.4, 0.7, chaosP);
-          const b = THREE.MathUtils.lerp(0.4, 0.7, chaosP);
-          mat.color.setRGB(r, g, b);
-
-          mat.opacity = THREE.MathUtils.lerp(mat.opacity, 0.7 + Math.random() * 0.05, 0.05);
+          mat.color.setRGB(1, 0.88, 0.88);
+          mat.opacity = THREE.MathUtils.lerp(mat.opacity, card.isHero ? 0.97 : 0.9, 0.08);
         } else {
-          const gridP = Math.min((p - CHAOS_PHASE_END_PROGRESS) / (1 - CHAOS_PHASE_END_PROGRESS), 1);
-          const eased = gridP * gridP * (3 - 2 * gridP);
+          const gridP = Math.min((p - CHAOS_PHASE_END_PROGRESS) / 0.18, 1);
+          const eased = 1 - Math.pow(1 - gridP, 4);
 
           if (card.isHero) {
             card.mesh.visible = true;
             const breathe = Math.sin(time * 1.5 + card.driftPhase) * 0.01 * eased;
 
-            card.mesh.position.x = THREE.MathUtils.lerp(card.mesh.position.x, card.gridPos.x, 0.06 + eased * 0.06);
-            card.mesh.position.y = THREE.MathUtils.lerp(card.mesh.position.y, card.gridPos.y, 0.06 + eased * 0.06);
-            card.mesh.position.z = THREE.MathUtils.lerp(card.mesh.position.z, card.gridPos.z, 0.06 + eased * 0.06);
+            card.mesh.position.x = THREE.MathUtils.lerp(card.mesh.position.x, card.gridPos.x, 0.16 + eased * 0.12);
+            card.mesh.position.y = THREE.MathUtils.lerp(card.mesh.position.y, card.gridPos.y, 0.16 + eased * 0.12);
+            card.mesh.position.z = THREE.MathUtils.lerp(card.mesh.position.z, card.gridPos.z, 0.16 + eased * 0.12);
 
-            card.mesh.rotation.x = THREE.MathUtils.lerp(card.mesh.rotation.x, 0, 0.08 + eased * 0.08);
-            card.mesh.rotation.y = THREE.MathUtils.lerp(card.mesh.rotation.y, 0, 0.08 + eased * 0.08);
-            card.mesh.rotation.z = THREE.MathUtils.lerp(card.mesh.rotation.z, 0, 0.08 + eased * 0.08);
+            card.mesh.rotation.x = THREE.MathUtils.lerp(card.mesh.rotation.x, 0, 0.18 + eased * 0.1);
+            card.mesh.rotation.y = THREE.MathUtils.lerp(card.mesh.rotation.y, 0, 0.18 + eased * 0.1);
+            card.mesh.rotation.z = THREE.MathUtils.lerp(card.mesh.rotation.z, 0, 0.18 + eased * 0.1);
 
-            card.mesh.scale.setScalar(THREE.MathUtils.lerp(card.mesh.scale.x, heroScale + breathe, 0.06 + eased * 0.06));
+            card.mesh.scale.setScalar(THREE.MathUtils.lerp(card.mesh.scale.x, heroScale + breathe, 0.18 + eased * 0.1));
 
-            mat.opacity = THREE.MathUtils.lerp(mat.opacity, 1, 0.05);
-            const r = THREE.MathUtils.lerp(mat.color.r, 1, 0.08);
-            const g = THREE.MathUtils.lerp(mat.color.g, 1, 0.08);
-            const b = THREE.MathUtils.lerp(mat.color.b, 1, 0.08);
+            mat.opacity = THREE.MathUtils.lerp(mat.opacity, 1, 0.12 + eased * 0.06);
+            const r = THREE.MathUtils.lerp(mat.color.r, 1, 0.16);
+            const g = THREE.MathUtils.lerp(mat.color.g, 1, 0.16);
+            const b = THREE.MathUtils.lerp(mat.color.b, 1, 0.16);
             mat.color.setRGB(r, g, b);
           } else {
-            const fadeSpeed = gridP > 0.12 ? 0.24 : 0.12;
-            mat.opacity = THREE.MathUtils.lerp(mat.opacity, 0, fadeSpeed);
-            if (gridP > 0.16 || mat.opacity < 0.02) {
+            const fallDirection = card.chaosPos.x < 0 ? -1 : 1;
+
+            card.mesh.position.x = THREE.MathUtils.lerp(card.mesh.position.x, card.chaosPos.x + fallDirection * 0.7, 0.14 + eased * 0.08);
+            card.mesh.position.y = THREE.MathUtils.lerp(card.mesh.position.y, card.chaosPos.y - 0.55, 0.16 + eased * 0.08);
+            card.mesh.rotation.z = THREE.MathUtils.lerp(card.mesh.rotation.z, card.chaosRot.z + fallDirection * 0.22, 0.18 + eased * 0.08);
+            card.mesh.scale.setScalar(THREE.MathUtils.lerp(card.mesh.scale.x, 0.38, 0.2 + eased * 0.12));
+
+            mat.opacity = THREE.MathUtils.lerp(mat.opacity, 0, 0.22 + eased * 0.16);
+            if (gridP > 0.28 || mat.opacity < 0.02) {
               card.mesh.visible = false;
             }
           }
@@ -1674,7 +1690,7 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
             transition={{ duration: 0.6 }}
             className="absolute inset-0"
             style={{
-              background: "radial-gradient(ellipse 60% 50% at center, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.4) 50%, transparent 80%)",
+              background: "radial-gradient(ellipse 60% 50% at center, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.2) 48%, transparent 78%)",
             }}
           />
           <motion.div
@@ -1725,7 +1741,7 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
                   y: overlayState === "chaos" ? 0 : -20,
                 }}
                 transition={{ duration: 0.5 }}
-                className="absolute inset-0 flex flex-col items-center justify-center"
+                className="absolute inset-0 flex flex-col items-center pt-20 md:pt-24"
                 data-testid="text-old-way-label"
               >
                 <div className="flex items-center gap-3 mb-4">
@@ -1736,7 +1752,9 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
                 <h3 className="text-5xl md:text-7xl font-bold font-display tracking-tight leading-[0.95] text-red-400 mb-3 drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)]">
                   The Old Way
                 </h3>
-                <p className="text-lg text-red-400/70 drop-shadow-[0_1px_8px_rgba(0,0,0,0.9)]">Manual selling via DMs</p>
+                <p className="max-w-xl text-base md:text-lg text-red-100/72 drop-shadow-[0_1px_8px_rgba(0,0,0,0.9)]">
+                  Manual DMs turn pricing, follow-ups, and fulfillment into chaos.
+                </p>
               </motion.div>
 
               <motion.div
