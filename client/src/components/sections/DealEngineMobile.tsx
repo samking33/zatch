@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { AlertTriangle, ArrowRight, Bolt, Download } from "lucide-react";
 import zatchLogo from "@/assets/zatch-logo.png";
-
-const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
+import { DOWNLOAD_PAGE_PATH } from "@/lib/app-links";
 
 type CompareCard = {
   id: string;
@@ -164,14 +163,12 @@ export function DealEngineMobile({ onStartSelling }: { onStartSelling?: () => vo
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </button>
           <a
-            href={PLAYSTORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={DOWNLOAD_PAGE_PATH}
             className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl border border-[#cafe38]/20 bg-[#0b1208] text-sm font-bold text-[#e7ff9d]"
             data-testid="link-download-zatch-mobile"
           >
             <Download className="h-4 w-4" />
-            <span>Download Zatch</span>
+            <span>Get the App</span>
           </a>
         </motion.div>
       </div>

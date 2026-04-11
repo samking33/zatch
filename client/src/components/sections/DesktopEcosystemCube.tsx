@@ -1,7 +1,8 @@
 import { motion, useAnimationControls } from "framer-motion";
 import { useEffect, useRef, useState, type FocusEvent } from "react";
+import { Download } from "lucide-react";
+import { DOWNLOAD_PAGE_PATH } from "@/lib/app-links";
 
-const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
 const FACE_SIZE = 232;
 const BASE_DEPTH = FACE_SIZE / 2;
 const EXPLODE_DEPTH = 120;
@@ -78,17 +79,6 @@ function getFaceTransform(face: FaceConfig, exploded: boolean): string {
   const ty = exploded ? face.spreadY : 0;
   const tz = BASE_DEPTH + (exploded ? EXPLODE_DEPTH + face.spreadZ : 0);
   return `translate3d(${tx}px, ${ty}px, 0px) ${face.baseRotation} translateZ(${tz}px)`;
-}
-
-function PlayStoreIcon({ size = 16 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 512 512" fill="none" aria-hidden="true">
-      <path d="M47 23l266 233L47 489V23z" fill="#00D4FF" />
-      <path d="M47 23l323 180-57 50L47 23z" fill="#00F076" />
-      <path d="M47 489l323-180-57-50L47 489z" fill="#FF6A4D" />
-      <path d="M313 253l68-50 84 47-84 47-68-44z" fill="#FFD24D" />
-    </svg>
-  );
 }
 
 type DesktopEcosystemCubeProps = {
@@ -243,9 +233,7 @@ export function DesktopEcosystemCube({
 
         {showCenterCta ? (
           <motion.a
-            href={PLAYSTORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={DOWNLOAD_PAGE_PATH}
             tabIndex={isActive ? 0 : -1}
             animate={
               isActive
@@ -264,19 +252,19 @@ export function DesktopEcosystemCube({
             {compact ? (
               <>
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black/14 shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
-                  <PlayStoreIcon size={20} />
+                  <Download className="h-5 w-5" />
                 </span>
                 <span className="flex flex-col leading-none">
-                  <span className="text-[13px] font-extrabold tracking-[-0.01em]">Download App</span>
+                  <span className="text-[13px] font-extrabold tracking-[-0.01em]">Get the App</span>
                   <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-black/65">
-                    Play Store
+                    iOS & Android
                   </span>
                 </span>
               </>
             ) : (
               <>
-                <PlayStoreIcon />
-                Download for Android
+                <Download className="h-4 w-4" />
+                Get the App
               </>
             )}
           </motion.a>

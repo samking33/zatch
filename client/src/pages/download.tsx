@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { ArrowRight, Play, Star } from "lucide-react";
-
-const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
+import { ArrowRight, Play, ScanLine, Star } from "lucide-react";
+import { APP_STORE_URL, DOWNLOAD_PAGE_QR_URL, PLAYSTORE_URL } from "@/lib/app-links";
 
 export default function DownloadPage() {
   return (
@@ -26,7 +25,7 @@ export default function DownloadPage() {
                 <span className="text-stroke-primary text-transparent">On Your Phone.</span>
               </h1>
               <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 md:mb-8">
-                Scan the QR code or click below to start your live shopping experience.
+                Scan the QR code or pick your store below to start your live shopping experience.
               </p>
             </motion.div>
           </div>
@@ -43,18 +42,21 @@ export default function DownloadPage() {
                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 <div className="w-52 h-52 sm:w-60 sm:h-60 md:w-64 md:h-64 bg-white p-3 md:p-4 rounded-3xl mb-6 md:mb-8 shadow-2xl relative z-10">
-                   {/* Placeholder for QR Code */}
                    <div className="w-full h-full border-2 border-dashed border-black/20 flex items-center justify-center bg-zinc-50 rounded-xl overflow-hidden">
                       <img 
-                        src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://zatch.shop" 
+                        src={DOWNLOAD_PAGE_QR_URL}
                         alt="Download Zatch" 
                         className="w-full h-full object-cover mix-blend-multiply opacity-80"
                       />
                    </div>
                 </div>
                 
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Scan to Download</h3>
-                <p className="text-muted-foreground text-sm">Open your camera app and point it here.</p>
+                <div className="mb-2 flex items-center gap-2 text-[#cafe38]">
+                  <ScanLine className="h-4 w-4" />
+                  <span className="text-xs font-bold uppercase tracking-[0.28em]">Scan To Install</span>
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Open Store Options On Your Phone</h3>
+                <p className="text-muted-foreground text-sm">Scan this code to open the Zatch download page with both App Store and Google Play links.</p>
              </motion.div>
 
              {/* App Store Links */}
@@ -64,14 +66,14 @@ export default function DownloadPage() {
                transition={{ duration: 0.6, delay: 0.4 }}
                className="space-y-4 md:space-y-6"
              >
-                <a href="#qr-download" className="block group">
+                <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="block group">
                    <div className="bg-[#1A1A1A] hover:bg-[#252525] border border-white/10 rounded-2xl p-5 md:p-6 flex items-center gap-4 md:gap-6 transition-all duration-300 md:group-hover:scale-105 group-hover:border-primary/50">
                       <div className="w-16 h-16 bg-black rounded-xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 transition-colors">
                          <span className="text-3xl"></span>
                       </div>
                       <div>
-                         <p className="text-xs text-white/60 uppercase tracking-widest mb-1">For iPhone</p>
-                         <h3 className="text-xl md:text-2xl font-bold text-white">Scan the QR Code</h3>
+                         <p className="text-xs text-white/60 uppercase tracking-widest mb-1">Download on the</p>
+                         <h3 className="text-xl md:text-2xl font-bold text-white">App Store</h3>
                       </div>
                       <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
                          <ArrowRight className="text-primary" />

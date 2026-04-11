@@ -1,15 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { X, Download } from "lucide-react";
+import { Download, Play, X } from "lucide-react";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
+import { APP_STORE_URL, DOWNLOAD_PAGE_QR_URL, PLAYSTORE_URL } from "@/lib/app-links";
 
 interface BuyerDownloadModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-const PLAYSTORE_URL =
-  "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
-const QR_IMAGE_URL = "https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://zatch.shop";
 
 export function BuyerDownloadModal({ isOpen, onClose }: BuyerDownloadModalProps) {
   const { isMobileViewport } = useDeviceCapabilities();
@@ -50,34 +47,46 @@ export function BuyerDownloadModal({ isOpen, onClose }: BuyerDownloadModalProps)
               </h3>
               <p className="mt-2 text-sm text-white/45">
                 {isMobileViewport
-                  ? "Install the app to start shopping live."
-                  : "Scan this QR code to install the app and start shopping live."}
+                  ? "Choose your store and start shopping live."
+                  : "Scan this QR code or choose a store below to install the app and start shopping live."}
               </p>
 
               {!isMobileViewport ? (
                 <div className="mx-auto mt-6 w-[190px] rounded-2xl bg-white p-3 shadow-2xl">
                   <img
-                    src={QR_IMAGE_URL}
+                    src={DOWNLOAD_PAGE_QR_URL}
                     alt="Download Zatch QR code"
                     className="h-full w-full rounded-lg object-cover"
                   />
                 </div>
               ) : null}
 
-              <a
-                href={PLAYSTORE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`mx-auto inline-flex items-center gap-2 rounded-lg border border-[#cafe38]/50 bg-[#cafe38]/18 font-bold text-[#d8ff5c] transition-colors hover:bg-[#cafe38]/28 ${
-                  isMobileViewport
-                    ? "mt-6 min-w-[220px] justify-center px-5 py-3 text-sm"
-                    : "mt-5 px-4 py-2 text-xs"
-                }`}
-                data-testid="button-buyer-download-app"
-              >
-                <Download className="h-3.5 w-3.5" />
-                Download App
-              </a>
+              <div className={`mt-6 grid gap-3 ${isMobileViewport ? "grid-cols-1" : "grid-cols-2"}`}>
+                <a
+                  href={APP_STORE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center justify-center gap-2 rounded-lg border border-[#cafe38]/50 bg-[#cafe38]/18 font-bold text-[#d8ff5c] transition-colors hover:bg-[#cafe38]/28 ${
+                    isMobileViewport ? "px-5 py-3 text-sm" : "px-4 py-2 text-xs"
+                  }`}
+                  data-testid="button-buyer-download-app"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  App Store
+                </a>
+                <a
+                  href={PLAYSTORE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 font-bold text-white/75 transition-colors hover:bg-white/10 ${
+                    isMobileViewport ? "px-5 py-3 text-sm" : "px-4 py-2 text-xs"
+                  }`}
+                  data-testid="button-buyer-download-android"
+                >
+                  <Play className="h-3.5 w-3.5 fill-current" />
+                  Google Play
+                </a>
+              </div>
             </div>
           </motion.div>
         </>

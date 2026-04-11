@@ -3,6 +3,7 @@ import { Instagram } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import zatchLogo from "@/assets/zatch-logo.png";
 import { scrollToSection, setPendingSection } from "@/lib/section-navigation";
+import { DOWNLOAD_PAGE_PATH } from "@/lib/app-links";
 
 export function Footer() {
   const [location, setLocation] = useLocation();
@@ -14,6 +15,11 @@ export function Footer() {
     } else {
       scrollToSection(target);
     }
+  };
+
+  const openDownloadPage = () => {
+    setLocation(DOWNLOAD_PAGE_PATH);
+    window.scrollTo({ top: 0 });
   };
 
   return (
@@ -32,17 +38,16 @@ export function Footer() {
               India's live bargain marketplace. Live shopping. Video discovery. Strategic negotiation.
             </p>
             <p className="text-muted-foreground text-xs mb-5">
-              Download the app and experience interactive commerce.
+              Available on the App Store and Google Play.
             </p>
-            <a
-              href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={openDownloadPage}
               className="block bg-[#cafe38] hover:bg-[#cafe38]/90 text-black px-6 py-3 rounded-lg font-bold text-sm transition-all w-full text-center mb-5"
               data-testid="button-footer-download"
             >
               Download Zatch&trade;
-            </a>
+            </button>
             <div className="flex gap-4">
               <a
                 href="https://www.instagram.com/zatch.shop?igsh=MW9tb21lc2o5ZnpiZQ%3D%3D"

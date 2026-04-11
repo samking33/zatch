@@ -5,6 +5,7 @@ import sellerScreen1 from "@/assets/sellers/1.png";
 import sellerScreen2 from "@/assets/sellers/2.png";
 import sellerScreen3 from "@/assets/sellers/3.png";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
+import { DOWNLOAD_PAGE_PATH } from "@/lib/app-links";
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
@@ -1327,9 +1328,7 @@ function MobileView({ onStartSelling }: { onStartSelling?: () => void }) {
             Start Selling
           </button>
           <a
-            href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={DOWNLOAD_PAGE_PATH}
             className="w-full py-3 rounded-xl bg-[#cafe38]/10 border border-[#cafe38]/30 text-[#cafe38] font-bold text-sm text-center"
             data-testid="link-download-zatch-mobile"
           >
@@ -1402,9 +1401,7 @@ function DesktopFallbackView({ onStartSelling }: { onStartSelling?: () => void }
             Start Selling
           </button>
           <a
-            href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={DOWNLOAD_PAGE_PATH}
             className="w-full max-w-[220px] rounded-xl border border-[#cafe38]/35 bg-[#cafe38]/10 px-6 py-3 text-center text-sm font-bold text-[#dfff88]"
             data-testid="link-download-zatch"
           >
@@ -1791,9 +1788,7 @@ export function DealEngine({ onStartSelling }: { onStartSelling?: () => void }) 
                     Start Selling
                   </button>
                   <a
-                    href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={DOWNLOAD_PAGE_PATH}
                     className="px-5 py-2 rounded-lg bg-[#cafe38]/35 border border-[#cafe38]/55 text-[#d8ff5c] font-bold text-xs hover:bg-[#cafe38]/45 transition-colors shadow-[0_0_12px_rgba(0,0,0,0.45)]"
                     data-testid="link-download-zatch"
                   >

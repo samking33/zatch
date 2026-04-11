@@ -4,6 +4,7 @@ import { Menu, X, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import zatchLogo from "@/assets/zatch-logo.png";
 import { scrollToSection, setPendingSection } from "@/lib/section-navigation";
+import { DOWNLOAD_PAGE_PATH } from "@/lib/app-links";
 
 const NAV_LINKS = [
   { name: "Home", target: "hero", type: "scroll" },
@@ -80,6 +81,11 @@ export function Navbar() {
     return isHome && activeSection === link.target;
   };
 
+  const openDownloadPage = () => {
+    setLocation(DOWNLOAD_PAGE_PATH);
+    window.scrollTo({ top: 0 });
+  };
+
   return (
     <>
       <nav
@@ -126,29 +132,27 @@ export function Navbar() {
           </div>
 
           <div className="hidden md:block">
-            <a
-              href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={openDownloadPage}
               className="flex items-center gap-2 px-5 py-2.5 bg-[#cafe38] text-black text-[13px] font-bold rounded-xl hover:bg-[#cafe38]/90 transition-all duration-200 shadow-[0_0_20px_rgba(202,254,56,0.2)] hover:shadow-[0_0_30px_rgba(202,254,56,0.35)]"
               data-testid="nav-download"
             >
               <Download className="w-3.5 h-3.5" />
               Get App
-            </a>
+            </button>
           </div>
 
           {/* Mobile Actions */}
           <div className="md:hidden flex items-center gap-2.5">
-            <a
-              href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={openDownloadPage}
               className="px-3.5 py-2 bg-[#cafe38] text-black text-xs font-bold rounded-lg shadow-[0_0_12px_rgba(202,254,56,0.2)]"
               data-testid="nav-download-mobile"
             >
               Get App
-            </a>
+            </button>
             <button
               className="text-white relative z-50 p-2 rounded-lg hover:bg-white/10 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -194,15 +198,17 @@ export function Navbar() {
               transition={{ delay: 0.3 }}
               className="mt-10"
             >
-              <a
-                href="https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openDownloadPage();
+                }}
                 className="w-full flex items-center justify-center gap-2 bg-[#cafe38] text-black font-bold py-4 text-lg rounded-xl shadow-[0_0_20px_rgba(202,254,56,0.2)]"
               >
                 <Download className="w-5 h-5" />
                 Download App
-              </a>
+              </button>
             </motion.div>
           </motion.div>
         )}

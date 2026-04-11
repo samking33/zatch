@@ -2,8 +2,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 import { DesktopEcosystemCube } from "@/components/sections/DesktopEcosystemCube";
-
-const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share";
+import { DOWNLOAD_PAGE_PATH } from "@/lib/app-links";
 
 export function StickmanCTA() {
   const ref = useRef<HTMLDivElement>(null);
@@ -57,13 +56,11 @@ export function StickmanCTA() {
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
                 <StaticEcosystemBackdrop />
                 <a
-                  href={PLAYSTORE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={DOWNLOAD_PAGE_PATH}
                   className="relative z-10 inline-flex items-center justify-center rounded-full bg-[#cafe38] text-black font-bold px-10 h-12 text-sm shadow-[0_0_30px_rgba(202,254,56,0.25)]"
                   data-testid="button-download-app"
                 >
-                  Download for Android
+                  Get the App
                 </a>
               </div>
             ) : (

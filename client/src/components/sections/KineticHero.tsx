@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { Link } from "wouter";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 import { scrollToSection } from "@/lib/section-navigation";
+import { DOWNLOAD_PAGE_QR_URL } from "@/lib/app-links";
 
 const STREAM_MODULES = import.meta.glob("../../assets/kinetic/stream-*.png", {
   import: "default",
@@ -11,8 +12,6 @@ const STREAM_MODULES = import.meta.glob("../../assets/kinetic/stream-*.png", {
 const WALK_VIDEO_SRC = "/walk.mp4";
 const MOBILE_TILE_COUNT = 24;
 const REDUCED_MOTION_TILE_COUNT = 12;
-const QR_IMAGE_URL = "https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://zatch.shop";
-
 function IPhoneLiveStreamMockup() {
   return (
     <div className="relative">
@@ -213,7 +212,7 @@ export function KineticHero() {
                   }}
                 >
                   <div className="relative w-[82px] h-[82px] sm:w-[90px] sm:h-[90px] lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden ring-1 ring-white/15 group-hover:ring-primary/50 transition-all duration-300 bg-white p-1.5">
-                    <img src={QR_IMAGE_URL} alt="Download Zatch" className="w-full h-full object-cover" loading="lazy" />
+                    <img src={DOWNLOAD_PAGE_QR_URL} alt="Download Zatch" className="w-full h-full object-cover" loading="lazy" />
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-base sm:text-lg lg:text-xl font-bold text-white group-hover:text-primary transition-colors duration-300 font-display">Get the App</span>

@@ -1,5 +1,7 @@
 import { Shield, UserCheck, Lock, FileText } from "lucide-react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { DOWNLOAD_PAGE_PATH } from "@/lib/app-links";
 
 interface TrustProps {
   onStartSelling?: () => void;
@@ -41,8 +43,8 @@ export function Trust({ onStartSelling }: TrustProps) {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="bg-primary text-black hover:bg-primary/90 font-bold px-10 h-14 rounded-full text-lg w-full sm:w-auto" onClick={() => window.open("https://play.google.com/store/apps/details?id=com.zatch.app&pcampaignid=web_share", "_blank")}>
-                Download Zatch
+              <Button asChild size="lg" className="bg-primary text-black hover:bg-primary/90 font-bold px-10 h-14 rounded-full text-lg w-full sm:w-auto">
+                <Link href={DOWNLOAD_PAGE_PATH}>Download Zatch</Link>
               </Button>
               <Button
                 size="lg"
