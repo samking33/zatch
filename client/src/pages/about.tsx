@@ -41,7 +41,7 @@ export default function AboutPage() {
   const team = [
     {
       name: "Rakshit Gade",
-      role: "Founder & CEO",
+      role: "Co-founder & CEO",
       bio: "Rakshit leads the vision and strategy behind Zatch\u2122. With experience across product, business analysis, and enterprise systems, he focuses on building scalable platforms that solve real behavioral problems in digital commerce. He believes the next evolution of shopping in India will be content-led, community-driven, and negotiation-enabled.",
       initials: "RG",
       photo: rakshitImg,
@@ -57,7 +57,7 @@ export default function AboutPage() {
     },
     {
       name: "Lucky Preetham Rayi",
-      role: "Chief Marketing Officer",
+      role: "Co-founder & CMO",
       bio: "Lucky leads growth, brand strategy, and creator ecosystem development. He focuses on building community, onboarding sellers, and shaping Zatch\u2122 into a movement rather than just an app. His work centers on connecting culture, commerce, and content.",
       initials: "LP",
       photo: luckyImg,
