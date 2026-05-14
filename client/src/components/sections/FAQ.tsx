@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -48,6 +49,29 @@ export function FAQ() {
       answer: "Buyers who want interactive shopping. Sellers who want to monetize content and close deals faster."
     }
   ];
+
+  useEffect(() => {
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer,
+        },
+      })),
+    };
+    const script = document.createElement("script");
+    script.setAttribute("type", "application/ld+json");
+    script.setAttribute("data-seo-jsonld", "faq");
+    script.textContent = JSON.stringify(schema);
+    document.head.appendChild(script);
+    return () => {
+      document.querySelector('script[data-seo-jsonld="faq"]')?.remove();
+    };
+  }, []);
 
   return (
     <section id="faq" className="py-24 bg-black border-t border-white/5">

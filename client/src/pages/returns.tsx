@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { useSEO } from "@/lib/seo";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -10,6 +11,13 @@ const fadeUp = {
 };
 
 export default function ReturnsPage() {
+  useSEO({
+    title: "Return & Refund Policy | Zatch",
+    description:
+      "Zatch's return and refund policy. Learn how returns, refunds, and disputes are handled on India's live bargain marketplace.",
+    canonical: "/returns",
+  });
+
   return (
     <div className="min-h-screen bg-black text-foreground selection:bg-primary selection:text-black">
       <Navbar />

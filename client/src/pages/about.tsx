@@ -4,6 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Sparkles, Globe } from "lucide-react";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
+import { useSEO } from "@/lib/seo";
 import rakshitImg from "@assets/Untitled_design_(1)_1771950553421.png";
 import luckyImg from "@/assets/lucky.jpeg";
 import rigvedImg from "@/assets/rigved.jpeg";
@@ -16,6 +17,23 @@ const fadeUp = {
 };
 
 export default function AboutPage() {
+  useSEO({
+    title: "About Zatch | Building India's Live Commerce Movement",
+    description:
+      "Learn how Zatch is revolutionizing online shopping in India with live streaming, short video commerce, and real-time bargaining. Meet the founding team behind India's first live bargain marketplace.",
+    canonical: "/about",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "@id": "https://zatch.shop/about#webpage",
+      "url": "https://zatch.shop/about",
+      "name": "About Zatch - Building India's Live Commerce Movement",
+      "description": "Learn how Zatch is revolutionizing online shopping in India with live streaming, short video commerce, and real-time bargaining.",
+      "isPartOf": { "@id": "https://zatch.shop/#website" },
+      "about": { "@id": "https://zatch.shop/#organization" },
+    },
+  });
+
   const [selectedMember, setSelectedMember] = useState<number | null>(null);
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
   const { isFinePointer } = useDeviceCapabilities();

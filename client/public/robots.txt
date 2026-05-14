@@ -1,0 +1,97 @@
+# robots.txt — zatch.shop
+# Updated for AI crawler & GEO optimization
+
+# ─── General crawlers ──────────────────────────────────────────────────────────
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# ─── Google ────────────────────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+
+User-agent: Googlebot-Image
+Allow: /
+
+# ─── Bing / Microsoft Copilot ──────────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+
+User-agent: BingPreview
+Allow: /
+
+# ─── OpenAI / ChatGPT ──────────────────────────────────────────────────────────
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# ─── Anthropic / Claude ────────────────────────────────────────────────────────
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# ─── Perplexity AI ─────────────────────────────────────────────────────────────
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+
+# ─── Meta AI ───────────────────────────────────────────────────────────────────
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# ─── Apple ─────────────────────────────────────────────────────────────────────
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# ─── Amazon / Alexa ────────────────────────────────────────────────────────────
+User-agent: Amazonbot
+Allow: /
+
+# ─── Cohere AI ─────────────────────────────────────────────────────────────────
+User-agent: cohere-ai
+Allow: /
+
+# ─── Common Crawl (trains most open-source LLMs) ──────────────────────────────
+User-agent: CCBot
+Allow: /
+
+# ─── You.com ───────────────────────────────────────────────────────────────────
+User-agent: YouBot
+Allow: /
+
+# ─── Diffbot (AI knowledge graph) ─────────────────────────────────────────────
+User-agent: Diffbot
+Allow: /
+
+# ─── Bytedance / TikTok ────────────────────────────────────────────────────────
+User-agent: Bytespider
+Allow: /
+
+# ─── AI-specific resource files ────────────────────────────────────────────────
+# Allow LLM context files
+User-agent: *
+Allow: /llms.txt
+Allow: /sitemap.xml
+Allow: /site.webmanifest
+
+# ─── Sitemap ───────────────────────────────────────────────────────────────────
+Sitemap: https://zatch.shop/sitemap.xml

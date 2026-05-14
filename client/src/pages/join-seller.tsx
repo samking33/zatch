@@ -4,8 +4,24 @@ import { useLocation } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { User, Phone, Mail, ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { useSEO } from "@/lib/seo";
 
 export default function JoinSellerPage() {
+  useSEO({
+    title: "Sell on Zatch | Start Live Selling in India",
+    description:
+      "Join Zatch as a seller. Go live, upload short product videos, and close deals with real-time bargaining. No website needed. Built-in payments, order management, and customer reach. Start selling today.",
+    canonical: "/join/seller",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "url": "https://zatch.shop/join/seller",
+      "name": "Sell on Zatch - Start Live Selling in India",
+      "description": "Join Zatch as a seller. Go live, upload short product videos, and close deals with real-time bargaining. No website needed.",
+      "isPartOf": { "@id": "https://zatch.shop/#website" },
+    },
+  });
+
   const [, setLocation] = useLocation();
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");

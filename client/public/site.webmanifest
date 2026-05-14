@@ -1,0 +1,20 @@
+{
+  "name": "Zatch - Live Bargain Marketplace",
+  "short_name": "Zatch",
+  "description": "India's first live bargain marketplace. Watch live, shop videos, negotiate prices.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#cafe38",
+  "orientation": "portrait",
+  "categories": ["shopping", "lifestyle"],
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

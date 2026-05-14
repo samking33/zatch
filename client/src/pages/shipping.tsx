@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { useSEO } from "@/lib/seo";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -10,6 +11,13 @@ const fadeUp = {
 };
 
 export default function ShippingPage() {
+  useSEO({
+    title: "Shipping Policy | Zatch",
+    description:
+      "Zatch's shipping policy. Learn about delivery timelines, shipping partners, and order tracking on India's live bargain marketplace.",
+    canonical: "/shipping",
+  });
+
   return (
     <div className="min-h-screen bg-black text-foreground selection:bg-primary selection:text-black">
       <Navbar />

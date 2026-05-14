@@ -12,10 +12,18 @@ import { Trust } from "@/components/sections/Trust";
 import { BuyerDownloadModal } from "@/components/BuyerDownloadModal";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 import { scrollToSection } from "@/lib/section-navigation";
+import { useSEO } from "@/lib/seo";
 
 type BuyerFeatureId = "live" | "discover" | "bargain";
 
 export default function Home() {
+  useSEO({
+    title: "Zatch - India's First Live Bargain Marketplace | Live Shopping App",
+    description:
+      "Zatch is India's first live bargain marketplace. Watch sellers demo products live, swipe through short shopping videos, and negotiate prices in real time. Download free on iOS & Android.",
+    canonical: "/",
+  });
+
   const [, setLocation] = useLocation();
   const [buyerDownloadOpen, setBuyerDownloadOpen] = useState(false);
   const [buyerFeatureRequest, setBuyerFeatureRequest] = useState<{ id: BuyerFeatureId; token: number } | null>(null);

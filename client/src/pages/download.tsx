@@ -3,8 +3,24 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ArrowRight, Play, ScanLine, Star } from "lucide-react";
 import { APP_STORE_URL, DOWNLOAD_PAGE_QR_URL, PLAYSTORE_URL } from "@/lib/app-links";
+import { useSEO } from "@/lib/seo";
 
 export default function DownloadPage() {
+  useSEO({
+    title: "Download Zatch App | Live Shopping on iOS & Android",
+    description:
+      "Download Zatch free on iPhone or Android. India's first live bargain marketplace — watch sellers go live, discover products through short videos, and negotiate prices instantly.",
+    canonical: "/download",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "url": "https://zatch.shop/download",
+      "name": "Download Zatch - Live Shopping App for iOS & Android",
+      "description": "Download Zatch free on iPhone or Android. Live shopping, short video discovery, and real-time price negotiation.",
+      "isPartOf": { "@id": "https://zatch.shop/#website" },
+    },
+  });
+
   return (
     <div className="min-h-screen bg-black text-foreground selection:bg-primary selection:text-black">
       <Navbar />

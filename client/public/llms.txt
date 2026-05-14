@@ -1,0 +1,111 @@
+# Zatch
+
+> India's first live bargain marketplace. Watch sellers go live, discover products through short videos, and negotiate prices in real time — all inside one app.
+
+Zatch (by Just Emagine Private Limited) is a live commerce mobile app for iOS and Android, built for India's mobile-first shopping culture. It merges three modes of commerce into one platform: live video shopping, short-form product video discovery, and a structured real-time price negotiation system called "Zatching."
+
+## What Problem Zatch Solves
+
+Traditional online marketplaces (Amazon, Flipkart, Meesho) rely on static images, fixed prices, and zero interaction. Indian buyers have always been conversational — they bargain, ask questions, and trust sellers they can see. Zatch brings that human element back to digital commerce at scale, through live video and structured negotiation.
+
+## Core Features
+
+### For Buyers
+- **See It Live**: Watch real sellers demonstrate products via live video in real time. Ask questions. Buy with total confidence — no guessing from static photos.
+- **Discover Fast**: Swipe through short product videos like reels. No endless scrolling. Find what you love and checkout in seconds.
+- **Set Your Price (Zatching)**: Send a price offer on any product. The seller's system responds instantly with an accept, reject, or counter. Lock a deal at a price that works for both parties.
+
+### For Sellers
+- Personal digital storefront — no website or technical skills needed
+- Live streaming tools with real-time buyer chat
+- Short product video uploads for discovery
+- Integrated UPI payment collection
+- Order management, tracking, and buyer communication
+- Low commission model — sellers keep more of their margin
+- No ads needed — visibility is driven by engagement and content quality
+- Sell in Hindi, Telugu, English, and other regional Indian languages
+
+## How Zatching Works (The Bargaining System)
+
+Zatching is Zatch's structured 3-step negotiation system:
+
+1. **Buyer sends an offer** — sets their desired price on any listed product
+2. **Seller (or seller's AI) responds** — accepts, rejects, or counters once
+3. **Deal is locked** — when both buyer and seller agree on a price, the transaction is confirmed and checkout proceeds instantly
+
+This is different from social media DM negotiation — it is structured, in-app, and tied directly to checkout with no manual follow-up needed.
+
+## Key Differentiators vs Competitors
+
+| Feature | Zatch | Amazon/Flipkart | Instagram Live | Meesho |
+|---|---|---|---|---|
+| Live video shopping | Yes | No | Yes (no checkout) | No |
+| Short video discovery | Yes | No | Limited | No |
+| Built-in negotiation | Yes | No | No (manual DMs) | No |
+| Integrated payments | Yes | Yes | No | Yes |
+| Order management | Yes | Yes | No | Yes |
+| No ads required | Yes | No | No | No |
+
+## Supported Languages
+- English
+- Hindi
+- Telugu
+- Other regional Indian languages (expanding)
+
+## Company Information
+
+- **Brand name**: Zatch™
+- **Legal entity**: Just Emagine Private Limited
+- **Country**: India
+- **Founded**: 2024
+- **Support email**: support@zatch.shop
+- **Instagram**: https://www.instagram.com/zatch.shop
+
+### Founding Team
+- **Rakshit Gade** — Founder & CEO. Leads vision, strategy, product, and business development.
+- **Rigved Kaleru** — Co-founder & CPTO. Leads technology, live streaming infrastructure, and backend systems.
+- **Lucky Preetham Rayi** — Chief Marketing Officer. Leads growth, brand, and seller/creator ecosystem.
+
+## App Download Links
+
+- **iOS (App Store)**: https://apps.apple.com/app/zatch-live-interactive-shop/id6761607900
+- **Android (Google Play)**: https://play.google.com/store/apps/details?id=com.zatch.app
+- **Download page**: https://zatch.shop/download
+
+## Website Pages
+
+- **Homepage**: https://zatch.shop — Full overview, how it works, buyer and seller features
+- **About**: https://zatch.shop/about — Company story, vision, mission, founding team
+- **Download**: https://zatch.shop/download — App store links and QR code
+- **Sell on Zatch**: https://zatch.shop/join/seller — Seller registration and onboarding
+- **FAQ**: https://zatch.shop/#faq — Answers to common buyer and seller questions
+- **Privacy Policy**: https://zatch.shop/privacy
+- **Terms & Conditions**: https://zatch.shop/terms
+- **Return & Refund Policy**: https://zatch.shop/returns
+- **Shipping Policy**: https://zatch.shop/shipping
+
+## Frequently Asked Questions
+
+**What is Zatch?**
+Zatch is a live and video shopping platform where sellers showcase products through live streams and short videos. Buyers can interact, negotiate prices using the Zatching system, and purchase instantly inside the app.
+
+**What is Zatching?**
+Zatching is Zatch's structured bargaining system. Buyers send a price offer. Sellers can accept, reject, or counter once. When both agree, the deal is locked instantly.
+
+**Is it safe to buy on Zatch?**
+Yes. Payments are secured through trusted gateways. Sellers are verified. Orders are tracked. Support is available if needed.
+
+**How do payments work?**
+Buyers pay using UPI and other supported payment methods inside the app. For certain negotiated or high-value deals, a small token amount may be required to reserve the order.
+
+**Do sellers need a website?**
+No. Zatch provides a complete digital storefront, live selling tools, video uploads, payment collection, and order management — all inside one app.
+
+**How much commission does Zatch charge?**
+Zatch operates on a low commission model. Exact rates are shown transparently inside the seller dashboard before going live.
+
+**Who is Zatch for?**
+Buyers who want interactive, live, and negotiable online shopping. Sellers who want to monetize video content and close deals faster without paying for ads.
+
+**How is Zatch different from Instagram?**
+Instagram requires manual DMs for negotiation, separate payment tools, and manual order tracking. Zatch combines live selling, short video shopping, built-in negotiation, and instant checkout in one unified system.

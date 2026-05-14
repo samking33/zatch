@@ -68,10 +68,24 @@ function IPhoneLiveStreamMockup() {
   );
 }
 
+const PRIORITY_BATCH = 12;
+const LOAD_BATCH_SIZE = 8;
+
+type StreamSlot = string | null; // null = placeholder cell
+
 export function KineticHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { isMobileViewport, isFinePointer, prefersReducedMotion } = useDeviceCapabilities();
-  const [streamImages, setStreamImages] = useState<string[]>([]);
+  const [streamImages, setStreamImages] = useState<StreamSlot[]>([]);
+
+  // Stable random positions — computed once per device/motion change, never
+  // recalculated when individual images load so tiles don't jump around.
+  const stableConfigRef = useRef<Array<{
+    randomX: number;
+    randomY: number;
+    randomRotate: number;
+    scale: number;
+  }>>([]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -89,29 +103,62 @@ export function KineticHero() {
         ? Math.min(keys.length, MOBILE_TILE_COUNT)
         : keys.length;
 
-    Promise.all(keys.slice(0, maxTiles).map((key) => STREAM_MODULES[key]()))
-      .then((images) => {
-        if (!alive) return;
-        setStreamImages(images);
-      })
-      .catch(() => {
-        if (!alive) return;
-        setStreamImages([]);
-      });
+    const selectedKeys = keys.slice(0, maxTiles);
 
-    return () => {
-      alive = false;
-    };
+    // Generate stable positions once for this tile set
+    stableConfigRef.current = selectedKeys.map(() => ({
+      randomX: (Math.random() - 0.5) * 200,
+      randomY: -100 - Math.random() * 300,
+      randomRotate: (Math.random() - 0.5) * 30,
+      scale: 0.8 + Math.random() * 0.4,
+    }));
+
+    // Show placeholder cells immediately — grid structure appears at zero load time
+    setStreamImages(new Array(selectedKeys.length).fill(null));
+
+    // Phase 1: priority batch — first 12 tiles load together (fast, above-fold)
+    const priorityKeys = selectedKeys.slice(0, PRIORITY_BATCH);
+    Promise.all(
+      priorityKeys.map((key, i) => STREAM_MODULES[key]().then((img) => ({ img, i })))
+    ).then((results) => {
+      if (!alive) return;
+      setStreamImages((prev) => {
+        const next = [...prev];
+        results.forEach(({ img, i }) => { next[i] = img; });
+        return next;
+      });
+    });
+
+    // Phase 2: remaining tiles in batches of 8 — fills in progressively
+    const remaining = selectedKeys.slice(PRIORITY_BATCH);
+    for (let b = 0; b < remaining.length; b += LOAD_BATCH_SIZE) {
+      const batch = remaining.slice(b, b + LOAD_BATCH_SIZE);
+      const offset = PRIORITY_BATCH + b;
+      Promise.all(
+        batch.map((key, idx) => STREAM_MODULES[key]().then((img) => ({ img, i: offset + idx })))
+      ).then((results) => {
+        if (!alive) return;
+        setStreamImages((prev) => {
+          const next = [...prev];
+          results.forEach(({ img, i }) => { next[i] = img; });
+          return next;
+        });
+      });
+    }
+
+    return () => { alive = false; };
   }, [isMobileViewport, prefersReducedMotion]);
 
   const gridItems = useMemo(() => {
     return streamImages.map((image, i) => ({
       id: i,
       image,
-      randomX: (Math.random() - 0.5) * 200,
-      randomY: -100 - Math.random() * 300,
-      randomRotate: (Math.random() - 0.5) * 30,
-      scale: 0.8 + Math.random() * 0.4,
+      ...(stableConfigRef.current[i] ?? {
+        randomX: 0,
+        randomY: -150,
+        randomRotate: 0,
+        scale: 1,
+      }),
     }));
   }, [streamImages]);
 
@@ -276,7 +323,7 @@ function GridItem({
   isFinePointer,
   isMobileViewport,
 }: {
-  item: { id: number; image: string; randomX: number; randomY: number; randomRotate: number; scale: number };
+  item: { id: number; image: StreamSlot; randomX: number; randomY: number; randomRotate: number; scale: number };
   scrollYProgress: any;
   isFinePointer: boolean;
   isMobileViewport: boolean;
@@ -303,13 +350,17 @@ function GridItem({
       onPointerCancel={isFinePointer ? undefined : () => setIsPressed(false)}
       onPointerLeave={isFinePointer ? undefined : () => setIsPressed(false)}
     >
-      <img
-        src={item.image}
-        alt="Stream"
-        className="w-full h-full object-cover aspect-[9/16]"
-        loading={isMobileViewport ? "eager" : "lazy"}
-        decoding="async"
-      />
+      {item.image ? (
+        <img
+          src={item.image}
+          alt="Stream"
+          className="w-full h-full object-cover aspect-[9/16]"
+          loading={isMobileViewport ? "eager" : "lazy"}
+          decoding="async"
+        />
+      ) : (
+        <div className="w-full h-full aspect-[9/16] bg-white/[0.03]" />
+      )}
     </motion.div>
   );
 }

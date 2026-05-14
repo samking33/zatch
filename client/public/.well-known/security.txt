@@ -1,0 +1,4 @@
+Contact: mailto:support@zatch.shop
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en, hi
+Canonical: https://zatch.shop/.well-known/security.txt

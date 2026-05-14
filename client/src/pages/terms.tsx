@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { useSEO } from "@/lib/seo";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -10,6 +11,13 @@ const fadeUp = {
 };
 
 export default function TermsPage() {
+  useSEO({
+    title: "Terms & Conditions | Zatch",
+    description:
+      "Read Zatch's terms and conditions. Understand the rules governing use of India's first live bargain marketplace for buyers and sellers.",
+    canonical: "/terms",
+  });
+
   return (
     <div className="min-h-screen bg-black text-foreground selection:bg-primary selection:text-black">
       <Navbar />
