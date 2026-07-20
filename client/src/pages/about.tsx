@@ -49,7 +49,7 @@ export default function AboutPage() {
     },
     {
       name: "Rigved Kaleru",
-      role: "Co-founder & CPTO",
+      role: "Co-founder & CTO",
       bio: "Rigved leads technology and product architecture at Zatch\u2122. He is responsible for building the live streaming infrastructure, transaction systems, and scalable backend that powers real-time interaction. His focus is on creating a seamless, high-performance platform optimized for India's mobile-first users.",
       initials: "RK",
       photo: rigvedImg,
