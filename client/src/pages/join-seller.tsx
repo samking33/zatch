@@ -47,7 +47,10 @@ export default function JoinSellerPage() {
       const res = await fetch("/api/google-form/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, contact, email, formType: "seller" }),
+        body: JSON.stringify({
+          formType: "seller",
+          fields: { name, contact, email },
+        }),
       });
 
       if (!res.ok) {

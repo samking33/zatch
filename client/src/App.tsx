@@ -15,6 +15,7 @@ const TermsPage = lazy(() => import("@/pages/terms"));
 const ReturnsPage = lazy(() => import("@/pages/returns"));
 const ShippingPage = lazy(() => import("@/pages/shipping"));
 const JoinSellerPage = lazy(() => import("@/pages/join-seller"));
+const RunForHerPage = lazy(() => import("@/pages/runforher"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -63,6 +64,7 @@ function Router() {
           <Route path="/shipping" component={ShippingPage} />
           <Route path="/join/buyer" component={DownloadPage} />
           <Route path="/join/seller" component={JoinSellerPage} />
+          <Route path="/runforher" component={RunForHerPage} />
           <Route component={NotFound} />
         </Switch>
       </Suspense>
