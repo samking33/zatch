@@ -75,16 +75,16 @@ function FieldLabel({ children, required }: { children: React.ReactNode; require
 
 export default function RunForHerPage() {
   useSEO({
-    title: "Run For Her | Register for the Zatch Run Event",
+    title: "Run for Her Dignity | Register for the Zatch Run Event",
     description:
-      "Register for the Run For Her event. Choose your 3K or 5K run category and sign up in minutes.",
+      "Register for Run for Her Dignity: 3K and 5K runs on Sunday, 27th September at Kshana Coffee, Durgam Cheruvu.",
     canonical: "/runforher",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "WebPage",
       "url": "https://zatch.shop/runforher",
-      "name": "Run For Her - Registration",
-      "description": "Register for the Run For Her event. Choose your 3K or 5K run category and sign up in minutes.",
+      "name": "Run for Her Dignity - Registration",
+      "description": "Register for Run for Her Dignity: 3K and 5K runs on Sunday, 27th September at Kshana Coffee, Durgam Cheruvu.",
       "isPartOf": { "@id": "https://zatch.shop/#website" },
     },
   });
@@ -197,10 +197,16 @@ export default function RunForHerPage() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display tracking-tight text-white mb-4 text-center">
-              Run For <span className="text-primary">Her</span>
+              Run for <span className="text-primary">Her Dignity</span>
             </h1>
-            <p className="text-white/50 text-base sm:text-lg text-center mb-8 md:mb-10 max-w-lg mx-auto">
+            <p className="text-white/50 text-base sm:text-lg text-center mb-4 max-w-lg mx-auto">
               Please fill out the details below to register for the run event.
+            </p>
+            <p className="text-white/80 text-base sm:text-lg text-center mb-8 md:mb-10 max-w-lg mx-auto">
+              <span className="font-semibold text-primary">3K &amp; 5K</span>
+              {" · Sunday, 27th September"}
+              <br />
+              Kshana Coffee, Durgam Cheruvu
             </p>
           </motion.div>
 
@@ -215,7 +221,7 @@ export default function RunForHerPage() {
                 <CheckCircle2 className="w-16 h-16 text-primary mx-auto mb-4" />
                 <h2 className="text-2xl font-bold text-white mb-2 font-display">You're Registered!</h2>
                 <p className="text-white/50">
-                  Thanks for signing up for Run For Her. See you at the starting line.
+                  Thanks for signing up for Run for Her Dignity. See you at the starting line.
                 </p>
               </div>
             ) : (
